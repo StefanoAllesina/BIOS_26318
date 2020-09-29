@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 7 Histograms, density and boxplots | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 7 Histograms, density and boxplots | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 7 Histograms, density and boxplots | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-09-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="scatterplots.html"/>
+<link rel="next" href="scales.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="goal-1.html"><a href="goal-1.html"><i class="fa fa-check"></i><b>2</b> Goal</a></li>
+<li class="chapter" data-level="3" data-path="introduction-to-the-grammar-of-graphics.html"><a href="introduction-to-the-grammar-of-graphics.html"><i class="fa fa-check"></i><b>3</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="4" data-path="basic-ggplot2.html"><a href="basic-ggplot2.html"><i class="fa fa-check"></i><b>4</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="5" data-path="building-a-well-formed-graph.html"><a href="building-a-well-formed-graph.html"><i class="fa fa-check"></i><b>5</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="6" data-path="scatterplots.html"><a href="scatterplots.html"><i class="fa fa-check"></i><b>6</b> Scatterplots</a></li>
+<li class="chapter" data-level="7" data-path="histograms-density-and-boxplots.html"><a href="histograms-density-and-boxplots.html"><i class="fa fa-check"></i><b>7</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="8" data-path="scales.html"><a href="scales.html"><i class="fa fa-check"></i><b>8</b> Scales</a></li>
+<li class="chapter" data-level="9" data-path="list-of-aesthetic-mappings.html"><a href="list-of-aesthetic-mappings.html"><i class="fa fa-check"></i><b>9</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="10" data-path="list-of-geometries.html"><a href="list-of-geometries.html"><i class="fa fa-check"></i><b>10</b> List of geometries</a></li>
+<li class="chapter" data-level="11" data-path="list-of-scales.html"><a href="list-of-scales.html"><i class="fa fa-check"></i><b>11</b> List of scales</a></li>
+<li class="chapter" data-level="12" data-path="themes.html"><a href="themes.html"><i class="fa fa-check"></i><b>12</b> Themes</a></li>
+<li class="chapter" data-level="13" data-path="faceting.html"><a href="faceting.html"><i class="fa fa-check"></i><b>13</b> Faceting</a></li>
+<li class="chapter" data-level="14" data-path="setting-features.html"><a href="setting-features.html"><i class="fa fa-check"></i><b>14</b> Setting features</a></li>
+<li class="chapter" data-level="15" data-path="saving-graphs.html"><a href="saving-graphs.html"><i class="fa fa-check"></i><b>15</b> Saving graphs</a></li>
+<li class="chapter" data-level="16" data-path="multiple-layers.html"><a href="multiple-layers.html"><i class="fa fa-check"></i><b>16</b> Multiple layers</a></li>
+<li class="chapter" data-level="17" data-path="try-on-your-own-data.html"><a href="try-on-your-own-data.html"><i class="fa fa-check"></i><b>17</b> Try on your own data!</a></li>
+<li class="chapter" data-level="18" data-path="resources-1.html"><a href="resources-1.html"><i class="fa fa-check"></i><b>18</b> Resources</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="histograms-density-and-boxplots" class="section level1">
+<h1><span class="header-section-number">Lecture 7</span> Histograms, density and boxplots</h1>
+<p>It would be nice to see the distribution of the ratio deaths/cases. To do so, we can produce a histogram:</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="histograms-density-and-boxplots.html#cb261-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dti)</span>
+<span id="cb261-2"><a href="histograms-density-and-boxplots.html#cb261-2"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> deaths <span class="op">/</span><span class="st"> </span>cases)  </span>
+<span id="cb261-3"><a href="histograms-density-and-boxplots.html#cb261-3"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>() </span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-90-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can control the width of the bins by specifying:</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="histograms-density-and-boxplots.html#cb262-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">30</span>) <span class="co"># specify the number of bins</span></span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-91-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="histograms-density-and-boxplots.html#cb263-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.0025</span>) <span class="co"># specify the bin width</span></span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-91-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s see whether the histograms differ between Illinois and Indiana:</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="histograms-density-and-boxplots.html#cb264-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt[dt<span class="op">$</span>state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb264-2"><a href="histograms-density-and-boxplots.html#cb264-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> deaths <span class="op">/</span><span class="st"> </span>cases, <span class="dt">fill =</span> state) <span class="op">+</span><span class="st"> </span><span class="co"># fill the bar colors by state</span></span>
+<span id="cb264-3"><a href="histograms-density-and-boxplots.html#cb264-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-92-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>To plot the histogram side by side, use</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="histograms-density-and-boxplots.html#cb265-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt[dt<span class="op">$</span>state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb265-2"><a href="histograms-density-and-boxplots.html#cb265-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> deaths <span class="op">/</span><span class="st"> </span>cases, <span class="dt">fill =</span> state) <span class="op">+</span><span class="st"> </span><span class="co"># fill the bar colors by state</span></span>
+<span id="cb265-3"><a href="histograms-density-and-boxplots.html#cb265-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-93-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Similarly, we can approximate the histogram using a density plot, which interpolates the bin height to create a smooth distribution:</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="histograms-density-and-boxplots.html#cb266-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt[dt<span class="op">$</span>state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb266-2"><a href="histograms-density-and-boxplots.html#cb266-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> deaths <span class="op">/</span><span class="st"> </span>cases, <span class="dt">fill =</span> state) <span class="op">+</span><span class="st"> </span><span class="co"># fill by state</span></span>
+<span id="cb266-3"><a href="histograms-density-and-boxplots.html#cb266-3"></a><span class="st">  </span><span class="kw">geom_density</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-94-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>To see the graph better, let’s make the coloring semi-transparent:</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="histograms-density-and-boxplots.html#cb267-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt[dt<span class="op">$</span>state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb267-2"><a href="histograms-density-and-boxplots.html#cb267-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> deaths <span class="op">/</span><span class="st"> </span>cases, <span class="dt">fill =</span> state) <span class="op">+</span><span class="st"> </span><span class="co"># fill by state</span></span>
+<span id="cb267-3"><a href="histograms-density-and-boxplots.html#cb267-3"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-95-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Again showing that Indiana tends to have a higher mortality for the same number of cases.</p>
+<p>For this type of comparison, the ideal graph to show is maybe a box-plot or a violin plot:</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="histograms-density-and-boxplots.html#cb268-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt[dt<span class="op">$</span>state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb268-2"><a href="histograms-density-and-boxplots.html#cb268-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> state, <span class="dt">y =</span> deaths <span class="op">/</span><span class="st"> </span>cases, <span class="dt">fill =</span> state) <span class="op">+</span><span class="st"> </span><span class="co"># we need both x and y</span></span>
+<span id="cb268-3"><a href="histograms-density-and-boxplots.html#cb268-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-96-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent “outliers”. To show the full distribution, you can use a violin plot:</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="histograms-density-and-boxplots.html#cb269-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt[dt<span class="op">$</span>state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb269-2"><a href="histograms-density-and-boxplots.html#cb269-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> state, <span class="dt">y =</span> deaths <span class="op">/</span><span class="st"> </span>cases, <span class="dt">fill =</span> state) <span class="op">+</span><span class="st"> </span><span class="co"># we need both x and y</span></span>
+<span id="cb269-3"><a href="histograms-density-and-boxplots.html#cb269-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">draw_quantiles =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-97-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Note that when we’re producing “similar” plots (e.g., histogram vs. density, box vs. violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="scatterplots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="scales.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
