@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "0",
     "id" : "9AF0F825",
-    "lastKnownWriteTime" : 1601418923,
-    "last_content_update" : 1601418923216,
+    "lastKnownWriteTime" : 1601419118,
+    "last_content_update" : 1601419118654,
     "path" : "~/GH/BIOS_26318_2020/03-wrangling.Rmd",
     "project_path" : "03-wrangling.Rmd",
     "properties" : {
-        "cursorPosition" : "149,26",
-        "scrollLine" : "141",
+        "cursorPosition" : "148,8",
+        "scrollLine" : "143",
         "tempName" : "Untitled1"
     },
     "read_only" : false,

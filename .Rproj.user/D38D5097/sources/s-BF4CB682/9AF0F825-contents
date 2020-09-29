@@ -146,7 +146,7 @@ To order the data according to one or more variables, use `arrange()`:
 ```{r}
 penguins %>% 
   arrange(body_mass_g) # ascending
-dt %>% 
+penguins %>% 
   arrange(desc(body_mass_g)) # descending
 ```
 

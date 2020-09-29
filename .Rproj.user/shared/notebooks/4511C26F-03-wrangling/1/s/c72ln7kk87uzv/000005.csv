@@ -1,0 +1,7 @@
+"0","penguins %>% 
+  arrange(body_mass_g) # ascending
+"
+"0","dt %>% "
+"0","  arrange(desc(body_mass_g)) # descending"
+"2","Error: object 'body_mass_g' not found
+"

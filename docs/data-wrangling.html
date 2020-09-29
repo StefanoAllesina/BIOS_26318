@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 4 Data wrangling | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 4 Data wrangling | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 4 Data wrangling | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-09-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="fundamentals-of-probability.html"/>
+<link rel="next" href="data-wrangling-1.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
+<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
+<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
+<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
+<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
+<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
+<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
+<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
+<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
+<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
+<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
+<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
+<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
+<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
+<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
+<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
+<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
+<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
+<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html"><i class="fa fa-check"></i><b>5</b> Data wrangling</a><ul>
+<li class="chapter" data-level="5.1" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>5.1</b> From narrow to wide</a></li>
+<li class="chapter" data-level="5.2" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>5.2</b> From wide to narrow</a></li>
+<li class="chapter" data-level="5.3" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>5.3</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="5.4" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>5.4</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="5.5" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>5.5</b> Example: brown bear, brown bear, what do you see?</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="resources-2.html"><a href="resources-2.html"><i class="fa fa-check"></i><b>6</b> Resources</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-wrangling" class="section level1">
+<h1><span class="header-section-number">Lecture 4</span> Data wrangling</h1>
+<div id="goal-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Goal</h2>
+<p>Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of <code>dplyr</code>, <code>tidyr</code>, and the “pipeline” operator <code>%&gt;%</code>. Effortlessly produce statistics for grouped data. Massage data into “tidy” form.</p>
+</div>
+<div id="what-is-data-wrangling" class="section level2">
+<h2><span class="header-section-number">4.2</span> What is data wrangling?</h2>
+<p>As biologists living in the XXI century, we are often faced with tons of data, possibly replicated over several organisms, treatments, or locations. We would like to streamline and automate our analysis as much as possible, writing scripts that are easy to read, fast to run, and easy to debug. Base <code>R</code> can get the job done, but often the code contains complicated operations, and a lot of <code>$</code> signs and brackets.</p>
+<p>We’re going to learn about the packages <code>dplyr</code> and <code>tidyr</code>, which are part of <code>tidyverse</code> and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base <code>R</code> commands, are very compact, and can be concatenated into “pipelines”.</p>
+<p>To start, we need to import the libraries:</p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="data-wrangling.html#cb344-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></span>
+<span id="cb344-2"><a href="data-wrangling.html#cb344-2"></a><span class="kw">library</span>(palmerpenguins) <span class="co"># a nice data set to play with</span></span></code></pre></div>
+<p>We are going to use the data set <code>penguins</code> from the package <code>palmerpenguins</code>, which we have already seen last week.</p>
+</div>
+<div id="a-new-data-type-tibble" class="section level2">
+<h2><span class="header-section-number">4.3</span> A new data type, <code>tibble</code></h2>
+<p>This is now a :</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="data-wrangling.html#cb345-1"></a><span class="kw">class</span>(penguins)</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p><code>dplyr</code> ships with a new data type, called a <code>tibble</code>. To convert a <code>data.frame</code> into a tibble, use <code>as_tibble</code>:</p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="data-wrangling.html#cb347-1"></a><span class="co"># load a data frame</span></span>
+<span id="cb347-2"><a href="data-wrangling.html#cb347-2"></a><span class="kw">data</span>(<span class="st">&quot;trees&quot;</span>)</span>
+<span id="cb347-3"><a href="data-wrangling.html#cb347-3"></a><span class="kw">class</span>(trees)</span>
+<span id="cb347-4"><a href="data-wrangling.html#cb347-4"></a>trees &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(trees)</span>
+<span id="cb347-5"><a href="data-wrangling.html#cb347-5"></a><span class="kw">class</span>(trees)</span></code></pre></div>
+<p>The nice feature of <code>tbl</code> objects is that they will print only what fits on the screen, and also give you useful information on the size of the data, as well as the type of data in each column. Other than that, a <code>tbl</code> object behaves very much like a <code>data.frame</code>. In some rare cases, you want to transform the <code>tbl</code> back into a <code>data.frame</code>. For this, use the function <code>as.data.frame(tbl_object)</code>.</p>
+<p>We can take a look at the data using one of several functions:</p>
+<ul>
+<li><code>head(dt)</code> shows the first few rows</li>
+<li><code>tail(dt)</code> shows the last few rows</li>
+<li><code>glimpse(dt)</code> a summary of the data (similar to <code>str</code> in base R)</li>
+<li><code>View(dt)</code> open in spreadsheet-like window</li>
+</ul>
+</div>
+<div id="selecting-rows-and-columns" class="section level2">
+<h2><span class="header-section-number">4.4</span> Selecting rows and columns</h2>
+<p>There are many ways to subset the data, either by row (subsetting the <em>observations</em>), or by column (subsetting the <em>variables</em>). For example, let’s select only the rows with observations from the island <code>Torgersen</code>:</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="data-wrangling.html#cb348-1"></a><span class="kw">filter</span>(penguins, island <span class="op">==</span><span class="st"> &quot;Torgersen&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 52 x 8
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+##  1 Adelie  Torge…           39.1          18.7              181        3750
+##  2 Adelie  Torge…           39.5          17.4              186        3800
+##  3 Adelie  Torge…           40.3          18                195        3250
+##  4 Adelie  Torge…           NA            NA                 NA          NA
+##  5 Adelie  Torge…           36.7          19.3              193        3450
+##  6 Adelie  Torge…           39.3          20.6              190        3650
+##  7 Adelie  Torge…           38.9          17.8              181        3625
+##  8 Adelie  Torge…           39.2          19.6              195        4675
+##  9 Adelie  Torge…           34.1          18.1              193        3475
+## 10 Adelie  Torge…           42            20.2              190        4250
+## # … with 42 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+<p>We have 52 observations. We have used the command <code>filter(tbl, conditions)</code> to select certain observations. We can combine several conditions, by listing them side by side, possibly using logical operators.</p>
+<blockquote>
+<p><strong>Exercise:</strong> what does this do?
+<code>filter(penguins,  bill_length_mm &gt; 40,  bill_depth_mm &gt; 20, sex == male)</code></p>
+</blockquote>
+<p>We can also select particular variables (columns) using the function <code>select(tbl, cols to select)</code>. For example, select <code>species</code> and <code>island</code>:</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="data-wrangling.html#cb350-1"></a><span class="kw">select</span>(penguins, species, island)</span></code></pre></div>
+<pre><code>## # A tibble: 344 x 2
+##    species island   
+##    &lt;fct&gt;   &lt;fct&gt;    
+##  1 Adelie  Torgersen
+##  2 Adelie  Torgersen
+##  3 Adelie  Torgersen
+##  4 Adelie  Torgersen
+##  5 Adelie  Torgersen
+##  6 Adelie  Torgersen
+##  7 Adelie  Torgersen
+##  8 Adelie  Torgersen
+##  9 Adelie  Torgersen
+## 10 Adelie  Torgersen
+## # … with 334 more rows</code></pre>
+<p>How many <code>species</code> are represented in the data set? We can use the function <code>distinct(tbl, cols to select)</code> to retain only the rows that differ from each other:</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="data-wrangling.html#cb352-1"></a><span class="kw">distinct</span>(<span class="kw">select</span>(penguins, species))</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   species  
+##   &lt;fct&gt;    
+## 1 Adelie   
+## 2 Gentoo   
+## 3 Chinstrap</code></pre>
+<p>Showing that there are three species, once we removed the duplicates. There are many other ways to subset observations:</p>
+<ul>
+<li><code>sample_n(tbl, howmany, replace = TRUE)</code> sample <code>howmany</code> rows at random (with replacement)</li>
+<li><code>sample_frac(tbl, proportion, replace = FALSE)</code> sample a certain proportion (e.g. <code>0.2</code> for 20%) of rows at random without replacement</li>
+<li><code>slice(tbl, 5:20)</code> extract the rows <code>5</code> to <code>20</code></li>
+<li><code>top_n(penguins, 10, body_mass_g)</code> extract the first <code>10</code> rows, once ordered by <code>body_mass_g</code></li>
+</ul>
+<p>More ways to select columns:</p>
+<ul>
+<li><code>select(penguins, contains("mm"))</code> select all columns containing the string <code>mm</code></li>
+<li><code>select(penguins, -year, -body_mass_g)</code> exclude the columns <code>year</code> and <code>body_mass_g</code></li>
+<li><code>select(penguins, matches("length|bill"))</code> select all columns whose names match a regular expression</li>
+</ul>
+</div>
+<div id="creating-pipelines-using" class="section level2">
+<h2><span class="header-section-number">4.5</span> Creating pipelines using <code>%&gt;%</code></h2>
+<p>We’ve been calling nested functions, such as <code>distinct(select(penguins, species))</code>. If you have to add another layer or two, the code would become unreadable. <code>dplyr</code> allows you to “un-nest” these functions and create a “pipeline” in which you concatenate commands separated by a special operator, <code>%&gt;%</code>. For example:</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="data-wrangling.html#cb354-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># take a data table</span></span>
+<span id="cb354-2"><a href="data-wrangling.html#cb354-2"></a><span class="st">  </span><span class="kw">select</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># select a column</span></span>
+<span id="cb354-3"><a href="data-wrangling.html#cb354-3"></a><span class="st">  </span><span class="kw">distinct</span>() <span class="co"># remove duplicates</span></span></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   species  
+##   &lt;fct&gt;    
+## 1 Adelie   
+## 2 Gentoo   
+## 3 Chinstrap</code></pre>
+<p>does exactly the same operations as the command above, but is much more readable. By concatenating many commands, you can create incredibly complex pipelines while retaining readability. It is also quite easy to add another piece of the pipeline in between commands, or to comment some of the pipeline out.</p>
+<p>Another advantage of pipelines is that they help with name completion. In fact, <code>RStudio</code> is running in the background your pipeline while you type it. Try typing <code>dt %&gt;% filter(</code> and then start typing <code>bill</code> and press <code>Tab</code>: you will see the options to complete the column name; choose it with your arrows and hit <code>Return</code>. The back tickmarks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).</p>
+</div>
+<div id="producing-summaries" class="section level2">
+<h2><span class="header-section-number">4.6</span> Producing summaries</h2>
+<p>Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shedded by the infected mice. We can do this using <code>summarise</code> (you can use British or American spelling):</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="data-wrangling.html#cb356-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb356-2"><a href="data-wrangling.html#cb356-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##     avg
+##   &lt;dbl&gt;
+## 1 4202.</code></pre>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="data-wrangling.html#cb358-1"></a><span class="co"># alternatively, drop_na(body_mass_g) removes all the observations for which</span></span>
+<span id="cb358-2"><a href="data-wrangling.html#cb358-2"></a><span class="co"># body_mass_g is NA</span></span>
+<span id="cb358-3"><a href="data-wrangling.html#cb358-3"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb358-4"><a href="data-wrangling.html#cb358-4"></a><span class="st">  </span><span class="kw">drop_na</span>(body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb358-5"><a href="data-wrangling.html#cb358-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##     avg
+##   &lt;dbl&gt;
+## 1 4202.</code></pre>
+<p>where we used <code>na.rm = TRUE</code> to ignore missing values. This command returns a <code>tbl</code> object with just the average egg count. You can combine multiple statistics (use <code>first</code>, <code>last</code>, <code>min</code>, <code>max</code>, <code>n</code> [count the number of rows], <code>n_distinct</code> [count the number of distinct rows], <code>mean</code>, <code>median</code>, <code>var</code>, <code>sd</code>, etc.):</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="data-wrangling.html#cb360-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb360-2"><a href="data-wrangling.html#cb360-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb360-3"><a href="data-wrangling.html#cb360-3"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb360-4"><a href="data-wrangling.html#cb360-4"></a>            <span class="dt">median =</span> <span class="kw">median</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##     avg    sd median
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 4202.  802.   4050</code></pre>
+</div>
+<div id="summaries-by-group" class="section level2">
+<h2><span class="header-section-number">4.7</span> Summaries by group</h2>
+<p>One of the most useful features of <code>dplyr</code> is the ability to produce statistics for the data once subsetted by <em>groups</em>. For example, we would like to compute the average body mass by species and sex:</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="data-wrangling.html#cb362-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb362-2"><a href="data-wrangling.html#cb362-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb362-3"><a href="data-wrangling.html#cb362-3"></a><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb362-4"><a href="data-wrangling.html#cb362-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+## # Groups:   sex [2]
+##   sex    species    mean
+##   &lt;fct&gt;  &lt;fct&gt;     &lt;dbl&gt;
+## 1 female Adelie    3369.
+## 2 female Chinstrap 3527.
+## 3 female Gentoo    4680.
+## 4 male   Adelie    4043.
+## 5 male   Chinstrap 3939.
+## 6 male   Gentoo    5485.</code></pre>
+<p>showing that male penguins are heavier for the three species considered.</p>
+<blockquote>
+<p><strong>Exercise:</strong> find the average <code>bill_depth_mm</code> and <code>bill_length_mm</code> by <code>species</code> and <code>sex</code>. Filter the data to consider only observations for the year 2008.</p>
+</blockquote>
+</div>
+<div id="ordering-the-data" class="section level2">
+<h2><span class="header-section-number">4.8</span> Ordering the data</h2>
+<p>To order the data according to one or more variables, use <code>arrange()</code>:</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="data-wrangling.html#cb364-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb364-2"><a href="data-wrangling.html#cb364-2"></a><span class="st">  </span><span class="kw">arrange</span>(body_mass_g) <span class="co"># ascending</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 x 8
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+##  1 Chinst… Dream            46.9          16.6              192        2700
+##  2 Adelie  Biscoe           36.5          16.6              181        2850
+##  3 Adelie  Biscoe           36.4          17.1              184        2850
+##  4 Adelie  Biscoe           34.5          18.1              187        2900
+##  5 Adelie  Dream            33.1          16.1              178        2900
+##  6 Adelie  Torge…           38.6          17                188        2900
+##  7 Chinst… Dream            43.2          16.6              187        2900
+##  8 Adelie  Biscoe           37.9          18.6              193        2925
+##  9 Adelie  Dream            37.5          18.9              179        2975
+## 10 Adelie  Dream            37            16.9              185        3000
+## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="data-wrangling.html#cb366-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb366-2"><a href="data-wrangling.html#cb366-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(body_mass_g)) <span class="co"># descending</span></span></code></pre></div>
+<pre><code>## # A tibble: 344 x 8
+##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
+##  1 Gentoo  Biscoe           49.2          15.2              221        6300
+##  2 Gentoo  Biscoe           59.6          17                230        6050
+##  3 Gentoo  Biscoe           51.1          16.3              220        6000
+##  4 Gentoo  Biscoe           48.8          16.2              222        6000
+##  5 Gentoo  Biscoe           45.2          16.4              223        5950
+##  6 Gentoo  Biscoe           49.8          15.9              229        5950
+##  7 Gentoo  Biscoe           48.4          14.6              213        5850
+##  8 Gentoo  Biscoe           49.3          15.7              217        5850
+##  9 Gentoo  Biscoe           55.1          16                230        5850
+## 10 Gentoo  Biscoe           49.5          16.2              229        5800
+## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+<div id="renaming-columns" class="section level2">
+<h2><span class="header-section-number">4.9</span> Renaming columns</h2>
+<p>To rename one or more columns, use <code>rename()</code>:</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="data-wrangling.html#cb368-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb368-2"><a href="data-wrangling.html#cb368-2"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">bm =</span> body_mass_g)</span></code></pre></div>
+<pre><code>## # A tibble: 344 x 8
+##    species island bill_length_mm bill_depth_mm flipper_length_…    bm sex  
+##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt; &lt;int&gt; &lt;fct&gt;
+##  1 Adelie  Torge…           39.1          18.7              181  3750 male 
+##  2 Adelie  Torge…           39.5          17.4              186  3800 fema…
+##  3 Adelie  Torge…           40.3          18                195  3250 fema…
+##  4 Adelie  Torge…           NA            NA                 NA    NA &lt;NA&gt; 
+##  5 Adelie  Torge…           36.7          19.3              193  3450 fema…
+##  6 Adelie  Torge…           39.3          20.6              190  3650 male 
+##  7 Adelie  Torge…           38.9          17.8              181  3625 fema…
+##  8 Adelie  Torge…           39.2          19.6              195  4675 male 
+##  9 Adelie  Torge…           34.1          18.1              193  3475 &lt;NA&gt; 
+## 10 Adelie  Torge…           42            20.2              190  4250 &lt;NA&gt; 
+## # … with 334 more rows, and 1 more variable: year &lt;int&gt;</code></pre>
+</div>
+<div id="adding-new-variables-using-mutate" class="section level2">
+<h2><span class="header-section-number">4.10</span> Adding new variables using mutate</h2>
+<p>If you want to add one or more new columns, with the content being a function of other columns, use the function <code>mutate</code>. For example, we are going to add a new column showing the z-score for the body mass of each individual:</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="data-wrangling.html#cb370-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb370-2"><a href="data-wrangling.html#cb370-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb370-3"><a href="data-wrangling.html#cb370-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm)</span></code></pre></div>
+<pre><code>## # A tibble: 344 x 4
+##    species sex    body_mass_g zscore_bm[,1]
+##    &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
+##  1 Adelie  male          3750       -0.563 
+##  2 Adelie  female        3800       -0.501 
+##  3 Adelie  female        3250       -1.19  
+##  4 Adelie  &lt;NA&gt;            NA       NA     
+##  5 Adelie  female        3450       -0.937 
+##  6 Adelie  male          3650       -0.688 
+##  7 Adelie  female        3625       -0.719 
+##  8 Adelie  male          4675        0.590 
+##  9 Adelie  &lt;NA&gt;          3475       -0.906 
+## 10 Adelie  &lt;NA&gt;          4250        0.0602
+## # … with 334 more rows</code></pre>
+<p>We can pipe the results to <code>ggplot</code> for plotting!</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="data-wrangling.html#cb372-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-2"><a href="data-wrangling.html#cb372-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-3"><a href="data-wrangling.html#cb372-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-4"><a href="data-wrangling.html#cb372-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> species, <span class="dt">y =</span> zscore_bm, <span class="dt">colour =</span> sex) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb372-5"><a href="data-wrangling.html#cb372-5"></a><span class="st">    </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<p>You can use the function <code>transmute()</code> to create a new column and drop the original columns.</p>
+<p>Most importantly, you can use <code>mutate</code> and <code>transmute</code> on grouped data. For example, let’s recompute the z-score of the <code>body_mass_g</code> once the data is grouped by species and sex:</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="data-wrangling.html#cb374-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb374-2"><a href="data-wrangling.html#cb374-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb374-3"><a href="data-wrangling.html#cb374-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb374-4"><a href="data-wrangling.html#cb374-4"></a><span class="st">  </span><span class="kw">group_by</span>(species, sex) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb374-5"><a href="data-wrangling.html#cb374-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb374-6"><a href="data-wrangling.html#cb374-6"></a><span class="st">  </span><span class="kw">arrange</span>(body_mass_g)</span></code></pre></div>
+<pre><code>## # A tibble: 333 x 4
+## # Groups:   species, sex [6]
+##    species   sex    body_mass_g zscore_bm
+##    &lt;fct&gt;     &lt;fct&gt;        &lt;int&gt;     &lt;dbl&gt;
+##  1 Chinstrap female        2700     -2.90
+##  2 Adelie    female        2850     -1.93
+##  3 Adelie    female        2850     -1.93
+##  4 Adelie    female        2900     -1.74
+##  5 Adelie    female        2900     -1.74
+##  6 Adelie    female        2900     -1.74
+##  7 Chinstrap female        2900     -2.20
+##  8 Adelie    female        2925     -1.65
+##  9 Adelie    female        3000     -1.37
+## 10 Adelie    female        3000     -1.37
+## # … with 323 more rows</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="fundamentals-of-probability.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-wrangling-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
