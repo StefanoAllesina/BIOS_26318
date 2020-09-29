@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="fundamentals-of-probability.html"/>
-<link rel="next" href="data-wrangling-1.html"/>
+<link rel="next" href="distributions-and-their-properties.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -210,15 +210,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
 <li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
 <li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
+<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
+<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
+<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html"><i class="fa fa-check"></i><b>5</b> Data wrangling</a><ul>
-<li class="chapter" data-level="5.1" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>5.1</b> From narrow to wide</a></li>
-<li class="chapter" data-level="5.2" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>5.2</b> From wide to narrow</a></li>
-<li class="chapter" data-level="5.3" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>5.3</b> Separate: split a column into two or more</a></li>
-<li class="chapter" data-level="5.4" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>5.4</b> Separate rows: from one row to many</a></li>
-<li class="chapter" data-level="5.5" data-path="data-wrangling-1.html"><a href="data-wrangling-1.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>5.5</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a><ul>
+<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
+<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
+<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
+<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="resources-2.html"><a href="resources-2.html"><i class="fa fa-check"></i><b>6</b> Resources</a></li>
+<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
+<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
+<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
+<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
+<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -507,6 +527,230 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 Adelie    female        3000     -1.37
 ## # … with 323 more rows</code></pre>
 </div>
+<div id="data-wrangling-1" class="section level2">
+<h2><span class="header-section-number">4.11</span> Data wrangling</h2>
+<p>Data is rarely in a format that is good for computing, and much effort goes into reading the data and wrestling with it to make it into a good format. As the name implies, <code>tidyverse</code> strongly advocates for the use of data in <em>tidy</em> form. What does this mean?</p>
+<ul>
+<li>Each variable forms a column</li>
+<li>Each observation forms a row</li>
+<li>Each type of observational unit forms a table</li>
+</ul>
+<p>This is often called <em>narrow table</em> format. Any other form of data (e.g., <em>wide table</em> format) is considered <em>messy</em>. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package <code>tidyr</code> allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="data-wrangling.html#cb376-1"></a>penguin_bm &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb376-2"><a href="data-wrangling.html#cb376-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb376-3"><a href="data-wrangling.html#cb376-3"></a><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb376-4"><a href="data-wrangling.html#cb376-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">body_mass =</span> <span class="kw">mean</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb376-5"><a href="data-wrangling.html#cb376-5"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="co"># remove group information</span></span>
+<span id="cb376-6"><a href="data-wrangling.html#cb376-6"></a></span>
+<span id="cb376-7"><a href="data-wrangling.html#cb376-7"></a>penguin_bm</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   sex    species   body_mass
+##   &lt;fct&gt;  &lt;fct&gt;         &lt;dbl&gt;
+## 1 female Adelie        3369.
+## 2 female Chinstrap     3527.
+## 3 female Gentoo        4680.
+## 4 male   Adelie        4043.
+## 5 male   Chinstrap     3939.
+## 6 male   Gentoo        5485.</code></pre>
+</div>
+<div id="from-narrow-to-wide" class="section level2">
+<h2><span class="header-section-number">4.12</span> From narrow to wide</h2>
+<p>Our data is in tidy form. For a paper, we want to show the difference between males and females in a table:</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="data-wrangling.html#cb378-1"></a>penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb378-2"><a href="data-wrangling.html#cb378-2"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> sex, <span class="dt">values_from =</span> body_mass)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   species   female  male
+##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1 Adelie     3369. 4043.
+## 2 Chinstrap  3527. 3939.
+## 3 Gentoo     4680. 5485.</code></pre>
+<p>where we have created new column names using the values found in <code>sex</code> (hence, <code>names_from</code>), and filled each cell with the corresponding value found in <code>body_mass</code> (hence, <code>values_from</code>). Similarly, if we want to show the data with species as column names, and sex as rows, we can use:</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="data-wrangling.html#cb380-1"></a>penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb380-2"><a href="data-wrangling.html#cb380-2"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> species, <span class="dt">values_from =</span> body_mass)</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 4
+##   sex    Adelie Chinstrap Gentoo
+##   &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+## 1 female  3369.     3527.  4680.
+## 2 male    4043.     3939.  5485.</code></pre>
+</div>
+<div id="from-wide-to-narrow" class="section level2">
+<h2><span class="header-section-number">4.13</span> From wide to narrow</h2>
+<p>For a real-world example, we will make data from:</p>
+<blockquote>
+<p><em>Tree-ring analysis for sustainable harvest of Millettia stuhlmannii in Mozambique</em>, I.A.D.Remane M.D.Therrell, <strong>South African Journal of Botany</strong> Volume 125, September 2019, Pages 120-125</p>
+</blockquote>
+<p>You can read a tab-separated file from:</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="data-wrangling.html#cb382-1"></a>dt &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://rb.gy/upqoxh&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb382-2"><a href="data-wrangling.html#cb382-2"></a><span class="st">  </span><span class="kw">select</span>(Age, <span class="kw">contains</span>(<span class="st">&quot;CAT&quot;</span>))</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   X38 = col_logical(),
+##   X39 = col_logical(),
+##   X40 = col_logical(),
+##   X41 = col_logical(),
+##   X42 = col_logical(),
+##   X43 = col_logical(),
+##   X44 = col_logical(),
+##   X45 = col_logical(),
+##   X46 = col_logical(),
+##   X47 = col_logical(),
+##   X48 = col_logical(),
+##   X49 = col_logical(),
+##   X50 = col_logical(),
+##   X51 = col_logical(),
+##   X52 = col_logical(),
+##   X53 = col_logical(),
+##   X54 = col_logical(),
+##   X55 = col_logical()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="data-wrangling.html#cb385-1"></a><span class="co"># selecting only age and samples</span></span></code></pre></div>
+<p>Each column besides <code>Age</code> represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns <code>tree</code> and <code>diameter</code>:</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="data-wrangling.html#cb386-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb386-2"><a href="data-wrangling.html#cb386-2"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">-</span>Age, <span class="dt">names_to =</span> <span class="st">&quot;tree&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;diameter&quot;</span>)</span></code></pre></div>
+<p>and then remove the NAs:</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="data-wrangling.html#cb387-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(diameter))</span></code></pre></div>
+<p>Now it is easy to plot the growth trajectory of each tree (as in Fig. 3 of the original paper):</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="data-wrangling.html#cb388-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb388-2"><a href="data-wrangling.html#cb388-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb388-3"><a href="data-wrangling.html#cb388-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Age, <span class="dt">y =</span> diameter) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb388-4"><a href="data-wrangling.html#cb388-4"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> tree)) <span class="op">+</span><span class="st"> </span><span class="co"># note---this makes a line for each tree</span></span>
+<span id="cb388-5"><a href="data-wrangling.html#cb388-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="co"># while the smoothing function considers all trees</span></span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+</div>
+<div id="separate-split-a-column-into-two-or-more" class="section level2">
+<h2><span class="header-section-number">4.14</span> Separate: split a column into two or more</h2>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="data-wrangling.html#cb390-1"></a>test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;Allesina, Stefano&quot;</span>, <span class="st">&quot;Kondrashov, Dmitry&quot;</span>, <span class="st">&quot;Smith, Julia&quot;</span>))</span>
+<span id="cb390-2"><a href="data-wrangling.html#cb390-2"></a>test</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 1
+##   name              
+##   &lt;chr&gt;             
+## 1 Allesina, Stefano 
+## 2 Kondrashov, Dmitry
+## 3 Smith, Julia</code></pre>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="data-wrangling.html#cb392-1"></a>test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate</span>(name, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;first_name&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   last_name  first_name
+##   &lt;chr&gt;      &lt;chr&gt;     
+## 1 Allesina   Stefano   
+## 2 Kondrashov Dmitry    
+## 3 Smith      Julia</code></pre>
+<p>The complement of <code>separate</code> is called <code>unite</code>.</p>
+</div>
+<div id="separate-rows-from-one-row-to-many" class="section level2">
+<h2><span class="header-section-number">4.15</span> Separate rows: from one row to many</h2>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="data-wrangling.html#cb394-1"></a>test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">id =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">records =</span> <span class="kw">c</span>(<span class="st">&quot;a;b;c&quot;</span>, <span class="st">&quot;c;d&quot;</span>, <span class="st">&quot;a;e&quot;</span>, <span class="st">&quot;f&quot;</span>))</span>
+<span id="cb394-2"><a href="data-wrangling.html#cb394-2"></a>test</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##      id records
+##   &lt;dbl&gt; &lt;chr&gt;  
+## 1     1 a;b;c  
+## 2     2 c;d    
+## 3     3 a;e    
+## 4     4 f</code></pre>
+<p>To make it into tidy form, only one record per row:</p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="data-wrangling.html#cb396-1"></a>test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate_rows</span>(records, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 8 x 2
+##      id records
+##   &lt;dbl&gt; &lt;chr&gt;  
+## 1     1 a      
+## 2     1 b      
+## 3     1 c      
+## 4     2 c      
+## 5     2 d      
+## 6     3 a      
+## 7     3 e      
+## 8     4 f</code></pre>
+</div>
+<div id="example-brown-bear-brown-bear-what-do-you-see" class="section level2">
+<h2><span class="header-section-number">4.16</span> Example: brown bear, brown bear, what do you see?</h2>
+<p>This exercise uses a dataset from <a href="https://www.gbif.org/en/">GBIF</a>, the Global Biodiversity Information Facility. You can download the latest version yourself by doing the following (but just skip ahead if you want to use the data provided by us).</p>
+<ol style="list-style-type: decimal">
+<li>Go to <a href="https://www.gbif.org/en/">GBIF</a> and click on Occurrences.</li>
+<li>Under Scientific Name type in <em>Ursus arctos</em> (brown bear), and hit enter.</li>
+<li>To download the data, create an account on GBIF</li>
+<li>Then click on Download, and select Simple (which should have a tab-delimited .csv file)</li>
+<li>Save to the data folder in your working folder.</li>
+</ol>
+<p>If you don’t want to go through all this, you can use the downloaded file called <code>Ursus_GBIF.csv</code> that should be in the data folder for this week. The following command loads and displays the contents of the tibble:</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="data-wrangling.html#cb398-1"></a><span class="co"># you will need ggmap!</span></span>
+<span id="cb398-2"><a href="data-wrangling.html#cb398-2"></a><span class="kw">library</span>(ggmap)</span>
+<span id="cb398-3"><a href="data-wrangling.html#cb398-3"></a>Ursus_data &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;data/Ursus_GBIF.csv&quot;</span>)</span>
+<span id="cb398-4"><a href="data-wrangling.html#cb398-4"></a><span class="kw">glimpse</span>(Ursus_data)</span></code></pre></div>
+<pre><code>## Rows: 23,498
+## Columns: 50
+## $ gbifID                           &lt;dbl&gt; 2382421192, 2382420986, 2382420916, …
+## $ datasetKey                       &lt;chr&gt; &quot;88d8974c-f762-11e1-a439-00145eb45e9…
+## $ occurrenceID                     &lt;chr&gt; &quot;http://arctos.database.museum/guid/…
+## $ kingdom                          &lt;chr&gt; &quot;Animalia&quot;, &quot;Animalia&quot;, &quot;Animalia&quot;, …
+## $ phylum                           &lt;chr&gt; &quot;Chordata&quot;, &quot;Chordata&quot;, &quot;Chordata&quot;, …
+## $ class                            &lt;chr&gt; &quot;Mammalia&quot;, &quot;Mammalia&quot;, &quot;Mammalia&quot;, …
+## $ order                            &lt;chr&gt; &quot;Carnivora&quot;, &quot;Carnivora&quot;, &quot;Carnivora…
+## $ family                           &lt;chr&gt; &quot;Ursidae&quot;, &quot;Ursidae&quot;, &quot;Ursidae&quot;, &quot;Ur…
+## $ genus                            &lt;chr&gt; &quot;Ursus&quot;, &quot;Ursus&quot;, &quot;Ursus&quot;, &quot;Ursus&quot;, …
+## $ species                          &lt;chr&gt; &quot;Ursus arctos&quot;, &quot;Ursus arctos&quot;, &quot;Urs…
+## $ infraspecificEpithet             &lt;chr&gt; NA, NA, NA, &quot;horribilis&quot;, NA, NA, NA…
+## $ taxonRank                        &lt;chr&gt; &quot;SPECIES&quot;, &quot;SPECIES&quot;, &quot;SPECIES&quot;, &quot;SU…
+## $ scientificName                   &lt;chr&gt; &quot;Ursus arctos Linnaeus, 1758&quot;, &quot;Ursu…
+## $ verbatimScientificName           &lt;chr&gt; &quot;Ursus arctos&quot;, &quot;Ursus arctos&quot;, &quot;Urs…
+## $ verbatimScientificNameAuthorship &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ countryCode                      &lt;chr&gt; NA, &quot;US&quot;, NA, NA, &quot;US&quot;, NA, NA, &quot;US&quot;…
+## $ locality                         &lt;chr&gt; &quot;no specific locality recorded&quot;, &quot;no…
+## $ stateProvince                    &lt;chr&gt; NA, &quot;Alaska&quot;, NA, NA, &quot;Colorado&quot;, NA…
+## $ occurrenceStatus                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ individualCount                  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ publishingOrgKey                 &lt;chr&gt; &quot;4cadac10-3e7b-11d9-8439-b8a03c50a86…
+## $ decimalLatitude                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ decimalLongitude                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ coordinateUncertaintyInMeters    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ coordinatePrecision              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ elevation                        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ elevationAccuracy                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ depth                            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ depthAccuracy                    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ eventDate                        &lt;dttm&gt; 1800-01-01, 1800-01-01, 1800-01-01,…
+## $ day                              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ month                            &lt;dbl&gt; 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, …
+## $ year                             &lt;dbl&gt; 1800, 1800, 1800, 1800, 1914, 1938, …
+## $ taxonKey                         &lt;dbl&gt; 2433433, 2433433, 2433433, 6163845, …
+## $ speciesKey                       &lt;dbl&gt; 2433433, 2433433, 2433433, 2433433, …
+## $ basisOfRecord                    &lt;chr&gt; &quot;PRESERVED_SPECIMEN&quot;, &quot;PRESERVED_SPE…
+## $ institutionCode                  &lt;chr&gt; &quot;UCM&quot;, &quot;UCM&quot;, &quot;UCM&quot;, &quot;UCM&quot;, &quot;UCM&quot;, &quot;…
+## $ collectionCode                   &lt;chr&gt; &quot;Mammal specimens&quot;, &quot;Mammal specimen…
+## $ catalogNumber                    &lt;chr&gt; &quot;UCM:Mamm:5003&quot;, &quot;UCM:Mamm:3329&quot;, &quot;U…
+## $ recordNumber                     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ identifiedBy                     &lt;chr&gt; &quot;T. C. Hart&quot;, &quot;unknown&quot;, &quot;unknown&quot;, …
+## $ dateIdentified                   &lt;dttm&gt; 2013-01-01, 1936-01-01, NA, 2015-10…
+## $ license                          &lt;chr&gt; &quot;CC0_1_0&quot;, &quot;CC0_1_0&quot;, &quot;CC0_1_0&quot;, &quot;CC…
+## $ rightsHolder                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ recordedBy                       &lt;chr&gt; &quot;Collector(s): T. C. Hart&quot;, &quot;Collect…
+## $ typeStatus                       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ establishmentMeans               &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;MANAGED&quot;, N…
+## $ lastInterpreted                  &lt;dttm&gt; 2019-09-03 22:11:14, 2019-09-03 22:…
+## $ mediaType                        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ issue                            &lt;chr&gt; NA, NA, NA, NA, &quot;TAXON_MATCH_HIGHERR…</code></pre>
+<p>You see there are 50 variables in the data set, so it may be useful to remove the ones we don’t need. For this exercise, our objective is to plot the occurrences of this species on the world map, so we need two variables for certain: <code>decimalLatitude</code> and <code>decimalLongitude</code>, as well as the <code>BasisofRecord</code> for additional information. Use your <code>tidyverse</code> skills to create a new tibble with only those variables. In addition, remove duplicate records from the tibble.</p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="data-wrangling.html#cb400-1"></a><span class="co"># your code goes here!</span></span></code></pre></div>
+<p>Now we can plot this data set on the world map, using the useful package maps. To plot, use the <code>ggplot()</code> syntax with the following addition:</p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="data-wrangling.html#cb401-1"></a>mapWorld &lt;-<span class="st"> </span><span class="kw">borders</span>(<span class="st">&quot;world&quot;</span>, <span class="dt">colour=</span><span class="st">&quot;gray50&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray50&quot;</span>) <span class="co"># create a layer of borders</span></span>
+<span id="cb401-2"><a href="data-wrangling.html#cb401-2"></a><span class="co"># now you can call </span></span>
+<span id="cb401-3"><a href="data-wrangling.html#cb401-3"></a><span class="co"># ggplot() + mapWorld + ...</span></span></code></pre></div>
+<p>Note the warning message generated by <code>ggplot</code>. Then consider the map with the locations of the brown bear specimens. Do any of them seem strange to you? What may be the explanation behind these strange data point? Now filter out the points that you identified as suspicious and print out their BasisofRecord. Does this suggest an explanation for the strangeness?</p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="data-wrangling.html#cb402-1"></a><span class="co"># your code goes here!</span></span></code></pre></div>
+</div>
+<div id="resources-2" class="section level2">
+<h2><span class="header-section-number">4.17</span> Resources</h2>
+<ul>
+<li><a href="https://hackr.io/tutorial/r-for-data-science">R for Data Science</a></li>
+<li>A <a href="https://cfss.uchicago.edu/syllabus.html">cool class</a> at U of C in Social Sciences</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">Data transformation</a> cheat sheet</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf">Dealing with dates</a> cheat sheet</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data import</a> cheat sheet</li>
+</ul>
+
+</div>
 </div>
             </section>
 
@@ -514,7 +758,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="fundamentals-of-probability.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="data-wrangling-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="distributions-and-their-properties.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
