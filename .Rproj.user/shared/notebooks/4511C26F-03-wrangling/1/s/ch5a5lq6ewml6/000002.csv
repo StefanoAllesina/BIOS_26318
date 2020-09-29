@@ -1,0 +1,27 @@
+"0","dt <- read_tsv(""https://rb.gy/upqoxh"") %>% select(Age, contains(""CAT""))
+"
+"2","Parsed with column specification:
+cols(
+  .default = col_double(),
+  X38 = [33mcol_logical()[39m,
+  X39 = [33mcol_logical()[39m,
+  X40 = [33mcol_logical()[39m,
+  X41 = [33mcol_logical()[39m,
+  X42 = [33mcol_logical()[39m,
+  X43 = [33mcol_logical()[39m,
+  X44 = [33mcol_logical()[39m,
+  X45 = [33mcol_logical()[39m,
+  X46 = [33mcol_logical()[39m,
+  X47 = [33mcol_logical()[39m,
+  X48 = [33mcol_logical()[39m,
+  X49 = [33mcol_logical()[39m,
+  X50 = [33mcol_logical()[39m,
+  X51 = [33mcol_logical()[39m,
+  X52 = [33mcol_logical()[39m,
+  X53 = [33mcol_logical()[39m,
+  X54 = [33mcol_logical()[39m,
+  X55 = [33mcol_logical()[39m
+)
+"
+"2","See spec(...) for full column specifications.
+"

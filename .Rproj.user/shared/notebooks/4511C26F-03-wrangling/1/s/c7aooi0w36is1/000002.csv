@@ -1,0 +1,5 @@
+"0","penguin_bm <- penguins %>% 
+  group_by(sex, species) %>% 
+  summarise(body_mass = mean(body_mass_g))
+"
+"2","Factor `sex` contains implicit NA, consider using `forcats::fct_explicit_na`"

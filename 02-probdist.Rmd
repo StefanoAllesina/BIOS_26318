@@ -127,7 +127,7 @@ Some of the fundamental questions about the population include:
 
 4. Describe and test a relationship between two or more variables.
 
-### law of large numbers
+### Law of large numbers
 
 First, the sample has to be *unbiased*, that is, no outcomes should be systematically over- or under-represented. But even an unbiased sample will differ from the population due to the inherent randomness of selection (sampling error). The **law of large numbers** states that as the *sample size* increases, the mean of the sample converges to the true mean of the population. Formally, for a set of $n$ indepdenent, identically distributed random variables (the sample) $\{X_i\}$ the sample mean $\overline{X}_n$ converges to the mean of the distribution $\mu$:
 

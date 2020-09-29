@@ -1,0 +1,5 @@
+"0","dt <- dt %>% 
+  pivot_longer(names_to = ""tree"", values_to = ""diameter"")
+"
+"2","Error: `cols` must select at least one column.
+"
