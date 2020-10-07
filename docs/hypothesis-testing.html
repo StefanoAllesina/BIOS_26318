@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 6 Hypothesis testing | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 6 Hypothesis testing | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 6 Hypothesis testing | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-10-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="distributions-and-their-properties.html"/>
+<link rel="next" href="review-of-linear-algebra.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
+<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
+<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
+<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
+<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
+<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
+<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
+<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
+<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
+<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
+<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
+<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
+<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
+<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
+<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
+<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
+<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
+<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
+<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
+<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
+<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
+<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a><ul>
+<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
+<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
+<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
+<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
+<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
+<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
+<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
+<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#corrections-for-multiple-comparisons"><i class="fa fa-check"></i><b>6.5</b> Corrections for multiple comparisons</a></li>
+<li class="chapter" data-level="6.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#two-problems-with-science"><i class="fa fa-check"></i><b>6.6</b> Two problems with science</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#selective-reporting"><i class="fa fa-check"></i><b>6.6.1</b> Selective reporting</a></li>
+<li class="chapter" data-level="6.6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#p-hacking"><i class="fa fa-check"></i><b>6.6.2</b> P-hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#readings"><i class="fa fa-check"></i><b>6.7</b> Readings</a></li>
+<li class="chapter" data-level="6.8" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#how-to-fool-yourself-with-p-hacking-and-possibly-get-fired"><i class="fa fa-check"></i><b>6.8</b> How to fool yourself with p-hacking (and possibly get fired!)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html"><i class="fa fa-check"></i><b>7</b> Review of linear algebra</a><ul>
+<li class="chapter" data-level="7.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#solving-multivariate-linear-equations"><i class="fa fa-check"></i><b>7.1</b> Solving multivariate linear equations</a></li>
+<li class="chapter" data-level="7.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#fitting-a-line-to-data"><i class="fa fa-check"></i><b>7.2</b> Fitting a line to data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#least-squares-line"><i class="fa fa-check"></i><b>7.2.1</b> Least-squares line</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linearity-and-vector-spaces"><i class="fa fa-check"></i><b>7.3</b> Linearity and vector spaces</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linear-independence-and-basis-vectors"><i class="fa fa-check"></i><b>7.3.1</b> Linear independence and basis vectors</a></li>
+<li class="chapter" data-level="7.3.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#projections-and-changes-of-basis"><i class="fa fa-check"></i><b>7.3.2</b> Projections and changes of basis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-as-linear-operators"><i class="fa fa-check"></i><b>7.4</b> Matrices as linear operators</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-transform-vectors"><i class="fa fa-check"></i><b>7.4.1</b> Matrices transform vectors</a></li>
+<li class="chapter" data-level="7.4.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#calculating-eigenvalues"><i class="fa fa-check"></i><b>7.4.2</b> calculating eigenvalues</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hypothesis-testing" class="section level1">
+<h1><span class="header-section-number">Lecture 6</span> Hypothesis testing</h1>
+<p>A large number of scientific questions can be expressed as an hypothesis test—essentially a yes/no question, such as “are two samples drawn from distributions with the same mean?”, or “Is the frequency of an allele in a population greater than 0.1?”. Several tests have been developed, each with a specific type of question in mind. There is a dangerous tendency to view statistics as a collection of tests, and to practice it by plugging in your data set into the correct test, expecting that the test will spit out the correct decision. The purpose of this lesson is to demonstrate that using and interpreting statistical tests requires careful thinking to avoid serious errors.</p>
+<div id="test-results-vs.-the-truth" class="section level2">
+<h2><span class="header-section-number">6.1</span> Test results vs. the truth</h2>
+<p>A statistical test begins by stating the <strong>null hypothesis</strong>, usually one that is expected, or that shows no effect: for example, that two samples come from a distribution with the same mean, or that a rare allele has frequency of less than 0.1. One may state the <strong>alternative hypothesis explicitly</strong>, although it’s usually the logical converse of the null, i.e., the two samples have different population means, or the allele has frequency greater than 0.1.</p>
+<p>After the hypothesis is stated, the data are collected and are used to test the hypothesis. By default, the null hypothesis is assumed to be true, and the test assesses whether the data provide sufficient evidence against the null hypothesis—in which case the <strong>null hypothesis is rejected</strong>. There is an adversarial relationship: either the data knock off the hypothesis, or else they fail to do so. Standard terminology reflects this somewhat counterintuitive setup: rejecting the null hypothesis is called a <strong>positive test result</strong>, while not rejecting it is called a <strong>negative result</strong>.</p>
+<center>
+<img src="https://imgs.xkcd.com/comics/null_hypothesis.png">
+</center>
+<p><strong>The fundamental assumption of this process is that the truth value of the hypothesis is set prior to the collection of data.</strong> For example, if one could observe all of the genomes, the frequency of the allele would be known exactly, so this truth exists prior to the hypothesis testing. Because we typically can only observe a sample (and not the entire universe of data), we might end up erroneously rejecting the null hypothesis when it is in fact true, or not rejecting it when it is in fact false. The possible outcomes of a test can be organized in the table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>H0</th>
+<th>True</th>
+<th>False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Reject</strong></td>
+<td>False Positive</td>
+<td>True Positive</td>
+</tr>
+<tr class="even">
+<td><strong>Not Reject</strong></td>
+<td>True Negative</td>
+<td>False Negative</td>
+</tr>
+</tbody>
+</table>
+<p>The values at the top describe the truth status of the hypothesis, while the decisions in the left column are the result of using data to test the hypothesis. Note: the words false and true in describing the test result do not refer to the hypothesis, but to whether the result is correct! For example, if the frequency of the allele were 0.09 but the test for the hypothesis that the frequency is less than 0.1 resulted in rejecting that hypothesis, that would be a false positive result (the null hypothesis is true but the test rejected it.)</p>
+</div>
+<div id="types-of-errors" class="section level2">
+<h2><span class="header-section-number">6.2</span> Types of errors</h2>
+<p>As mentioned above, sometimes a hypothesis test makes the wrong decision, which is called an error. There are two different kinds of errors: rejecting a true null hypothesis, called a Type I error, and not rejecting a false null hypothesis, called a Type II error.</p>
+<p><strong>Example:</strong> In the case above of testing for the same mean: if the samples are taken from distributions with the same mean, but the hypothesis is rejected, this is called a false positive (Type I error). If the samples come from distributions with different means, but the hypothesis is not rejected, this is called a false negative (Type II error.)</p>
+<p>As a scientist, would you rather make a Type I error (make an erroneous discovery), or a Type II error (fail to make a discovery)?</p>
+</div>
+<div id="test-parameters-and-p-values" class="section level2">
+<h2><span class="header-section-number">6.3</span> Test parameters and p-values</h2>
+<p>The <strong>sensitivity</strong> of a test is the probability of obtaining the positive result, given a false hypothesis; and the <strong>specificity</strong> of a test is the probability of obtaining the negative result, given a true hypothesis. The <em>Type I error rate</em> is the probability of obtaining the positive result, given a true hypothesis (complementary to specificity), and the <em>Type II error rate</em> is the probability of obtaining the negative result, given a false hypothesis (complementary to sensitivity).</p>
+<p>All four parameters (rates) of a binary test are summarized as follows:
+<span class="math display">\[\text{Sen} = \frac{TP}{TP+FN};  \; \text{Spec} = \frac{TN}{TN+FP}\]</span>
+<span class="math display">\[\text{FPR} = \frac{FP}{TN+FP};  \; \text{FNR} = \frac{FN}{TP+FN}\]</span>
+The notation TP, FP, etc. represents the frequency or count of true positives, false positives, etc., out of a large number of experiments with known truth status of the hypothesis.</p>
+<p>Knowledge of sensitivity and specificity determine the Type I and Type II error rates of a test since they are complementary events.</p>
+<p>Of course, it is desirable for a test to be both very sensitive (reject false null hypotheses, detect disease, convict guilty defendants) and very specific (not reject true null hypotheses, correctly identify healthy patients, acquit innocent defendants), but no test is perfect, and sometimes it makes the wrong decision. This is where statistical inference comes into play: given some information about these parameters, a statistician can calculate the error rate in making different decisions.</p>
+<p>The probability that a given data set is produced from the model of the null hypothesis is called the <strong>p-value</strong> of a test. More precicely:</p>
+<blockquote>
+<p>For a given data set <span class="math inline">\(D\)</span> and a null hypothesis <span class="math inline">\(H_0\)</span>, the <em>p-value</em> is the probability of obtaining a result <em>as far from expectation or farther than the observed data, given the null hypothesis.</em></p>
+</blockquote>
+<p>The p-value is the most used, misused, and even abused quantity in statistics, so please think carefully about its definition. One reason this notion is frequently misused is because it is very tempting to conclude that the p-value is the probability of the null hypothesis being true, based on the data. That is not the case! The definition has the opposite direction of conditionality—we assume that the null hypothesis is true, and based on that calculate the probability of obtaining a pattern as extreme or more extreme than what observed in the data. There is no way (according to classical “frequentist” statistics) of assigning a probability to the truth of a hypothesis, because it is not the result of an experiment.</p>
+<p>Typically, one sets a critical threshold bounding the probability of making a Type I error in a test to a “small” number (often, <span class="math inline">\(\alpha = 0.05\)</span> or <span class="math inline">\(0.01\)</span>), and calls the result of a test “significant” if the p-value is less than <span class="math inline">\(\alpha\)</span>.</p>
+<center>
+<img src="https://imgs.xkcd.com/comics/p_values.png">
+</center>
+<p>For example, consider samples of size <span class="math inline">\(n\)</span> taken from two normal distributions (with unobserved means <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_2\)</span>). We can generate the data:</p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="hypothesis-testing.html#cb466-1"></a>generate_samples &lt;-<span class="st"> </span><span class="cf">function</span>(n, mu1, mu2){</span>
+<span id="cb466-2"><a href="hypothesis-testing.html#cb466-2"></a>  <span class="kw">return</span>(<span class="kw">data.frame</span>(<span class="dt">sample1 =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb466-3"><a href="hypothesis-testing.html#cb466-3"></a>               <span class="dt">sample2 =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> <span class="dv">1</span>)))</span>
+<span id="cb466-4"><a href="hypothesis-testing.html#cb466-4"></a>}</span>
+<span id="cb466-5"><a href="hypothesis-testing.html#cb466-5"></a></span>
+<span id="cb466-6"><a href="hypothesis-testing.html#cb466-6"></a>my_sample &lt;-<span class="st"> </span><span class="kw">generate_samples</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fl">1.01</span>)</span></code></pre></div>
+<p>and use a Student’s t-test to probe whether the means differ:</p>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="hypothesis-testing.html#cb467-1"></a><span class="co"># two-tailed (diff in means = 0)</span></span>
+<span id="cb467-2"><a href="hypothesis-testing.html#cb467-2"></a><span class="co"># Student&#39;s (assumes equal variances)</span></span>
+<span id="cb467-3"><a href="hypothesis-testing.html#cb467-3"></a><span class="co"># (for Welch&#39;s t-test, var.equal = FALSE)</span></span>
+<span id="cb467-4"><a href="hypothesis-testing.html#cb467-4"></a><span class="kw">t.test</span>(my_sample<span class="op">$</span>sample1, </span>
+<span id="cb467-5"><a href="hypothesis-testing.html#cb467-5"></a>       my_sample<span class="op">$</span>sample2,</span>
+<span id="cb467-6"><a href="hypothesis-testing.html#cb467-6"></a>       <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  my_sample$sample1 and my_sample$sample2
+## t = -0.78884, df = 1998, p-value = 0.4303
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.12167697  0.05187028
+## sample estimates:
+## mean of x mean of y 
+##  1.000125  1.035028</code></pre>
+<p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
+</div>
+<div id="multiple-comparisons" class="section level2">
+<h2><span class="header-section-number">6.4</span> Multiple comparisons</h2>
+<p>What if we were to produce several samples? E.g., measure difference between males and females reflectance in birds at several locations? Suppose that in fact the reflectance is the same for male and female (<span class="math inline">\(\mu_1 = \mu_2 = 1\)</span>), that for each location we capture and measure 10 males and 10 females, and that we repeat this across 2500 locations.</p>
+<p>First, let’s write a little function that returns the p-values for the t-test</p>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="hypothesis-testing.html#cb469-1"></a>get_p_value_t_test &lt;-<span class="st"> </span><span class="cf">function</span>(my_sample){</span>
+<span id="cb469-2"><a href="hypothesis-testing.html#cb469-2"></a>  test_results &lt;-<span class="st"> </span><span class="kw">t.test</span>(my_sample<span class="op">$</span>sample1, </span>
+<span id="cb469-3"><a href="hypothesis-testing.html#cb469-3"></a>                         my_sample<span class="op">$</span>sample2, </span>
+<span id="cb469-4"><a href="hypothesis-testing.html#cb469-4"></a>                         <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb469-5"><a href="hypothesis-testing.html#cb469-5"></a>  <span class="kw">return</span>(test_results<span class="op">$</span>p.value)</span>
+<span id="cb469-6"><a href="hypothesis-testing.html#cb469-6"></a>}</span></code></pre></div>
+<p>and now simulate the data:</p>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="hypothesis-testing.html#cb470-1"></a>pvalues &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> <span class="dv">2500</span>, </span>
+<span id="cb470-2"><a href="hypothesis-testing.html#cb470-2"></a>                     <span class="dt">expr =</span> <span class="kw">get_p_value_t_test</span>(<span class="kw">generate_samples</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
+<p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="hypothesis-testing.html#cb471-1"></a><span class="kw">sum</span>(pvalues <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
+<pre><code>## [1] 103</code></pre>
+<p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="hypothesis-testing.html#cb473-1"></a><span class="kw">hist</span>(pvalues)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>
+<p>This means that when you are performing multiple tests, some will turn out to find “significant” differences even when there are none. Again, this is better summarized by xkcd:</p>
+<center>
+<img src="https://imgs.xkcd.com/comics/significant.png">
+</center>
+<p><strong>Exercise</strong>: what happens to the distribution of p-values if the means are quite different (e.g., <span class="math inline">\(\mu_1 = 1\)</span>, <span class="math inline">\(\mu_2 = 0.9\)</span>)?</p>
+</div>
+<div id="corrections-for-multiple-comparisons" class="section level2">
+<h2><span class="header-section-number">6.5</span> Corrections for multiple comparisons</h2>
+<p>The main approach to deal with the problem of multiple comparisons is to adjust the p-values. For example, in Bonferroni correction one consider as significant test results whose associated p-value is <span class="math inline">\(\leq \alpha / n\)</span>, where <span class="math inline">\(n\)</span> is the number of tests performed (equivalently, redefine the p-values as <span class="math inline">\(p&#39; = \min(p n, 1)\)</span>. Clearly, this correction becomes overly conservative when the number of tests is large. For example, in biology:</p>
+<ul>
+<li><p><strong>Gene expression</strong> In a typical microarray experiment, we contrast the differential expression of tens of thousands of genes in treatment and control tissues.</p></li>
+<li><p><strong>GWAS</strong> In Genomewide Association Studies we want to find SNPs associated with a given phenotype. It is common to test tens of thousands or even millions of SNPs for signficant associations.</p></li>
+<li><p><strong>Identifying binding sites</strong> Identifying candidate binding sites for a transcriptional regulator requires scanning the whole genome, yielding tens of millions of tests.</p></li>
+</ul>
+<p>The funniest example of this problem is the fMRI of the <a href="http://prefrontal.org/files/posters/Bennett-Salmon-2009.pdf">dead salmon</a>: a dead salmon “was shown a series of photographs depicting human individuals in social situations with a specified emotional valence. The salmon was asked to determine what emotion the individual in the photo must have been experiencing.” The researchers showed that if multiple comparisons were not accounted for, one would detect a cluster of active voxels in the brain, with a cluster-level significance of p = 0.001.</p>
+<p>The widespread use of GWAS and other techniques that are trying to find a needle in a haystack led to the development of many interesting techniques. <a href="http://lybird300.github.io/2015/10/19/multiple-test-correction.html">Here</a> an interesting account.</p>
+<p>Adjusting p-values in <code>R</code>:</p>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="hypothesis-testing.html#cb474-1"></a>original_pvalues &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.07</span>, <span class="fl">0.1</span>, <span class="fl">0.44</span>)</span>
+<span id="cb474-2"><a href="hypothesis-testing.html#cb474-2"></a><span class="kw">p.adjust</span>(original_pvalues, <span class="dt">method =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 0.04 0.28 0.40 1.00</code></pre>
+</div>
+<div id="two-problems-with-science" class="section level2">
+<h2><span class="header-section-number">6.6</span> Two problems with science</h2>
+<div id="selective-reporting" class="section level3">
+<h3><span class="header-section-number">6.6.1</span> Selective reporting</h3>
+<p>We have seen above that setting <span class="math inline">\(\alpha = 0.05\)</span> means that we are going to make false discoveries at this rate. In science, we prefer publishing positive results—negative results are difficult to publish and attract little attention. Suppose that 20 research groups around the world set out to test the same hypothesis, which is false. Then there is a good chance at least one group will reject the null hypothesis, and pursue publication for their “discovery”. The tendency to put negative studies in the files drawer and forget about them causes the so called <strong>publication bias</strong> (aka <strong>selective reporting</strong>): by favoring positive results over negative ones, we greatly increase the chance that our conclusions are wrong. Note that these would cause the results of the paper to be largely impossible to reproduce, and the <strong>reproducibility crisis in the sciences</strong> is partially due to selective reporting.</p>
+</div>
+<div id="p-hacking" class="section level3">
+<h3><span class="header-section-number">6.6.2</span> P-hacking</h3>
+<p>One big violation of good experimental design is known as p-value <strong>“fishing”</strong> (or <strong>p-hacking</strong>): repeating the experiment, or increasing the sample size, until the p-value is below the desired threshold, and then stopping the experiment. Using such defective design dramatically lowers the likelihood that the result is a true positive. And of course there is actual fraud, or fudging of data, which contributes to some bogus results.</p>
+<p>An insidious cousin of p-hacking was dubbed by Andrew Gelman “<strong>the garden of forking paths</strong>” in this <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf">paper</a>. The issue arises in complex problems with multi-variable noisy datasets (aren’t all interesting ones like that?) Essentially, with many choices and degrees of freedom in a problem, it is easy to convince yourself that the choice you made (data cleaning, parameter combinations, etc.) is the correct one because it gives the strongest results. Without a clearly stated hypothesis, experimental design, and data processing details prior to data collection, this enchanted garden can lead even a well-intentioned researcher astray.</p>
+</div>
+</div>
+<div id="readings" class="section level2">
+<h2><span class="header-section-number">6.7</span> Readings</h2>
+<p>Good readings on these and related issues:</p>
+<ul>
+<li><a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124">Why Most Published Research Findings Are False</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Decline_effect">Decline effect</a></li>
+<li><a href="https://www.newyorker.com/magazine/2010/12/13/the-truth-wears-off">The truth wears off</a></li>
+<li><a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002106">The Extent and Consequences of P-Hacking in Science</a></li>
+<li><a href="https://www.nature.com/articles/s41562-016-0021">A manifesto for reproducible science</a></li>
+<li><a href="https://www.chronicle.com/article/Spoiled-Science/239529">Spoiled Science</a></li>
+</ul>
+</div>
+<div id="how-to-fool-yourself-with-p-hacking-and-possibly-get-fired" class="section level2">
+<h2><span class="header-section-number">6.8</span> How to fool yourself with p-hacking (and possibly get fired!)</h2>
+<p>We are going to try our hand at p-hacking, to show how easy it is to get fooled when you have a sufficiently large and complex data set. The file <code>data/medals.csv</code> contains the total number of medals won at the Olympic games (Summer or Winter) by country, sport and gender. We have a simple, and reasonable (?) hypothesis: because the amount of money available to Olympic teams is finite, whenever a country invests in the male team, this will be at the detriment of the female team. To test this hypothesis, we measure whether the number of medals won by a national female team in a year is negatively correlated with the number of medals won by the male team.</p>
+<p>Let’s read the data, and take a peak:</p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="hypothesis-testing.html#cb476-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb476-2"><a href="hypothesis-testing.html#cb476-2"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/medals.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   NOC = col_character(),
+##   Year = col_double(),
+##   Sport = col_character(),
+##   F = col_double(),
+##   M = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="hypothesis-testing.html#cb478-1"></a>dt</span></code></pre></div>
+<pre><code>## # A tibble: 6,915 x 5
+##    NOC    Year Sport         F     M
+##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1 AFG    2008 Taekwondo     0     1
+##  2 AFG    2012 Taekwondo     0     1
+##  3 AHO    1988 Sailing       0     1
+##  4 ALG    1984 Boxing        0     2
+##  5 ALG    1992 Athletics     1     0
+##  6 ALG    1992 Boxing        0     1
+##  7 ALG    1996 Athletics     0     1
+##  8 ALG    1996 Boxing        0     2
+##  9 ALG    2000 Athletics     1     3
+## 10 ALG    2000 Boxing        0     1
+## # … with 6,905 more rows</code></pre>
+<p>First, let’s see whether our hypothesis works for the whole data:</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="hypothesis-testing.html#cb480-1"></a><span class="kw">cor</span>(dt<span class="op">$</span>F, dt<span class="op">$</span>M)</span></code></pre></div>
+<pre><code>## [1] 0.1651691</code></pre>
+<p>The correlation is positive: more medals for the men tend to correspond to more medals for the women. This correlation is not very strong, but is it “significant”? We can run a correlation test:</p>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="hypothesis-testing.html#cb482-1"></a><span class="kw">cor.test</span>(dt<span class="op">$</span>F, dt<span class="op">$</span>M)</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  dt$F and dt$M
+## t = 13.924, df = 6913, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.1421521 0.1880075
+## sample estimates:
+##       cor 
+## 0.1651691</code></pre>
+<p>Indeed! The confidence intervals are far from 0: the correlation is definitely positive. Should we give up? Of course not! Just as for the jelly beans, we can p-hack our way to glory by subsetting the data. We are going to test each discipline independently, and see whether we can get a robustly negative correlation for any discipline. Because we are serious scientists, we are going to consider only disciplines for which we have at least 50 data points, to avoid results that are due to small sample sizes. Let’s write a code:</p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="hypothesis-testing.html#cb484-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Sport) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">sample_size =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>()</span>
+<span id="cb484-2"><a href="hypothesis-testing.html#cb484-2"></a>correlations &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb484-3"><a href="hypothesis-testing.html#cb484-3"></a><span class="st">  </span><span class="kw">filter</span>(sample_size <span class="op">&gt;=</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb484-4"><a href="hypothesis-testing.html#cb484-4"></a><span class="st">  </span><span class="kw">group_by</span>(Sport) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb484-5"><a href="hypothesis-testing.html#cb484-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">cor =</span> <span class="kw">cor</span>(<span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="st">`</span><span class="dt">F</span><span class="st">`</span>), </span>
+<span id="cb484-6"><a href="hypothesis-testing.html#cb484-6"></a>            <span class="dt">pvalue =</span> <span class="kw">cor.test</span>(<span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="st">`</span><span class="dt">F</span><span class="st">`</span>)<span class="op">$</span>p.value) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb484-7"><a href="hypothesis-testing.html#cb484-7"></a><span class="st">  </span><span class="kw">ungroup</span>() </span></code></pre></div>
+<p>Now let’s see whether there are highly significant negative correlations:</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="hypothesis-testing.html#cb485-1"></a>my_results &lt;-<span class="st"> </span>correlations <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, cor <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb485-2"><a href="hypothesis-testing.html#cb485-2"></a>my_results</span></code></pre></div>
+<pre><code>## # A tibble: 9 x 3
+##   Sport                cor   pvalue
+##   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Basketball        -0.579 7.86e- 8
+## 2 Football          -0.796 6.75e-23
+## 3 Handball          -0.810 5.28e-16
+## 4 Hockey            -0.585 4.16e- 9
+## 5 Ice Hockey        -0.302 8.10e- 3
+## 6 Modern Pentathlon -0.561 3.57e- 8
+## 7 Volleyball        -0.545 2.18e- 6
+## 8 Water Polo        -0.688 3.41e-14
+## 9 Weightlifting     -0.138 2.33e- 2</code></pre>
+<p>Let’s plot our results to convince ourselves that they are strong:</p>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="hypothesis-testing.html#cb487-1"></a><span class="kw">ggplot</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(my_results)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb487-2"><a href="hypothesis-testing.html#cb487-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="dt">y =</span> <span class="st">`</span><span class="dt">F</span><span class="st">`</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb487-3"><a href="hypothesis-testing.html#cb487-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb487-4"><a href="hypothesis-testing.html#cb487-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb487-5"><a href="hypothesis-testing.html#cb487-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Sport, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-182-1.png" width="672" /></p>
+<p>That’s it! Should we rush to publish our results? Not quite: we have p-hacked our way to some highly significant results, but we did not correct for the number of tests we’ve made, and what we would do is to selectively reporting our strong results. In fact, we can do something very simple to convince ourselves that our results do not make much sense: just run the code again, but reporting significant positive correlations…</p>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="hypothesis-testing.html#cb488-1"></a>my_results &lt;-<span class="st"> </span>correlations <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, cor <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb488-2"><a href="hypothesis-testing.html#cb488-2"></a><span class="kw">ggplot</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(my_results)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb488-3"><a href="hypothesis-testing.html#cb488-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="dt">y =</span> <span class="st">`</span><span class="dt">F</span><span class="st">`</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb488-4"><a href="hypothesis-testing.html#cb488-4"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb488-5"><a href="hypothesis-testing.html#cb488-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb488-6"><a href="hypothesis-testing.html#cb488-6"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Sport, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-183-1.png" width="672" /></p>
+<p>You can see that we’ve got about the same number of sports testing significant for positive correlation! <strong>Bonus question</strong> what about figure skating?</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="distributions-and-their-properties.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="review-of-linear-algebra.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
