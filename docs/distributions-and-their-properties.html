@@ -478,10 +478,10 @@ The calculation for two continuous random variables is analogous, only with inte
 <span id="cb424-2"><a href="distributions-and-their-properties.html#cb424-2"></a>unif.sample &lt;-<span class="st"> </span><span class="kw">runif</span>(n, low, high) <span class="co"># generate sample</span></span>
 <span id="cb424-3"><a href="distributions-and-their-properties.html#cb424-3"></a>unif.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(unif.sample)</span>
 <span id="cb424-4"><a href="distributions-and-their-properties.html#cb424-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of uniform distribution is&quot;</span>, unif.exp)</span></code></pre></div>
-<pre><code>## [1] &quot;The expected value of uniform distribution is 5.01316067582928&quot;</code></pre>
+<pre><code>## [1] &quot;The expected value of uniform distribution is 4.89792103446554&quot;</code></pre>
 <div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="distributions-and-their-properties.html#cb426-1"></a>unif.var &lt;-<span class="st"> </span><span class="kw">var</span>(unif.sample)</span>
 <span id="cb426-2"><a href="distributions-and-their-properties.html#cb426-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of uniform distribution is&quot;</span>, unif.var)</span></code></pre></div>
-<pre><code>## [1] &quot;The variance of uniform distribution is 8.50730832202455&quot;</code></pre>
+<pre><code>## [1] &quot;The variance of uniform distribution is 8.49169853840728&quot;</code></pre>
 <p><em>Exercise:</em> experiment with the width of the interval to see how it affects the expectation and variance.</p>
 </div>
 <div id="exponential" class="section level3">
@@ -500,10 +500,10 @@ The calculation for two continuous random variables is analogous, only with inte
 <span id="cb429-2"><a href="distributions-and-their-properties.html#cb429-2"></a>exp.sample &lt;-<span class="st"> </span><span class="kw">rexp</span>(n, r) <span class="co"># generate sample</span></span>
 <span id="cb429-3"><a href="distributions-and-their-properties.html#cb429-3"></a>exp.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(exp.sample)</span>
 <span id="cb429-4"><a href="distributions-and-their-properties.html#cb429-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of exponential distribution is&quot;</span>, exp.exp)</span></code></pre></div>
-<pre><code>## [1] &quot;The expected value of exponential distribution is 1.89561013652445&quot;</code></pre>
+<pre><code>## [1] &quot;The expected value of exponential distribution is 2.06185194428174&quot;</code></pre>
 <div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="distributions-and-their-properties.html#cb431-1"></a>exp.var &lt;-<span class="st"> </span><span class="kw">var</span>(exp.sample)</span>
 <span id="cb431-2"><a href="distributions-and-their-properties.html#cb431-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of exponential distribution is&quot;</span>, exp.var)</span></code></pre></div>
-<pre><code>## [1] &quot;The variance of exponential distribution is 3.84043765951327&quot;</code></pre>
+<pre><code>## [1] &quot;The variance of exponential distribution is 4.75507317352796&quot;</code></pre>
 <p><em>Exercise:</em> What is the relationship between the rate and the expectation and variance?</p>
 </div>
 <div id="normal-distribution" class="section level3">
@@ -530,10 +530,10 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span id="cb434-2"><a href="distributions-and-their-properties.html#cb434-2"></a>norm.sample &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, mu, sigma) <span class="co"># generate sample</span></span>
 <span id="cb434-3"><a href="distributions-and-their-properties.html#cb434-3"></a>norm.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(norm.sample)</span>
 <span id="cb434-4"><a href="distributions-and-their-properties.html#cb434-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of normal distribution is&quot;</span>, norm.exp)</span></code></pre></div>
-<pre><code>## [1] &quot;The expected value of normal distribution is 4.98792777353128&quot;</code></pre>
+<pre><code>## [1] &quot;The expected value of normal distribution is 5.01314201902778&quot;</code></pre>
 <div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="distributions-and-their-properties.html#cb436-1"></a>norm.var &lt;-<span class="st"> </span><span class="kw">var</span>(norm.sample)</span>
 <span id="cb436-2"><a href="distributions-and-their-properties.html#cb436-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of normal distribution is&quot;</span>, norm.var)</span></code></pre></div>
-<pre><code>## [1] &quot;The variance of normal distribution is 0.242840916383037&quot;</code></pre>
+<pre><code>## [1] &quot;The variance of normal distribution is 0.241323575273243&quot;</code></pre>
 </div>
 </div>
 <div id="application-of-normal-distribution-confidence-intervals" class="section level2">
@@ -570,9 +570,9 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span id="cb443-6"><a href="distributions-and-their-properties.html#cb443-6"></a>left &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">+</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</span>
 <span id="cb443-7"><a href="distributions-and-their-properties.html#cb443-7"></a>right &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">-</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</span>
 <span id="cb443-8"><a href="distributions-and-their-properties.html#cb443-8"></a><span class="kw">print</span>(right)</span></code></pre></div>
-<pre><code>## [1] 0.5949805</code></pre>
+<pre><code>## [1] 0.5429029</code></pre>
 <div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="distributions-and-their-properties.html#cb445-1"></a><span class="kw">print</span>(left)</span></code></pre></div>
-<pre><code>## [1] 0.4728332</code></pre>
+<pre><code>## [1] 0.422343</code></pre>
 <p><em>Exercise:</em> Modify that script to report whether the confidence interval captures the true mean. Use a loop structure (as in the script above) to generate 1000 sample means and report how many of them are within the theoretical confidence interval. Does this match the fraction you expect from the significance level? Try different significance levels and sample sizes and report what you discover.</p>
 </div>
 <div id="identifying-type-of-distribution-in-real-data" class="section level2">
@@ -611,8 +611,8 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span id="cb457-4"><a href="distributions-and-their-properties.html#cb457-4"></a><span class="co"># note the slight discrepancies</span></span>
 <span id="cb457-5"><a href="distributions-and-their-properties.html#cb457-5"></a><span class="kw">print</span>(my_normal)</span></code></pre></div>
 <pre><code>##       mean          sd    
-##   2.87958414   1.44911693 
-##  (0.06480648) (0.04582510)</code></pre>
+##   2.93388519   1.47467868 
+##  (0.06594964) (0.04663343)</code></pre>
 <div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="distributions-and-their-properties.html#cb459-1"></a><span class="kw">ggplot</span>(test_data, <span class="kw">aes</span>(<span class="dt">sample =</span> x)) <span class="op">+</span></span>
 <span id="cb459-2"><a href="distributions-and-their-properties.html#cb459-2"></a><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
 <span id="cb459-3"><a href="distributions-and-their-properties.html#cb459-3"></a><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
