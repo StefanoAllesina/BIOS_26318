@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 8 Linear models | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 8 Linear models | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 8 Linear models | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-10-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="review-of-linear-algebra.html"/>
+<link rel="next" href="likelihood-and-bayes.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
+<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
+<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
+<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
+<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
+<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
+<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
+<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
+<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
+<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
+<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
+<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
+<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
+<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
+<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
+<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
+<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
+<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
+<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
+<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
+<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
+<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a><ul>
+<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
+<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
+<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
+<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
+<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
+<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
+<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
+<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#corrections-for-multiple-comparisons"><i class="fa fa-check"></i><b>6.5</b> Corrections for multiple comparisons</a></li>
+<li class="chapter" data-level="6.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#two-problems-with-science"><i class="fa fa-check"></i><b>6.6</b> Two problems with science</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#selective-reporting"><i class="fa fa-check"></i><b>6.6.1</b> Selective reporting</a></li>
+<li class="chapter" data-level="6.6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#p-hacking"><i class="fa fa-check"></i><b>6.6.2</b> P-hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#readings"><i class="fa fa-check"></i><b>6.7</b> Readings</a></li>
+<li class="chapter" data-level="6.8" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#how-to-fool-yourself-with-p-hacking-and-possibly-get-fired"><i class="fa fa-check"></i><b>6.8</b> How to fool yourself with p-hacking (and possibly get fired!)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html"><i class="fa fa-check"></i><b>7</b> Review of linear algebra</a><ul>
+<li class="chapter" data-level="7.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#solving-multivariate-linear-equations"><i class="fa fa-check"></i><b>7.1</b> Solving multivariate linear equations</a></li>
+<li class="chapter" data-level="7.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#fitting-a-line-to-data"><i class="fa fa-check"></i><b>7.2</b> Fitting a line to data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#least-squares-line"><i class="fa fa-check"></i><b>7.2.1</b> Least-squares line</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linearity-and-vector-spaces"><i class="fa fa-check"></i><b>7.3</b> Linearity and vector spaces</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linear-independence-and-basis-vectors"><i class="fa fa-check"></i><b>7.3.1</b> Linear independence and basis vectors</a></li>
+<li class="chapter" data-level="7.3.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#projections-and-changes-of-basis"><i class="fa fa-check"></i><b>7.3.2</b> Projections and changes of basis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-as-linear-operators"><i class="fa fa-check"></i><b>7.4</b> Matrices as linear operators</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-transform-vectors"><i class="fa fa-check"></i><b>7.4.1</b> Matrices transform vectors</a></li>
+<li class="chapter" data-level="7.4.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#calculating-eigenvalues"><i class="fa fa-check"></i><b>7.4.2</b> calculating eigenvalues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>8</b> Linear models</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-models.html"><a href="linear-models.html#regression-toward-the-mean"><i class="fa fa-check"></i><b>8.1</b> Regression toward the mean</a></li>
+<li class="chapter" data-level="8.2" data-path="linear-models.html"><a href="linear-models.html#finding-the-best-fitting-line-linear-regression"><i class="fa fa-check"></i><b>8.2</b> Finding the best fitting line: Linear Regression</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="linear-models.html"><a href="linear-models.html#solving-a-linear-model-some-linear-algebra"><i class="fa fa-check"></i><b>8.2.1</b> Solving a linear model — some linear algebra</a></li>
+<li class="chapter" data-level="8.2.2" data-path="linear-models.html"><a href="linear-models.html#minimizing-the-sum-of-squares"><i class="fa fa-check"></i><b>8.2.2</b> Minimizing the sum of squares</a></li>
+<li class="chapter" data-level="8.2.3" data-path="linear-models.html"><a href="linear-models.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>8.2.3</b> Assumptions of linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="linear-models.html"><a href="linear-models.html#linear-regression-in-action"><i class="fa fa-check"></i><b>8.3</b> Linear regression in action</a></li>
+<li class="chapter" data-level="8.4" data-path="linear-models.html"><a href="linear-models.html#a-regression-gone-wild"><i class="fa fa-check"></i><b>8.4</b> A regression gone wild</a></li>
+<li class="chapter" data-level="8.5" data-path="linear-models.html"><a href="linear-models.html#more-advanced-topics"><i class="fa fa-check"></i><b>8.5</b> More advanced topics</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="linear-models.html"><a href="linear-models.html#categorical-variables-in-linear-models"><i class="fa fa-check"></i><b>8.5.1</b> Categorical variables in linear models</a></li>
+<li class="chapter" data-level="8.5.2" data-path="linear-models.html"><a href="linear-models.html#interactions-in-linear-models"><i class="fa fa-check"></i><b>8.5.2</b> Interactions in linear models</a></li>
+<li class="chapter" data-level="8.5.3" data-path="linear-models.html"><a href="linear-models.html#regression-diagnostics"><i class="fa fa-check"></i><b>8.5.3</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="8.5.4" data-path="linear-models.html"><a href="linear-models.html#plotting-the-residuals"><i class="fa fa-check"></i><b>8.5.4</b> Plotting the residuals</a></li>
+<li class="chapter" data-level="8.5.5" data-path="linear-models.html"><a href="linear-models.html#q-q-plot"><i class="fa fa-check"></i><b>8.5.5</b> Q-Q Plot</a></li>
+<li class="chapter" data-level="8.5.6" data-path="linear-models.html"><a href="linear-models.html#cooks-distance"><i class="fa fa-check"></i><b>8.5.6</b> Cook’s distance</a></li>
+<li class="chapter" data-level="8.5.7" data-path="linear-models.html"><a href="linear-models.html#leverage"><i class="fa fa-check"></i><b>8.5.7</b> Leverage</a></li>
+<li class="chapter" data-level="8.5.8" data-path="linear-models.html"><a href="linear-models.html#running-all-diagnostics"><i class="fa fa-check"></i><b>8.5.8</b> Running all diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="linear-models.html"><a href="linear-models.html#transforming-the-data"><i class="fa fa-check"></i><b>8.6</b> Transforming the data</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
+<li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
+<li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-thinking"><i class="fa fa-check"></i><b>9.2</b> Bayesian thinking</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayes-formula"><i class="fa fa-check"></i><b>9.2.1</b> Bayes’ formula</a></li>
+<li class="chapter" data-level="9.2.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#positive-predictive-value"><i class="fa fa-check"></i><b>9.2.2</b> positive predictive value</a></li>
+<li class="chapter" data-level="9.2.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#prosecutors-fallacy"><i class="fa fa-check"></i><b>9.2.3</b> prosecutor’s fallacy</a></li>
+<li class="chapter" data-level="9.2.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reproducibility-in-science"><i class="fa fa-check"></i><b>9.2.4</b> reproducibility in science</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>9.3</b> Bayesian inference</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#example-capture-recapture"><i class="fa fa-check"></i><b>9.3.1</b> Example: capture-recapture</a></li>
+<li class="chapter" data-level="9.3.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#mcmc"><i class="fa fa-check"></i><b>9.3.2</b> MCMC</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>9.4</b> Reading:</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="linear-models" class="section level1">
+<h1><span class="header-section-number">Lecture 8</span> Linear models</h1>
+<p>Learn how to perform linear regression, how to make sure that the assumptions of the model are not violated, and how to interpret the results.</p>
+<p>Note that we need a new library:</p>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="linear-models.html#cb519-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb519-2"><a href="linear-models.html#cb519-2"></a><span class="kw">library</span>(lindia) <span class="co"># regression diagnostic in ggplot2</span></span></code></pre></div>
+<div id="regression-toward-the-mean" class="section level2">
+<h2><span class="header-section-number">8.1</span> Regression toward the mean</h2>
+<p>Francis Galton (Darwin’s half-cousin) was a biologist interested in evolution, and one of the main proponents of eugenics (he coined the term himself). To advance his research program, he set out to measure several features in human populations, and started trying to explain the variation he observed, incidentally becoming one of the founding fathers of modern statistics.</p>
+<p>In his “Regression towards mediocrity in hereditary stature” he showed an interesting pattern: children of tall parents tended to be shorter than their parents, while children of short parents tended to be taller than their parents. He called this phenomoenon “regression toward mediocrity” (now called regression toward [to] the mean).</p>
+<p>We’re going to explore this phenomenon using Karl Pearson’s (another founding father of statistics) data from 1903, recording the height of fathers and sons:</p>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="linear-models.html#cb520-1"></a>heights &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;http://www.randomservices.org/random/data/Pearson.txt&quot;</span>)</span>
+<span id="cb520-2"><a href="linear-models.html#cb520-2"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> heights) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Father, <span class="dt">y =</span> Son) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>()</span>
+<span id="cb520-3"><a href="linear-models.html#cb520-3"></a>pl</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-198-1.png" width="672" /></p>
+<p>Let’s add the 1:1 line for comparison:</p>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="linear-models.html#cb521-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-199-1.png" width="672" /></p>
+<p>You can see that the sons tend to be taller than their fathers. Let’s see of how much:</p>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="linear-models.html#cb522-1"></a><span class="kw">mean</span>(heights<span class="op">$</span>Father)</span></code></pre></div>
+<pre><code>## [1] 67.68683</code></pre>
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="linear-models.html#cb524-1"></a><span class="kw">mean</span>(heights<span class="op">$</span>Son)</span></code></pre></div>
+<pre><code>## [1] 68.68423</code></pre>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="linear-models.html#cb526-1"></a><span class="co"># difference</span></span>
+<span id="cb526-2"><a href="linear-models.html#cb526-2"></a><span class="kw">mean</span>(heights<span class="op">$</span>Son) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(heights<span class="op">$</span>Father)</span></code></pre></div>
+<pre><code>## [1] 0.9974026</code></pre>
+<p>So let’s add a line with an intercept of 1:</p>
+<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="linear-models.html#cb528-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb528-2"><a href="linear-models.html#cb528-2"></a>pl</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-201-1.png" width="672" /></p>
+<p>You can see that the line does not divide the cloud of points evenly: even though tall fathers tend to produce tall sons, and short fathers short sons, the sons of short fathers tend to be taller than their fathers (for example, look at the sons of fathers less than 60 inches tall), while the sons of tall fathers tend to be shorter than their fathers (for example, the sons of fathers taller than 75 inches).</p>
+<p>This phenomenon is called “regression toward the mean”: when you take two measurement on the same sample (or related samples, as here), if a variable is extreme on its first measurement, it will tend to be closer to the average on its second measurement; if it is extreme on its second measurement, it will tend to have been closer to the average on its first.</p>
+<blockquote>
+<p><strong>Regression to the mean: dangers of interpretation</strong></p>
+</blockquote>
+<ul>
+<li>A city sees an unusual growth of crime in a given neighborhood, and they decide to patrol the neighborhood more heavily. The next year, crime rates are close to normal. Was this due to heavy presence of police?</li>
+<li>A teacher sees that scolding students who’ve had a very low score in a test makes them perform better in the next test. (But would praising those with unusually high scores lead to slacking off in the next test?)</li>
+<li>A huge problem in science: effect sizes tend to decrease through time. Problem of selective reporting?</li>
+</ul>
+<p>This phenomemon gave the name to one of the simplest statistical models: the linear regression.</p>
+</div>
+<div id="finding-the-best-fitting-line-linear-regression" class="section level2">
+<h2><span class="header-section-number">8.2</span> Finding the best fitting line: Linear Regression</h2>
+<p>How can we explain the relationship between the height of the faters and those of their sons? One of the simplest models we can use is called a “Linear Model”. Basically, we want to express the height of the son as a function of the height of the father:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+\]</span></p>
+<p>where <span class="math inline">\(y_i\)</span> is the height of the son (<strong>response variable</strong>), <span class="math inline">\(x_i\)</span> is the height of the father (<strong>explanatory variable</strong>), <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are two numbers (intercept and slope of the line) that do not vary within the population (these are the parameters we want to fit). Finally, the term <span class="math inline">\(\epsilon_i\)</span> measures the “error” we are making for the <span class="math inline">\(i^{th}\)</span> son. For simplicity, we assume the <span class="math inline">\(\epsilon_i \overset{\text{iid}}{\sim} \mathcal N(0, \sigma^2)\)</span> (and <span class="math inline">\(\sigma\)</span> is therefore another parameter we want to fit).</p>
+<p>When we have multiple explanatory variables (for example, if we had recorded also the height of the mother, whether the son was born at full term or premature, the average caloric intake for the family, etc.), we speak of <strong>Multiple Linear Regression</strong>:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
+\]</span></p>
+<div id="solving-a-linear-model-some-linear-algebra" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> Solving a linear model — some linear algebra</h3>
+<p>In this section, we’re going to look at the mechanics of linear regression. Suppose that for simplicity we have a single explanatory variable, then we can write the linear model in compact form as:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \mathbf{X} \mathbf{\beta} + \mathbf{\epsilon}
+\]</span></p>
+<p>where:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix} \;\;\; 
+\mathbf{X} = \begin{pmatrix} 1 &amp; x_1\\ 1 &amp; x_2\\ \vdots &amp; \vdots \\ 1 &amp; x_n \end{pmatrix}
+ \;\;\; 
+\mathbf{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1\end{pmatrix} \;\;\; \mathbf{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix}
+\]</span></p>
+<p>Solving the linear regression means finding the best-fitting <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\sigma\)</span> (controlling the spread of the distribution of the <span class="math inline">\(\epsilon_i\)</span>). Our goal is to find the values of <span class="math inline">\(\beta\)</span> that minimize <span class="math inline">\(\sigma\)</span> (meaning that the points fall closer to the line). Rearranging:</p>
+<p><span class="math display">\[
+\sum_i \epsilon_i^2 = \sum_i (y_i - \beta_0 - \beta_1 x_i)^2 =  \Vert \mathbf{Y} - \mathbf{X} \mathbf{\beta} \Vert
+\]</span></p>
+<p>As such, we want to find the vector <span class="math inline">\(\beta\)</span> that minimizes the norm <span class="math inline">\(\Vert \mathbf{Y} - \mathbf{X} \mathbf{\beta} \Vert\)</span>. One can prove that this is accomplished using:</p>
+<p><span class="math display">\[
+\hat{\mathbf{\beta}} = \left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T \mathbf{Y}
+\]</span></p>
+<p>Where the matrix <span class="math inline">\(\left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T\)</span> is known as the (left) Moore-Penrose pseudo-inverse of <span class="math inline">\(\mathbf{X}\)</span>. Let’s try to do this in <code>R</code> (the “hard” way):</p>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="linear-models.html#cb529-1"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, heights<span class="op">$</span>Father)</span>
+<span id="cb529-2"><a href="linear-models.html#cb529-2"></a>Y &lt;-<span class="st"> </span><span class="kw">cbind</span>(heights<span class="op">$</span>Son)</span>
+<span id="cb529-3"><a href="linear-models.html#cb529-3"></a>best_beta &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y</span>
+<span id="cb529-4"><a href="linear-models.html#cb529-4"></a>best_beta</span></code></pre></div>
+<pre><code>##            [,1]
+## [1,] 33.8928005
+## [2,]  0.5140059</code></pre>
+<p>We find that the best fitting line has an intercept of about 34 inches, and a slope of 0.51. Of course, <code>R</code> can do this calculation for you with just one command:</p>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="linear-models.html#cb531-1"></a>best_beta_easy &lt;-<span class="st"> </span><span class="kw">lm</span>(Son <span class="op">~</span><span class="st"> </span>Father, <span class="dt">data =</span> heights)</span>
+<span id="cb531-2"><a href="linear-models.html#cb531-2"></a>best_beta_easy</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Son ~ Father, data = heights)
+## 
+## Coefficients:
+## (Intercept)       Father  
+##      33.893        0.514</code></pre>
+<p>But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:</p>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="linear-models.html#cb533-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="co"># lm stands for linear model</span></span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-204-1.png" width="672" /></p>
+</div>
+<div id="minimizing-the-sum-of-squares" class="section level3">
+<h3><span class="header-section-number">8.2.2</span> Minimizing the sum of squares</h3>
+<p>What we just did is called “ordinary least-squares”: we are trying to minimize the distance from the data points to their projection on the best-fitting line. We can compute the “predicted” heights as:</p>
+<p><span class="math display">\[
+\hat{\mathbf{Y}} = \mathbf{X}\hat{\mathbf{\beta}}
+\]</span></p>
+<p>Then, we’re minimizing <span class="math inline">\(\Vert \mathbf{Y} - \hat{\mathbf{Y}}\Vert\)</span>. We call <span class="math inline">\(\hat{\mathbf{\epsilon}} = \mathbf{Y} - \hat{\mathbf{Y}}\)</span> the vector of <strong>residuals</strong>. From this, we can estimate the final parameter, <span class="math inline">\(\sigma\)</span>:</p>
+<p><span class="math display">\[
+\sigma = \sqrt{\frac{\sum_i \hat{\epsilon_i}^2}{n -  p}}
+\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the number of data points, and <span class="math inline">\(p\)</span> is the number of parameters in <span class="math inline">\(\mathbf{\beta}\)</span> (2 in this case); this measures the number of <strong>degrees of freedom</strong>. Let’s try to compute it:</p>
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="linear-models.html#cb534-1"></a>degrees_of_freedom &lt;-<span class="st"> </span><span class="kw">length</span>(Y) <span class="op">-</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb534-2"><a href="linear-models.html#cb534-2"></a>degrees_of_freedom</span></code></pre></div>
+<pre><code>## [1] 1076</code></pre>
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="linear-models.html#cb536-1"></a>epsilon_hat &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>best_beta <span class="op">-</span><span class="st"> </span>Y</span>
+<span id="cb536-2"><a href="linear-models.html#cb536-2"></a>sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(epsilon_hat<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>degrees_of_freedom)</span>
+<span id="cb536-3"><a href="linear-models.html#cb536-3"></a>sigma</span></code></pre></div>
+<pre><code>## [1] 2.438134</code></pre>
+<p>In <code>R</code>, you will find this reported as the <code>Residual standard error</code> when you call <code>summary</code> on your model:</p>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="linear-models.html#cb538-1"></a><span class="kw">summary</span>(best_beta_easy)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Son ~ Father, data = heights)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.8910 -1.5361 -0.0092  1.6359  8.9894 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 33.89280    1.83289   18.49   &lt;2e-16 ***
+## Father       0.51401    0.02706   19.00   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.438 on 1076 degrees of freedom
+## Multiple R-squared:  0.2512, Adjusted R-squared:  0.2505 
+## F-statistic: 360.9 on 1 and 1076 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Finally, the <strong>coefficient of determination</strong> <span class="math inline">\(R^2\)</span> is computed as:</p>
+<p><span class="math display">\[
+R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
+\]</span></p>
+<p>where <span class="math inline">\(\bar{y}\)</span> is the mean of <span class="math inline">\(y_i\)</span>. If the regression has an intercept, then the <span class="math inline">\(R^2\)</span> can vary between 0 and 1, with values close to 1 indicating a good fit to the data. Again, let’s compute it the hard way and then the easy way:</p>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="linear-models.html#cb540-1"></a>y_bar &lt;-<span class="st"> </span><span class="kw">mean</span>(Y)</span>
+<span id="cb540-2"><a href="linear-models.html#cb540-2"></a>R_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sum</span>((X <span class="op">%*%</span><span class="st"> </span>best_beta <span class="op">-</span><span class="st"> </span>y_bar)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>((Y <span class="op">-</span><span class="st"> </span>y_bar)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb540-3"><a href="linear-models.html#cb540-3"></a>R_<span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.251164</code></pre>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="linear-models.html#cb542-1"></a><span class="co"># look for Multiple R-squared:</span></span>
+<span id="cb542-2"><a href="linear-models.html#cb542-2"></a><span class="kw">summary</span>(best_beta_easy)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Son ~ Father, data = heights)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.8910 -1.5361 -0.0092  1.6359  8.9894 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 33.89280    1.83289   18.49   &lt;2e-16 ***
+## Father       0.51401    0.02706   19.00   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.438 on 1076 degrees of freedom
+## Multiple R-squared:  0.2512, Adjusted R-squared:  0.2505 
+## F-statistic: 360.9 on 1 and 1076 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="assumptions-of-linear-regression" class="section level3">
+<h3><span class="header-section-number">8.2.3</span> Assumptions of linear regression</h3>
+<p>In practice, when we are performing a linear regression, we are making a number of assumptions about the data. Here are the main ones:</p>
+<ul>
+<li>Model structure: we assume that the process generating the data is linear.</li>
+<li>Explanatory variable: we assume that this is measured without errors (!).</li>
+<li>Residuals: we assume that residuals are i.i.d. Normal.</li>
+<li>Strict exogeneity: the residuals should have conditional mean of 0.</li>
+</ul>
+<p><span class="math display">\[
+\mathbb E[\epsilon_i | x_i] = 0
+\]</span></p>
+<ul>
+<li>No linear dependence: the columns of <span class="math inline">\(\mathbf{X}\)</span> should be linearly independent.</li>
+<li>Homoscedasticity: the variance of the residuals is independent of <span class="math inline">\(x_i\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\mathbb V[\epsilon_i | x_i] =  \sigma^2
+\]</span></p>
+<ul>
+<li>Errors are uncorrelated between observations.</li>
+</ul>
+<p><span class="math display">\[
+\mathbb E[\epsilon_i \epsilon_j | x] = 0 \; \forall j \neq i
+\]</span></p>
+</div>
+</div>
+<div id="linear-regression-in-action" class="section level2">
+<h2><span class="header-section-number">8.3</span> Linear regression in action</h2>
+<p>To perform a slightly more complicated linear regression, we take the data from:</p>
+<blockquote>
+<p>Piwowar HA, Day RS, Fridsma DB (2007) <a href="https://doi.org/10.1371/journal.pone.0000308">Sharing detailed research data is associated with increased citation rate</a>. PLoS ONE 2(3): e308.</p>
+</blockquote>
+<p>The authors set out to demonstrate that sharing data accompanying papers tends to increase the number of citations received by the paper.</p>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="linear-models.html#cb544-1"></a><span class="co"># original url </span></span>
+<span id="cb544-2"><a href="linear-models.html#cb544-2"></a><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g</span></span>
+<span id="cb544-3"><a href="linear-models.html#cb544-3"></a>dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Piwowar_2011.csv&quot;</span>) </span>
+<span id="cb544-4"><a href="linear-models.html#cb544-4"></a><span class="co"># rename variables for easier handling</span></span>
+<span id="cb544-5"><a href="linear-models.html#cb544-5"></a>dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">IF =</span> <span class="st">`</span><span class="dt">Impact factor of journal</span><span class="st">`</span>, </span>
+<span id="cb544-6"><a href="linear-models.html#cb544-6"></a>                      <span class="dt">NCIT =</span> <span class="st">`</span><span class="dt">Number of Citations in first 24 months after publication</span><span class="st">`</span>, </span>
+<span id="cb544-7"><a href="linear-models.html#cb544-7"></a>                      <span class="dt">SHARE =</span> <span class="st">`</span><span class="dt">Is the microarray data publicly available</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb544-8"><a href="linear-models.html#cb544-8"></a><span class="st">      </span><span class="kw">select</span>(NCIT, IF, SHARE)</span></code></pre></div>
+<p>First, let’s run a model in which the logarithm of the number of citations + 1 is regressed against the “Impact Factor” of the journal (which is a measure of “prestige” based on the average number of citations per paper received):</p>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="linear-models.html#cb545-1"></a>my_model &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(NCIT <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(IF <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">data =</span> dat)</span>
+<span id="cb545-2"><a href="linear-models.html#cb545-2"></a><span class="kw">summary</span>(my_model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log(NCIT + 1) ~ log(IF + 1), data = dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.65443 -0.44272 -0.00769  0.43414  1.62817 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.1046     0.2951   0.355    0.724    
+## log(IF + 1)   1.2920     0.1196  10.802   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.6887 on 83 degrees of freedom
+## Multiple R-squared:  0.5844, Adjusted R-squared:  0.5794 
+## F-statistic: 116.7 on 1 and 83 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>You can see that the higher the impact factor, the higher the number of citations received (unsurprisingly!). Now let’s add another variable, detailing whether publicly available data accompany the paper:</p>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="linear-models.html#cb547-1"></a>my_model2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(NCIT <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(IF <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>SHARE, <span class="dt">data =</span> dat)</span>
+<span id="cb547-2"><a href="linear-models.html#cb547-2"></a><span class="kw">summary</span>(my_model2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log(NCIT + 1) ~ log(IF + 1) + SHARE, data = dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.98741 -0.43768  0.08726  0.41847  1.35634 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.4839     0.3073   1.575  0.11918    
+## log(IF + 1)   1.0215     0.1442   7.084  4.4e-10 ***
+## SHARE         0.5519     0.1802   3.062  0.00297 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.6564 on 82 degrees of freedom
+## Multiple R-squared:  0.627,  Adjusted R-squared:  0.6179 
+## F-statistic: 68.92 on 2 and 82 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We find that sharing data is associated with a larger number of citations.</p>
+</div>
+<div id="a-regression-gone-wild" class="section level2">
+<h2><span class="header-section-number">8.4</span> A regression gone wild</h2>
+<p>Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in <em>Nature</em> (no less!) by Tatem <em>et al</em>. You can find the study <a href="https://www.nature.com/articles/431525a">here</a>. Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:</p>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="linear-models.html#cb549-1"></a>olympics &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/100m_dash.csv&quot;</span>)</span></code></pre></div>
+<p>Then, they fitted a linear regression through the points, for both men and women. So far, so good:</p>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="linear-models.html#cb550-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb550-2"><a href="linear-models.html#cb550-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb550-3"><a href="linear-models.html#cb550-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-213-1.png" width="672" /></p>
+<p>The fit is quite good:</p>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="linear-models.html#cb551-1"></a><span class="kw">summary</span>(<span class="kw">lm</span>(Result <span class="op">~</span><span class="st"> </span>Year<span class="op">*</span>Gender,</span>
+<span id="cb551-2"><a href="linear-models.html#cb551-2"></a>  <span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Result ~ Year * Gender, data = olympics %&gt;% filter(Year &gt; 
+##     1899, Year &lt; 2005))
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.38617 -0.05428 -0.00071  0.08239  0.32174 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  31.808278   2.179491  14.594  &lt; 2e-16 ***
+## Year         -0.010997   0.001116  -9.855 1.24e-11 ***
+## GenderW      10.952646   4.371678   2.505   0.0170 *  
+## Year:GenderW -0.005011   0.002228  -2.249   0.0309 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1707 on 35 degrees of freedom
+## Multiple R-squared:  0.9304, Adjusted R-squared:  0.9244 
+## F-statistic: 155.9 on 3 and 35 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>An <span class="math inline">\(R^2\)</span> of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward:</p>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="linear-models.html#cb553-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb553-2"><a href="linear-models.html#cb553-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb553-3"><a href="linear-models.html#cb553-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb553-4"><a href="linear-models.html#cb553-4"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">1890</span>, <span class="dv">2200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">13</span>))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-215-1.png" width="672" /></p>
+<p>You can see that the lines are touching in sometimes before 2200! Then women will overrun men.</p>
+<p>There are a number of things that are wrong with this result. First, by the same logic, computers will soon go faster than the speed of light, the number of people on planet Earth will be in the hundreds of billions, and the price of sequencing will drop so much that we will be paid instead of paying to get our samples sequenced…</p>
+<p>Second, if we extend backwards, rather than forward, we would find that Roman women would take more than a minute to run 100m (possibly, because of the uncomfortable tunics and sandals…).</p>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="linear-models.html#cb554-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb554-2"><a href="linear-models.html#cb554-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb554-3"><a href="linear-models.html#cb554-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb554-4"><a href="linear-models.html#cb554-4"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">2000</span>, <span class="dv">2200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">75</span>))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-216-1.png" width="672" /></p>
+<p>As Neil Bohr allegedly said (but this is disputed), “Prediction is very difficult, especially about the future”. The fact is that any non-linear curve looks quite linear if we are only considering a small range of values on the x-axis. To prove this point, let’s add the data from 2004 to today:</p>
+<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="linear-models.html#cb555-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb555-2"><a href="linear-models.html#cb555-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb555-3"><a href="linear-models.html#cb555-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb555-4"><a href="linear-models.html#cb555-4"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">1890</span>, <span class="dv">2400</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">13</span>))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-217-1.png" width="672" /></p>
+<p>You can see that the process has already slowed down: now it would take an extra century before the “momentous sprint”.</p>
+<p>So many things were wrong with this short paper, that <em>Nature</em> was showered with replies. My favorite is from a Cambridge statistician (the Authors were from Oxford, ça va sans dire); it is perfectly short and venomous—a good candidate for the Nobel prize in Literature!</p>
+<blockquote>
+<p>Sir — A. J. Tatem and colleagues calculate that women may outsprint men by the
+middle of the twenty-second century (Nature 431, 525; 2004). They omit to mention, however, that (according to their analysis) a far more interesting race should
+occur in about 2636, when times of less than zero seconds will be recorded.
+In the intervening 600 years, the authors may wish to address the obvious
+challenges raised for both time-keeping and the teaching of basic statistics.
+— Kenneth Rice</p>
+</blockquote>
+</div>
+<div id="more-advanced-topics" class="section level2">
+<h2><span class="header-section-number">8.5</span> More advanced topics</h2>
+<div id="categorical-variables-in-linear-models" class="section level3">
+<h3><span class="header-section-number">8.5.1</span> Categorical variables in linear models</h3>
+<p>In the example above, we have built the model:</p>
+<p><span class="math display">\[
+ \log(\text{NCIT} + 1) = \beta_0 + \beta_1 (\log(\text{IF} + 1))_i + \beta_2 (\text{SHARE})_i + \epsilon_i
+\]</span></p>
+<p>In this case, the variable SHARE takes values of 1 or 0. As such, when the data were not shared (SHARE = 0) the model reduces to the previous one, in which <span class="math inline">\(\beta_2\)</span> was absent. The coefficient <span class="math inline">\(\beta_2\)</span> measures the increase in the log of citation count when data are shared.</p>
+<p>The same approach can be taken whenever you have categorical values: <code>R</code> will automatically create <strong>dummy variables</strong> each encoding whether the ith data point belongs to a particular category. For example, suppose you want to predict the height of a child based on the height of the father, and that you also collected the gender, in three categories: <code>F</code> for female, <code>M</code> for male, <code>U</code> for unknown. Then you could use this information to build the model:</p>
+<p><span class="math display">\[
+ \text{height}_i = \beta_0 + \beta_1 \text{(height of father)}_i + \beta_2 (\text{gender is M})_i + \beta_3 (\text{gender is U})_i + \epsilon_i
+\]</span></p>
+<p>where the variable <code>gender is M</code> takes value 1 when the gender is <code>M</code> and 0 otherwise, and <code>gender is U</code> takes value 1 when the gender is unknown and 0 otherwise. As such, when the gender is <code>F</code> both variables will be zero, and <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> measure the increase (or decrease) in height for males and those with unspecified gender, respectively. While <code>R</code> does this for you automatically, understanding what is going on “under the hood” is essential for interpreting the results.</p>
+</div>
+<div id="interactions-in-linear-models" class="section level3">
+<h3><span class="header-section-number">8.5.2</span> Interactions in linear models</h3>
+<p>Sometimes we think that our explanatory variables could “interact”. For example, suppose you want to predict the BMI of people. What we have available is the average caloric intake, the height, gender, and whether they are vegetarian, vegan, or omnivores. A simple model could be:</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_g \text{gender}_i + \epsilon_i
+\]</span></p>
+<p>We could add the type of diet as a factor:</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_g \text{gender}_i + \beta_d \text{diet}_i + \epsilon_i
+\]</span></p>
+<p>However, suppose that we believe the type of diet to affect differentially men and women. Then, we would like to create an “interaction” (e.g., paleo-female, vegan-male):</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_g \text{gender}_i + \beta_d \text{diet}_i + \beta_{gd} \text{gender:diet}_i + \epsilon_i
+\]</span></p>
+<p>where the colon signals “interaction”. In <code>R</code>, this would be coded as <code>lm(BMI ~ height + calories + gender * diet)</code>. A simpler model is one in which we only account for the <code>gender:diet</code> interaction, but not for the separate effects of gender and diet:</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_{gd}\text{gender:diet}_i + \epsilon_i
+\]</span></p>
+<p>which in <code>R</code> can be coded as <code>lm(BMI ~ height + calories + gender:diet)</code>. Finally, for some models you believe the intercept should be 0 (note that this makes the <span class="math inline">\(R^2\)</span> statistics uninterpretable!). In <code>R</code>, just put <code>-1</code> at the end of the definition of the model (e.g., <code>lm(BMI ~ height + calories + gender:diet - 1)</code>).</p>
+</div>
+<div id="regression-diagnostics" class="section level3">
+<h3><span class="header-section-number">8.5.3</span> Regression diagnostics</h3>
+<p>Now that we know the mechanics of linear regression, we turn to diagnostics: how can we make sure that the model fits the data “well”? We start by analyzing a data set assembled by Anscombe (<em>The American Statistician</em>, 1973)</p>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="linear-models.html#cb556-1"></a>dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Anscombe_1973.csv&quot;</span>)</span></code></pre></div>
+<p>The file comprised four data sets. We perform a linear regression using each data set separately:</p>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="linear-models.html#cb557-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_1&quot;))
+## 
+## Coefficients:
+## (Intercept)            X  
+##      3.0001       0.5001</code></pre>
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="linear-models.html#cb559-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_2&quot;))
+## 
+## Coefficients:
+## (Intercept)            X  
+##       3.001        0.500</code></pre>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="linear-models.html#cb561-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_3&quot;))
+## 
+## Coefficients:
+## (Intercept)            X  
+##      3.0025       0.4997</code></pre>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="linear-models.html#cb563-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>))</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_4&quot;))
+## 
+## Coefficients:
+## (Intercept)            X  
+##      3.0017       0.4999</code></pre>
+<p>As you can see, each data set is best fit by the same line, with intercept 3 and slope <span class="math inline">\(\frac{1}{2}\)</span>. Plotting the data, however, shows that the situation is more complicated:</p>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="linear-models.html#cb565-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dat) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y, <span class="dt">colour =</span> Data_set) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb565-2"><a href="linear-models.html#cb565-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb565-3"><a href="linear-models.html#cb565-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Data_set)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-220-1.png" width="672" /></p>
+<p><code>Data_1</code> is fitted quite well; <code>Data_2</code> shows a marked nonlinearity; all points but one in <code>Data_3</code> are on the same line, but a single <strong>outlier</strong> shifts the line considerably; finally, in <code>Data_4</code> a single point is responsible for the fitting line: all other values of <code>X</code> are exactly the same. Inspecting the graphs, we would conclude that we can trust our model only in the first case. When you are performing a multiple regression, however, it is hard to see whether we’re in case 1, or one of the other cases. <code>R</code> provides a number of diagnostic tools which can help you decide whether the fit to the data is good.</p>
+</div>
+<div id="plotting-the-residuals" class="section level3">
+<h3><span class="header-section-number">8.5.4</span> Plotting the residuals</h3>
+<p>The first thing you want to do is to plot the residuals as a function of the fitted values. This plot should make it apparent whether the data was linear or not. The package <code>lindia</code> (linear regression diagnostics) makes it easy to produce this type of plot using <code>ggplot2</code>:</p>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="linear-models.html#cb566-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-221-1.png" width="672" /></p>
+<p>What you are looking for is an approximately flat line, meaning that the residuals are approximately normally distributed with mean zero for each fitted value. This is not the case in the other data sets:</p>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="linear-models.html#cb567-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb567-2"><a href="linear-models.html#cb567-2"></a><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb567-3"><a href="linear-models.html#cb567-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-222-1.png" width="672" /></p>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="linear-models.html#cb568-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb568-2"><a href="linear-models.html#cb568-2"></a><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb568-3"><a href="linear-models.html#cb568-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-222-2.png" width="672" /></p>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="linear-models.html#cb569-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb569-2"><a href="linear-models.html#cb569-2"></a><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb569-3"><a href="linear-models.html#cb569-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-222-3.png" width="672" /></p>
+</div>
+<div id="q-q-plot" class="section level3">
+<h3><span class="header-section-number">8.5.5</span> Q-Q Plot</h3>
+<p>We can take this further, and test whether the residuals follow a normal distribution. In particular, we can estimate the density of the residuals, and plot it against the density of a normal distribution:</p>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="linear-models.html#cb570-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-1.png" width="672" /></p>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="linear-models.html#cb571-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-2.png" width="672" /></p>
+<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="linear-models.html#cb572-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-3.png" width="672" /></p>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="linear-models.html#cb573-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-4.png" width="672" /></p>
+<p>Here, you are looking for a good match to the 1:1 line; outliers will be found far from the line (e.g., case 3).</p>
+</div>
+<div id="cooks-distance" class="section level3">
+<h3><span class="header-section-number">8.5.6</span> Cook’s distance</h3>
+<p>Another way to detect outliers is to compute the Cook’s distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point.</p>
+<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="linear-models.html#cb574-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-1.png" width="672" /></p>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="linear-models.html#cb575-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-2.png" width="672" /></p>
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="linear-models.html#cb576-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-3.png" width="672" /></p>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="linear-models.html#cb577-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-4.png" width="672" /></p>
+</div>
+<div id="leverage" class="section level3">
+<h3><span class="header-section-number">8.5.7</span> Leverage</h3>
+<p>Points that strongly influence the regression are said to have much “leverage”:</p>
+<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="linear-models.html#cb578-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-1.png" width="672" /></p>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="linear-models.html#cb579-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-2.png" width="672" /></p>
+<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="linear-models.html#cb580-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-3.png" width="672" /></p>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="linear-models.html#cb581-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-4.png" width="672" /></p>
+</div>
+<div id="running-all-diagnostics" class="section level3">
+<h3><span class="header-section-number">8.5.8</span> Running all diagnostics</h3>
+<p>These are but a few of the diagnostics available. To run all diagnostics on a given model, call</p>
+<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="linear-models.html#cb582-1"></a><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-226-1.png" width="672" /></p>
+</div>
+</div>
+<div id="transforming-the-data" class="section level2">
+<h2><span class="header-section-number">8.6</span> Transforming the data</h2>
+<p>Often, one needs to transform the data before running a linear regression, in order to fulfill the assumptions. We’re going to look at the salary of professors at the University of California to show how this is done.</p>
+<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="linear-models.html#cb583-1"></a><span class="co"># read the data</span></span>
+<span id="cb583-2"><a href="linear-models.html#cb583-2"></a><span class="co"># Original URL</span></span>
+<span id="cb583-3"><a href="linear-models.html#cb583-3"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv&quot;</span>, </span>
+<span id="cb583-4"><a href="linear-models.html#cb583-4"></a>               <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;title&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;pay&quot;</span>, <span class="st">&quot;loc&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb583-5"><a href="linear-models.html#cb583-5"></a><span class="st">      </span><span class="kw">select</span>(first_name, last_name, title, loc, pay)</span>
+<span id="cb583-6"><a href="linear-models.html#cb583-6"></a><span class="co"># get only profs</span></span>
+<span id="cb583-7"><a href="linear-models.html#cb583-7"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PROF-AY&quot;</span>, <span class="st">&quot;ASSOC PROF-AY&quot;</span>, <span class="st">&quot;ASST PROF-AY&quot;</span>, </span>
+<span id="cb583-8"><a href="linear-models.html#cb583-8"></a>                                 <span class="st">&quot;PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-AY-B/E/E&quot;</span>, </span>
+<span id="cb583-9"><a href="linear-models.html#cb583-9"></a>                                 <span class="st">&quot;ASSOC PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;ASSOC PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-HCOMP&quot;</span>))</span>
+<span id="cb583-10"><a href="linear-models.html#cb583-10"></a><span class="co"># remove those making less than 30k (probably there only for a period)</span></span>
+<span id="cb583-11"><a href="linear-models.html#cb583-11"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pay <span class="op">&gt;</span><span class="st"> </span><span class="dv">30000</span>)</span>
+<span id="cb583-12"><a href="linear-models.html#cb583-12"></a>dt</span></code></pre></div>
+<pre><code>## # A tibble: 4,915 x 5
+##    first_name       last_name     title           loc               pay
+##    &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;           &lt;chr&gt;           &lt;dbl&gt;
+##  1 CHRISTOPHER U    ABANI         PROF-AY         Riverside     151200 
+##  2 HENRY DON ISAAC  ABARBANEL     PROF-AY         San Diego     160450.
+##  3 ADAM R           ABATE         ASST PROF-HCOMP San Francisco  85305.
+##  4 KEVORK N.        ABAZAJIAN     ASST PROF-AY    Irvine         82400.
+##  5 M. ACKBAR        ABBAS         PROF-AY         Irvine        168700.
+##  6 ABUL K           ABBAS         PROF-HCOMP      San Francisco 286824.
+##  7 LEONARD J        ABBEDUTO      PROF-HCOMP      Davis         200385.
+##  8 DON P            ABBOTT        PROF-AY         Davis         106400.
+##  9 GEOFFREY WINSTON ABBOTT        PROF-HCOMP      Irvine        125001.
+## 10 KHALED A.S.      ABDEL-GHAFFAR PROF-AY-B/E/E   Davis         120100.
+## # … with 4,905 more rows</code></pre>
+<p>The distribution of salaries is very skewed — it looks like a log-normal distribution:</p>
+<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="linear-models.html#cb585-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> pay) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">10000</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-228-1.png" width="672" /></p>
+<p>If we set consider the log of pay, we get closer to a normal:</p>
+<div class="sourceCode" id="cb586"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb586-1"><a href="linear-models.html#cb586-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log2</span>(pay)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-229-1.png" width="672" /></p>
+<p>We can try to explain the pay as a combination of title and location:</p>
+<div class="sourceCode" id="cb587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb587-1"><a href="linear-models.html#cb587-1"></a>unscaled &lt;-<span class="st"> </span><span class="kw">lm</span>(pay <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt)</span>
+<span id="cb587-2"><a href="linear-models.html#cb587-2"></a><span class="kw">summary</span>(unscaled)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = pay ~ title + loc, data = dt)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -149483  -25197   -1679   18305  213684 
+## 
+## Coefficients:
+##                          Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                 98397       2003  49.133  &lt; 2e-16 ***
+## titleASSOC PROF-AY-B/E/E    46898       3402  13.786  &lt; 2e-16 ***
+## titleASSOC PROF-HCOMP       25428       3955   6.430 1.40e-10 ***
+## titleASST PROF-AY          -15060       2370  -6.356 2.26e-10 ***
+## titleASST PROF-AY-B/E/E     17405       3949   4.407 1.07e-05 ***
+## titleASST PROF-HCOMP         5545       4800   1.155  0.24805    
+## titlePROF-AY                46095       1719  26.815  &lt; 2e-16 ***
+## titlePROF-AY-B/E/E          73586       2283  32.233  &lt; 2e-16 ***
+## titlePROF-HCOMP            115094       2356  48.855  &lt; 2e-16 ***
+## locDavis                   -19101       2304  -8.291  &lt; 2e-16 ***
+## locIrvine                  -12240       2351  -5.206 2.01e-07 ***
+## locLos Angeles               7699       2082   3.697  0.00022 ***
+## locMerced                  -20940       4484  -4.669 3.10e-06 ***
+## locRiverside               -18333       2893  -6.337 2.56e-10 ***
+## locSan Diego               -11851       2227  -5.322 1.07e-07 ***
+## locSan Francisco           -15808       3493  -4.525 6.17e-06 ***
+## locSanta Barbara           -16579       2411  -6.877 6.89e-12 ***
+## locSanta Cruz              -24973       2930  -8.523  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 40970 on 4897 degrees of freedom
+## Multiple R-squared:  0.5058, Adjusted R-squared:  0.504 
+## F-statistic: 294.8 on 17 and 4897 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb589-1"><a href="linear-models.html#cb589-1"></a><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(pay <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-230-1.png" width="672" /></p>
+<p>To note: Berkeley has been taken as the baseline location. Similarly, <code>ASSOC-PROF AY</code> has been taken as the baseline title.</p>
+<p>The Q-Q plot shows that this is a terrible model! Now let’s try with the transformed data:</p>
+<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="linear-models.html#cb590-1"></a>scaled &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log2</span>(pay) <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt)</span>
+<span id="cb590-2"><a href="linear-models.html#cb590-2"></a><span class="kw">summary</span>(scaled)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log2(pay) ~ title + loc, data = dt)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.23150 -0.22355  0.01801  0.25702  1.24529 
+## 
+## Coefficients:
+##                          Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              16.52889    0.02037 811.287  &lt; 2e-16 ***
+## titleASSOC PROF-AY-B/E/E  0.52397    0.03461  15.141  &lt; 2e-16 ***
+## titleASSOC PROF-HCOMP     0.34517    0.04023   8.579  &lt; 2e-16 ***
+## titleASST PROF-AY        -0.29772    0.02411 -12.351  &lt; 2e-16 ***
+## titleASST PROF-AY-B/E/E   0.18997    0.04017   4.729 2.32e-06 ***
+## titleASST PROF-HCOMP      0.06826    0.04883   1.398  0.16220    
+## titlePROF-AY              0.56942    0.01749  32.562  &lt; 2e-16 ***
+## titlePROF-AY-B/E/E        0.81217    0.02322  34.971  &lt; 2e-16 ***
+## titlePROF-HCOMP           1.12262    0.02397  46.841  &lt; 2e-16 ***
+## locDavis                 -0.20826    0.02344  -8.886  &lt; 2e-16 ***
+## locIrvine                -0.14533    0.02392  -6.075 1.33e-09 ***
+## locLos Angeles            0.06309    0.02118   2.979  0.00291 ** 
+## locMerced                -0.24781    0.04562  -5.432 5.84e-08 ***
+## locRiverside             -0.22030    0.02943  -7.485 8.43e-14 ***
+## locSan Diego             -0.14584    0.02266  -6.437 1.33e-10 ***
+## locSan Francisco         -0.11260    0.03554  -3.168  0.00154 ** 
+## locSanta Barbara         -0.20706    0.02453  -8.442  &lt; 2e-16 ***
+## locSanta Cruz            -0.29716    0.02981  -9.969  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4168 on 4897 degrees of freedom
+## Multiple R-squared:  0.5372, Adjusted R-squared:  0.5356 
+## F-statistic: 334.3 on 17 and 4897 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="linear-models.html#cb592-1"></a><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(<span class="kw">log2</span>(pay) <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-231-1.png" width="672" /></p>
+<p>Much better! Remember to inspect your explanatory and response variables. Ideally, you want the response to be normally distributed. Sometimes one or many covariates can have a nonlinear relationship with the response variable, and you should transform them prior to analysis.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="review-of-linear-algebra.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="likelihood-and-bayes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
