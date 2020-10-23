@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-13" />
+<meta name="date" content="2020-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -306,6 +306,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>9.4</b> Reading:</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>10</b> ANOVA</a><ul>
+<li class="chapter" data-level="10.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>10.1</b> Analysis of variance</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="anova.html"><a href="anova.html#anova-assumptions"><i class="fa fa-check"></i><b>10.1.1</b> ANOVA assumptions</a></li>
+<li class="chapter" data-level="10.1.2" data-path="anova.html"><a href="anova.html#how-one-way-anova-works"><i class="fa fa-check"></i><b>10.1.2</b> How one-way ANOVA works</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="anova.html"><a href="anova.html#inference-in-one-way-anova"><i class="fa fa-check"></i><b>10.2</b> Inference in one-way ANOVA</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="anova.html"><a href="anova.html#example-of-comparing-diets"><i class="fa fa-check"></i><b>10.2.1</b> Example of comparing diets</a></li>
+<li class="chapter" data-level="10.2.2" data-path="anova.html"><a href="anova.html#comparison-of-theory-and-anova-output"><i class="fa fa-check"></i><b>10.2.2</b> Comparison of theory and ANOVA output</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="anova.html"><a href="anova.html#further-steps"><i class="fa fa-check"></i><b>10.3</b> Further steps</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="anova.html"><a href="anova.html#post-hoc-analysis"><i class="fa fa-check"></i><b>10.3.1</b> Post-hoc analysis</a></li>
+<li class="chapter" data-level="10.3.2" data-path="anova.html"><a href="anova.html#example-of-plant-growth-data"><i class="fa fa-check"></i><b>10.3.2</b> Example of plant growth data</a></li>
+<li class="chapter" data-level="10.3.3" data-path="anova.html"><a href="anova.html#two-way-anova"><i class="fa fa-check"></i><b>10.3.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -384,50 +402,50 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <img src="https://imgs.xkcd.com/comics/p_values.png">
 </center>
 <p>For example, consider samples of size <span class="math inline">\(n\)</span> taken from two normal distributions (with unobserved means <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_2\)</span>). We can generate the data:</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="hypothesis-testing.html#cb466-1"></a>generate_samples &lt;-<span class="st"> </span><span class="cf">function</span>(n, mu1, mu2){</span>
-<span id="cb466-2"><a href="hypothesis-testing.html#cb466-2"></a>  <span class="kw">return</span>(<span class="kw">data.frame</span>(<span class="dt">sample1 =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> <span class="dv">1</span>),</span>
-<span id="cb466-3"><a href="hypothesis-testing.html#cb466-3"></a>               <span class="dt">sample2 =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> <span class="dv">1</span>)))</span>
-<span id="cb466-4"><a href="hypothesis-testing.html#cb466-4"></a>}</span>
-<span id="cb466-5"><a href="hypothesis-testing.html#cb466-5"></a></span>
-<span id="cb466-6"><a href="hypothesis-testing.html#cb466-6"></a>my_sample &lt;-<span class="st"> </span><span class="kw">generate_samples</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fl">1.01</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="hypothesis-testing.html#cb459-1"></a>generate_samples &lt;-<span class="st"> </span><span class="cf">function</span>(n, mu1, mu2){</span>
+<span id="cb459-2"><a href="hypothesis-testing.html#cb459-2"></a>  <span class="kw">return</span>(<span class="kw">data.frame</span>(<span class="dt">sample1 =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> mu1, <span class="dt">sd =</span> <span class="dv">1</span>),</span>
+<span id="cb459-3"><a href="hypothesis-testing.html#cb459-3"></a>               <span class="dt">sample2 =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> mu2, <span class="dt">sd =</span> <span class="dv">1</span>)))</span>
+<span id="cb459-4"><a href="hypothesis-testing.html#cb459-4"></a>}</span>
+<span id="cb459-5"><a href="hypothesis-testing.html#cb459-5"></a></span>
+<span id="cb459-6"><a href="hypothesis-testing.html#cb459-6"></a>my_sample &lt;-<span class="st"> </span><span class="kw">generate_samples</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fl">1.01</span>)</span></code></pre></div>
 <p>and use a Student’s t-test to probe whether the means differ:</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="hypothesis-testing.html#cb467-1"></a><span class="co"># two-tailed (diff in means = 0)</span></span>
-<span id="cb467-2"><a href="hypothesis-testing.html#cb467-2"></a><span class="co"># Student&#39;s (assumes equal variances)</span></span>
-<span id="cb467-3"><a href="hypothesis-testing.html#cb467-3"></a><span class="co"># (for Welch&#39;s t-test, var.equal = FALSE)</span></span>
-<span id="cb467-4"><a href="hypothesis-testing.html#cb467-4"></a><span class="kw">t.test</span>(my_sample<span class="op">$</span>sample1, </span>
-<span id="cb467-5"><a href="hypothesis-testing.html#cb467-5"></a>       my_sample<span class="op">$</span>sample2,</span>
-<span id="cb467-6"><a href="hypothesis-testing.html#cb467-6"></a>       <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="hypothesis-testing.html#cb460-1"></a><span class="co"># two-tailed (diff in means = 0)</span></span>
+<span id="cb460-2"><a href="hypothesis-testing.html#cb460-2"></a><span class="co"># Student&#39;s (assumes equal variances)</span></span>
+<span id="cb460-3"><a href="hypothesis-testing.html#cb460-3"></a><span class="co"># (for Welch&#39;s t-test, var.equal = FALSE)</span></span>
+<span id="cb460-4"><a href="hypothesis-testing.html#cb460-4"></a><span class="kw">t.test</span>(my_sample<span class="op">$</span>sample1, </span>
+<span id="cb460-5"><a href="hypothesis-testing.html#cb460-5"></a>       my_sample<span class="op">$</span>sample2,</span>
+<span id="cb460-6"><a href="hypothesis-testing.html#cb460-6"></a>       <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
 ## data:  my_sample$sample1 and my_sample$sample2
-## t = -1.1536, df = 1998, p-value = 0.2488
+## t = -0.58183, df = 1998, p-value = 0.5607
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.13892239  0.03601653
+##  -0.11486930  0.06230528
 ## sample estimates:
 ## mean of x mean of y 
-## 0.9522622 1.0037152</code></pre>
+## 0.9824881 1.0087701</code></pre>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
 </div>
 <div id="multiple-comparisons" class="section level2">
 <h2><span class="header-section-number">6.4</span> Multiple comparisons</h2>
 <p>What if we were to produce several samples? E.g., measure difference between males and females reflectance in birds at several locations? Suppose that in fact the reflectance is the same for male and female (<span class="math inline">\(\mu_1 = \mu_2 = 1\)</span>), that for each location we capture and measure 10 males and 10 females, and that we repeat this across 2500 locations.</p>
 <p>First, let’s write a little function that returns the p-values for the t-test</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="hypothesis-testing.html#cb469-1"></a>get_p_value_t_test &lt;-<span class="st"> </span><span class="cf">function</span>(my_sample){</span>
-<span id="cb469-2"><a href="hypothesis-testing.html#cb469-2"></a>  test_results &lt;-<span class="st"> </span><span class="kw">t.test</span>(my_sample<span class="op">$</span>sample1, </span>
-<span id="cb469-3"><a href="hypothesis-testing.html#cb469-3"></a>                         my_sample<span class="op">$</span>sample2, </span>
-<span id="cb469-4"><a href="hypothesis-testing.html#cb469-4"></a>                         <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb469-5"><a href="hypothesis-testing.html#cb469-5"></a>  <span class="kw">return</span>(test_results<span class="op">$</span>p.value)</span>
-<span id="cb469-6"><a href="hypothesis-testing.html#cb469-6"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="hypothesis-testing.html#cb462-1"></a>get_p_value_t_test &lt;-<span class="st"> </span><span class="cf">function</span>(my_sample){</span>
+<span id="cb462-2"><a href="hypothesis-testing.html#cb462-2"></a>  test_results &lt;-<span class="st"> </span><span class="kw">t.test</span>(my_sample<span class="op">$</span>sample1, </span>
+<span id="cb462-3"><a href="hypothesis-testing.html#cb462-3"></a>                         my_sample<span class="op">$</span>sample2, </span>
+<span id="cb462-4"><a href="hypothesis-testing.html#cb462-4"></a>                         <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb462-5"><a href="hypothesis-testing.html#cb462-5"></a>  <span class="kw">return</span>(test_results<span class="op">$</span>p.value)</span>
+<span id="cb462-6"><a href="hypothesis-testing.html#cb462-6"></a>}</span></code></pre></div>
 <p>and now simulate the data:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="hypothesis-testing.html#cb470-1"></a>pvalues &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> <span class="dv">2500</span>, </span>
-<span id="cb470-2"><a href="hypothesis-testing.html#cb470-2"></a>                     <span class="dt">expr =</span> <span class="kw">get_p_value_t_test</span>(<span class="kw">generate_samples</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="hypothesis-testing.html#cb463-1"></a>pvalues &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> <span class="dv">2500</span>, </span>
+<span id="cb463-2"><a href="hypothesis-testing.html#cb463-2"></a>                     <span class="dt">expr =</span> <span class="kw">get_p_value_t_test</span>(<span class="kw">generate_samples</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
 <p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="hypothesis-testing.html#cb471-1"></a><span class="kw">sum</span>(pvalues <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## [1] 129</code></pre>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="hypothesis-testing.html#cb464-1"></a><span class="kw">sum</span>(pvalues <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
+<pre><code>## [1] 131</code></pre>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="hypothesis-testing.html#cb473-1"></a><span class="kw">hist</span>(pvalues)</span></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="hypothesis-testing.html#cb466-1"></a><span class="kw">hist</span>(pvalues)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>
 <p>This means that when you are performing multiple tests, some will turn out to find “significant” differences even when there are none. Again, this is better summarized by xkcd:</p>
 <center>
@@ -446,8 +464,8 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <p>The funniest example of this problem is the fMRI of the <a href="http://prefrontal.org/files/posters/Bennett-Salmon-2009.pdf">dead salmon</a>: a dead salmon “was shown a series of photographs depicting human individuals in social situations with a specified emotional valence. The salmon was asked to determine what emotion the individual in the photo must have been experiencing.” The researchers showed that if multiple comparisons were not accounted for, one would detect a cluster of active voxels in the brain, with a cluster-level significance of p = 0.001.</p>
 <p>The widespread use of GWAS and other techniques that are trying to find a needle in a haystack led to the development of many interesting techniques. <a href="http://lybird300.github.io/2015/10/19/multiple-test-correction.html">Here</a> an interesting account.</p>
 <p>Adjusting p-values in <code>R</code>:</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="hypothesis-testing.html#cb474-1"></a>original_pvalues &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.07</span>, <span class="fl">0.1</span>, <span class="fl">0.44</span>)</span>
-<span id="cb474-2"><a href="hypothesis-testing.html#cb474-2"></a><span class="kw">p.adjust</span>(original_pvalues, <span class="dt">method =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="hypothesis-testing.html#cb467-1"></a>original_pvalues &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.07</span>, <span class="fl">0.1</span>, <span class="fl">0.44</span>)</span>
+<span id="cb467-2"><a href="hypothesis-testing.html#cb467-2"></a><span class="kw">p.adjust</span>(original_pvalues, <span class="dt">method =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.04 0.28 0.40 1.00</code></pre>
 </div>
 <div id="two-problems-with-science" class="section level2">
@@ -478,8 +496,8 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <h2><span class="header-section-number">6.8</span> How to fool yourself with p-hacking (and possibly get fired!)</h2>
 <p>We are going to try our hand at p-hacking, to show how easy it is to get fooled when you have a sufficiently large and complex data set. The file <code>data/medals.csv</code> contains the total number of medals won at the Olympic games (Summer or Winter) by country, sport and gender. We have a simple, and reasonable (?) hypothesis: because the amount of money available to Olympic teams is finite, whenever a country invests in the male team, this will be at the detriment of the female team. To test this hypothesis, we measure whether the number of medals won by a national female team in a year is negatively correlated with the number of medals won by the male team.</p>
 <p>Let’s read the data, and take a peak:</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="hypothesis-testing.html#cb476-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb476-2"><a href="hypothesis-testing.html#cb476-2"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/medals.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="hypothesis-testing.html#cb469-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb469-2"><a href="hypothesis-testing.html#cb469-2"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/medals.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   NOC = col_character(),
@@ -488,7 +506,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##   F = col_double(),
 ##   M = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="hypothesis-testing.html#cb478-1"></a>dt</span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="hypothesis-testing.html#cb471-1"></a>dt</span></code></pre></div>
 <pre><code>## # A tibble: 6,915 x 5
 ##    NOC    Year Sport         F     M
 ##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
@@ -504,10 +522,10 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ## 10 ALG    2000 Boxing        0     1
 ## # … with 6,905 more rows</code></pre>
 <p>First, let’s see whether our hypothesis works for the whole data:</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="hypothesis-testing.html#cb480-1"></a><span class="kw">cor</span>(dt<span class="op">$</span>F, dt<span class="op">$</span>M)</span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="hypothesis-testing.html#cb473-1"></a><span class="kw">cor</span>(dt<span class="op">$</span>F, dt<span class="op">$</span>M)</span></code></pre></div>
 <pre><code>## [1] 0.1651691</code></pre>
 <p>The correlation is positive: more medals for the men tend to correspond to more medals for the women. This correlation is not very strong, but is it “significant”? We can run a correlation test:</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="hypothesis-testing.html#cb482-1"></a><span class="kw">cor.test</span>(dt<span class="op">$</span>F, dt<span class="op">$</span>M)</span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="hypothesis-testing.html#cb475-1"></a><span class="kw">cor.test</span>(dt<span class="op">$</span>F, dt<span class="op">$</span>M)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -520,16 +538,16 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##       cor 
 ## 0.1651691</code></pre>
 <p>Indeed! The confidence intervals are far from 0: the correlation is definitely positive. Should we give up? Of course not! Just as for the jelly beans, we can p-hack our way to glory by subsetting the data. We are going to test each discipline independently, and see whether we can get a robustly negative correlation for any discipline. Because we are serious scientists, we are going to consider only disciplines for which we have at least 50 data points, to avoid results that are due to small sample sizes. Let’s write a code:</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="hypothesis-testing.html#cb484-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Sport) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">sample_size =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>()</span>
-<span id="cb484-2"><a href="hypothesis-testing.html#cb484-2"></a>correlations &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb484-3"><a href="hypothesis-testing.html#cb484-3"></a><span class="st">  </span><span class="kw">filter</span>(sample_size <span class="op">&gt;=</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb484-4"><a href="hypothesis-testing.html#cb484-4"></a><span class="st">  </span><span class="kw">group_by</span>(Sport) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb484-5"><a href="hypothesis-testing.html#cb484-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">cor =</span> <span class="kw">cor</span>(<span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="st">`</span><span class="dt">F</span><span class="st">`</span>), </span>
-<span id="cb484-6"><a href="hypothesis-testing.html#cb484-6"></a>            <span class="dt">pvalue =</span> <span class="kw">cor.test</span>(<span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="st">`</span><span class="dt">F</span><span class="st">`</span>)<span class="op">$</span>p.value) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb484-7"><a href="hypothesis-testing.html#cb484-7"></a><span class="st">  </span><span class="kw">ungroup</span>() </span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="hypothesis-testing.html#cb477-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Sport) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">sample_size =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>()</span>
+<span id="cb477-2"><a href="hypothesis-testing.html#cb477-2"></a>correlations &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb477-3"><a href="hypothesis-testing.html#cb477-3"></a><span class="st">  </span><span class="kw">filter</span>(sample_size <span class="op">&gt;=</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb477-4"><a href="hypothesis-testing.html#cb477-4"></a><span class="st">  </span><span class="kw">group_by</span>(Sport) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb477-5"><a href="hypothesis-testing.html#cb477-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">cor =</span> <span class="kw">cor</span>(<span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="st">`</span><span class="dt">F</span><span class="st">`</span>), </span>
+<span id="cb477-6"><a href="hypothesis-testing.html#cb477-6"></a>            <span class="dt">pvalue =</span> <span class="kw">cor.test</span>(<span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="st">`</span><span class="dt">F</span><span class="st">`</span>)<span class="op">$</span>p.value) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb477-7"><a href="hypothesis-testing.html#cb477-7"></a><span class="st">  </span><span class="kw">ungroup</span>() </span></code></pre></div>
 <p>Now let’s see whether there are highly significant negative correlations:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="hypothesis-testing.html#cb485-1"></a>my_results &lt;-<span class="st"> </span>correlations <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, cor <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb485-2"><a href="hypothesis-testing.html#cb485-2"></a>my_results</span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="hypothesis-testing.html#cb478-1"></a>my_results &lt;-<span class="st"> </span>correlations <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, cor <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb478-2"><a href="hypothesis-testing.html#cb478-2"></a>my_results</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 3
 ##   Sport                cor   pvalue
 ##   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
@@ -543,19 +561,19 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ## 8 Water Polo        -0.688 3.41e-14
 ## 9 Weightlifting     -0.138 2.33e- 2</code></pre>
 <p>Let’s plot our results to convince ourselves that they are strong:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="hypothesis-testing.html#cb487-1"></a><span class="kw">ggplot</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(my_results)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-2"><a href="hypothesis-testing.html#cb487-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="dt">y =</span> <span class="st">`</span><span class="dt">F</span><span class="st">`</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-3"><a href="hypothesis-testing.html#cb487-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-4"><a href="hypothesis-testing.html#cb487-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-5"><a href="hypothesis-testing.html#cb487-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Sport, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="hypothesis-testing.html#cb480-1"></a><span class="kw">ggplot</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(my_results)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb480-2"><a href="hypothesis-testing.html#cb480-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="dt">y =</span> <span class="st">`</span><span class="dt">F</span><span class="st">`</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb480-3"><a href="hypothesis-testing.html#cb480-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb480-4"><a href="hypothesis-testing.html#cb480-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb480-5"><a href="hypothesis-testing.html#cb480-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Sport, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-182-1.png" width="672" /></p>
 <p>That’s it! Should we rush to publish our results? Not quite: we have p-hacked our way to some highly significant results, but we did not correct for the number of tests we’ve made, and what we would do is to selectively reporting our strong results. In fact, we can do something very simple to convince ourselves that our results do not make much sense: just run the code again, but reporting significant positive correlations…</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="hypothesis-testing.html#cb488-1"></a>my_results &lt;-<span class="st"> </span>correlations <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, cor <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb488-2"><a href="hypothesis-testing.html#cb488-2"></a><span class="kw">ggplot</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(my_results)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb488-3"><a href="hypothesis-testing.html#cb488-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="dt">y =</span> <span class="st">`</span><span class="dt">F</span><span class="st">`</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb488-4"><a href="hypothesis-testing.html#cb488-4"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb488-5"><a href="hypothesis-testing.html#cb488-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb488-6"><a href="hypothesis-testing.html#cb488-6"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Sport, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="hypothesis-testing.html#cb481-1"></a>my_results &lt;-<span class="st"> </span>correlations <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>, cor <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb481-2"><a href="hypothesis-testing.html#cb481-2"></a><span class="kw">ggplot</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">inner_join</span>(my_results)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb481-3"><a href="hypothesis-testing.html#cb481-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">`</span><span class="dt">M</span><span class="st">`</span>, <span class="dt">y =</span> <span class="st">`</span><span class="dt">F</span><span class="st">`</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb481-4"><a href="hypothesis-testing.html#cb481-4"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb481-5"><a href="hypothesis-testing.html#cb481-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb481-6"><a href="hypothesis-testing.html#cb481-6"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Sport, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-183-1.png" width="672" /></p>
 <p>You can see that we’ve got about the same number of sports testing significant for positive correlation! <strong>Bonus question</strong> what about figure skating?</p>
 

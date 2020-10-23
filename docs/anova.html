@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Fundamentals of Biological Data Analysis</title>
+  <title>Lecture 10 ANOVA | Fundamentals of Biological Data Analysis</title>
   <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Fundamentals of Biological Data Analysis" />
+  <meta property="og:title" content="Lecture 10 ANOVA | Fundamentals of Biological Data Analysis" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Fundamentals of Biological Data Analysis" />
+  <meta name="twitter:title" content="Lecture 10 ANOVA | Fundamentals of Biological Data Analysis" />
   
   <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="likelihood-and-bayes.html"/>
 
-<link rel="next" href="refresher.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -343,132 +343,313 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Fundamentals of Biological Data Analysis</h1>
-<p class="author"><em>Dmitry Kondrashov and Stefano Allesina</em></p>
-<p class="date"><em>2020-10-23</em></p>
-</div>
-<div id="organization-of-the-class" class="section level1 unnumbered">
-<h1>Organization of the class</h1>
-<div id="learning-goals" class="section level2 unnumbered">
-<h2>Learning goals</h2>
+<div id="anova" class="section level1">
+<h1><span class="header-section-number">Lecture 10</span> ANOVA</h1>
+<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="anova.html#cb592-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></span></code></pre></div>
+<div id="analysis-of-variance" class="section level2">
+<h2><span class="header-section-number">10.1</span> Analysis of variance</h2>
+<p>ANOVA is a method for testing the hypothesis that there is no difference in means of subsets of measurements grouped by factors. Essentially, this is a generalization of linear regression to categorical explanatory variables instead of numeric variables, and it is based on very similar assumptions.</p>
+<p>ANOVA perform at its best when we have a particular experimental design: a) we divide the population into groups of equal size (<strong>balanced design</strong>); b) we assign “treatments” to the subjects at random (<strong>randomized design</strong>); in case of multiple treatment combinations, we perform an experiment for each combination (<strong>factorial design</strong>); in most cases, we have a “null” treatment (e.g., placebo).</p>
+<p>We speak of <strong>one-way ANOVA</strong> when there is a single axis of variation to our treatment (e.g., no intervention, option A, option B), <strong>two-way ANOVA</strong> when we apply two treatments for each group (e.g., no treatment, Ab, AB, aB), and so forth. Extensions include ANCOVA (ANalysis of COVAriance) and MANOVA (Multivariate ANalysis Of VAriance).</p>
+<p>For example, we want to test whether a COVID vaccine protects against infection. We can assign at random a population of volunteers to two classes (vaccine/placebo) and contrast the number of people who got sick within 3 months from treatment in the two classes. Of course, we can simply perform a <em>t</em>-test. But what if we assign people to different classes (e.g., M/F, under/over 65 y/o), and want to contrast the mean infection rate across all classes?</p>
+<div id="anova-assumptions" class="section level3">
+<h3><span class="header-section-number">10.1.1</span> ANOVA assumptions</h3>
+<p>ANOVA tests whether samples are taken from distributions with the same mean:</p>
 <ul>
-<li><code>R</code> tools for visualizing and analyzing data
+<li>Null hypothesis: the means of the different groups are the same.</li>
+<li>Alternative hypothesis: <strong>At least one sample mean</strong> is not equal to the others.</li>
+</ul>
+<p>Let <span class="math inline">\(Y\)</span> indicate the response variable, and study the simplest case of one-way ANOVA. We have divided the samples in <span class="math inline">\(k\)</span> classes of size <span class="math inline">\(J_1, \ldots, J_k\)</span> such that <span class="math inline">\(n=\sum_i J_i\)</span>. We write an equation for <span class="math inline">\(Y_{ij}\)</span> (the <span class="math inline">\(j\)</span>th observation in group <span class="math inline">\(i\)</span>):</p>
+<p><span class="math display">\[
+Y_{ij} = \mu + \alpha_i + \epsilon_{ij}
+\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> is the <strong>overall mean</strong>; <span class="math inline">\(\mu + \alpha_i\)</span> is the mean of group <span class="math inline">\(i\)</span>—we can always choose the parameters such that <span class="math inline">\(\sum_i \alpha_i = 0\)</span>; and, finally, <span class="math inline">\(\epsilon_{ij}\)</span> is the deviation from the group mean. Practically, we are testing whether at least one of the <span class="math inline">\(\alpha_i \neq 0\)</span>.</p>
+<p>Note that we are making the same assumptions as for linear regression:</p>
 <ul>
-<li>exploration of <code>tidyverse</code></li>
-<li><code>dplyr</code>, <code>tidyr</code> and <code>readr</code> for data wrangling and organization</li>
-<li><code>ggplot2</code> for visualization</li>
-<li>specific packages and functions for statistical analysis</li>
-</ul></li>
-<li>Theory to perform statistical inference
-<ul>
-<li>assumptions of different methods</li>
-<li>hypothesis testing</li>
-<li>estimation of parameters</li>
-<li>model building and selection</li>
-</ul></li>
-<li>Avoiding common errors
-<ul>
-<li>when (not) to use a statistical method</li>
-<li>sneaky paradoxes</li>
-<li>phantom effects</li>
-</ul></li>
-<li>Work on your own data
-<ul>
-<li>analyze data</li>
-<li>produce graphics</li>
-<li>write up a report</li>
-<li>present to class</li>
-</ul></li>
+<li>The observations are obtained independently (and randomly) from the population defined by the factor levels (groups)</li>
+<li>The measurements for each factor level are independent and normally distributed</li>
+<li>These normal distributions have the same variance</li>
 </ul>
 </div>
-<div id="approach" class="section level2 unnumbered">
-<h2>Approach</h2>
-<ul>
-<li>Mix of theory and practice</li>
-<li>Apply what you’re learning to your own data</li>
-</ul>
-</div>
-<div id="materials" class="section level2 unnumbered">
-<h2>Materials</h2>
-<div id="week-0" class="section level4 unnumbered">
-<h4>Week 0</h4>
-<ul>
-<li><code>R</code> refresher <a href="refresher.html#refresher">1</a></li>
-</ul>
-</div>
-<div id="week-1" class="section level4 unnumbered">
-<h4>Week 1</h4>
-<ul>
-<li>Using <code>ggplot2</code> to produce publication-ready figures</li>
-<li>Review of probability</li>
-</ul>
-</div>
-<div id="week-2" class="section level4 unnumbered">
-<h4>Week 2</h4>
-<ul>
-<li>Data wrangling in <code>tidyverse</code></li>
-<li>Probability distributions</li>
-</ul>
-</div>
-<div id="week-3" class="section level4 unnumbered">
-<h4>Week 3</h4>
-<ul>
-<li>Hypothesis testing</li>
-<li>Linear algebra refresher</li>
-</ul>
-</div>
-<div id="week-4" class="section level4 unnumbered">
-<h4>Week 4</h4>
-<ul>
-<li>Linear models</li>
-<li>Likelihood</li>
-</ul>
-</div>
-<div id="week-5" class="section level4 unnumbered">
-<h4>Week 5</h4>
-<ul>
-<li>Analysis of variance</li>
-<li>Modeling timeseries data</li>
-</ul>
-</div>
-<div id="week-6" class="section level4 unnumbered">
-<h4>Week 6</h4>
-<ul>
-<li>Generalized Linear Models</li>
-<li>Model selection</li>
-</ul>
-</div>
-<div id="week-7" class="section level4 unnumbered">
-<h4>Week 7</h4>
-<ul>
-<li>Principal Component Analysis</li>
-<li>Multidimensional Scaling and Clustering</li>
-</ul>
-</div>
-<div id="week-8" class="section level4 unnumbered">
-<h4>Week 8</h4>
-<ul>
-<li>Phylogenetic reconstruction</li>
-<li>Machine Learning and cross validation</li>
-</ul>
-</div>
-<div id="week-9" class="section level4 unnumbered">
-<h4>Week 9</h4>
-<p>Thanksgiving break</p>
-</div>
-<div id="week-10" class="section level4 unnumbered">
-<h4>Week 10</h4>
-<ul>
-<li>Student presentations 1</li>
-<li>Student presentations 2</li>
-</ul>
+<div id="how-one-way-anova-works" class="section level3">
+<h3><span class="header-section-number">10.1.2</span> How one-way ANOVA works</h3>
+<p>We have <span class="math inline">\(k\)</span> groups, and define the overall mean <span class="math inline">\(\bar{y} = \sum_i \sum_j Y_{ij} / J_{i}\)</span>, where <span class="math inline">\(J_i\)</span> is the sample size for group <span class="math inline">\(i\)</span>. Then the <strong>total sum of squared deviations</strong> (SSD) is simply:</p>
+<p><span class="math display">\[
+SSD = \sum_{i = 1}^k \sum_{j = 1}^{J_{i}} \left(Y_{ij} - \bar{y}\right)^2
+\]</span></p>
+<p>and the associated degrees of freedom <span class="math inline">\(n-1\)</span>. We car rewrite this as:</p>
+<p><span class="math display">\[
+SSD = \sum_{i = 1}^k J_{i} \left(\bar{y}_i - \bar{y} \right)^2 + \sum_{j = 1}^{J_{i}} \left(Y_{ij} - \bar{y}_i \right)^2
+\]</span></p>
+<p>where now <span class="math inline">\(\bar{y}_i\)</span> is the mean for the samples in treatment (factor, group) <span class="math inline">\(i\)</span>. We call the first term in the r.h.s. the <strong>between treatment sum of squares</strong> (SST) and the second term the <strong>within treatment (or residual) ssq</strong> (SSE). As such <span class="math inline">\(SSD = SST + SSE\)</span>. Similarly, we can decompose SSD as:</p>
+<p><span class="math display">\[
+SSD = \sum_{j = 1}^{J_{i}} Y_{ij}^2 - n \bar{y}^2 = TSS - SSA
+\]</span>
+where now TSS is the <strong>total sum of squares</strong> and SSA is the <strong>sum of squares due to the average</strong>. Combining the two equations, we can rewrite TSS as the sum of three components:</p>
+<p><span class="math display">\[
+TSS = SSA + SST + SSE
+\]</span></p>
+<p>Note that the degrees of freedom associated with each term are <span class="math inline">\(1\)</span>, <span class="math inline">\(k-1\)</span> and <span class="math inline">\(n-k\)</span>, respectively. What remains to be proved is how to conduct inference.</p>
 </div>
 </div>
-<div id="acknowledgements" class="section level2 unnumbered">
-<h2>Acknowledgements</h2>
-<p>Zach Miller for TAing the first iteration of the class, and for contributing materials and comments, Julia Smith for TAing the current version. Development of the class was partially supported by the Burroughs Wellcome Fund through the program <a href="https://www.bwfund.org/grant-programs/institutional-programs/quantitative-and-statistical-thinking-life-sciences/grant">“Quantitative and statistical thinking in the life sciences”</a> (Stefano Allesina, PI).</p>
+<div id="inference-in-one-way-anova" class="section level2">
+<h2><span class="header-section-number">10.2</span> Inference in one-way ANOVA</h2>
+<p>If the null hypothesis were true, then we would expect the between-treatment “variance” SST, divided by the degrees of freedom (<span class="math inline">\(k-1\)</span>) to be the same as the within-treatment “variance” divided by <span class="math inline">\(n-k\)</span>.</p>
+<p>Let’s look at this hypothesis more closely. If the null hypothesis were true, then <span class="math inline">\(SST\)</span> would be the sum of the squares of independent, normally distributed random variables with mean zero and variance <span class="math inline">\(\sigma^2\)</span>. If you remember, the distirbution of:</p>
+<p><span class="math display">\[
+Q = \sum_{i=1}^d Z_i^2 \sim \chi^2(d)
+\]</span></p>
+<p>is called the <span class="math inline">\(\chi^2\)</span> distribution with <span class="math inline">\(d\)</span> degrees of freedom. Then, under the null hypothesis, <span class="math inline">\(SST \sim \chi^2(k-1)\)</span> Similarly, <span class="math inline">\(SSE \sim \chi^2(n-k)\)</span>. Taking the ratio (having normalized using the degrees of freedom), we obtain:</p>
+<p><span class="math display">\[
+\frac{SST}{k-1} \frac{n-k}{SSE} = \frac{MST}{MSE} \sim F(k-1, n-k)
+\]</span>
+where <span class="math inline">\(F\)</span> is the <strong>F-distribution</strong> (in <code>R</code>, you can sample from this distribution using <code>df(x, deg1, deg2)</code>).</p>
+<div id="example-of-comparing-diets" class="section level3">
+<h3><span class="header-section-number">10.2.1</span> Example of comparing diets</h3>
+<p>For example, the following data contains measurements of weights of individuals before starting a diet, after 6 weeks of dieting, the type of diet (1, 2, 3), and other variables.</p>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb593-1"><a href="anova.html#cb593-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb593-2"><a href="anova.html#cb593-2"></a><span class="co"># Original URL: &quot;https://www.sheffield.ac.uk/polopoly_fs/1.570199!/file/stcp-Rdataset-Diet.csv&quot;</span></span>
+<span id="cb593-3"><a href="anova.html#cb593-3"></a>diet &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://tinyurl.com/ydzya2no&quot;</span>) </span>
+<span id="cb593-4"><a href="anova.html#cb593-4"></a>diet &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">weight.loss =</span> pre.weight <span class="op">-</span><span class="st"> </span>weight6weeks) </span>
+<span id="cb593-5"><a href="anova.html#cb593-5"></a><span class="kw">glimpse</span>(diet)</span></code></pre></div>
+<pre><code>## Rows: 78
+## Columns: 8
+## $ Person       &lt;dbl&gt; 25, 26, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 2…
+## $ gender       &lt;dbl&gt; NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ Age          &lt;dbl&gt; 41, 32, 22, 46, 55, 33, 50, 50, 37, 28, 28, 45, 60, 48, …
+## $ Height       &lt;dbl&gt; 171, 174, 159, 192, 170, 171, 170, 201, 174, 176, 165, 1…
+## $ pre.weight   &lt;dbl&gt; 60, 103, 58, 60, 64, 64, 65, 66, 67, 69, 70, 70, 72, 72,…
+## $ Diet         &lt;dbl&gt; 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,…
+## $ weight6weeks &lt;dbl&gt; 60.0, 103.0, 54.2, 54.0, 63.3, 61.1, 62.2, 64.0, 65.0, 6…
+## $ weight.loss  &lt;dbl&gt; 0.0, 0.0, 3.8, 6.0, 0.7, 2.9, 2.8, 2.0, 2.0, 8.5, 1.9, 3…</code></pre>
+<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="anova.html#cb595-1"></a><span class="co"># make diet into factors</span></span>
+<span id="cb595-2"><a href="anova.html#cb595-2"></a>diet &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Diet =</span> <span class="kw">factor</span>(Diet))</span></code></pre></div>
+<p>Write a script below using ggplot to generate boxplots for the weights after three different diets.</p>
+<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb596-1"><a href="anova.html#cb596-1"></a>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb596-2"><a href="anova.html#cb596-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> weight.loss, </span>
+<span id="cb596-3"><a href="anova.html#cb596-3"></a>      <span class="dt">x =</span> Diet, </span>
+<span id="cb596-4"><a href="anova.html#cb596-4"></a>      <span class="dt">fill =</span> Diet) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb596-5"><a href="anova.html#cb596-5"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-241-1.png" width="672" /></p>
+<p>We can see that there weight loss outcomes vary for each diet, but diet 3 seems to produce a larger effect on average. But is the difference between the means/medians actually due to the diet, or could it have been produced by sampling from the same distribution, given that we see substantial variation within each diet group?</p>
+<p>Here is the result of running ANOVA on the given data set:</p>
+<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="anova.html#cb597-1"></a>diet_anova  &lt;-<span class="st">  </span><span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data=</span>diet) <span class="co"># note that this looks like lm!</span></span>
+<span id="cb597-2"><a href="anova.html#cb597-2"></a><span class="kw">summary</span>(diet_anova)</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## Diet         2   71.1   35.55   6.197 0.00323 **
+## Residuals   75  430.2    5.74                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="anova.html#cb599-1"></a><span class="kw">print</span>(diet_anova)</span></code></pre></div>
+<pre><code>## Call:
+##    aov(formula = weight.loss ~ Diet, data = diet)
+## 
+## Terms:
+##                     Diet Residuals
+## Sum of Squares   71.0937  430.1793
+## Deg. of Freedom        2        75
+## 
+## Residual standard error: 2.394937
+## Estimated effects may be unbalanced</code></pre>
+</div>
+<div id="comparison-of-theory-and-anova-output" class="section level3">
+<h3><span class="header-section-number">10.2.2</span> Comparison of theory and ANOVA output</h3>
+<p>Let’s compare this with the calculations from the data set:</p>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="anova.html#cb601-1"></a><span class="co"># 1) compute the overall mean</span></span>
+<span id="cb601-2"><a href="anova.html#cb601-2"></a>bar_y &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-3"><a href="anova.html#cb601-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">bar_y =</span> <span class="kw">mean</span>(weight.loss)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-4"><a href="anova.html#cb601-4"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-5"><a href="anova.html#cb601-5"></a><span class="co"># 2) compute means by diet and sample size by diet</span></span>
+<span id="cb601-6"><a href="anova.html#cb601-6"></a>bar_y_i &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-7"><a href="anova.html#cb601-7"></a><span class="st">  </span><span class="kw">group_by</span>(Diet) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-8"><a href="anova.html#cb601-8"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">bar_y_i =</span> <span class="kw">mean</span>(weight.loss),</span>
+<span id="cb601-9"><a href="anova.html#cb601-9"></a>            <span class="dt">J_i =</span> <span class="kw">n</span>())</span>
+<span id="cb601-10"><a href="anova.html#cb601-10"></a><span class="co">#(NB: almost balanced!)</span></span>
+<span id="cb601-11"><a href="anova.html#cb601-11"></a></span>
+<span id="cb601-12"><a href="anova.html#cb601-12"></a><span class="co"># 3) compute degrees of freedom</span></span>
+<span id="cb601-13"><a href="anova.html#cb601-13"></a>n &lt;-<span class="st"> </span><span class="kw">nrow</span>(diet)</span>
+<span id="cb601-14"><a href="anova.html#cb601-14"></a>k &lt;-<span class="st"> </span><span class="kw">nrow</span>(diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Diet) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>())</span>
+<span id="cb601-15"><a href="anova.html#cb601-15"></a>deg_freedom &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, n <span class="op">-</span><span class="st"> </span>k)</span>
+<span id="cb601-16"><a href="anova.html#cb601-16"></a><span class="co"># 4) compute SSA, SST and SSE</span></span>
+<span id="cb601-17"><a href="anova.html#cb601-17"></a>SSA &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span>bar_y<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb601-18"><a href="anova.html#cb601-18"></a>SST &lt;-<span class="st"> </span>bar_y_i <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-19"><a href="anova.html#cb601-19"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tmp =</span> J_i <span class="op">*</span><span class="st"> </span>(bar_y_i <span class="op">-</span><span class="st"> </span>bar_y)<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-20"><a href="anova.html#cb601-20"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sst =</span> <span class="kw">sum</span>(tmp)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-21"><a href="anova.html#cb601-21"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-22"><a href="anova.html#cb601-22"></a>SSE &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-23"><a href="anova.html#cb601-23"></a><span class="st">  </span><span class="kw">inner_join</span>(bar_y_i, <span class="dt">by =</span> <span class="st">&quot;Diet&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-24"><a href="anova.html#cb601-24"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tmp =</span> (weight.loss <span class="op">-</span><span class="st"> </span>bar_y_i)<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-25"><a href="anova.html#cb601-25"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sse =</span> <span class="kw">sum</span>(tmp)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-26"><a href="anova.html#cb601-26"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-27"><a href="anova.html#cb601-27"></a><span class="co"># 5) show that TSS = SSA + SST + SSE</span></span>
+<span id="cb601-28"><a href="anova.html#cb601-28"></a>TSS &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-29"><a href="anova.html#cb601-29"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">tss =</span> <span class="kw">sum</span>(weight.loss<span class="op">^</span><span class="dv">2</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-30"><a href="anova.html#cb601-30"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-31"><a href="anova.html#cb601-31"></a><span class="kw">print</span>(<span class="kw">c</span>(TSS, SSA <span class="op">+</span><span class="st"> </span>SST <span class="op">+</span><span class="st"> </span>SSE))</span></code></pre></div>
+<pre><code>## [1] 1654.35 1654.35</code></pre>
+<p>Now that we have all the numbers in place, we can compute our F-statistics, and the associated p-value:</p>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="anova.html#cb603-1"></a>Fs &lt;-<span class="st"> </span>(SST <span class="op">/</span><span class="st"> </span>(deg_freedom[<span class="dv">2</span>])) <span class="op">/</span><span class="st"> </span>(SSE <span class="op">/</span><span class="st"> </span>(deg_freedom[<span class="dv">3</span>]))</span>
+<span id="cb603-2"><a href="anova.html#cb603-2"></a>pval &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pf</span>(Fs, deg_freedom[<span class="dv">2</span>], deg_freedom[<span class="dv">3</span>])</span></code></pre></div>
+<p>Contrast these with the output of <code>aov</code>:</p>
+<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb604-1"><a href="anova.html#cb604-1"></a><span class="kw">print</span>(deg_freedom[<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1]  2 75</code></pre>
+<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb606-1"><a href="anova.html#cb606-1"></a><span class="kw">print</span>(<span class="kw">c</span>(SST, SSE))</span></code></pre></div>
+<pre><code>## [1]  71.09369 430.17926</code></pre>
+<div class="sourceCode" id="cb608"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb608-1"><a href="anova.html#cb608-1"></a><span class="kw">print</span>(<span class="kw">c</span>(Fs, pval))</span></code></pre></div>
+<pre><code>## [1] 6.197447453 0.003229014</code></pre>
+<div class="sourceCode" id="cb610"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb610-1"><a href="anova.html#cb610-1"></a><span class="kw">print</span>(<span class="kw">summary</span>(<span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data =</span> diet)))</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## Diet         2   71.1   35.55   6.197 0.00323 **
+## Residuals   75  430.2    5.74                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>At first glance, this process is not the same as fitting parameters for linear regression, but it is based on exactly the same assumptions: additive noise and additive effect of the factors, with the only difference being that factors are not numeric, so the effect of each one is added separately. One can run linear regression and calculate coefficients that are identical to the mean and the differences between means computed by ANOVA (and note the p-values too!)</p>
+<div class="sourceCode" id="cb612"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb612-1"><a href="anova.html#cb612-1"></a>diet.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data=</span>diet)</span>
+<span id="cb612-2"><a href="anova.html#cb612-2"></a><span class="kw">summary</span>(diet.lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight.loss ~ Diet, data = diet)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.1259 -1.3815  0.1759  1.6519  5.7000 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   3.3000     0.4889   6.750 2.72e-09 ***
+## Diet2        -0.2741     0.6719  -0.408  0.68449    
+## Diet3         1.8481     0.6719   2.751  0.00745 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.395 on 75 degrees of freedom
+## Multiple R-squared:  0.1418, Adjusted R-squared:  0.1189 
+## F-statistic: 6.197 on 2 and 75 DF,  p-value: 0.003229</code></pre>
+<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb614-1"><a href="anova.html#cb614-1"></a><span class="kw">print</span>(diet.lm<span class="op">$</span>coefficients)</span></code></pre></div>
+<pre><code>## (Intercept)       Diet2       Diet3 
+##   3.3000000  -0.2740741   1.8481481</code></pre>
+</div>
+</div>
+<div id="further-steps" class="section level2">
+<h2><span class="header-section-number">10.3</span> Further steps</h2>
+<div id="post-hoc-analysis" class="section level3">
+<h3><span class="header-section-number">10.3.1</span> Post-hoc analysis</h3>
+<p>The ANOVA F-test tells us whether there is any difference in values of the response variable between the groups, but does not specify which group(s) are different. For this, a <em>post-hoc</em> test is used (Tukey’s “Honest Significant Difference”):</p>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="anova.html#cb616-1"></a>tuk &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(diet_anova)</span>
+<span id="cb616-2"><a href="anova.html#cb616-2"></a>tuk</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = weight.loss ~ Diet, data = diet)
+## 
+## $Diet
+##           diff        lwr      upr     p adj
+## 2-1 -0.2740741 -1.8806155 1.332467 0.9124737
+## 3-1  1.8481481  0.2416067 3.454690 0.0201413
+## 3-2  2.1222222  0.5636481 3.680796 0.0047819</code></pre>
+<p>This compares the three pairs of groups and reports the p-value for the hypothesis that this particular pair has no difference in the response variable.</p>
+</div>
+<div id="example-of-plant-growth-data" class="section level3">
+<h3><span class="header-section-number">10.3.2</span> Example of plant growth data</h3>
+<p>Example taken from: <a href="http://www.sthda.com/english/wiki/one-way-anova-test-in-r">One-Way ANOVA Test in R</a></p>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="anova.html#cb618-1"></a>my_data &lt;-<span class="st"> </span>PlantGrowth <span class="co"># import built-in data</span></span>
+<span id="cb618-2"><a href="anova.html#cb618-2"></a><span class="kw">head</span>(my_data)</span></code></pre></div>
+<pre><code>##   weight group
+## 1   4.17  ctrl
+## 2   5.58  ctrl
+## 3   5.18  ctrl
+## 4   6.11  ctrl
+## 5   4.50  ctrl
+## 6   4.61  ctrl</code></pre>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="anova.html#cb620-1"></a><span class="co"># Show the levels</span></span>
+<span id="cb620-2"><a href="anova.html#cb620-2"></a>my_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(group) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>()</span></code></pre></div>
+<pre><code>##   group
+## 1  ctrl
+## 2  trt1
+## 3  trt2</code></pre>
+<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb622-1"><a href="anova.html#cb622-1"></a><span class="kw">group_by</span>(my_data, group) <span class="op">%&gt;%</span></span>
+<span id="cb622-2"><a href="anova.html#cb622-2"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
+<span id="cb622-3"><a href="anova.html#cb622-3"></a>    <span class="dt">count =</span> <span class="kw">n</span>(),</span>
+<span id="cb622-4"><a href="anova.html#cb622-4"></a>    <span class="dt">mean =</span> <span class="kw">mean</span>(weight, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb622-5"><a href="anova.html#cb622-5"></a>    <span class="dt">sd =</span> <span class="kw">sd</span>(weight, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb622-6"><a href="anova.html#cb622-6"></a>  )</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 4
+##   group count  mean    sd
+##   &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 ctrl     10  5.03 0.583
+## 2 trt1     10  4.66 0.794
+## 3 trt2     10  5.53 0.443</code></pre>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="anova.html#cb624-1"></a>my_data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb624-2"><a href="anova.html#cb624-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb624-3"><a href="anova.html#cb624-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> weight, <span class="dt">x =</span> group, </span>
+<span id="cb624-4"><a href="anova.html#cb624-4"></a>      <span class="dt">fill =</span> group) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb624-5"><a href="anova.html#cb624-5"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
+<p><strong>Exercise:</strong> perform ANOVA and Tukey’s HSD and interpret the results.</p>
+</div>
+<div id="two-way-anova" class="section level3">
+<h3><span class="header-section-number">10.3.3</span> Two-way ANOVA</h3>
+<p>One can compare the effect of two different factors simultaneously and see if considering both explains more of the variance than of one. This is equivalent to the multiple linear regression with two interacting variables. How would you interpret these results?</p>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="anova.html#cb625-1"></a>diet.fisher &lt;-<span class="st"> </span><span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet <span class="op">*</span><span class="st"> </span>gender, <span class="dt">data =</span> diet)</span>
+<span id="cb625-2"><a href="anova.html#cb625-2"></a><span class="kw">summary</span>(diet.fisher)</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## Diet         2   60.5  30.264   5.629 0.00541 **
+## gender       1    0.2   0.169   0.031 0.85991   
+## Diet:gender  2   33.9  16.952   3.153 0.04884 * 
+## Residuals   70  376.3   5.376                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 2 observations deleted due to missingness</code></pre>
+</div>
+</div>
+<div id="investigate-the-uc-salaries-dataset" class="section level2">
+<h2><span class="header-section-number">10.4</span> Investigate the UC salaries dataset</h2>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="anova.html#cb627-1"></a><span class="co"># read the data</span></span>
+<span id="cb627-2"><a href="anova.html#cb627-2"></a><span class="co"># Original URL</span></span>
+<span id="cb627-3"><a href="anova.html#cb627-3"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv&quot;</span>, </span>
+<span id="cb627-4"><a href="anova.html#cb627-4"></a><span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;title&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;pay&quot;</span>, <span class="st">&quot;loc&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)) <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">select</span>(first_name, last_name, title, loc, pay)</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   first_name = col_character(),
+##   last_name = col_character(),
+##   title = col_character(),
+##   a = col_double(),
+##   pay = col_double(),
+##   loc = col_character(),
+##   year = col_double(),
+##   b = col_double(),
+##   c = col_double(),
+##   d = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="anova.html#cb629-1"></a><span class="co"># get only profs</span></span>
+<span id="cb629-2"><a href="anova.html#cb629-2"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PROF-AY&quot;</span>, <span class="st">&quot;ASSOC PROF-AY&quot;</span>, <span class="st">&quot;ASST PROF-AY&quot;</span>, </span>
+<span id="cb629-3"><a href="anova.html#cb629-3"></a>                                 <span class="st">&quot;PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-AY-B/E/E&quot;</span>, </span>
+<span id="cb629-4"><a href="anova.html#cb629-4"></a>                                 <span class="st">&quot;ASSOC PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;ASSOC PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-HCOMP&quot;</span>))</span>
+<span id="cb629-5"><a href="anova.html#cb629-5"></a><span class="co"># simplify titles</span></span>
+<span id="cb629-6"><a href="anova.html#cb629-6"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;ASST&quot;</span>, title), <span class="st">&quot;Assistant&quot;</span>, title))</span>
+<span id="cb629-7"><a href="anova.html#cb629-7"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;ASSOC&quot;</span>, title), <span class="st">&quot;Associate&quot;</span>, title))</span>
+<span id="cb629-8"><a href="anova.html#cb629-8"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;PROF&quot;</span>, title), <span class="st">&quot;Full&quot;</span>, title))</span>
+<span id="cb629-9"><a href="anova.html#cb629-9"></a><span class="co"># remove those making less than 50k (probably there only for a period)</span></span>
+<span id="cb629-10"><a href="anova.html#cb629-10"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pay <span class="op">&gt;</span><span class="st"> </span><span class="dv">50000</span>)</span>
+<span id="cb629-11"><a href="anova.html#cb629-11"></a><span class="kw">glimpse</span>(dt)</span></code></pre></div>
+<pre><code>## Rows: 4,795
+## Columns: 5
+## $ first_name &lt;chr&gt; &quot;CHRISTOPHER U&quot;, &quot;HENRY DON ISAAC&quot;, &quot;ADAM R&quot;, &quot;KEVORK N.&quot;,…
+## $ last_name  &lt;chr&gt; &quot;ABANI&quot;, &quot;ABARBANEL&quot;, &quot;ABATE&quot;, &quot;ABAZAJIAN&quot;, &quot;ABBAS&quot;, &quot;ABBA…
+## $ title      &lt;chr&gt; &quot;Full&quot;, &quot;Full&quot;, &quot;Assistant&quot;, &quot;Assistant&quot;, &quot;Full&quot;, &quot;Full&quot;, …
+## $ loc        &lt;chr&gt; &quot;Riverside&quot;, &quot;San Diego&quot;, &quot;San Francisco&quot;, &quot;Irvine&quot;, &quot;Irvi…
+## $ pay        &lt;dbl&gt; 151200.00, 160450.08, 85305.01, 82400.04, 168699.96, 28682…</code></pre>
+<ol style="list-style-type: decimal">
+<li><p>Plot the distributions of pay by location and title. Is it approximately normal? If not, transform the data.</p></li>
+<li><p>Run ANOVA for pay as dependent on the two factors separately, report the variance between means and the variance within groups, and the p-value for the null hypothesis.</p></li>
+<li><p>Run Tukey’s test for multiple comparison of means to report which group(s) are substantially different from the rest, if any.</p></li>
+<li><p>Run a two-way ANOVA for both location and title and provide interpretation.</p></li>
+</ol>
+<div id="a-word-of-caution-about-unbalanced-designs" class="section level3">
+<h3><span class="header-section-number">10.4.1</span> A word of caution about unbalanced designs</h3>
+<p>When we have a different number of samples in each category, we might encounter some problems, as the order in which we enter the terms might matter: for example, run <code>aov(pay ~ title + loc)</code> vs. <code>aov(pay ~ loc + title)</code>, and see that the sum of squares for the two models differ. In some cases, this might lead to the puzzling results—depending on how we enter the model, we might determine that a treatment has an effect or not. Turns out, there are three different ways to account for the sum-of-squares in ANOVA, all testing slightly different hypotheses. For balanced designs, they all return the same answer, but if you have different sizes, please read <a href="https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/">here</a>.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -476,8 +657,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
+<a href="likelihood-and-bayes.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="refresher.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

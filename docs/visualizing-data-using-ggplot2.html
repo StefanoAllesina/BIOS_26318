@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-13" />
+<meta name="date" content="2020-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -306,6 +306,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>9.4</b> Reading:</a></li>
 </ul></li>
+<li class="chapter" data-level="10" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>10</b> ANOVA</a><ul>
+<li class="chapter" data-level="10.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>10.1</b> Analysis of variance</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="anova.html"><a href="anova.html#anova-assumptions"><i class="fa fa-check"></i><b>10.1.1</b> ANOVA assumptions</a></li>
+<li class="chapter" data-level="10.1.2" data-path="anova.html"><a href="anova.html#how-one-way-anova-works"><i class="fa fa-check"></i><b>10.1.2</b> How one-way ANOVA works</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="anova.html"><a href="anova.html#inference-in-one-way-anova"><i class="fa fa-check"></i><b>10.2</b> Inference in one-way ANOVA</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="anova.html"><a href="anova.html#example-of-comparing-diets"><i class="fa fa-check"></i><b>10.2.1</b> Example of comparing diets</a></li>
+<li class="chapter" data-level="10.2.2" data-path="anova.html"><a href="anova.html#comparison-of-theory-and-anova-output"><i class="fa fa-check"></i><b>10.2.2</b> Comparison of theory and ANOVA output</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="anova.html"><a href="anova.html#further-steps"><i class="fa fa-check"></i><b>10.3</b> Further steps</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="anova.html"><a href="anova.html#post-hoc-analysis"><i class="fa fa-check"></i><b>10.3.1</b> Post-hoc analysis</a></li>
+<li class="chapter" data-level="10.3.2" data-path="anova.html"><a href="anova.html#example-of-plant-growth-data"><i class="fa fa-check"></i><b>10.3.2</b> Example of plant growth data</a></li>
+<li class="chapter" data-level="10.3.3" data-path="anova.html"><a href="anova.html#two-way-anova"><i class="fa fa-check"></i><b>10.3.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -374,12 +392,12 @@ of colors do we want to use?</p></li>
 <pre><code>## # A tibble: 6 x 10
 ##   date       county state fips  cases deaths confirmed_cases confirmed_deaths
 ##   &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
-## 1 2020-10-13 Autau… Alab… 01001  1924     28            1711               27
-## 2 2020-10-13 Baldw… Alab… 01003  6248     65            5382               61
-## 3 2020-10-13 Barbo… Alab… 01005   951      9             695                9
-## 4 2020-10-13 Bibb   Alab… 01007   744     12             697                8
-## 5 2020-10-13 Blount Alab… 01009  1742     16            1347               16
-## 6 2020-10-13 Bullo… Alab… 01011   626     16             597               14
+## 1 2020-10-23 Autau… Alab… 01001  2030     30            1809               29
+## 2 2020-10-23 Baldw… Alab… 01003  6615     69            5605               65
+## 3 2020-10-23 Barbo… Alab… 01005  1012      9             719                9
+## 4 2020-10-23 Bibb   Alab… 01007   825     14             760               10
+## 5 2020-10-23 Blount Alab… 01009  1911     25            1475               25
+## 6 2020-10-23 Bullo… Alab… 01011   639     17             608               14
 ## # … with 2 more variables: probable_cases &lt;dbl&gt;, probable_deaths &lt;dbl&gt;</code></pre>
 <p>we are going to work with <code>date</code>, <code>county</code>, <code>state</code>, <code>cases</code> and <code>deaths</code>.</p>
 <p>Let’s select Illnois, and take only the counties with more than 250 cases (to have a less crowded graph):</p>
@@ -567,53 +585,50 @@ of colors do we want to use?</p></li>
 <span id="cb284-2"><a href="visualizing-data-using-ggplot2.html#cb284-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> cases, <span class="dt">y =</span> deaths, <span class="dt">colour =</span> state) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_x_log10</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>()</span>
 <span id="cb284-3"><a href="visualizing-data-using-ggplot2.html#cb284-3"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>state)</span>
 <span id="cb284-4"><a href="visualizing-data-using-ggplot2.html#cb284-4"></a>pl</span></code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <p>Let’s add a line separating showing the best-fit line:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="visualizing-data-using-ggplot2.html#cb287-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>()</span>
-<span id="cb287-2"><a href="visualizing-data-using-ggplot2.html#cb287-2"></a>pl</span></code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
-<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="visualizing-data-using-ggplot2.html#cb286-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>()</span>
+<span id="cb286-2"><a href="visualizing-data-using-ggplot2.html#cb286-2"></a>pl</span></code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis
+
+## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 38 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 28 rows containing non-finite values (stat_smooth).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
 <p>Make ranges on <em>x</em> and <em>y</em> axes equal, and add the 1:1 line:</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="visualizing-data-using-ggplot2.html#cb294-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>)</span>
-<span id="cb294-2"><a href="visualizing-data-using-ggplot2.html#cb294-2"></a>pl</span></code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
-<pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="visualizing-data-using-ggplot2.html#cb290-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>)</span>
+<span id="cb290-2"><a href="visualizing-data-using-ggplot2.html#cb290-2"></a>pl</span></code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis
+
+## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 38 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 28 rows containing non-finite values (stat_smooth).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
 </div>
 <div id="setting-features" class="section level2">
 <h2><span class="header-section-number">2.13</span> Setting features</h2>
 <p>Often, you want to simply set a feature (e.g., the color of the points, or their shape), rather than using it to display information (i.e., mapping some aestethic). In such cases, simply declare the feature outside the <code>aes</code>:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="visualizing-data-using-ggplot2.html#cb301-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dt) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb301-2"><a href="visualizing-data-using-ggplot2.html#cb301-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> cases, <span class="dt">y =</span> deaths) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb301-3"><a href="visualizing-data-using-ggplot2.html#cb301-3"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb301-4"><a href="visualizing-data-using-ggplot2.html#cb301-4"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()</span>
-<span id="cb301-5"><a href="visualizing-data-using-ggplot2.html#cb301-5"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="visualizing-data-using-ggplot2.html#cb294-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> dt) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb294-2"><a href="visualizing-data-using-ggplot2.html#cb294-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> cases, <span class="dt">y =</span> deaths) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb294-3"><a href="visualizing-data-using-ggplot2.html#cb294-3"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb294-4"><a href="visualizing-data-using-ggplot2.html#cb294-4"></a><span class="st">  </span><span class="kw">scale_y_log10</span>()</span>
+<span id="cb294-5"><a href="visualizing-data-using-ggplot2.html#cb294-5"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## Warning: Removed 79 rows containing missing values (geom_point).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="visualizing-data-using-ggplot2.html#cb305-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="visualizing-data-using-ggplot2.html#cb298-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## Warning: Removed 79 rows containing missing values (geom_point).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-2.png" width="672" /></p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="visualizing-data-using-ggplot2.html#cb309-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">shape =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="visualizing-data-using-ggplot2.html#cb302-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">shape =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## Warning: Removed 79 rows containing missing values (geom_point).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-3.png" width="672" /></p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="visualizing-data-using-ggplot2.html#cb313-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="visualizing-data-using-ggplot2.html#cb306-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## Warning: Removed 79 rows containing missing values (geom_point).</code></pre>
@@ -622,29 +637,29 @@ of colors do we want to use?</p></li>
 <div id="saving-graphs" class="section level2">
 <h2><span class="header-section-number">2.14</span> Saving graphs</h2>
 <p>You can either save graphs as done normally in <code>R</code>:</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="visualizing-data-using-ggplot2.html#cb317-1"></a><span class="co"># save to pdf format</span></span>
-<span id="cb317-2"><a href="visualizing-data-using-ggplot2.html#cb317-2"></a><span class="kw">pdf</span>(<span class="st">&quot;my_output.pdf&quot;</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">4</span>)</span>
-<span id="cb317-3"><a href="visualizing-data-using-ggplot2.html#cb317-3"></a><span class="kw">print</span>(my_plot)</span>
-<span id="cb317-4"><a href="visualizing-data-using-ggplot2.html#cb317-4"></a><span class="kw">dev.off</span>()</span>
-<span id="cb317-5"><a href="visualizing-data-using-ggplot2.html#cb317-5"></a><span class="co"># save to svg format</span></span>
-<span id="cb317-6"><a href="visualizing-data-using-ggplot2.html#cb317-6"></a><span class="kw">svg</span>(<span class="st">&quot;my_output.svg&quot;</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">4</span>)</span>
-<span id="cb317-7"><a href="visualizing-data-using-ggplot2.html#cb317-7"></a><span class="kw">print</span>(my_plot)</span>
-<span id="cb317-8"><a href="visualizing-data-using-ggplot2.html#cb317-8"></a><span class="kw">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="visualizing-data-using-ggplot2.html#cb310-1"></a><span class="co"># save to pdf format</span></span>
+<span id="cb310-2"><a href="visualizing-data-using-ggplot2.html#cb310-2"></a><span class="kw">pdf</span>(<span class="st">&quot;my_output.pdf&quot;</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">4</span>)</span>
+<span id="cb310-3"><a href="visualizing-data-using-ggplot2.html#cb310-3"></a><span class="kw">print</span>(my_plot)</span>
+<span id="cb310-4"><a href="visualizing-data-using-ggplot2.html#cb310-4"></a><span class="kw">dev.off</span>()</span>
+<span id="cb310-5"><a href="visualizing-data-using-ggplot2.html#cb310-5"></a><span class="co"># save to svg format</span></span>
+<span id="cb310-6"><a href="visualizing-data-using-ggplot2.html#cb310-6"></a><span class="kw">svg</span>(<span class="st">&quot;my_output.svg&quot;</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">4</span>)</span>
+<span id="cb310-7"><a href="visualizing-data-using-ggplot2.html#cb310-7"></a><span class="kw">print</span>(my_plot)</span>
+<span id="cb310-8"><a href="visualizing-data-using-ggplot2.html#cb310-8"></a><span class="kw">dev.off</span>()</span></code></pre></div>
 <p>or use the function <code>ggsave</code></p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="visualizing-data-using-ggplot2.html#cb318-1"></a><span class="co"># save current graph</span></span>
-<span id="cb318-2"><a href="visualizing-data-using-ggplot2.html#cb318-2"></a><span class="kw">ggsave</span>(<span class="st">&quot;my_output.pdf&quot;</span>)</span>
-<span id="cb318-3"><a href="visualizing-data-using-ggplot2.html#cb318-3"></a><span class="co"># save a graph stored in ggplot object</span></span>
-<span id="cb318-4"><a href="visualizing-data-using-ggplot2.html#cb318-4"></a><span class="kw">ggsave</span>(<span class="dt">plot =</span> my_plot, <span class="dt">filename =</span> <span class="st">&quot;my_output.svg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="visualizing-data-using-ggplot2.html#cb311-1"></a><span class="co"># save current graph</span></span>
+<span id="cb311-2"><a href="visualizing-data-using-ggplot2.html#cb311-2"></a><span class="kw">ggsave</span>(<span class="st">&quot;my_output.pdf&quot;</span>)</span>
+<span id="cb311-3"><a href="visualizing-data-using-ggplot2.html#cb311-3"></a><span class="co"># save a graph stored in ggplot object</span></span>
+<span id="cb311-4"><a href="visualizing-data-using-ggplot2.html#cb311-4"></a><span class="kw">ggsave</span>(<span class="dt">plot =</span> my_plot, <span class="dt">filename =</span> <span class="st">&quot;my_output.svg&quot;</span>)</span></code></pre></div>
 </div>
 <div id="multiple-layers" class="section level2">
 <h2><span class="header-section-number">2.15</span> Multiple layers</h2>
 <p>You can overlay different plots. To do so, however, they must share some of the aesthetic mappings.
 The simplest case is that in which you have only one dataset:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="visualizing-data-using-ggplot2.html#cb319-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb319-2"><a href="visualizing-data-using-ggplot2.html#cb319-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> state, <span class="dt">x =</span> cases), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb319-3"><a href="visualizing-data-using-ggplot2.html#cb319-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> state, <span class="dt">x =</span> deaths), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
-<span id="cb319-4"><a href="visualizing-data-using-ggplot2.html#cb319-4"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb319-5"><a href="visualizing-data-using-ggplot2.html#cb319-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;cases (black), deaths (red)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="visualizing-data-using-ggplot2.html#cb312-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dt) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb312-2"><a href="visualizing-data-using-ggplot2.html#cb312-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> state, <span class="dt">x =</span> cases), <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb312-3"><a href="visualizing-data-using-ggplot2.html#cb312-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> state, <span class="dt">x =</span> deaths), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb312-4"><a href="visualizing-data-using-ggplot2.html#cb312-4"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb312-5"><a href="visualizing-data-using-ggplot2.html#cb312-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;cases (black), deaths (red)&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis
 
 ## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
