@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,6 +324,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -419,13 +439,13 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##  Two Sample t-test
 ## 
 ## data:  my_sample$sample1 and my_sample$sample2
-## t = -0.58183, df = 1998, p-value = 0.5607
+## t = -0.44938, df = 1998, p-value = 0.6532
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.11486930  0.06230528
+##  -0.1037576  0.0650719
 ## sample estimates:
 ## mean of x mean of y 
-## 0.9824881 1.0087701</code></pre>
+##  1.016693  1.036036</code></pre>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
 </div>
 <div id="multiple-comparisons" class="section level2">
@@ -443,7 +463,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <span id="cb463-2"><a href="hypothesis-testing.html#cb463-2"></a>                     <span class="dt">expr =</span> <span class="kw">get_p_value_t_test</span>(<span class="kw">generate_samples</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
 <p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
 <div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="hypothesis-testing.html#cb464-1"></a><span class="kw">sum</span>(pvalues <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## [1] 131</code></pre>
+<pre><code>## [1] 123</code></pre>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
 <div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="hypothesis-testing.html#cb466-1"></a><span class="kw">hist</span>(pvalues)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>

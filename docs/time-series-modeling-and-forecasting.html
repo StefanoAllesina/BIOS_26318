@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 11 Time series: modeling and forecasting | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 11 Time series: modeling and forecasting | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 11 Time series: modeling and forecasting | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-10-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="anova.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
+<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
+<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
+<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
+<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
+<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
+<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
+<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
+<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
+<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
+<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
+<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
+<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
+<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
+<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
+<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
+<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
+<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
+<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
+<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
+<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
+<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a><ul>
+<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
+<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
+<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
+<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
+<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
+<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
+<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
+<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#corrections-for-multiple-comparisons"><i class="fa fa-check"></i><b>6.5</b> Corrections for multiple comparisons</a></li>
+<li class="chapter" data-level="6.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#two-problems-with-science"><i class="fa fa-check"></i><b>6.6</b> Two problems with science</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#selective-reporting"><i class="fa fa-check"></i><b>6.6.1</b> Selective reporting</a></li>
+<li class="chapter" data-level="6.6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#p-hacking"><i class="fa fa-check"></i><b>6.6.2</b> P-hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#readings"><i class="fa fa-check"></i><b>6.7</b> Readings</a></li>
+<li class="chapter" data-level="6.8" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#how-to-fool-yourself-with-p-hacking-and-possibly-get-fired"><i class="fa fa-check"></i><b>6.8</b> How to fool yourself with p-hacking (and possibly get fired!)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html"><i class="fa fa-check"></i><b>7</b> Review of linear algebra</a><ul>
+<li class="chapter" data-level="7.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#solving-multivariate-linear-equations"><i class="fa fa-check"></i><b>7.1</b> Solving multivariate linear equations</a></li>
+<li class="chapter" data-level="7.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#fitting-a-line-to-data"><i class="fa fa-check"></i><b>7.2</b> Fitting a line to data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#least-squares-line"><i class="fa fa-check"></i><b>7.2.1</b> Least-squares line</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linearity-and-vector-spaces"><i class="fa fa-check"></i><b>7.3</b> Linearity and vector spaces</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linear-independence-and-basis-vectors"><i class="fa fa-check"></i><b>7.3.1</b> Linear independence and basis vectors</a></li>
+<li class="chapter" data-level="7.3.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#projections-and-changes-of-basis"><i class="fa fa-check"></i><b>7.3.2</b> Projections and changes of basis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-as-linear-operators"><i class="fa fa-check"></i><b>7.4</b> Matrices as linear operators</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-transform-vectors"><i class="fa fa-check"></i><b>7.4.1</b> Matrices transform vectors</a></li>
+<li class="chapter" data-level="7.4.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#calculating-eigenvalues"><i class="fa fa-check"></i><b>7.4.2</b> calculating eigenvalues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>8</b> Linear models</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-models.html"><a href="linear-models.html#regression-toward-the-mean"><i class="fa fa-check"></i><b>8.1</b> Regression toward the mean</a></li>
+<li class="chapter" data-level="8.2" data-path="linear-models.html"><a href="linear-models.html#finding-the-best-fitting-line-linear-regression"><i class="fa fa-check"></i><b>8.2</b> Finding the best fitting line: Linear Regression</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="linear-models.html"><a href="linear-models.html#solving-a-linear-model-some-linear-algebra"><i class="fa fa-check"></i><b>8.2.1</b> Solving a linear model — some linear algebra</a></li>
+<li class="chapter" data-level="8.2.2" data-path="linear-models.html"><a href="linear-models.html#minimizing-the-sum-of-squares"><i class="fa fa-check"></i><b>8.2.2</b> Minimizing the sum of squares</a></li>
+<li class="chapter" data-level="8.2.3" data-path="linear-models.html"><a href="linear-models.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>8.2.3</b> Assumptions of linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="linear-models.html"><a href="linear-models.html#linear-regression-in-action"><i class="fa fa-check"></i><b>8.3</b> Linear regression in action</a></li>
+<li class="chapter" data-level="8.4" data-path="linear-models.html"><a href="linear-models.html#a-regression-gone-wild"><i class="fa fa-check"></i><b>8.4</b> A regression gone wild</a></li>
+<li class="chapter" data-level="8.5" data-path="linear-models.html"><a href="linear-models.html#more-advanced-topics"><i class="fa fa-check"></i><b>8.5</b> More advanced topics</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="linear-models.html"><a href="linear-models.html#categorical-variables-in-linear-models"><i class="fa fa-check"></i><b>8.5.1</b> Categorical variables in linear models</a></li>
+<li class="chapter" data-level="8.5.2" data-path="linear-models.html"><a href="linear-models.html#interactions-in-linear-models"><i class="fa fa-check"></i><b>8.5.2</b> Interactions in linear models</a></li>
+<li class="chapter" data-level="8.5.3" data-path="linear-models.html"><a href="linear-models.html#regression-diagnostics"><i class="fa fa-check"></i><b>8.5.3</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="8.5.4" data-path="linear-models.html"><a href="linear-models.html#plotting-the-residuals"><i class="fa fa-check"></i><b>8.5.4</b> Plotting the residuals</a></li>
+<li class="chapter" data-level="8.5.5" data-path="linear-models.html"><a href="linear-models.html#q-q-plot"><i class="fa fa-check"></i><b>8.5.5</b> Q-Q Plot</a></li>
+<li class="chapter" data-level="8.5.6" data-path="linear-models.html"><a href="linear-models.html#cooks-distance"><i class="fa fa-check"></i><b>8.5.6</b> Cook’s distance</a></li>
+<li class="chapter" data-level="8.5.7" data-path="linear-models.html"><a href="linear-models.html#leverage"><i class="fa fa-check"></i><b>8.5.7</b> Leverage</a></li>
+<li class="chapter" data-level="8.5.8" data-path="linear-models.html"><a href="linear-models.html#running-all-diagnostics"><i class="fa fa-check"></i><b>8.5.8</b> Running all diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="linear-models.html"><a href="linear-models.html#transforming-the-data"><i class="fa fa-check"></i><b>8.6</b> Transforming the data</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
+<li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
+<li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-thinking"><i class="fa fa-check"></i><b>9.2</b> Bayesian thinking</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayes-formula"><i class="fa fa-check"></i><b>9.2.1</b> Bayes’ formula</a></li>
+<li class="chapter" data-level="9.2.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#positive-predictive-value"><i class="fa fa-check"></i><b>9.2.2</b> positive predictive value</a></li>
+<li class="chapter" data-level="9.2.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#prosecutors-fallacy"><i class="fa fa-check"></i><b>9.2.3</b> prosecutor’s fallacy</a></li>
+<li class="chapter" data-level="9.2.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reproducibility-in-science"><i class="fa fa-check"></i><b>9.2.4</b> reproducibility in science</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>9.3</b> Bayesian inference</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#example-capture-recapture"><i class="fa fa-check"></i><b>9.3.1</b> Example: capture-recapture</a></li>
+<li class="chapter" data-level="9.3.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#mcmc"><i class="fa fa-check"></i><b>9.3.2</b> MCMC</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>9.4</b> Reading:</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>10</b> ANOVA</a><ul>
+<li class="chapter" data-level="10.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>10.1</b> Analysis of variance</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="anova.html"><a href="anova.html#anova-assumptions"><i class="fa fa-check"></i><b>10.1.1</b> ANOVA assumptions</a></li>
+<li class="chapter" data-level="10.1.2" data-path="anova.html"><a href="anova.html#how-one-way-anova-works"><i class="fa fa-check"></i><b>10.1.2</b> How one-way ANOVA works</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="anova.html"><a href="anova.html#inference-in-one-way-anova"><i class="fa fa-check"></i><b>10.2</b> Inference in one-way ANOVA</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="anova.html"><a href="anova.html#example-of-comparing-diets"><i class="fa fa-check"></i><b>10.2.1</b> Example of comparing diets</a></li>
+<li class="chapter" data-level="10.2.2" data-path="anova.html"><a href="anova.html#comparison-of-theory-and-anova-output"><i class="fa fa-check"></i><b>10.2.2</b> Comparison of theory and ANOVA output</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="anova.html"><a href="anova.html#further-steps"><i class="fa fa-check"></i><b>10.3</b> Further steps</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="anova.html"><a href="anova.html#post-hoc-analysis"><i class="fa fa-check"></i><b>10.3.1</b> Post-hoc analysis</a></li>
+<li class="chapter" data-level="10.3.2" data-path="anova.html"><a href="anova.html#example-of-plant-growth-data"><i class="fa fa-check"></i><b>10.3.2</b> Example of plant growth data</a></li>
+<li class="chapter" data-level="10.3.3" data-path="anova.html"><a href="anova.html#two-way-anova"><i class="fa fa-check"></i><b>10.3.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="time-series-modeling-and-forecasting" class="section level1">
+<h1><span class="header-section-number">Lecture 11</span> Time series: modeling and forecasting</h1>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="time-series-modeling-and-forecasting.html#cb631-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></span>
+<span id="cb631-2"><a href="time-series-modeling-and-forecasting.html#cb631-2"></a><span class="kw">library</span>(fpp2) <span class="co"># time series forecasting</span></span>
+<span id="cb631-3"><a href="time-series-modeling-and-forecasting.html#cb631-3"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb631-4"><a href="time-series-modeling-and-forecasting.html#cb631-4"></a><span class="kw">library</span>(GGally)</span></code></pre></div>
+<blockquote>
+<p>Prediction is difficult, especially about the future.</p>
+<p>— Niels Bohr (apocryphally)</p>
+</blockquote>
+<div id="goals" class="section level2">
+<h2><span class="header-section-number">11.1</span> Goals:</h2>
+<ul>
+<li>Use current tools for handling and visualizing time series</li>
+<li>Calculate auto- and cross-correlations of time series</li>
+<li>Decompose time series into components</li>
+<li>Use linear regression methods for fitting and forecasting</li>
+</ul>
+</div>
+<div id="time-series-format-and-plotting" class="section level2">
+<h2><span class="header-section-number">11.2</span> Time series format and plotting</h2>
+<p>A time series is a special data set where each observation has an associated time measurement. There is a special R structure for storing and operating on time series, called <code>ts</code>, as illustrated here:</p>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="time-series-modeling-and-forecasting.html#cb632-1"></a>births &lt;-<span class="st"> </span><span class="kw">scan</span>(<span class="st">&quot;http://robjhyndman.com/tsdldata/data/nybirths.dat&quot;</span>)</span>
+<span id="cb632-2"><a href="time-series-modeling-and-forecasting.html#cb632-2"></a>birthstimeseries &lt;-<span class="st"> </span><span class="kw">ts</span>(births, <span class="dt">frequency =</span> <span class="dv">12</span>, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1946</span>, <span class="dv">1</span>))</span>
+<span id="cb632-3"><a href="time-series-modeling-and-forecasting.html#cb632-3"></a>birthstimeseries</span></code></pre></div>
+<pre><code>##         Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    Oct
+## 1946 26.663 23.598 26.931 24.740 25.806 24.364 24.477 23.901 23.175 23.227
+## 1947 21.439 21.089 23.709 21.669 21.752 20.761 23.479 23.824 23.105 23.110
+## 1948 21.937 20.035 23.590 21.672 22.222 22.123 23.950 23.504 22.238 23.142
+## 1949 21.548 20.000 22.424 20.615 21.761 22.874 24.104 23.748 23.262 22.907
+## 1950 22.604 20.894 24.677 23.673 25.320 23.583 24.671 24.454 24.122 24.252
+## 1951 23.287 23.049 25.076 24.037 24.430 24.667 26.451 25.618 25.014 25.110
+## 1952 23.798 22.270 24.775 22.646 23.988 24.737 26.276 25.816 25.210 25.199
+## 1953 24.364 22.644 25.565 24.062 25.431 24.635 27.009 26.606 26.268 26.462
+## 1954 24.657 23.304 26.982 26.199 27.210 26.122 26.706 26.878 26.152 26.379
+## 1955 24.990 24.239 26.721 23.475 24.767 26.219 28.361 28.599 27.914 27.784
+## 1956 26.217 24.218 27.914 26.975 28.527 27.139 28.982 28.169 28.056 29.136
+## 1957 26.589 24.848 27.543 26.896 28.878 27.390 28.065 28.141 29.048 28.484
+## 1958 27.132 24.924 28.963 26.589 27.931 28.009 29.229 28.759 28.405 27.945
+## 1959 26.076 25.286 27.660 25.951 26.398 25.565 28.865 30.000 29.261 29.012
+##         Nov    Dec
+## 1946 21.672 21.870
+## 1947 21.759 22.073
+## 1948 21.059 21.573
+## 1949 21.519 22.025
+## 1950 22.084 22.991
+## 1951 22.964 23.981
+## 1952 23.162 24.707
+## 1953 25.246 25.180
+## 1954 24.712 25.688
+## 1955 25.693 26.881
+## 1956 26.291 26.987
+## 1957 26.634 27.735
+## 1958 25.912 26.619
+## 1959 26.992 27.897</code></pre>
+<p>This reads-in a data set recording the number of births per month in New York City, from 1946 to 1958 (it’s not clear what the units are - mabe thousands of births?) To create the time series, we had to give the function the <code>frequency</code>, or the number of time points in a year, and the starting value as a vector assigned to <code>start = c(1946, 1)</code>, the first element is the year and the second the month.</p>
+<p>Here are two different time series, of diabetic drug sales in Australia (in millions of AUS dollaors), also with monthly frequency, and of Boston marathon winning times, with yearly frequency:</p>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="time-series-modeling-and-forecasting.html#cb634-1"></a>a10</span></code></pre></div>
+<pre><code>##            Jan       Feb       Mar       Apr       May       Jun       Jul
+## 1991                                                              3.526591
+## 1992  5.088335  2.814520  2.985811  3.204780  3.127578  3.270523  3.737851
+## 1993  6.192068  3.450857  3.772307  3.734303  3.905399  4.049687  4.315566
+## 1994  6.731473  3.841278  4.394076  4.075341  4.540645  4.645615  4.752607
+## 1995  6.749484  4.216067  4.949349  4.823045  5.194754  5.170787  5.256742
+## 1996  8.329452  5.069796  5.262557  5.597126  6.110296  5.689161  6.486849
+## 1997  8.524471  5.277918  5.714303  6.214529  6.411929  6.667716  7.050831
+## 1998  8.798513  5.918261  6.534493  6.675736  7.064201  7.383381  7.813496
+## 1999 10.391416  6.421535  8.062619  7.297739  7.936916  8.165323  8.717420
+## 2000 12.511462  7.457199  8.591191  8.474000  9.386803  9.560399 10.834295
+## 2001 14.497581  8.049275 10.312891  9.753358 10.850382  9.961719 11.443601
+## 2002 16.300269  9.053485 10.002449 10.788750 12.106705 10.954101 12.844566
+## 2003 16.828350  9.800215 10.816994 10.654223 12.512323 12.161210 12.998046
+## 2004 18.003768 11.938030 12.997900 12.882645 13.943447 13.989472 15.339097
+## 2005 20.778723 12.154552 13.402392 14.459239 14.795102 15.705248 15.829550
+## 2006 23.486694 12.536987 15.467018 14.233539 17.783058 16.291602 16.980282
+## 2007 28.038383 16.763869 19.792754 16.427305 21.000742 20.681002 21.834890
+## 2008 29.665356 21.654285 18.264945 23.107677 22.912510 19.431740          
+##            Aug       Sep       Oct       Nov       Dec
+## 1991  3.180891  3.252221  3.611003  3.565869  4.306371
+## 1992  3.558776  3.777202  3.924490  4.386531  5.810549
+## 1993  4.562185  4.608662  4.667851  5.093841  7.179962
+## 1994  5.350605  5.204455  5.301651  5.773742  6.204593
+## 1995  5.855277  5.490729  6.115293  6.088473  7.416598
+## 1996  6.300569  6.467476  6.828629  6.649078  8.606937
+## 1997  6.704919  7.250988  7.819733  7.398101 10.096233
+## 1998  7.431892  8.275117  8.260441  8.596156 10.558939
+## 1999  9.070964  9.177113  9.251887  9.933136 11.532974
+## 2000 10.643751  9.908162 11.710041 11.340151 12.079132
+## 2001 11.659239 10.647060 12.652134 13.674466 12.965735
+## 2002 12.196500 12.854748 13.542004 13.287640 15.134918
+## 2003 12.517276 13.268658 14.733622 13.669382 16.503966
+## 2004 15.370764 16.142005 16.685754 17.636728 18.869325
+## 2005 17.554701 18.100864 17.496668 19.347265 20.031291
+## 2006 18.612189 16.623343 21.430241 23.575517 23.334206
+## 2007 23.930204 22.930357 23.263340 25.250030 25.806090
+## 2008</code></pre>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="time-series-modeling-and-forecasting.html#cb636-1"></a>marathon</span></code></pre></div>
+<pre><code>## Time Series:
+## Start = 1897 
+## End = 2016 
+## Frequency = 1 
+##   [1] 175.1667 162.0000 174.6333 159.7333 149.3833 163.2000 161.4833 158.0667
+##   [9] 158.4167 165.7500 144.4000 145.7167 173.6000 148.8667 141.6500 141.3000
+##  [17] 145.2333 145.2333 151.6833 147.2667 148.6167 149.8833 149.2167 149.5167
+##  [25] 138.9500 138.1667 143.7833 149.6667 153.0000 145.6667 160.3667 157.1167
+##  [33] 153.1333 154.8000 166.7500 153.6000 151.0167 152.8833 152.1167 153.6667
+##  [41] 153.3333 155.5667 148.8500 148.4667 150.6333 146.8500 148.4167 151.8333
+##  [49] 150.6667 149.4500 145.6500 151.0333 151.8333 152.6500 147.7500 151.8833
+##  [57] 138.8500 140.6500 138.3667 134.2333 140.0833 145.9000 142.7000 140.9000
+##  [65] 143.6500 143.8000 138.9667 139.9833 136.5500 137.1833 135.7500 142.2833
+##  [73] 133.8167 130.5000 138.7500 135.6500 136.0500 133.6500 129.9167 140.3167
+##  [81] 134.7667 130.2167 129.4500 132.1833 129.4333 128.8667 129.0000 130.5667
+##  [89] 134.0833 127.8500 131.8333 128.7167 129.1000 128.3167 131.1000 128.2333
+##  [97] 129.5500 127.2500 129.3667 129.2500 130.5667 127.5667 129.8667 129.7833
+## [105] 129.7167 129.0333 130.1833 130.6167 131.7333 127.2333 134.2167 127.7500
+## [113] 128.7000 125.8667 123.0333 132.6667 130.3667 128.6167 129.2833 132.7333</code></pre>
+<div id="visualizing-the-data" class="section level3">
+<h3><span class="header-section-number">11.2.1</span> Visualizing the data</h3>
+<p>The most straighforward way of visualizing time series is using a time plot, which can be created using <code>autoplot</code>:</p>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="time-series-modeling-and-forecasting.html#cb638-1"></a><span class="kw">autoplot</span>(birthstimeseries) <span class="op">+</span></span>
+<span id="cb638-2"><a href="time-series-modeling-and-forecasting.html#cb638-2"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Number of births in NYC&quot;</span>) <span class="op">+</span></span>
+<span id="cb638-3"><a href="time-series-modeling-and-forecasting.html#cb638-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Births (thousands&quot;</span>) <span class="op">+</span></span>
+<span id="cb638-4"><a href="time-series-modeling-and-forecasting.html#cb638-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-260-1.png" width="672" /></p>
+<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb639-1"><a href="time-series-modeling-and-forecasting.html#cb639-1"></a><span class="kw">autoplot</span>(a10) <span class="op">+</span></span>
+<span id="cb639-2"><a href="time-series-modeling-and-forecasting.html#cb639-2"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Antidiabetic drug sales&quot;</span>) <span class="op">+</span></span>
+<span id="cb639-3"><a href="time-series-modeling-and-forecasting.html#cb639-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;AUS$ (million)&quot;</span>) <span class="op">+</span></span>
+<span id="cb639-4"><a href="time-series-modeling-and-forecasting.html#cb639-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-261-1.png" width="672" /></p>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="time-series-modeling-and-forecasting.html#cb640-1"></a><span class="kw">autoplot</span>(marathon) <span class="op">+</span></span>
+<span id="cb640-2"><a href="time-series-modeling-and-forecasting.html#cb640-2"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boston marathon winning times&quot;</span>) <span class="op">+</span></span>
+<span id="cb640-3"><a href="time-series-modeling-and-forecasting.html#cb640-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Time (minutes)&quot;</span>) <span class="op">+</span></span>
+<span id="cb640-4"><a href="time-series-modeling-and-forecasting.html#cb640-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-262-1.png" width="672" /></p>
+</div>
+<div id="trends-seasonality-and-cyclicity" class="section level3">
+<h3><span class="header-section-number">11.2.2</span> Trends, seasonality, and cyclicity</h3>
+<p>Time series of course illustrate changes over time, and frequently we want to describe and account for these changes. In forrecasting, there are three types of systematic patters that have their own terminology (taken from [1])</p>
+<blockquote>
+<ul>
+<li><p><strong>Trend</strong>
+A trend exists when there is a long-term increase or decrease in the data. It does not have to be linear. Sometimes we will refer to a trend as “changing direction”, when it might go from an increasing trend to a decreasing trend. There is a trend in the antidiabetic drug sales data.</p></li>
+<li><p><strong>Seasonal</strong>
+A seasonal pattern occurs when a time series is affected by seasonal factors such as the time of the year or the day of the week. Seasonality is always of a fixed and known frequency. The monthly sales of antidiabetic drugs above shows seasonality which is induced partly by the change in the cost of the drugs at the end of the calendar year.</p></li>
+<li><p><strong>Cyclic</strong>
+A cycle occurs when the data exhibit rises and falls that are not of a fixed frequency. These fluctuations are usually due to economic conditions, and are often related to the “business cycle”. The duration of these fluctuations is usually at least 2 years.</p></li>
+</ul>
+</blockquote>
+</div>
+</div>
+<div id="correlations-of-time-series-cross--auto--and-lag-plot" class="section level2">
+<h2><span class="header-section-number">11.3</span> Correlations of time series: cross-, auto-, and lag plot</h2>
+<div id="visualizing-correlation-between-different-variables" class="section level3">
+<h3><span class="header-section-number">11.3.1</span> Visualizing correlation between different variables</h3>
+<p>The following data set contains the number of visitors (visitor nights) on a quarterly basis for five regions of New South Wales, Australia:</p>
+<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb641-1"><a href="time-series-modeling-and-forecasting.html#cb641-1"></a><span class="kw">autoplot</span>(visnights[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">facets=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb641-2"><a href="time-series-modeling-and-forecasting.html#cb641-2"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of visitor nights each quarter (millions)&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-263-1.png" width="672" /></p>
+<p>One simple question is whether different variables are related to each other. One simple way is to calculate the Pearson correlation between different time series, called the <em>cross-correlation</em> (where <span class="math inline">\(\bar X\)</span> stands for the mean of X and <span class="math inline">\(\text{Var}(X)\)</span> stands for the variance of <span class="math inline">\(X\)</span>):</p>
+<p><span class="math display">\[
+\text{Cor}(X,Y) = \frac{\sum_t (\bar X - X_t)(\bar Y - Y_t)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
+\]</span></p>
+<p>In a data set with multiple variables it can be handy to examine the correlations between all pairs between them. Here’s a convenient function for that:</p>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="time-series-modeling-and-forecasting.html#cb642-1"></a><span class="kw">head</span>(visnights)</span></code></pre></div>
+<pre><code>##         NSWMetro NSWNthCo NSWSthCo NSWSthIn NSWNthIn  QLDMetro QLDCntrl
+## 1998 Q1 9.047095 8.565678 5.818029 2.679538 2.977507 12.106052 2.748374
+## 1998 Q2 6.962126 7.124468 2.466437 3.010732 3.477703  7.786687 4.040915
+## 1998 Q3 6.871963 4.716893 1.928053 3.328869 3.014770 11.380024 5.343964
+## 1998 Q4 7.147293 6.269299 2.797556 2.417772 3.757972  9.311460 4.260419
+## 1999 Q1 7.956923 9.493901 4.853681 3.224285 3.790760 12.671942 4.186113
+## 1999 Q2 6.542243 5.401201 2.759843 2.428489 3.395284  9.582965 4.237806
+##         QLDNthCo SAUMetro SAUCoast  SAUInner VICMetro  VICWstCo VICEstCo
+## 1998 Q1 2.137234 2.881372 2.591997 0.8948773 7.490382 2.4420048 3.381972
+## 1998 Q2 2.269596 2.124736 1.375780 0.9792509 5.198178 0.9605047 1.827940
+## 1998 Q3 4.890227 2.284870 1.079542 0.9803289 5.244217 0.7559744 1.351952
+## 1998 Q4 2.621548 1.785889 1.497664 1.5094343 6.274246 1.2716040 1.493415
+## 1999 Q1 2.483203 2.293873 2.247684 0.9635227 9.187422 2.3850583 2.896929
+## 1999 Q2 3.377830 2.197418 1.672802 0.9968803 4.992303 1.3288638 1.547901
+##         VICInner WAUMetro WAUCoast  WAUInner OTHMetro OTHNoMet
+## 1998 Q1 5.326655 3.075779 3.066555 0.6949954 3.437924 2.073469
+## 1998 Q2 4.441119 2.154929 3.334405 0.5576796 2.677081 1.787939
+## 1998 Q3 3.815645 2.787286 4.365844 1.0061844 3.793743 2.345021
+## 1998 Q4 3.859567 2.752910 4.521996 1.1725514 3.304231 1.943689
+## 1999 Q1 4.588755 3.519564 3.579347 0.3981829 3.510819 2.165838
+## 1999 Q2 4.070401 3.160430 3.408533 0.5960182 2.871867 1.803940</code></pre>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="time-series-modeling-and-forecasting.html#cb644-1"></a>GGally<span class="op">::</span><span class="kw">ggpairs</span>(<span class="kw">as.data.frame</span>(visnights[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-264-1.png" width="672" /></p>
+</div>
+<div id="autocorrelation" class="section level3">
+<h3><span class="header-section-number">11.3.2</span> Autocorrelation</h3>
+<p>A time series can be correlated against itself shifted in time by some set amount, also called <em>lagged</em>. We can plot the lagged correlations for different visitor</p>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="time-series-modeling-and-forecasting.html#cb645-1"></a>visnights[,<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##          Qtr1     Qtr2     Qtr3     Qtr4
+## 1998 9.047095 6.962126 6.871963 7.147293
+## 1999 7.956923 6.542243 6.330364 7.509212
+## 2000 7.662491 6.341802 7.827301 9.579562
+## 2001 8.270488 7.240427 6.640490 7.111875
+## 2002 6.827826 6.404992 6.615760 7.226376
+## 2003 7.589058 6.334527 5.996748 6.612846
+## 2004 7.758267 6.778836 5.854452 6.200214
+## 2005 7.163830 5.082204 5.673551 6.089906
+## 2006 8.525916 6.569684 5.771059 6.692897
+## 2007 8.158658 5.710082 5.402543 6.803494
+## 2008 7.866269 5.616704 5.886764 5.506298
+## 2009 6.787225 5.361317 4.699350 6.208784
+## 2010 7.148262 4.850217 6.029490 6.238903
+## 2011 7.597468 5.815930 6.183239 5.929030
+## 2012 7.986931 5.307871 6.054112 6.023897
+## 2013 7.028480 5.813450 6.322841 7.101691
+## 2014 7.897316 5.997468 6.033533 7.103398
+## 2015 8.725132 6.995875 6.294490 6.945476
+## 2016 7.373757 6.792234 6.530568 7.878277</code></pre>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb647-1"><a href="time-series-modeling-and-forecasting.html#cb647-1"></a>visnights_smaller &lt;-<span class="st"> </span><span class="kw">window</span>(visnights[,<span class="dv">2</span>], <span class="dt">start=</span><span class="dv">2000</span>, <span class="dt">end =</span> <span class="dv">2010</span>)</span>
+<span id="cb647-2"><a href="time-series-modeling-and-forecasting.html#cb647-2"></a><span class="kw">gglagplot</span>(visnights_smaller) </span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-265-1.png" width="672" /></p>
+<p>Here the colors indicate the quarter of the variable on the vertical axis, compared with the shifted (lagged variable on the horizontal axis, and the lines connect points in chronological order. The relationship is strongly positive at lags 4 and 8, reflecting the strong seasonality in the data.</p>
+<p>This suggests that there is a strong similarity between the time series and itself, shifted by certain time values. This is described by the <em>autocorrelation</em>, which is defined as a function of the lag <span class="math inline">\(k\)</span>:</p>
+<p><span class="math display">\[
+r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
+\]</span>
+This can be calculated and plotted for our example of the visitation nights in New South Wales:</p>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="time-series-modeling-and-forecasting.html#cb648-1"></a><span class="kw">ggAcf</span>(visnights_smaller)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-266-1.png" width="672" /></p>
+<p>Notice the periodicity in the autocorrelation, which indicated periodicity in the time series. Let’s similarly calculate the autocorrelation of the drug sales data:</p>
+<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb649-1"><a href="time-series-modeling-and-forecasting.html#cb649-1"></a><span class="kw">ggAcf</span>(a10)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-267-1.png" width="672" /></p>
+<p>Notice how different this <em>correlogram</em> is - there are no zero values of autcorrelation, only slow decay with some small periodic components.</p>
+<p>Autocorrelation measures the <em>memory</em> of a signal - for example, pure white noise is uncorrelated with itself even a moment later, and thus has no memory. As such, it is very useful as a measure of a trend in the data - if the time series has slowly decaying, positive autocorrelation, that indicates a pronounced trend, while periodicity indicates seasonality in the data.</p>
+<p><strong>Exercise:</strong> Use the lag and autocorrelation analysis to describe the patterns in the time series of births in NYC and in the Boston marathon winning times.</p>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="time-series-modeling-and-forecasting.html#cb650-1"></a><span class="kw">gglagplot</span>(marathon)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-1.png" width="672" /></p>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="time-series-modeling-and-forecasting.html#cb651-1"></a><span class="kw">ggAcf</span>(marathon)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-2.png" width="672" /></p>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb652-1"><a href="time-series-modeling-and-forecasting.html#cb652-1"></a><span class="kw">gglagplot</span>(birthstimeseries)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-3.png" width="672" /></p>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="time-series-modeling-and-forecasting.html#cb653-1"></a><span class="kw">ggAcf</span>(birthstimeseries)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-4.png" width="672" /></p>
+</div>
+</div>
+<div id="decomposition-of-time-series" class="section level2">
+<h2><span class="header-section-number">11.4</span> Decomposition of time series</h2>
+<p>There are two main types of decompositions of time series: additive and multiplicative. Let us call <span class="math inline">\(X_t\)</span> the time series data, <span class="math inline">\(T_t\)</span> the trend (non-periodic component), <span class="math inline">\(S_t\)</span> the seasonal part (periodic component), and <span class="math inline">\(R_t\)</span> the remainder.</p>
+<p><span class="math display">\[
+X_t = T_t + S_t + R_t
+\]</span>
+<span class="math display">\[
+X_t = T_t \times S_t \times R_t
+\]</span></p>
+<p>One simple way of removing seasonality and estimating the trend is using the <em>moving average</em>, that is using <span class="math inline">\(k\)</span> points before and <span class="math inline">\(k\)</span> points after each point to calculate the trend:
+<span class="math display">\[
+T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
+\]</span></p>
+<p>Here <span class="math inline">\(m\)</span> is called the <em>order</em> of the moving average and is defined as <span class="math inline">\(m = 2k+1\)</span>. There is a useful function ma() that calculates these averages and allows them to be plotted.</p>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb654-1"><a href="time-series-modeling-and-forecasting.html#cb654-1"></a>m &lt;-<span class="st"> </span><span class="dv">12</span></span>
+<span id="cb654-2"><a href="time-series-modeling-and-forecasting.html#cb654-2"></a>s_name &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;MA-&quot;</span>, m)</span>
+<span id="cb654-3"><a href="time-series-modeling-and-forecasting.html#cb654-3"></a><span class="kw">autoplot</span>(a10, <span class="dt">series =</span> <span class="st">&quot;data&quot;</span>) <span class="op">+</span></span>
+<span id="cb654-4"><a href="time-series-modeling-and-forecasting.html#cb654-4"></a><span class="st">  </span><span class="kw">autolayer</span>(<span class="kw">ma</span>(a10, m), <span class="dt">series =</span> <span class="st">&quot;MA&quot;</span>) <span class="op">+</span></span>
+<span id="cb654-5"><a href="time-series-modeling-and-forecasting.html#cb654-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;AUS $ (millions)&quot;</span>) <span class="op">+</span></span>
+<span id="cb654-6"><a href="time-series-modeling-and-forecasting.html#cb654-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Anti-diabetic drug sales&quot;</span>) </span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-269-1.png" width="672" /></p>
+<p><strong>Exercise:</strong> Change the moving average window and see if you can make seasonality vanish!</p>
+<p>An even order of periodicity requires an asymmetric averaging window, so to create an symmetric average, one can repeat the moving average of order two on the already-averaged data.</p>
+<div id="classic-decomposition" class="section level3">
+<h3><span class="header-section-number">11.4.1</span> Classic decomposition:</h3>
+<p>Additive decomposition [1]:</p>
+<ol style="list-style-type: decimal">
+<li>If m is an even number, compute the trend-cycle component <span class="math inline">\(T_t\)</span> using a 2×m-MA. If m is an odd number, compute the trend-cycle component <span class="math inline">\(\hat T_t\)</span> using an m-MA.</li>
+<li>Calculate the detrended series: <span class="math inline">\(X_t - \hat T_t\)</span></li>
+<li>To estimate the seasonal component for each season, average the detrended values for that season. For example, with monthly data, the seasonal component for March is the average of all the detrended March values in the data. These seasonal component values are then adjusted to ensure that they add to zero. The seasonal component is obtained by stringing together these monthly values, and then replicating the sequence for each year of data. This gives <span class="math inline">\(\hat S_t\)</span>.</li>
+<li>The remainder component is calculated by subtracting the estimated seasonal and trend-cycle components: $ R_t = X_t - T_t - S_t$</li>
+</ol>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="time-series-modeling-and-forecasting.html#cb655-1"></a>a10 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">decompose</span>(<span class="dt">type=</span><span class="st">&quot;additive&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb655-2"><a href="time-series-modeling-and-forecasting.html#cb655-2"></a><span class="st">  </span><span class="kw">autoplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span></span>
+<span id="cb655-3"><a href="time-series-modeling-and-forecasting.html#cb655-3"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Classical additive decomposition</span></span>
+<span id="cb655-4"><a href="time-series-modeling-and-forecasting.html#cb655-4"></a><span class="st">    of the antidiabetic drug sales data&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-270-1.png" width="672" /></p>
+<p>This simple classical decomposition has numerous flaws, so better, more modern methods are preferred. In particular, it assumes a constant seasonal term, it tends to over-estimate the variation in the trend, it misses data for the first few and last few data points, and can be sensitive to outliers.</p>
+</div>
+<div id="stl-decomposition" class="section level3">
+<h3><span class="header-section-number">11.4.2</span> STL decomposition</h3>
+<p>A more robust method is called the STL decomposition (Seasonal and Trend decomposition using Loess). To summarize its advantanges [1]:</p>
+<ul>
+<li>STL can handle any type of seasonality, not only monthly and quarterly data.</li>
+<li>The seasonal component is allowed to change over time, and the rate of change can be controlled by the user.</li>
+<li>The smoothness of the trend-cycle can also be controlled by the user.</li>
+<li>It can be robust to outliers (i.e., the user can specify a robust decomposition), so that occasional unusual observations will not affect the estimates of the trend-cycle and seasonal components. They will, however, affect the remainder component.</li>
+</ul>
+<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb656-1"><a href="time-series-modeling-and-forecasting.html#cb656-1"></a>a10 <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">stl</span>(<span class="dt">t.window=</span><span class="dv">13</span>, <span class="dt">s.window=</span><span class="st">&quot;periodic&quot;</span>, <span class="dt">robust=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb656-2"><a href="time-series-modeling-and-forecasting.html#cb656-2"></a><span class="st">  </span><span class="kw">autoplot</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-271-1.png" width="672" /></p>
+<p><strong>Exercise:</strong> Apply the two decomposition methods to the Boston marathon and to births in NYC time series.</p>
+</div>
+</div>
+<div id="regression-methods" class="section level2">
+<h2><span class="header-section-number">11.5</span> Regression methods</h2>
+<p>Let us analyze the data set of US quarterly economic data, specifically, the percent change in consumption, income, production, savigs, and unemployment.</p>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="time-series-modeling-and-forecasting.html#cb657-1"></a><span class="kw">head</span>(uschange)</span></code></pre></div>
+<pre><code>##         Consumption     Income Production   Savings Unemployment
+## 1970 Q1   0.6159862  0.9722610 -2.4527003 4.8103115          0.9
+## 1970 Q2   0.4603757  1.1690847 -0.5515251 7.2879923          0.5
+## 1970 Q3   0.8767914  1.5532705 -0.3587079 7.2890131          0.5
+## 1970 Q4  -0.2742451 -0.2552724 -2.1854549 0.9852296          0.7
+## 1971 Q1   1.8973708  1.9871536  1.9097341 3.6577706         -0.1
+## 1971 Q2   0.9119929  1.4473342  0.9015358 6.0513418         -0.1</code></pre>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="time-series-modeling-and-forecasting.html#cb659-1"></a><span class="kw">autoplot</span>(uschange[,<span class="kw">c</span>(<span class="st">&quot;Consumption&quot;</span>,<span class="st">&quot;Income&quot;</span>)]) <span class="op">+</span></span>
+<span id="cb659-2"><a href="time-series-modeling-and-forecasting.html#cb659-2"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;% change&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-272-1.png" width="672" /></p>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb660-1"><a href="time-series-modeling-and-forecasting.html#cb660-1"></a>uschange <span class="op">%&gt;%</span></span>
+<span id="cb660-2"><a href="time-series-modeling-and-forecasting.html#cb660-2"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
+<span id="cb660-3"><a href="time-series-modeling-and-forecasting.html#cb660-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Income, <span class="dt">y=</span>Consumption)) <span class="op">+</span></span>
+<span id="cb660-4"><a href="time-series-modeling-and-forecasting.html#cb660-4"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Consumption (quarterly % change)&quot;</span>) <span class="op">+</span></span>
+<span id="cb660-5"><a href="time-series-modeling-and-forecasting.html#cb660-5"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Income (quarterly % change)&quot;</span>) <span class="op">+</span></span>
+<span id="cb660-6"><a href="time-series-modeling-and-forecasting.html#cb660-6"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb660-7"><a href="time-series-modeling-and-forecasting.html#cb660-7"></a><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-273-1.png" width="672" /></p>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb661-1"><a href="time-series-modeling-and-forecasting.html#cb661-1"></a>uschange <span class="op">%&gt;%</span></span>
+<span id="cb661-2"><a href="time-series-modeling-and-forecasting.html#cb661-2"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
+<span id="cb661-3"><a href="time-series-modeling-and-forecasting.html#cb661-3"></a><span class="st">  </span>GGally<span class="op">::</span><span class="kw">ggpairs</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-274-1.png" width="672" /></p>
+<p>Let us use four variables as predictors of consumption to calculate a multiple linear regression model using the function tslm():</p>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="time-series-modeling-and-forecasting.html#cb662-1"></a>fit.consMR &lt;-<span class="st"> </span><span class="kw">tslm</span>(</span>
+<span id="cb662-2"><a href="time-series-modeling-and-forecasting.html#cb662-2"></a>  Consumption <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Production <span class="op">+</span><span class="st"> </span>Unemployment <span class="op">+</span><span class="st"> </span>Savings,</span>
+<span id="cb662-3"><a href="time-series-modeling-and-forecasting.html#cb662-3"></a>  <span class="dt">data=</span>uschange)</span>
+<span id="cb662-4"><a href="time-series-modeling-and-forecasting.html#cb662-4"></a><span class="kw">summary</span>(fit.consMR)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## tslm(formula = Consumption ~ Income + Production + Unemployment + 
+##     Savings, data = uschange)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.88296 -0.17638 -0.03679  0.15251  1.20553 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.26729    0.03721   7.184 1.68e-11 ***
+## Income        0.71449    0.04219  16.934  &lt; 2e-16 ***
+## Production    0.04589    0.02588   1.773   0.0778 .  
+## Unemployment -0.20477    0.10550  -1.941   0.0538 .  
+## Savings      -0.04527    0.00278 -16.287  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3286 on 182 degrees of freedom
+## Multiple R-squared:  0.754,  Adjusted R-squared:  0.7486 
+## F-statistic: 139.5 on 4 and 182 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We can produce a plot of the predicted values together with the observed data on consumption:</p>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="time-series-modeling-and-forecasting.html#cb664-1"></a><span class="kw">autoplot</span>(uschange[,<span class="st">&#39;Consumption&#39;</span>], <span class="dt">series=</span><span class="st">&quot;Data&quot;</span>) <span class="op">+</span></span>
+<span id="cb664-2"><a href="time-series-modeling-and-forecasting.html#cb664-2"></a><span class="st">  </span><span class="kw">autolayer</span>(<span class="kw">fitted</span>(fit.consMR), <span class="dt">series=</span><span class="st">&quot;Fitted&quot;</span>) <span class="op">+</span></span>
+<span id="cb664-3"><a href="time-series-modeling-and-forecasting.html#cb664-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
+<span id="cb664-4"><a href="time-series-modeling-and-forecasting.html#cb664-4"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Percent change in US consumption expenditure&quot;</span>) <span class="op">+</span></span>
+<span id="cb664-5"><a href="time-series-modeling-and-forecasting.html#cb664-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour=</span><span class="kw">guide_legend</span>(<span class="dt">title=</span><span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-276-1.png" width="672" /></p>
+<p>It is useful to check the residuals of the regression model:</p>
+<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb665-1"><a href="time-series-modeling-and-forecasting.html#cb665-1"></a><span class="kw">checkresiduals</span>(fit.consMR)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-277-1.png" width="672" /></p>
+<pre><code>## 
+##  Breusch-Godfrey test for serial correlation of order up to 8
+## 
+## data:  Residuals from Linear regression model
+## LM test = 14.874, df = 8, p-value = 0.06163</code></pre>
+<div id="the-perennial-warning-beware-of-spurious-correlations" class="section level3">
+<h3><span class="header-section-number">11.5.1</span> The perennial warning: beware of spurious correlations!</h3>
+<p>These two data sets, on Australian air passengers and rice production in Guinea, have a very strong positive correlation:</p>
+<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb667-1"><a href="time-series-modeling-and-forecasting.html#cb667-1"></a>aussies &lt;-<span class="st"> </span><span class="kw">window</span>(ausair, <span class="dt">end=</span><span class="dv">2011</span>)</span>
+<span id="cb667-2"><a href="time-series-modeling-and-forecasting.html#cb667-2"></a>fit &lt;-<span class="st"> </span><span class="kw">tslm</span>(aussies <span class="op">~</span><span class="st"> </span>guinearice)</span>
+<span id="cb667-3"><a href="time-series-modeling-and-forecasting.html#cb667-3"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## tslm(formula = aussies ~ guinearice)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.9448 -1.8917 -0.3272  1.8620 10.4210 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   -7.493      1.203  -6.229 2.25e-07 ***
+## guinearice    40.288      1.337  30.135  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.239 on 40 degrees of freedom
+## Multiple R-squared:  0.9578, Adjusted R-squared:  0.9568 
+## F-statistic: 908.1 on 1 and 40 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>However, notice that the residuals indicate a strong trend, which violates the assumptions of linear regression.</p>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb669-1"><a href="time-series-modeling-and-forecasting.html#cb669-1"></a><span class="kw">checkresiduals</span>(fit)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-279-1.png" width="672" /></p>
+<pre><code>## 
+##  Breusch-Godfrey test for serial correlation of order up to 8
+## 
+## data:  Residuals from Linear regression model
+## LM test = 28.813, df = 8, p-value = 0.000342</code></pre>
+<p>There are a number of fun examples of spurious time series correlations in reference [5].</p>
+</div>
+<div id="forecasting-using-linear-regression" class="section level3">
+<h3><span class="header-section-number">11.5.2</span> Forecasting using linear regression</h3>
+<p>One can distringuish between true forecasting, termed <em>ex-ante</em> (from before) prediction, in which we truly try to predict the unknown future, and <em>ex-post</em> forecasts, in which the true values both of the predictors and the response variable are known. The latter is still useful for validating models and for comparing different methods.</p>
+<p>The library <code>forecast</code> contains tools to make calculating predicted values in time series simple. One can use the model to forecast the values in the future, based on different <em>scenarios</em>. For example, we may want to investigate the prediction for an economic upturn and a downturn:</p>
+<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb671-1"><a href="time-series-modeling-and-forecasting.html#cb671-1"></a>fit.consBest &lt;-<span class="st"> </span><span class="kw">tslm</span>(</span>
+<span id="cb671-2"><a href="time-series-modeling-and-forecasting.html#cb671-2"></a>  Consumption <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Savings <span class="op">+</span><span class="st"> </span>Unemployment,</span>
+<span id="cb671-3"><a href="time-series-modeling-and-forecasting.html#cb671-3"></a>  <span class="dt">data =</span> uschange)</span>
+<span id="cb671-4"><a href="time-series-modeling-and-forecasting.html#cb671-4"></a></span>
+<span id="cb671-5"><a href="time-series-modeling-and-forecasting.html#cb671-5"></a>h &lt;-<span class="st"> </span><span class="dv">4</span></span>
+<span id="cb671-6"><a href="time-series-modeling-and-forecasting.html#cb671-6"></a>newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb671-7"><a href="time-series-modeling-and-forecasting.html#cb671-7"></a>    <span class="dt">Income =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb671-8"><a href="time-series-modeling-and-forecasting.html#cb671-8"></a>    <span class="dt">Savings =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
+<span id="cb671-9"><a href="time-series-modeling-and-forecasting.html#cb671-9"></a>    <span class="dt">Unemployment =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb671-10"><a href="time-series-modeling-and-forecasting.html#cb671-10"></a>fcast.up &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">forecast</span>(fit.consBest, <span class="dt">newdata =</span> newdata)</span>
+<span id="cb671-11"><a href="time-series-modeling-and-forecasting.html#cb671-11"></a>newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb671-12"><a href="time-series-modeling-and-forecasting.html#cb671-12"></a>    <span class="dt">Income =</span> <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, h),</span>
+<span id="cb671-13"><a href="time-series-modeling-and-forecasting.html#cb671-13"></a>    <span class="dt">Savings =</span> <span class="kw">rep</span>(<span class="op">-</span><span class="fl">0.5</span>, h),</span>
+<span id="cb671-14"><a href="time-series-modeling-and-forecasting.html#cb671-14"></a>    <span class="dt">Unemployment =</span> <span class="kw">rep</span>(<span class="dv">0</span>, h))</span>
+<span id="cb671-15"><a href="time-series-modeling-and-forecasting.html#cb671-15"></a>fcast.down &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">forecast</span>(fit.consBest, <span class="dt">newdata =</span> newdata)</span></code></pre></div>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="time-series-modeling-and-forecasting.html#cb672-1"></a><span class="kw">autoplot</span>(uschange[, <span class="dv">1</span>]) <span class="op">+</span></span>
+<span id="cb672-2"><a href="time-series-modeling-and-forecasting.html#cb672-2"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;% change in US consumption&quot;</span>) <span class="op">+</span></span>
+<span id="cb672-3"><a href="time-series-modeling-and-forecasting.html#cb672-3"></a><span class="st">  </span><span class="kw">autolayer</span>(fcast.up, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">series =</span> <span class="st">&quot;increase&quot;</span>)  <span class="op">+</span></span>
+<span id="cb672-4"><a href="time-series-modeling-and-forecasting.html#cb672-4"></a><span class="st">  </span><span class="kw">autolayer</span>(fcast.down, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">series =</span> <span class="st">&quot;decrease&quot;</span>) <span class="op">+</span></span>
+<span id="cb672-5"><a href="time-series-modeling-and-forecasting.html#cb672-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Scenario&quot;</span>))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-281-1.png" width="672" /></p>
+</div>
+</div>
+<div id="references-and-further-reading" class="section level2">
+<h2><span class="header-section-number">11.6</span> References and further reading:</h2>
+<ol style="list-style-type: decimal">
+<li>Rob J Hyndman and George Athanasopoulos. <a href="https://otexts.com/fpp2/"><strong>Forecasting: Principles and Practice</strong></a></li>
+<li>Jonathan Cryer and Kung-Sik Chan <a href="https://mybiostats.files.wordpress.com/2015/03/time-series-analysis-with-applications-in-r-cryer-and-chan.pdf"><strong>Time Series Analysis with Applications in R</strong></a></li>
+<li><a href="https://www.r-bloggers.com/time-series-forecast-cross-validation-by-ellis2013nz/">Cross-validation in forecasting</a></li>
+<li><a href="https://towardsdatascience.com/time-series-nested-cross-validation-76adba623eb9">Time series nested cross-validation</a></li>
+<li><a href="https://www.tylervigen.com/spurious-correlations">Spurious correlations</a></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="anova.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

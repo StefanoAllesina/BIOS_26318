@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="likelihood-and-bayes.html"/>
-
+<link rel="next" href="time-series-modeling-and-forecasting.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -323,6 +323,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
 <li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -657,8 +677,8 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
           </div>
         </div>
       </div>
-<a href="likelihood-and-bayes.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="likelihood-and-bayes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="time-series-modeling-and-forecasting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,6 +324,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -392,12 +412,12 @@ of colors do we want to use?</p></li>
 <pre><code>## # A tibble: 6 x 10
 ##   date       county state fips  cases deaths confirmed_cases confirmed_deaths
 ##   &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
-## 1 2020-10-23 Autau… Alab… 01001  2030     30            1809               29
-## 2 2020-10-23 Baldw… Alab… 01003  6615     69            5605               65
-## 3 2020-10-23 Barbo… Alab… 01005  1012      9             719                9
-## 4 2020-10-23 Bibb   Alab… 01007   825     14             760               10
-## 5 2020-10-23 Blount Alab… 01009  1911     25            1475               25
-## 6 2020-10-23 Bullo… Alab… 01011   639     17             608               14
+## 1 2020-10-26 Autau… Alab… 01001  2074     31            1845               29
+## 2 2020-10-26 Baldw… Alab… 01003  6694     69            5663               65
+## 3 2020-10-26 Barbo… Alab… 01005  1033      9             731                9
+## 4 2020-10-26 Bibb   Alab… 01007   843     14             773               10
+## 5 2020-10-26 Blount Alab… 01009  1942     25            1507               25
+## 6 2020-10-26 Bullo… Alab… 01011   649     17             611               14
 ## # … with 2 more variables: probable_cases &lt;dbl&gt;, probable_deaths &lt;dbl&gt;</code></pre>
 <p>we are going to work with <code>date</code>, <code>county</code>, <code>state</code>, <code>cases</code> and <code>deaths</code>.</p>
 <p>Let’s select Illnois, and take only the counties with more than 250 cases (to have a less crowded graph):</p>
@@ -594,7 +614,7 @@ of colors do we want to use?</p></li>
 
 ## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 28 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_smooth).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
 <p>Make ranges on <em>x</em> and <em>y</em> axes equal, and add the 1:1 line:</p>
 <div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="visualizing-data-using-ggplot2.html#cb290-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>)</span>
@@ -603,7 +623,7 @@ of colors do we want to use?</p></li>
 
 ## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 28 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 26 rows containing non-finite values (stat_smooth).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
 </div>
 <div id="setting-features" class="section level2">

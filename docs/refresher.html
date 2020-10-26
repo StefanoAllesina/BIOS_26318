@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-10-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -323,6 +323,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
 <li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -1048,21 +1068,21 @@ and run a script to confirm your intuition.</p>
 <h2><span class="header-section-number">1.12</span> Random numbers</h2>
 <p>To perform randomization, or any simulation, we typically need to draw random numbers. <code>R</code> has functions to sample random numbers from very many different statistical distributions. For example:</p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="refresher.html#cb204-1"></a><span class="kw">runif</span>(<span class="dv">5</span>) <span class="co"># sample 5 numbers from the uniform distribution between 0 and 1</span></span></code></pre></div>
-<pre><code>## [1] 0.4781092 0.3441229 0.1315630 0.2453151 0.1947149</code></pre>
+<pre><code>## [1] 0.2598471 0.6247185 0.1347333 0.9016892 0.4216131</code></pre>
 <div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="refresher.html#cb206-1"></a><span class="kw">runif</span>(<span class="dv">5</span>, <span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">9</span>) <span class="co"># set the limits of the uniform distribution</span></span></code></pre></div>
-<pre><code>## [1] 2.342605 6.108214 1.403999 7.860617 2.697265</code></pre>
+<pre><code>## [1] 8.845050 4.027616 7.209550 2.032331 1.665738</code></pre>
 <div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="refresher.html#cb208-1"></a><span class="kw">rnorm</span>(<span class="dv">3</span>) <span class="co"># three values from standard normal</span></span></code></pre></div>
-<pre><code>## [1] -1.444452  1.334589 -1.391722</code></pre>
+<pre><code>## [1] 0.2350168 1.2225776 1.0021979</code></pre>
 <div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="refresher.html#cb210-1"></a><span class="kw">rnorm</span>(<span class="dv">3</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">4</span>) <span class="co"># specify mean and standard deviation</span></span></code></pre></div>
-<pre><code>## [1] 4.085877 8.317209 2.376266</code></pre>
+<pre><code>## [1] 9.164281 9.522204 3.622724</code></pre>
 <p>To sample from a set of values, use <code>sample</code>:</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="refresher.html#cb212-1"></a>v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)</span>
 <span id="cb212-2"><a href="refresher.html#cb212-2"></a><span class="kw">sample</span>(v, <span class="dv">2</span>) <span class="co"># without replacement</span></span></code></pre></div>
-<pre><code>## [1] &quot;d&quot; &quot;a&quot;</code></pre>
+<pre><code>## [1] &quot;c&quot; &quot;a&quot;</code></pre>
 <div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="refresher.html#cb214-1"></a><span class="kw">sample</span>(v, <span class="dv">6</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>) <span class="co"># with replacement</span></span></code></pre></div>
-<pre><code>## [1] &quot;c&quot; &quot;b&quot; &quot;c&quot; &quot;b&quot; &quot;a&quot; &quot;a&quot;</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;a&quot; &quot;c&quot; &quot;d&quot; &quot;c&quot; &quot;d&quot;</code></pre>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="refresher.html#cb216-1"></a><span class="kw">sample</span>(v) <span class="co"># simply shuffle the elements</span></span></code></pre></div>
-<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot;</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;c&quot; &quot;d&quot; &quot;b&quot;</code></pre>
 </div>
 <div id="writing-functions" class="section level2">
 <h2><span class="header-section-number">1.13</span> Writing functions</h2>
@@ -1115,7 +1135,7 @@ and run a script to confirm your intuition.</p>
 <span id="cb231-4"><a href="refresher.html#cb231-4"></a>}</span>
 <span id="cb231-5"><a href="refresher.html#cb231-5"></a></span>
 <span id="cb231-6"><a href="refresher.html#cb231-6"></a><span class="kw">order_two_numbers</span>(<span class="kw">runif</span>(<span class="dv">1</span>), <span class="kw">runif</span>(<span class="dv">1</span>))</span></code></pre></div>
-<pre><code>## [1] 0.7038822 0.6482499</code></pre>
+<pre><code>## [1] 0.4666916 0.4031766</code></pre>
 </div>
 <div id="organizing-and-running-code" class="section level2">
 <h2><span class="header-section-number">1.14</span> Organizing and running code</h2>
