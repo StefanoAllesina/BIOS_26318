@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 14 Principal Component Analysis | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 14 Principal Component Analysis | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 14 Principal Component Analysis | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-11-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="model-selection.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
+<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
+<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
+<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
+<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
+<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
+<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
+<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
+<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
+<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
+<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
+<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
+<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
+<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
+<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
+<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
+<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
+<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
+<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
+<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
+<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
+<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a><ul>
+<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
+<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
+<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
+<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
+<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
+<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
+<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
+<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#corrections-for-multiple-comparisons"><i class="fa fa-check"></i><b>6.5</b> Corrections for multiple comparisons</a></li>
+<li class="chapter" data-level="6.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#two-problems-with-science"><i class="fa fa-check"></i><b>6.6</b> Two problems with science</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#selective-reporting"><i class="fa fa-check"></i><b>6.6.1</b> Selective reporting</a></li>
+<li class="chapter" data-level="6.6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#p-hacking"><i class="fa fa-check"></i><b>6.6.2</b> P-hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#readings"><i class="fa fa-check"></i><b>6.7</b> Readings</a></li>
+<li class="chapter" data-level="6.8" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#how-to-fool-yourself-with-p-hacking-and-possibly-get-fired"><i class="fa fa-check"></i><b>6.8</b> How to fool yourself with p-hacking (and possibly get fired!)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html"><i class="fa fa-check"></i><b>7</b> Review of linear algebra</a><ul>
+<li class="chapter" data-level="7.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#solving-multivariate-linear-equations"><i class="fa fa-check"></i><b>7.1</b> Solving multivariate linear equations</a></li>
+<li class="chapter" data-level="7.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#fitting-a-line-to-data"><i class="fa fa-check"></i><b>7.2</b> Fitting a line to data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#least-squares-line"><i class="fa fa-check"></i><b>7.2.1</b> Least-squares line</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linearity-and-vector-spaces"><i class="fa fa-check"></i><b>7.3</b> Linearity and vector spaces</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linear-independence-and-basis-vectors"><i class="fa fa-check"></i><b>7.3.1</b> Linear independence and basis vectors</a></li>
+<li class="chapter" data-level="7.3.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#projections-and-changes-of-basis"><i class="fa fa-check"></i><b>7.3.2</b> Projections and changes of basis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-as-linear-operators"><i class="fa fa-check"></i><b>7.4</b> Matrices as linear operators</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-transform-vectors"><i class="fa fa-check"></i><b>7.4.1</b> Matrices transform vectors</a></li>
+<li class="chapter" data-level="7.4.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#calculating-eigenvalues"><i class="fa fa-check"></i><b>7.4.2</b> calculating eigenvalues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>8</b> Linear models</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-models.html"><a href="linear-models.html#regression-toward-the-mean"><i class="fa fa-check"></i><b>8.1</b> Regression toward the mean</a></li>
+<li class="chapter" data-level="8.2" data-path="linear-models.html"><a href="linear-models.html#finding-the-best-fitting-line-linear-regression"><i class="fa fa-check"></i><b>8.2</b> Finding the best fitting line: Linear Regression</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="linear-models.html"><a href="linear-models.html#solving-a-linear-model-some-linear-algebra"><i class="fa fa-check"></i><b>8.2.1</b> Solving a linear model — some linear algebra</a></li>
+<li class="chapter" data-level="8.2.2" data-path="linear-models.html"><a href="linear-models.html#minimizing-the-sum-of-squares"><i class="fa fa-check"></i><b>8.2.2</b> Minimizing the sum of squares</a></li>
+<li class="chapter" data-level="8.2.3" data-path="linear-models.html"><a href="linear-models.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>8.2.3</b> Assumptions of linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="linear-models.html"><a href="linear-models.html#linear-regression-in-action"><i class="fa fa-check"></i><b>8.3</b> Linear regression in action</a></li>
+<li class="chapter" data-level="8.4" data-path="linear-models.html"><a href="linear-models.html#a-regression-gone-wild"><i class="fa fa-check"></i><b>8.4</b> A regression gone wild</a></li>
+<li class="chapter" data-level="8.5" data-path="linear-models.html"><a href="linear-models.html#more-advanced-topics"><i class="fa fa-check"></i><b>8.5</b> More advanced topics</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="linear-models.html"><a href="linear-models.html#categorical-variables-in-linear-models"><i class="fa fa-check"></i><b>8.5.1</b> Categorical variables in linear models</a></li>
+<li class="chapter" data-level="8.5.2" data-path="linear-models.html"><a href="linear-models.html#interactions-in-linear-models"><i class="fa fa-check"></i><b>8.5.2</b> Interactions in linear models</a></li>
+<li class="chapter" data-level="8.5.3" data-path="linear-models.html"><a href="linear-models.html#regression-diagnostics"><i class="fa fa-check"></i><b>8.5.3</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="8.5.4" data-path="linear-models.html"><a href="linear-models.html#plotting-the-residuals"><i class="fa fa-check"></i><b>8.5.4</b> Plotting the residuals</a></li>
+<li class="chapter" data-level="8.5.5" data-path="linear-models.html"><a href="linear-models.html#q-q-plot"><i class="fa fa-check"></i><b>8.5.5</b> Q-Q Plot</a></li>
+<li class="chapter" data-level="8.5.6" data-path="linear-models.html"><a href="linear-models.html#cooks-distance"><i class="fa fa-check"></i><b>8.5.6</b> Cook’s distance</a></li>
+<li class="chapter" data-level="8.5.7" data-path="linear-models.html"><a href="linear-models.html#leverage"><i class="fa fa-check"></i><b>8.5.7</b> Leverage</a></li>
+<li class="chapter" data-level="8.5.8" data-path="linear-models.html"><a href="linear-models.html#running-all-diagnostics"><i class="fa fa-check"></i><b>8.5.8</b> Running all diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="linear-models.html"><a href="linear-models.html#transforming-the-data"><i class="fa fa-check"></i><b>8.6</b> Transforming the data</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
+<li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
+<li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-thinking"><i class="fa fa-check"></i><b>9.2</b> Bayesian thinking</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayes-formula"><i class="fa fa-check"></i><b>9.2.1</b> Bayes’ formula</a></li>
+<li class="chapter" data-level="9.2.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#positive-predictive-value"><i class="fa fa-check"></i><b>9.2.2</b> positive predictive value</a></li>
+<li class="chapter" data-level="9.2.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#prosecutors-fallacy"><i class="fa fa-check"></i><b>9.2.3</b> prosecutor’s fallacy</a></li>
+<li class="chapter" data-level="9.2.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reproducibility-in-science"><i class="fa fa-check"></i><b>9.2.4</b> reproducibility in science</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>9.3</b> Bayesian inference</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#example-capture-recapture"><i class="fa fa-check"></i><b>9.3.1</b> Example: capture-recapture</a></li>
+<li class="chapter" data-level="9.3.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#mcmc"><i class="fa fa-check"></i><b>9.3.2</b> MCMC</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>9.4</b> Reading:</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>10</b> ANOVA</a><ul>
+<li class="chapter" data-level="10.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>10.1</b> Analysis of variance</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="anova.html"><a href="anova.html#anova-assumptions"><i class="fa fa-check"></i><b>10.1.1</b> ANOVA assumptions</a></li>
+<li class="chapter" data-level="10.1.2" data-path="anova.html"><a href="anova.html#how-one-way-anova-works"><i class="fa fa-check"></i><b>10.1.2</b> How one-way ANOVA works</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="anova.html"><a href="anova.html#inference-in-one-way-anova"><i class="fa fa-check"></i><b>10.2</b> Inference in one-way ANOVA</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="anova.html"><a href="anova.html#example-of-comparing-diets"><i class="fa fa-check"></i><b>10.2.1</b> Example of comparing diets</a></li>
+<li class="chapter" data-level="10.2.2" data-path="anova.html"><a href="anova.html#comparison-of-theory-and-anova-output"><i class="fa fa-check"></i><b>10.2.2</b> Comparison of theory and ANOVA output</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="anova.html"><a href="anova.html#further-steps"><i class="fa fa-check"></i><b>10.3</b> Further steps</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="anova.html"><a href="anova.html#post-hoc-analysis"><i class="fa fa-check"></i><b>10.3.1</b> Post-hoc analysis</a></li>
+<li class="chapter" data-level="10.3.2" data-path="anova.html"><a href="anova.html#example-of-plant-growth-data"><i class="fa fa-check"></i><b>10.3.2</b> Example of plant growth data</a></li>
+<li class="chapter" data-level="10.3.3" data-path="anova.html"><a href="anova.html#two-way-anova"><i class="fa fa-check"></i><b>10.3.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>12</b> Generalized linear models</a><ul>
+<li class="chapter" data-level="12.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#goal-3"><i class="fa fa-check"></i><b>12.1</b> Goal</a></li>
+<li class="chapter" data-level="12.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#introduction"><i class="fa fa-check"></i><b>12.2</b> Introduction</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-structure"><i class="fa fa-check"></i><b>12.2.1</b> Model structure</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-data"><i class="fa fa-check"></i><b>12.3</b> Binary data</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#logistic-regression"><i class="fa fa-check"></i><b>12.3.1</b> Logistic regression</a></li>
+<li class="chapter" data-level="12.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#a-simple-example"><i class="fa fa-check"></i><b>12.3.2</b> A simple example</a></li>
+<li class="chapter" data-level="12.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-college-admissions"><i class="fa fa-check"></i><b>12.3.3</b> Exercise in class: College admissions</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>12.4</b> Count data</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#poisson-regression"><i class="fa fa-check"></i><b>12.4.1</b> Poisson regression</a></li>
+<li class="chapter" data-level="12.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-number-of-genomes"><i class="fa fa-check"></i><b>12.4.2</b> Exercise in class: Number of genomes</a></li>
+<li class="chapter" data-level="12.4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#underdispersed-and-overdispersed-data"><i class="fa fa-check"></i><b>12.4.3</b> Underdispersed and Overdispersed data</a></li>
+<li class="chapter" data-level="12.4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-number-of-genomes-1"><i class="fa fa-check"></i><b>12.4.4</b> Exercise in class: Number of genomes</a></li>
+<li class="chapter" data-level="12.4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#separate-distribution-for-the-zeros"><i class="fa fa-check"></i><b>12.4.5</b> Separate distribution for the zeros</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#other-glms"><i class="fa fa-check"></i><b>12.5</b> Other GLMs</a></li>
+<li class="chapter" data-level="12.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#readings-and-homework"><i class="fa fa-check"></i><b>12.6</b> Readings and homework</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>13</b> Model Selection</a><ul>
+<li class="chapter" data-level="13.1" data-path="model-selection.html"><a href="model-selection.html#goal-4"><i class="fa fa-check"></i><b>13.1</b> Goal</a></li>
+<li class="chapter" data-level="13.2" data-path="model-selection.html"><a href="model-selection.html#problems"><i class="fa fa-check"></i><b>13.2</b> Problems</a></li>
+<li class="chapter" data-level="13.3" data-path="model-selection.html"><a href="model-selection.html#approaches-based-on-maximum-likelihoods"><i class="fa fa-check"></i><b>13.3</b> Approaches based on maximum-likelihoods</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="model-selection.html"><a href="model-selection.html#likelihood-function"><i class="fa fa-check"></i><b>13.3.1</b> Likelihood function</a></li>
+<li class="chapter" data-level="13.3.2" data-path="model-selection.html"><a href="model-selection.html#discrete-probability-distributions-1"><i class="fa fa-check"></i><b>13.3.2</b> Discrete probability distributions</a></li>
+<li class="chapter" data-level="13.3.3" data-path="model-selection.html"><a href="model-selection.html#continuous-probability-distributions-1"><i class="fa fa-check"></i><b>13.3.3</b> Continuous probability distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="model-selection.html"><a href="model-selection.html#likelihoods-for-linear-regression"><i class="fa fa-check"></i><b>13.4</b> Likelihoods for linear regression</a></li>
+<li class="chapter" data-level="13.5" data-path="model-selection.html"><a href="model-selection.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>13.5</b> Likelihood-ratio tests</a></li>
+<li class="chapter" data-level="13.6" data-path="model-selection.html"><a href="model-selection.html#aic"><i class="fa fa-check"></i><b>13.6</b> AIC</a></li>
+<li class="chapter" data-level="13.7" data-path="model-selection.html"><a href="model-selection.html#other-information-based-criteria"><i class="fa fa-check"></i><b>13.7</b> Other information-based criteria</a></li>
+<li class="chapter" data-level="13.8" data-path="model-selection.html"><a href="model-selection.html#bayesian-approaches-to-model-selection"><i class="fa fa-check"></i><b>13.8</b> Bayesian approaches to model selection</a><ul>
+<li class="chapter" data-level="13.8.1" data-path="model-selection.html"><a href="model-selection.html#marginal-likelihoods"><i class="fa fa-check"></i><b>13.8.1</b> Marginal likelihoods</a></li>
+<li class="chapter" data-level="13.8.2" data-path="model-selection.html"><a href="model-selection.html#bayes-factors"><i class="fa fa-check"></i><b>13.8.2</b> Bayes factors</a></li>
+<li class="chapter" data-level="13.8.3" data-path="model-selection.html"><a href="model-selection.html#bayes-factors-in-practice"><i class="fa fa-check"></i><b>13.8.3</b> Bayes factors in practice</a></li>
+</ul></li>
+<li class="chapter" data-level="13.9" data-path="model-selection.html"><a href="model-selection.html#other-approaches"><i class="fa fa-check"></i><b>13.9</b> Other approaches</a><ul>
+<li class="chapter" data-level="13.9.1" data-path="model-selection.html"><a href="model-selection.html#minimum-description-length"><i class="fa fa-check"></i><b>13.9.1</b> Minimum description length</a></li>
+<li class="chapter" data-level="13.9.2" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>13.9.2</b> Cross validation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html"><i class="fa fa-check"></i><b>14</b> Principal Component Analysis</a><ul>
+<li class="chapter" data-level="14.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#input"><i class="fa fa-check"></i><b>14.1</b> Input</a></li>
+<li class="chapter" data-level="14.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#singular-value-decomposition"><i class="fa fa-check"></i><b>14.2</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="14.3" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#svd-and-pca"><i class="fa fa-check"></i><b>14.3</b> SVD and PCA</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-rfrom-scratch"><i class="fa fa-check"></i><b>14.3.1</b> PCA in R—from scratch</a></li>
+<li class="chapter" data-level="14.3.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-r-the-easy-way"><i class="fa fa-check"></i><b>14.3.2</b> PCA in R — the easy way</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#multidimensional-scaling"><i class="fa fa-check"></i><b>14.4</b> Multidimensional scaling</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#goal-of-mds"><i class="fa fa-check"></i><b>14.4.1</b> Goal of MDS</a></li>
+<li class="chapter" data-level="14.4.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#classic-mds"><i class="fa fa-check"></i><b>14.4.2</b> Classic MDS</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#readings-1"><i class="fa fa-check"></i><b>14.5</b> Readings</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="principal-component-analysis" class="section level1">
+<h1><span class="header-section-number">Lecture 14</span> Principal Component Analysis</h1>
+<p><strong>Goal</strong></p>
+<p>Introduce Principal Component Analysis (PCA), one of the most popular techniques to perform “dimensionality reduction” of complex data sets. If we see the data as points in a high-dimensional space, we can project the data onto a new set of coordinates such that the first coordinate captures the largest share of the variance in the data, the second coordinates captures the largest share of the remaining variance and so on. In this way, we can project large-dimensional data sets onto low-dimensional spaces and lose the least information about the data.</p>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb783-1"><a href="principal-component-analysis.html#cb783-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb783-2"><a href="principal-component-analysis.html#cb783-2"></a><span class="kw">library</span>(ggmap) <span class="co"># for ggimage</span></span>
+<span id="cb783-3"><a href="principal-component-analysis.html#cb783-3"></a><span class="kw">library</span>(ggfortify) <span class="co"># for autoplot</span></span></code></pre></div>
+<div id="input" class="section level2">
+<h2><span class="header-section-number">14.1</span> Input</h2>
+<p>We have collected the <span class="math inline">\(n \times m\)</span> data matrix <span class="math inline">\(X\)</span> (typically, with <span class="math inline">\(n \gg m\)</span>), in which the rows are samples and the columns are <span class="math inline">\(m\)</span> measures on the samples. Each row of this matrix defines a point in the Euclidean space <span class="math inline">\(\mathbb R^m\)</span>, i.e., each point in this space is a potential sample. Naturally, samples with similar measurements are “close” in this space, and samples that are very different are “far”. However, <span class="math inline">\(m\)</span> can be quite large, and therefore we cannot easily visualize the position of the points. One way to think of PCA is as the best projection of the points in a <span class="math inline">\(r\)</span>-dimensional space (with <span class="math inline">\(r \leq m\)</span>), for visualization and clustering.</p>
+<p>For example, take the iris data set:</p>
+<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="principal-component-analysis.html#cb784-1"></a><span class="kw">data</span>(<span class="st">&quot;iris&quot;</span>)</span>
+<span id="cb784-2"><a href="principal-component-analysis.html#cb784-2"></a>ir &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>Species)</span>
+<span id="cb784-3"><a href="principal-component-analysis.html#cb784-3"></a>sp &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Species)</span>
+<span id="cb784-4"><a href="principal-component-analysis.html#cb784-4"></a><span class="kw">pairs</span>(ir, <span class="dt">col =</span> sp<span class="op">$</span>Species)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-324-1.png" width="672" /></p>
+<p>We can separate the clusters better by finding the best projection in 2D:</p>
+<div class="sourceCode" id="cb785"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb785-1"><a href="principal-component-analysis.html#cb785-1"></a><span class="kw">autoplot</span>(<span class="kw">prcomp</span>(ir, <span class="dt">center =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb785-2"><a href="principal-component-analysis.html#cb785-2"></a>         <span class="dt">data =</span> iris, </span>
+<span id="cb785-3"><a href="principal-component-analysis.html#cb785-3"></a>         <span class="dt">colour =</span> <span class="st">&quot;Species&quot;</span>,</span>
+<span id="cb785-4"><a href="principal-component-analysis.html#cb785-4"></a>         <span class="dt">scale =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb785-5"><a href="principal-component-analysis.html#cb785-5"></a><span class="st">  </span><span class="kw">coord_equal</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-325-1.png" width="672" /></p>
+</div>
+<div id="singular-value-decomposition" class="section level2">
+<h2><span class="header-section-number">14.2</span> Singular Value Decomposition</h2>
+<p>At the hearth of PCA is a particular matrix decomposition (or factorization): we represent the matrix <span class="math inline">\(X\)</span> as a product of other matrices (or, equivalently, a sum of matirces). In particular, SVD is defined by the equation:</p>
+<p><span class="math display">\[
+X = U \Sigma V^T
+\]</span></p>
+<p><span class="math inline">\(X\)</span> is a <span class="math inline">\(n \times m\)</span> matrix, <span class="math inline">\(U\)</span> is an <span class="math inline">\(n \times n\)</span> <strong>orthogonal</strong>, <strong>unitary</strong> matrix and <span class="math inline">\(V\)</span> is an <span class="math inline">\(m \times m\)</span> orthogonal, unitary matrix, and <span class="math inline">\(\Sigma\)</span> is a <span class="math inline">\(m \times n\)</span> rectangular, diagonal matrix with nonnegative values on the diagonal. If <span class="math inline">\(V\)</span> is a (real) unitary matrix, then <span class="math inline">\(VV^T = I_m\)</span> (the <span class="math inline">\(m \times m\)</span> identity matrix), and if <span class="math inline">\(U\)</span> is also unitary, then <span class="math inline">\(UU^T = I_n\)</span>. Another way to put this is <span class="math inline">\(U^{-1} = U^T\)</span>.</p>
+<p>(Note: this defines the “full” SVD of <span class="math inline">\(A\)</span>; equivalently, one can perform a “thin”, or “reduced” SVD by having <span class="math inline">\(U\)</span> of dimension <span class="math inline">\(n \times p\)</span>, and <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(V\)</span> of dimension <span class="math inline">\(p \times p\)</span>, where <span class="math inline">\(p \leq m\)</span> is the rank of <span class="math inline">\(A\)</span>—by default <code>R</code> returns a “thin” SVD; read the details <a href="http://www.seas.ucla.edu/~vandenbe/133B/lectures/svd.pdf">here</a>).</p>
+<p>The values on the diagonal of <span class="math inline">\(\Sigma\)</span> are the <strong>singular values</strong> of <span class="math inline">\(X\)</span>, i.e., the nonzero eigenvalues of <span class="math inline">\(XX^T\)</span> (or <span class="math inline">\(X^T X\)</span>). In this context, the matrix <span class="math inline">\(U\)</span> contains the <strong>left singular vectors</strong> of <span class="math inline">\(X\)</span> and <span class="math inline">\(V\)</span> its <strong>right singular vectors</strong>. Let’s rearrange the rows/cols of <span class="math inline">\(\Sigma\)</span>, <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> such that we have the singular values in decreasing order: <span class="math inline">\(\text{diag}(\Sigma) = (\sigma_1, \sigma_2, \ldots, \sigma_m)\)</span>.</p>
+<p>Through SVD, the matrix <span class="math inline">\(X\)</span> can be seen as a sum of <span class="math inline">\(m\)</span> matrices:</p>
+<p><span class="math display">\[
+X = \sum_{i = 1}^m U_i \Sigma_{ii} V_i^T = X_1 + X_2 + X_3 + \ldots
+\]</span></p>
+<p>Where <span class="math inline">\(U_i\)</span> is the <span class="math inline">\(i\)</span>th column of <span class="math inline">\(U\)</span>. Most importantly, you can prove that at each step (<span class="math inline">\(r\)</span>), you are computing the <strong>“best” approximation of <span class="math inline">\(X\)</span> as a sum of <span class="math inline">\(r\)</span> rank-1 matrices</strong>. I.e., for each <span class="math inline">\(r\)</span> we have that <span class="math inline">\(\| X - (X_1 + X_2 + \ldots + X_r) \|\)</span> is as small as possible (Eckart–Young–Mirsky theorem).</p>
+<p>Let’s look at a concrete example. A monochromatic image can be represented as a matrix where the entries are pixels taking values in (for example, using 8 bits) <span class="math inline">\(0, 1, \ldots, 255\)</span>:</p>
+<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb786-1"><a href="principal-component-analysis.html#cb786-1"></a>stefano &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">read.csv</span>(<span class="st">&quot;data/stefano.txt&quot;</span>))</span>
+<span id="cb786-2"><a href="principal-component-analysis.html#cb786-2"></a><span class="co"># invert y axis and transpose for visualization</span></span>
+<span id="cb786-3"><a href="principal-component-analysis.html#cb786-3"></a>stefano &lt;-<span class="st"> </span><span class="kw">t</span>(stefano[,<span class="kw">ncol</span>(stefano)<span class="op">:</span><span class="dv">1</span>])</span>
+<span id="cb786-4"><a href="principal-component-analysis.html#cb786-4"></a><span class="co"># rescale values to suppress warning from ggimage</span></span>
+<span id="cb786-5"><a href="principal-component-analysis.html#cb786-5"></a>stefano &lt;-<span class="st"> </span>stefano <span class="op">/</span><span class="st"> </span><span class="kw">max</span>(stefano)</span>
+<span id="cb786-6"><a href="principal-component-analysis.html#cb786-6"></a><span class="kw">ggimage</span>(stefano)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-326-1.png" width="672" /></p>
+<p>Now let’s perform SVD, and show that indeed we have factorized the image:</p>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="principal-component-analysis.html#cb787-1"></a>s_svd &lt;-<span class="st"> </span><span class="kw">svd</span>(stefano)</span>
+<span id="cb787-2"><a href="principal-component-analysis.html#cb787-2"></a>U &lt;-<span class="st"> </span>s_svd<span class="op">$</span>u</span>
+<span id="cb787-3"><a href="principal-component-analysis.html#cb787-3"></a>V &lt;-<span class="st"> </span>s_svd<span class="op">$</span>v</span>
+<span id="cb787-4"><a href="principal-component-analysis.html#cb787-4"></a>Sigma &lt;-<span class="st"> </span><span class="kw">diag</span>(s_svd<span class="op">$</span>d)</span>
+<span id="cb787-5"><a href="principal-component-analysis.html#cb787-5"></a><span class="co"># this should be equal to the original matrix</span></span>
+<span id="cb787-6"><a href="principal-component-analysis.html#cb787-6"></a>stefano_<span class="dv">2</span> &lt;-<span class="st"> </span>U <span class="op">%*%</span><span class="st"> </span>Sigma <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(V)</span>
+<span id="cb787-7"><a href="principal-component-analysis.html#cb787-7"></a><span class="co"># let&#39;s plot the difference</span></span>
+<span id="cb787-8"><a href="principal-component-analysis.html#cb787-8"></a><span class="kw">ggimage</span>(<span class="kw">round</span>(stefano <span class="op">-</span><span class="st"> </span>stefano_<span class="dv">2</span>, <span class="dv">10</span>))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-327-1.png" width="672" /></p>
+<p>Now we can visualize the approximation we’re making when we take only the first few singular values. We’re going to plot <span class="math inline">\(X_k\)</span> (on the left), and <span class="math inline">\(\sum_{i=1}^k X_i\)</span> (on the right). Even with only a few iterations (7, out of 255) we obtain a recognizable image:</p>
+<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb788-1"><a href="principal-component-analysis.html#cb788-1"></a>r &lt;-<span class="st"> </span><span class="dv">7</span></span>
+<span id="cb788-2"><a href="principal-component-analysis.html#cb788-2"></a>Xdec &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="kw">c</span>(<span class="kw">dim</span>(stefano), r))</span>
+<span id="cb788-3"><a href="principal-component-analysis.html#cb788-3"></a>Xsum &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dv">0</span>, <span class="kw">c</span>(<span class="kw">dim</span>(stefano), r))</span>
+<span id="cb788-4"><a href="principal-component-analysis.html#cb788-4"></a><span class="co"># store the first matrix</span></span>
+<span id="cb788-5"><a href="principal-component-analysis.html#cb788-5"></a>Xdec[,,<span class="dv">1</span>] &lt;-<span class="st"> </span>(U[,<span class="dv">1</span>] <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(V[,<span class="dv">1</span>])) <span class="op">*</span><span class="st"> </span>Sigma[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb788-6"><a href="principal-component-analysis.html#cb788-6"></a><span class="co"># the first term in the sum is the matrix itself</span></span>
+<span id="cb788-7"><a href="principal-component-analysis.html#cb788-7"></a>Xsum[,,<span class="dv">1</span>] &lt;-<span class="st"> </span>Xdec[,,<span class="dv">1</span>]</span>
+<span id="cb788-8"><a href="principal-component-analysis.html#cb788-8"></a><span class="co"># store the other rank one matrices, along with the partial sum</span></span>
+<span id="cb788-9"><a href="principal-component-analysis.html#cb788-9"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>r){</span>
+<span id="cb788-10"><a href="principal-component-analysis.html#cb788-10"></a>  Xdec[,,i] &lt;-<span class="st"> </span>(U[,i] <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(V[,i])) <span class="op">*</span><span class="st"> </span>Sigma[i,i]</span>
+<span id="cb788-11"><a href="principal-component-analysis.html#cb788-11"></a>  Xsum[,,i] &lt;-<span class="st"> </span>Xsum[,,i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>Xdec[,,i]</span>
+<span id="cb788-12"><a href="principal-component-analysis.html#cb788-12"></a>}</span>
+<span id="cb788-13"><a href="principal-component-analysis.html#cb788-13"></a><span class="co"># now plot all matrices and their sum</span></span>
+<span id="cb788-14"><a href="principal-component-analysis.html#cb788-14"></a>plots &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb788-15"><a href="principal-component-analysis.html#cb788-15"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>r){</span>
+<span id="cb788-16"><a href="principal-component-analysis.html#cb788-16"></a>  plots[[<span class="kw">length</span>(plots) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]] &lt;-<span class="st"> </span><span class="kw">ggimage</span>(Xdec[,,i])</span>
+<span id="cb788-17"><a href="principal-component-analysis.html#cb788-17"></a>  plots[[<span class="kw">length</span>(plots) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]] &lt;-<span class="st"> </span><span class="kw">ggimage</span>(Xsum[,,i])</span>
+<span id="cb788-18"><a href="principal-component-analysis.html#cb788-18"></a>}</span>
+<span id="cb788-19"><a href="principal-component-analysis.html#cb788-19"></a>gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(<span class="dt">grobs =</span> plots, <span class="dt">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-328-1.png" width="672" /></p>
+</div>
+<div id="svd-and-pca" class="section level2">
+<h2><span class="header-section-number">14.3</span> SVD and PCA</h2>
+<p>Let’s go back to our data matrix <span class="math inline">\(X\)</span>, and its representation as <span class="math inline">\(n\)</span> points (the samples) in <span class="math inline">\(m\)</span> dimensions (the measurements). For the moment, consider the case in which <strong>each column of <span class="math inline">\(X\)</span> sums to zero</strong> (i.e., for each measurement, we have removed the mean—this is called “centering”). We would like to represent the data as best as possible in few dimensions, such that a) the axes are orthogonal; b) the axes are aligned with the principal sources of variation in the data. More precisely, PCA is an <strong>orthogonal linear transformation</strong> that transforms the data to a <strong>new coordinate system</strong> such that the direction of greatest variance of the data is aligned with the first coordinate, the second greatest with the second coordinate, and so on.</p>
+<p>For example, let’s take the <code>Petal.Lenght</code> and <code>Petal.Width</code> in <code>iris</code>:</p>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb789-1"><a href="principal-component-analysis.html#cb789-1"></a>X &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Petal.Length, Petal.Width) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</span>
+<span id="cb789-2"><a href="principal-component-analysis.html#cb789-2"></a>X &lt;-<span class="st"> </span><span class="kw">scale</span>(X, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>) <span class="co"># remove mean</span></span>
+<span id="cb789-3"><a href="principal-component-analysis.html#cb789-3"></a>colors &lt;-<span class="st"> </span>iris<span class="op">$</span>Species</span>
+<span id="cb789-4"><a href="principal-component-analysis.html#cb789-4"></a><span class="kw">plot</span>(X, <span class="dt">col =</span> colors)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-329-1.png" width="672" /></p>
+<p>You can see that now the points are centered at (0,0).</p>
+<p>In practice, we want to produce a new “data matrix” <span class="math inline">\(Y\)</span>:</p>
+<p><span class="math display">\[
+Y = XW
+\]</span></p>
+<p>where <span class="math inline">\(W\)</span> is an appropriate change of basis, transforming the data such that the directions of main variation are exposed. While we could choose any <span class="math inline">\(m \times m\)</span> matrix, we want a) <span class="math inline">\(W\)</span> to be orthogonal (i.e., a “rotation” of the data), and b) all columns of <span class="math inline">\(W\)</span> to be unit vectors (no stretching of the data).</p>
+<p>The new columns (i.e., the trasformed “measurements”) <span class="math inline">\(Y_i\)</span> can be written as:</p>
+<p><span class="math display">\[
+Y_{i} = X W_i
+\]</span></p>
+<p>Where <span class="math inline">\(Y_i\)</span> is the ith column of <span class="math inline">\(Y\)</span> and <span class="math inline">\(W_i\)</span> the ith column on <span class="math inline">\(W\)</span>. Let’s start with the first column <span class="math inline">\(Y_1\)</span>: we want to choose <span class="math inline">\(W_1\)</span> such that the variance of <span class="math inline">\(Y_i\)</span> is maximized. Because the mean of each column of <span class="math inline">\(X\)</span> is zero, then also the mean of <span class="math inline">\(Y_i\)</span> is zero. Thus, the variance is simply <span class="math inline">\(\frac{1}{n-1}\sum_{j =1}^{n} Y_{ij}^2 =\frac{1}{n-1} \|Y_i\|\)</span>. We can write this is matrix form:</p>
+<p><span class="math display">\[\frac{1}{n-1}\|Y_i\| = \frac{1}{n-1}\|XW_i \| = \frac{1}{n-1} W_i^TX^T X W_i\]</span></p>
+<p>Note that <span class="math inline">\(S = \frac{1}{n-1} X^T X\)</span> is the <span class="math inline">\(m \times m\)</span> sample covariance matrix of <span class="math inline">\(X\)</span>. Because <span class="math inline">\(\|W_i\| = 1\)</span>, we can rewrite this as:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|Y_i\| = \frac{W_i^T S W_i}{W_i^T W_i}
+\]</span></p>
+<p>Which is maximized (over <span class="math inline">\(W_i\)</span>) when <span class="math inline">\(W_i\)</span> is the eigenvector of <span class="math inline">\(S\)</span> associated with the largest eigenvalue (see the <a href="https://en.wikipedia.org/wiki/Rayleigh_quotient">Rayleigh quotient</a>), in which case:</p>
+<p><span class="math display">\[
+\frac{1}{n-1}\|Y_i\| = \frac{W_i^T S W_i}{W_i^T W_i} = \lambda_1
+\]</span></p>
+<p>Therefore, the first column of <span class="math inline">\(Y\)</span> is given by the projection of the data on the first eigenvector of <span class="math inline">\(S\)</span>. The variance captured by this first axis is given by the largest eigenvalue of <span class="math inline">\(S\)</span>. To find the other columns of <span class="math inline">\(Y\)</span>, you can subtract from <span class="math inline">\(X\)</span> the matrix <span class="math inline">\(Y_1 W_1^T\)</span> and repeat.</p>
+<p>Note that the first axis captures <span class="math inline">\(\lambda_1 / \sum_{i = 1}^m \lambda_i\)</span> of the total variance in <span class="math inline">\(X\)</span>. This is typically reported in PCA as the “loadings” of the various components.</p>
+<div class="sourceCode" id="cb790"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb790-1"><a href="principal-component-analysis.html#cb790-1"></a><span class="co"># build sample covaiance matrix</span></span>
+<span id="cb790-2"><a href="principal-component-analysis.html#cb790-2"></a>S &lt;-<span class="st"> </span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="kw">nrow</span>(X) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)) <span class="op">*</span><span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X</span>
+<span id="cb790-3"><a href="principal-component-analysis.html#cb790-3"></a><span class="co"># compute eigenvalues and eigenvectors</span></span>
+<span id="cb790-4"><a href="principal-component-analysis.html#cb790-4"></a>eS &lt;-<span class="st"> </span><span class="kw">eigen</span>(S, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb790-5"><a href="principal-component-analysis.html#cb790-5"></a><span class="co"># W is the matrix of eigenvectors</span></span>
+<span id="cb790-6"><a href="principal-component-analysis.html#cb790-6"></a>W &lt;-<span class="st"> </span>eS<span class="op">$</span>vectors</span>
+<span id="cb790-7"><a href="principal-component-analysis.html#cb790-7"></a><span class="co"># check </span></span>
+<span id="cb790-8"><a href="principal-component-analysis.html#cb790-8"></a>Y &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>W</span>
+<span id="cb790-9"><a href="principal-component-analysis.html#cb790-9"></a><span class="kw">plot</span>(Y, <span class="dt">col =</span> colors)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-330-1.png" width="672" /></p>
+<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb791-1"><a href="principal-component-analysis.html#cb791-1"></a>eS<span class="op">$</span>values</span></code></pre></div>
+<pre><code>## [1] 3.66123805 0.03604607</code></pre>
+<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="principal-component-analysis.html#cb793-1"></a><span class="kw">apply</span>(Y, <span class="dv">2</span>, var)</span></code></pre></div>
+<pre><code>## [1] 3.66123805 0.03604607</code></pre>
+<p>Therefore, PCA amounts to simply taking the eigenvectors of <span class="math inline">\(S\)</span> ordered by the corresponding eigenvalues. We can use the SVD to accomplish this task efficiently:</p>
+<p><span class="math display">\[
+X = U \Sigma V^T
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+(n-1) S = X^T X &amp;= (V \Sigma^T U^T) (U \Sigma V^T)\\
+&amp;= V \Sigma^T \Sigma V^T\\
+&amp;= V \widetilde{\Sigma}^2 V^T
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\widetilde{\Sigma}^2 = \Sigma^T \Sigma\)</span> (or, equivalently the square of the square version of <span class="math inline">\(\Sigma\)</span>). But contrasting <span class="math inline">\(S = W \Lambda W^T\)</span> and <span class="math inline">\(S = V (\widetilde{\Sigma}^2 / (m-1))V^T\)</span> we see that <span class="math inline">\(V = W\)</span>. Finally, we have:</p>
+<p><span class="math display">\[
+Y = X W = U \Sigma V^T V = U\Sigma
+\]</span></p>
+<p>Therefore, we can perform PCA efficiently by decomposing <span class="math inline">\(X\)</span> using SVD.</p>
+<div id="pca-in-rfrom-scratch" class="section level3">
+<h3><span class="header-section-number">14.3.1</span> PCA in R—from scratch</h3>
+<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="principal-component-analysis.html#cb795-1"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/handwritten_digits.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb795-2"><a href="principal-component-analysis.html#cb795-2"></a><span class="st">  </span><span class="kw">arrange</span>(id, x, y)</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   id = col_double(),
+##   label = col_double(),
+##   pixel = col_double(),
+##   value = col_double(),
+##   x = col_double(),
+##   y = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb797"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb797-1"><a href="principal-component-analysis.html#cb797-1"></a><span class="kw">head</span>(dt)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 6
+##      id label pixel value     x     y
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1     0     0     0     1     1
+## 2     1     0    16     0     1     2
+## 3     1     0    32     0     1     3
+## 4     1     0    48     0     1     4
+## 5     1     0    64     0     1     5
+## 6     1     0    80     0     1     6</code></pre>
+<div class="sourceCode" id="cb799"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb799-1"><a href="principal-component-analysis.html#cb799-1"></a><span class="co"># make into a data matrix with pixels as cols</span></span>
+<span id="cb799-2"><a href="principal-component-analysis.html#cb799-2"></a>dt_wide &lt;-<span class="st"> </span><span class="kw">pivot_wider</span>(dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>x, <span class="op">-</span>y), </span>
+<span id="cb799-3"><a href="principal-component-analysis.html#cb799-3"></a>                       <span class="dt">names_from =</span> pixel, </span>
+<span id="cb799-4"><a href="principal-component-analysis.html#cb799-4"></a>                       <span class="dt">values_from =</span> value)</span>
+<span id="cb799-5"><a href="principal-component-analysis.html#cb799-5"></a>X &lt;-<span class="st"> </span>(<span class="kw">as.matrix</span>(dt_wide <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>id, <span class="op">-</span>label)))</span>
+<span id="cb799-6"><a href="principal-component-analysis.html#cb799-6"></a><span class="co"># make col means = 0</span></span>
+<span id="cb799-7"><a href="principal-component-analysis.html#cb799-7"></a>Xs &lt;-<span class="st"> </span><span class="kw">scale</span>(X, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb799-8"><a href="principal-component-analysis.html#cb799-8"></a><span class="co"># compute SVD</span></span>
+<span id="cb799-9"><a href="principal-component-analysis.html#cb799-9"></a>X_svd &lt;-<span class="st"> </span><span class="kw">svd</span>(Xs)</span>
+<span id="cb799-10"><a href="principal-component-analysis.html#cb799-10"></a><span class="co"># Y = US is the transformed data</span></span>
+<span id="cb799-11"><a href="principal-component-analysis.html#cb799-11"></a>Y &lt;-<span class="st"> </span>X_svd<span class="op">$</span>u <span class="op">%*%</span><span class="st"> </span><span class="kw">diag</span>(X_svd<span class="op">$</span>d)</span></code></pre></div>
+<div class="sourceCode" id="cb800"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb800-1"><a href="principal-component-analysis.html#cb800-1"></a>PCA_<span class="dv">1</span> &lt;-<span class="st"> </span>dt_wide <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb800-2"><a href="principal-component-analysis.html#cb800-2"></a><span class="st">  </span><span class="kw">select</span>(id, label) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb800-3"><a href="principal-component-analysis.html#cb800-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">as.character</span>(label)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb800-4"><a href="principal-component-analysis.html#cb800-4"></a><span class="st">  </span><span class="kw">add_column</span>(<span class="dt">PC1 =</span> Y[,<span class="dv">1</span>], <span class="dt">PC2 =</span> Y[,<span class="dv">2</span>])</span>
+<span id="cb800-5"><a href="principal-component-analysis.html#cb800-5"></a><span class="kw">ggplot</span>(PCA_<span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb800-6"><a href="principal-component-analysis.html#cb800-6"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">label =</span> id, <span class="dt">group =</span> label, <span class="dt">colour =</span> label) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb800-7"><a href="principal-component-analysis.html#cb800-7"></a><span class="st">  </span><span class="kw">geom_text</span>()</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-334-1.png" width="672" /></p>
+<p>Pretty good! Let’s see some of the poorly classified points:</p>
+<div class="sourceCode" id="cb801"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb801-1"><a href="principal-component-analysis.html#cb801-1"></a><span class="co"># This should be a 0</span></span>
+<span id="cb801-2"><a href="principal-component-analysis.html#cb801-2"></a><span class="kw">ggimage</span>(<span class="kw">matrix</span>(X[<span class="dv">122</span>,], <span class="dv">16</span>, <span class="dv">16</span>, <span class="dt">byrow =</span> <span class="ot">FALSE</span>), <span class="dt">fullpage =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-335-1.png" width="672" /></p>
+<div class="sourceCode" id="cb802"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb802-1"><a href="principal-component-analysis.html#cb802-1"></a><span class="co"># This should be a 1</span></span>
+<span id="cb802-2"><a href="principal-component-analysis.html#cb802-2"></a><span class="kw">ggimage</span>(<span class="kw">matrix</span>(X[<span class="dv">141</span>,], <span class="dv">16</span>, <span class="dv">16</span>, <span class="dt">byrow =</span> <span class="ot">FALSE</span>), <span class="dt">fullpage =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-335-2.png" width="672" /></p>
+<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb803-1"><a href="principal-component-analysis.html#cb803-1"></a><span class="co"># This should be a 5</span></span>
+<span id="cb803-2"><a href="principal-component-analysis.html#cb803-2"></a><span class="kw">ggimage</span>(<span class="kw">matrix</span>(X[<span class="dv">322</span>,], <span class="dv">16</span>, <span class="dv">16</span>, <span class="dt">byrow =</span> <span class="ot">FALSE</span>), <span class="dt">fullpage =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-335-3.png" width="672" /></p>
+<p>You can also scale the variables turning the sample covariance matrix <span class="math inline">\(S\)</span> into a correlation matrix (this is useful when the variance of different measurements varies substantially).</p>
+</div>
+<div id="pca-in-r-the-easy-way" class="section level3">
+<h3><span class="header-section-number">14.3.2</span> PCA in R — the easy way</h3>
+<div class="sourceCode" id="cb804"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb804-1"><a href="principal-component-analysis.html#cb804-1"></a><span class="kw">library</span>(ggfortify)</span>
+<span id="cb804-2"><a href="principal-component-analysis.html#cb804-2"></a><span class="co"># for prcomp, you need only numeric data</span></span>
+<span id="cb804-3"><a href="principal-component-analysis.html#cb804-3"></a>X &lt;-<span class="st"> </span>dt_wide <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>id, <span class="op">-</span>label)</span>
+<span id="cb804-4"><a href="principal-component-analysis.html#cb804-4"></a>PCA_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">prcomp</span>(X)</span>
+<span id="cb804-5"><a href="principal-component-analysis.html#cb804-5"></a><span class="kw">autoplot</span>(PCA_<span class="dv">3</span>, </span>
+<span id="cb804-6"><a href="principal-component-analysis.html#cb804-6"></a>         <span class="dt">data =</span> dt_wide <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">label =</span> <span class="kw">as.character</span>(label)), </span>
+<span id="cb804-7"><a href="principal-component-analysis.html#cb804-7"></a>         <span class="dt">colour =</span> <span class="st">&quot;label&quot;</span>,</span>
+<span id="cb804-8"><a href="principal-component-analysis.html#cb804-8"></a>         <span class="dt">frame =</span> <span class="ot">TRUE</span>, <span class="dt">frame.type =</span> <span class="st">&#39;norm&#39;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
+</div>
+</div>
+<div id="multidimensional-scaling" class="section level2">
+<h2><span class="header-section-number">14.4</span> Multidimensional scaling</h2>
+<p>The input is the matrix of dissimilarities <span class="math inline">\(D\)</span>, potentially representing distances <span class="math inline">\(d_{ij} = d(x_i, x_j)\)</span>. A distance function is “metric” if:</p>
+<ul>
+<li><span class="math inline">\(d(x_i, x_j) \geq 0\)</span> (non-negativity)</li>
+<li><span class="math inline">\(d(x_i, x_j) = 0\)</span> only if <span class="math inline">\(x_i = x_j\)</span> (identity)</li>
+<li><span class="math inline">\(d(x_i, x_j) = d(x_j, x_i)\)</span> (symmetry)</li>
+<li><span class="math inline">\(d(x_i, x_k) \leq d(x_i, x_j) + d(x_j, x_k)\)</span> (triangle inequality)</li>
+</ul>
+<p>Given a set of dissimilarities, we can therefore ask whether they are distances, and particularly whether they represent Euclidean distances.</p>
+<div id="goal-of-mds" class="section level3">
+<h3><span class="header-section-number">14.4.1</span> Goal of MDS</h3>
+<p>Given the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(D\)</span>, find a set of coordinates <span class="math inline">\(x_i, \ldots x_n \in \mathbb R^p\)</span>, such that <span class="math inline">\(d_{ij} \approx \lVert x_i - x_j \rVert_2\)</span> (as close as possible). The operator <span class="math inline">\(\lVert \cdot \rVert_2\)</span> is the Euclidean norm, measuring Euclidean distance.</p>
+<p>As such, if we can find a perfect solution, then the dissimilarities can be mapped into Euclidean distances in a <span class="math inline">\(k\)</span>-dimensional space.</p>
+</div>
+<div id="classic-mds" class="section level3">
+<h3><span class="header-section-number">14.4.2</span> Classic MDS</h3>
+<p>Suppose that the elements of <span class="math inline">\(D\)</span> measure Euclidean distances between <span class="math inline">\(n\)</span> points, each of which has <span class="math inline">\(k\)</span> coordinates:</p>
+<p><span class="math display">\[
+X = \begin{bmatrix}
+    x_{11} &amp; x_{12} &amp;  \dots  &amp; x_{1k} \\
+    x_{21} &amp; x_{22} &amp;  \dots  &amp; x_{2k} \\
+    \vdots &amp; \vdots &amp;  \ddots &amp; \vdots \\
+    x_{n1} &amp; x_{n2} &amp;  \dots  &amp; x_{nk}
+\end{bmatrix}
+\]</span>
+We consider the centered coordinates:</p>
+<p><span class="math display">\[
+\sum_i x_{ij} = 0
+\]</span>
+And the matrix <span class="math inline">\(B = X X^t\)</span>, whose coefficients are <span class="math inline">\(B_{ij} = \sum_k x_{ik} x_{jk}\)</span>. We can write the square of the distance between point <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> as:</p>
+<p><span class="math display">\[ d_{ij}^2 = \sum_k (x_{ik} - x_{jk})^2  = \sum_k x_{ik}^2 + \sum_k x_{jk}^2 -2 \sum_k x_{ik} x_{jk} = B_{ii} + B_{jj} - 2 B_{ij}\]</span></p>
+<p>Note that, because of the centering:</p>
+<p><span class="math display">\[
+\sum_i B_{ij} = \sum_i \sum_k x_{ik} x_{jk} = \sum_k x_{jk} \sum_i x_{ik} = 0
+\]</span></p>
+<p>Now we compute:</p>
+<p><span class="math display">\[
+\sum_i d_{ij}^2 = \sum_i (B_{ii} + B_{jj} - 2 B_{ij}) = \sum_i B_{ii} + \sum_i B_{jj} - 2 \sum_i B_{ij} = \text{Tr}(B) + n B_{jj} 
+\]</span></p>
+<p>Similarly (distances are symmetric):</p>
+<p><span class="math display">\[
+\sum_j d_{ij}^2 = \text{Tr}(B) + n B_{ii} 
+\]</span></p>
+<p>And, finally:</p>
+<p><span class="math display">\[
+\sum_i \sum_j d_{ij}^2 = 2 n \text{Tr}(B)
+\]</span></p>
+<p>From these three equations, we obtain:</p>
+<p><span class="math display">\[
+B_{ii} = \frac{\sum_j d_{ij}^2}{n} - \frac{\sum_i \sum_j d_{ij}^2 }{2 n^2}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+B_{jj} = \frac{\sum_i d_{ij}^2}{n} - \frac{\sum_i \sum_j d_{ij}^2 }{2 n^2}
+\]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[ 
+B_{ij} = -\frac{1}{2}(d_{ij}^2 - B_{ii} - B_{jj}) = -\frac{1}{2}\left(d_{ij}^2 - \frac{\sum_i d_{ij}^2}{n} - \frac{\sum_j d_{ij}^2}{n}  + \frac{\sum_i \sum_j d_{ij}^2 }{n^2} \right)
+\]</span></p>
+<p>With some algebra, one can show that this is equivalent to:</p>
+<p><span class="math display">\[B = -\frac{1}{2} C D^{(2)} C\]</span></p>
+<p>Where <span class="math inline">\(D^{(2)}\)</span> is the matrix of squared distances, and <span class="math inline">\(C\)</span> is the centering matrix <span class="math inline">\(C = 1 - \frac{1}{n}\mathcal O\)</span> (and <span class="math inline">\(\mathcal O\)</span> is the matrix of all ones). Thus, we can obtain <span class="math inline">\(B\)</span> directly from the distance matrix. Once we’ve done this, <span class="math inline">\(X\)</span> can be found by taking the eigenvalue decomposition:</p>
+<p><span class="math display">\[
+B = X X^t = Q \Lambda Q^t
+\]</span></p>
+<p>(where <span class="math inline">\(Q\)</span> is the matrix of eigenvectors of <span class="math inline">\(B\)</span>, and <span class="math inline">\(\Lambda\)</span> a diagonal matrix of the eigenvalues of <span class="math inline">\(B\)</span>). Therefore:</p>
+<p><span class="math display">\[ X = Q \Lambda^{\frac{1}{2}}\]</span></p>
+<p>For example, let’s look at the distance in <em>km</em> between cities in Illinois:</p>
+<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb805-1"><a href="principal-component-analysis.html#cb805-1"></a><span class="co"># read distances US</span></span>
+<span id="cb805-2"><a href="principal-component-analysis.html#cb805-2"></a>usa &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/dist_US.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   from = col_character(),
+##   to = col_character(),
+##   dist = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb807-1"><a href="principal-component-analysis.html#cb807-1"></a><span class="co"># make into a matrix of distances</span></span>
+<span id="cb807-2"><a href="principal-component-analysis.html#cb807-2"></a>M &lt;-<span class="st"> </span>usa <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> to, <span class="dt">values_from =</span> <span class="st">`</span><span class="dt">dist</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb807-3"><a href="principal-component-analysis.html#cb807-3"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>from) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb807-4"><a href="principal-component-analysis.html#cb807-4"></a><span class="st">  </span><span class="kw">as.matrix</span>()</span>
+<span id="cb807-5"><a href="principal-component-analysis.html#cb807-5"></a>M[<span class="kw">is.na</span>(M)] &lt;-<span class="st"> </span><span class="dv">0</span> </span>
+<span id="cb807-6"><a href="principal-component-analysis.html#cb807-6"></a><span class="kw">rownames</span>(M) &lt;-<span class="st"> </span><span class="kw">colnames</span>(M)</span>
+<span id="cb807-7"><a href="principal-component-analysis.html#cb807-7"></a><span class="co"># make symmetric</span></span>
+<span id="cb807-8"><a href="principal-component-analysis.html#cb807-8"></a>M &lt;-<span class="st"> </span>M <span class="op">+</span><span class="st"> </span><span class="kw">t</span>(M)</span>
+<span id="cb807-9"><a href="principal-component-analysis.html#cb807-9"></a>M[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
+<pre><code>##                                        Abilene, TX, United States
+## Abilene, TX, United States                                   0.00
+## Ahwatukee Foothills, AZ, United States                    1487.19
+##                                        Ahwatukee Foothills, AZ, United States
+## Abilene, TX, United States                                            1487.19
+## Ahwatukee Foothills, AZ, United States                                   0.00</code></pre>
+<p>And perform classic MDS using two dimensions:</p>
+<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb809-1"><a href="principal-component-analysis.html#cb809-1"></a>mds_fit &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(M, <span class="dt">k =</span> <span class="dv">2</span>) <span class="co"># k is the dimension of the embedding</span></span>
+<span id="cb809-2"><a href="principal-component-analysis.html#cb809-2"></a>mds_fit &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">id =</span> <span class="kw">rownames</span>(M), </span>
+<span id="cb809-3"><a href="principal-component-analysis.html#cb809-3"></a>                  <span class="dt">x =</span> mds_fit[,<span class="dv">1</span>], <span class="dt">y =</span> mds_fit[,<span class="dv">2</span>])</span>
+<span id="cb809-4"><a href="principal-component-analysis.html#cb809-4"></a>pl &lt;-<span class="st"> </span>mds_fit <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb809-5"><a href="principal-component-analysis.html#cb809-5"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb809-6"><a href="principal-component-analysis.html#cb809-6"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb809-7"><a href="principal-component-analysis.html#cb809-7"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb809-8"><a href="principal-component-analysis.html#cb809-8"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">range</span>(mds_fit<span class="op">$</span>x))</span>
+<span id="cb809-9"><a href="principal-component-analysis.html#cb809-9"></a></span>
+<span id="cb809-10"><a href="principal-component-analysis.html#cb809-10"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-338-1.png" width="672" /></p>
+<div class="sourceCode" id="cb810"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb810-1"><a href="principal-component-analysis.html#cb810-1"></a><span class="co"># highlight some major cities</span></span>
+<span id="cb810-2"><a href="principal-component-analysis.html#cb810-2"></a>hh &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">122</span>, <span class="dv">175</span>, <span class="dv">177</span>, <span class="dv">373</span>, <span class="dv">408</span>, <span class="dv">445</span>, <span class="dv">572</span>, <span class="dv">596</span>, <span class="dv">691</span>)</span>
+<span id="cb810-3"><a href="principal-component-analysis.html#cb810-3"></a>mds_highlight &lt;-<span class="st"> </span>mds_fit <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(hh)</span>
+<span id="cb810-4"><a href="principal-component-analysis.html#cb810-4"></a><span class="kw">show</span>(pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data  =</span> mds_highlight, <span class="kw">aes</span>(<span class="dt">colour =</span> <span class="kw">rownames</span>(M)[hh])))</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-338-2.png" width="672" /></p>
+</div>
+</div>
+<div id="readings-1" class="section level2">
+<h2><span class="header-section-number">14.5</span> Readings</h2>
+<p>SVD is the most important decomposition, but several interesting variations have been proposed for data science. Read this <a href="http://www.columbia.edu/~jwp2128/Teaching/E4903/papers/nmf_nature.pdf">very cool paper</a> on face recognition using Nonnegative Matrix Factorization.</p>
+<div id="exercise-pca-sommelier" class="section level3">
+<h3><span class="header-section-number">14.5.1</span> Exercise: PCA sommelier</h3>
+<p>The file <code>Wine.csv</code> contains several measures made on 178 wines from Piedmont, produced using three different grapes (column <code>Grape</code>, with 1 = Barolo, 2 = Grignolino, 3 = Barbera). Use the 13 measured variables (i.e., all but <code>Grape</code>) to perform a PCA. First, do it “the hard way” using SVD, and then, calling the <code>prcomp</code> function. Can you recover the right classification of grapes?</p>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="model-selection.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

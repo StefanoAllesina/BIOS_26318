@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-30" />
+<meta name="date" content="2020-11-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -386,6 +386,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9.2" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>13.9.2</b> Cross validation</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="14" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html"><i class="fa fa-check"></i><b>14</b> Principal Component Analysis</a><ul>
+<li class="chapter" data-level="14.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#input"><i class="fa fa-check"></i><b>14.1</b> Input</a></li>
+<li class="chapter" data-level="14.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#singular-value-decomposition"><i class="fa fa-check"></i><b>14.2</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="14.3" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#svd-and-pca"><i class="fa fa-check"></i><b>14.3</b> SVD and PCA</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-rfrom-scratch"><i class="fa fa-check"></i><b>14.3.1</b> PCA in R—from scratch</a></li>
+<li class="chapter" data-level="14.3.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-r-the-easy-way"><i class="fa fa-check"></i><b>14.3.2</b> PCA in R — the easy way</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#multidimensional-scaling"><i class="fa fa-check"></i><b>14.4</b> Multidimensional scaling</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#goal-of-mds"><i class="fa fa-check"></i><b>14.4.1</b> Goal of MDS</a></li>
+<li class="chapter" data-level="14.4.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#classic-mds"><i class="fa fa-check"></i><b>14.4.2</b> Classic MDS</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#readings-1"><i class="fa fa-check"></i><b>14.5</b> Readings</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -598,10 +613,10 @@ The calculation for two continuous random variables is analogous, only with inte
 <span id="cb417-2"><a href="distributions-and-their-properties.html#cb417-2"></a>unif.sample &lt;-<span class="st"> </span><span class="kw">runif</span>(n, low, high) <span class="co"># generate sample</span></span>
 <span id="cb417-3"><a href="distributions-and-their-properties.html#cb417-3"></a>unif.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(unif.sample)</span>
 <span id="cb417-4"><a href="distributions-and-their-properties.html#cb417-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of uniform distribution is&quot;</span>, unif.exp)</span></code></pre></div>
-<pre><code>## [1] &quot;The expected value of uniform distribution is 4.87447497550398&quot;</code></pre>
+<pre><code>## [1] &quot;The expected value of uniform distribution is 5.07330417630495&quot;</code></pre>
 <div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="distributions-and-their-properties.html#cb419-1"></a>unif.var &lt;-<span class="st"> </span><span class="kw">var</span>(unif.sample)</span>
 <span id="cb419-2"><a href="distributions-and-their-properties.html#cb419-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of uniform distribution is&quot;</span>, unif.var)</span></code></pre></div>
-<pre><code>## [1] &quot;The variance of uniform distribution is 8.31991522438979&quot;</code></pre>
+<pre><code>## [1] &quot;The variance of uniform distribution is 8.41980301785163&quot;</code></pre>
 <p><em>Exercise:</em> experiment with the width of the interval to see how it affects the expectation and variance.</p>
 </div>
 <div id="exponential" class="section level3">
@@ -620,10 +635,10 @@ The calculation for two continuous random variables is analogous, only with inte
 <span id="cb422-2"><a href="distributions-and-their-properties.html#cb422-2"></a>exp.sample &lt;-<span class="st"> </span><span class="kw">rexp</span>(n, r) <span class="co"># generate sample</span></span>
 <span id="cb422-3"><a href="distributions-and-their-properties.html#cb422-3"></a>exp.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(exp.sample)</span>
 <span id="cb422-4"><a href="distributions-and-their-properties.html#cb422-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of exponential distribution is&quot;</span>, exp.exp)</span></code></pre></div>
-<pre><code>## [1] &quot;The expected value of exponential distribution is 2.06471115550197&quot;</code></pre>
+<pre><code>## [1] &quot;The expected value of exponential distribution is 2.00613908376494&quot;</code></pre>
 <div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="distributions-and-their-properties.html#cb424-1"></a>exp.var &lt;-<span class="st"> </span><span class="kw">var</span>(exp.sample)</span>
 <span id="cb424-2"><a href="distributions-and-their-properties.html#cb424-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of exponential distribution is&quot;</span>, exp.var)</span></code></pre></div>
-<pre><code>## [1] &quot;The variance of exponential distribution is 4.04602089403206&quot;</code></pre>
+<pre><code>## [1] &quot;The variance of exponential distribution is 4.11088685639183&quot;</code></pre>
 <p><em>Exercise:</em> What is the relationship between the rate and the expectation and variance?</p>
 </div>
 <div id="normal-distribution" class="section level3">
@@ -650,10 +665,10 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span id="cb427-2"><a href="distributions-and-their-properties.html#cb427-2"></a>norm.sample &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, mu, sigma) <span class="co"># generate sample</span></span>
 <span id="cb427-3"><a href="distributions-and-their-properties.html#cb427-3"></a>norm.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(norm.sample)</span>
 <span id="cb427-4"><a href="distributions-and-their-properties.html#cb427-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of normal distribution is&quot;</span>, norm.exp)</span></code></pre></div>
-<pre><code>## [1] &quot;The expected value of normal distribution is 4.99075981720597&quot;</code></pre>
+<pre><code>## [1] &quot;The expected value of normal distribution is 5.00982949615078&quot;</code></pre>
 <div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="distributions-and-their-properties.html#cb429-1"></a>norm.var &lt;-<span class="st"> </span><span class="kw">var</span>(norm.sample)</span>
 <span id="cb429-2"><a href="distributions-and-their-properties.html#cb429-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of normal distribution is&quot;</span>, norm.var)</span></code></pre></div>
-<pre><code>## [1] &quot;The variance of normal distribution is 0.253948463994126&quot;</code></pre>
+<pre><code>## [1] &quot;The variance of normal distribution is 0.258595899732801&quot;</code></pre>
 </div>
 </div>
 <div id="application-of-normal-distribution-confidence-intervals" class="section level2">
@@ -690,9 +705,9 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span id="cb436-6"><a href="distributions-and-their-properties.html#cb436-6"></a>left &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">+</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</span>
 <span id="cb436-7"><a href="distributions-and-their-properties.html#cb436-7"></a>right &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">-</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</span>
 <span id="cb436-8"><a href="distributions-and-their-properties.html#cb436-8"></a><span class="kw">print</span>(right)</span></code></pre></div>
-<pre><code>## [1] 0.5453491</code></pre>
+<pre><code>## [1] 0.5382242</code></pre>
 <div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="distributions-and-their-properties.html#cb438-1"></a><span class="kw">print</span>(left)</span></code></pre></div>
-<pre><code>## [1] 0.4375462</code></pre>
+<pre><code>## [1] 0.4254856</code></pre>
 <p><em>Exercise:</em> Modify that script to report whether the confidence interval captures the true mean. Use a loop structure (as in the script above) to generate 1000 sample means and report how many of them are within the theoretical confidence interval. Does this match the fraction you expect from the significance level? Try different significance levels and sample sizes and report what you discover.</p>
 </div>
 <div id="identifying-type-of-distribution-in-real-data" class="section level2">
@@ -731,8 +746,8 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span id="cb450-4"><a href="distributions-and-their-properties.html#cb450-4"></a><span class="co"># note the slight discrepancies</span></span>
 <span id="cb450-5"><a href="distributions-and-their-properties.html#cb450-5"></a><span class="kw">print</span>(my_normal)</span></code></pre></div>
 <pre><code>##       mean          sd    
-##   2.99653070   1.57600679 
-##  (0.07048117) (0.04983771)</code></pre>
+##   2.86447456   1.46161508 
+##  (0.06536541) (0.04622033)</code></pre>
 <div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="distributions-and-their-properties.html#cb452-1"></a><span class="kw">ggplot</span>(test_data, <span class="kw">aes</span>(<span class="dt">sample =</span> x)) <span class="op">+</span></span>
 <span id="cb452-2"><a href="distributions-and-their-properties.html#cb452-2"></a><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
 <span id="cb452-3"><a href="distributions-and-their-properties.html#cb452-3"></a><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>

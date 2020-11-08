@@ -77,12 +77,12 @@ Where the residuals have variance $\sigma^2$. The likelihood of the parameters i
 
 $$
 L(\beta_0, \beta_1, \sigma^2 \vert Y) = \prod_i L(\beta_0, \beta_1, \sigma^2 \vert Y_i) = \prod_i f(Y_i; \beta_0, \beta_1, \sigma^2) = 
-\prod_i \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(Y_i - \beta_0 + \beta_1 X_i)^2}{2 \sigma^2}\right)
+\prod_i \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(Y_i - (\beta_0 + \beta_1 X_i))^2}{2 \sigma^2}\right)
 $$
 We want to choose the parameters such that they maximize the likelihood. Because the logarithm is monotonic then maximizing the likelihood is equivalent to maximizing the log-likelihood:
 
 $$
-\mathcal L(\beta_0, \beta_1, \sigma^2 \vert Y) = -\log\left(\sqrt{2 \pi \sigma^2}\right) -\frac{1}{{2 \sigma^2}} \sum_i {(Y_i - \beta_0 + \beta_1 X_i)^2}
+\mathcal L(\beta_0, \beta_1, \sigma^2 \vert Y) = -\log\left(\sqrt{2 \pi \sigma^2}\right) -\frac{1}{{2 \sigma^2}} \sum_i {(Y_i - (\beta_0 + \beta_1 X_i))^2}
 $$
 Showing that by minimizing the sum of squares, we are maximizing the likelihood.
 
@@ -159,7 +159,7 @@ M1 <- lm(data = trees, Height ~ Radius) # intercept and slope
 theta0_M1 <- M1$coefficients[1]
 theta1_M1 <- M1$coefficients[2]
 # note that now theta_0 takes a different value:
-print(c(theta0_M0, theta0_M1))
+print(c(theta0_M1, theta0_M1))
 # the log likelihood should improve
 logLik(M1)
 ```
@@ -465,7 +465,7 @@ We are going to fit the model using 90% of the data; we are going to use the rem
 set.seed(4)
 dt <- dt %>% mutate(logcit = log(cites + 1))
 # sample 10% of the data
-data_test <- dt %>% sample_frac(0.1)
+data_test <- dt %>% sample_frac(0.3)
 data_fit  <- anti_join(dt, data_test) # get all those not in data_test
 ```
 

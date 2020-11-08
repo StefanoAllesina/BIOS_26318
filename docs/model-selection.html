@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-10-30" />
+<meta name="date" content="2020-11-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="generalized-linear-models.html"/>
-
+<link rel="next" href="principal-component-analysis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -386,6 +386,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9.2" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>13.9.2</b> Cross validation</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="14" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html"><i class="fa fa-check"></i><b>14</b> Principal Component Analysis</a><ul>
+<li class="chapter" data-level="14.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#input"><i class="fa fa-check"></i><b>14.1</b> Input</a></li>
+<li class="chapter" data-level="14.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#singular-value-decomposition"><i class="fa fa-check"></i><b>14.2</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="14.3" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#svd-and-pca"><i class="fa fa-check"></i><b>14.3</b> SVD and PCA</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-rfrom-scratch"><i class="fa fa-check"></i><b>14.3.1</b> PCA in R—from scratch</a></li>
+<li class="chapter" data-level="14.3.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-r-the-easy-way"><i class="fa fa-check"></i><b>14.3.2</b> PCA in R — the easy way</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#multidimensional-scaling"><i class="fa fa-check"></i><b>14.4</b> Multidimensional scaling</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#goal-of-mds"><i class="fa fa-check"></i><b>14.4.1</b> Goal of MDS</a></li>
+<li class="chapter" data-level="14.4.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#classic-mds"><i class="fa fa-check"></i><b>14.4.2</b> Classic MDS</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#readings-1"><i class="fa fa-check"></i><b>14.5</b> Readings</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -467,11 +482,11 @@ Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
 Where the residuals have variance <span class="math inline">\(\sigma^2\)</span>. The likelihood of the parameters is simply the product of the likelihood for each point:</p>
 <p><span class="math display">\[
 L(\beta_0, \beta_1, \sigma^2 \vert Y) = \prod_i L(\beta_0, \beta_1, \sigma^2 \vert Y_i) = \prod_i f(Y_i; \beta_0, \beta_1, \sigma^2) = 
-\prod_i \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(Y_i - \beta_0 + \beta_1 X_i)^2}{2 \sigma^2}\right)
+\prod_i \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(Y_i - (\beta_0 + \beta_1 X_i))^2}{2 \sigma^2}\right)
 \]</span>
 We want to choose the parameters such that they maximize the likelihood. Because the logarithm is monotonic then maximizing the likelihood is equivalent to maximizing the log-likelihood:</p>
 <p><span class="math display">\[
-\mathcal L(\beta_0, \beta_1, \sigma^2 \vert Y) = -\log\left(\sqrt{2 \pi \sigma^2}\right) -\frac{1}{{2 \sigma^2}} \sum_i {(Y_i - \beta_0 + \beta_1 X_i)^2}
+\mathcal L(\beta_0, \beta_1, \sigma^2 \vert Y) = -\log\left(\sqrt{2 \pi \sigma^2}\right) -\frac{1}{{2 \sigma^2}} \sum_i {(Y_i - (\beta_0 + \beta_1 X_i))^2}
 \]</span>
 Showing that by minimizing the sum of squares, we are maximizing the likelihood.</p>
 </div>
@@ -529,9 +544,9 @@ as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the paramete
 <span id="cb712-2"><a href="model-selection.html#cb712-2"></a>theta0_M1 &lt;-<span class="st"> </span>M1<span class="op">$</span>coefficients[<span class="dv">1</span>]</span>
 <span id="cb712-3"><a href="model-selection.html#cb712-3"></a>theta1_M1 &lt;-<span class="st"> </span>M1<span class="op">$</span>coefficients[<span class="dv">2</span>]</span>
 <span id="cb712-4"><a href="model-selection.html#cb712-4"></a><span class="co"># note that now theta_0 takes a different value:</span></span>
-<span id="cb712-5"><a href="model-selection.html#cb712-5"></a><span class="kw">print</span>(<span class="kw">c</span>(theta0_M0, theta0_M1))</span></code></pre></div>
+<span id="cb712-5"><a href="model-selection.html#cb712-5"></a><span class="kw">print</span>(<span class="kw">c</span>(theta0_M1, theta0_M1))</span></code></pre></div>
 <pre><code>## (Intercept) (Intercept) 
-##    76.00000    62.03131</code></pre>
+##    62.03131    62.03131</code></pre>
 <div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb714-1"><a href="model-selection.html#cb714-1"></a><span class="co"># the log likelihood should improve</span></span>
 <span id="cb714-2"><a href="model-selection.html#cb714-2"></a><span class="kw">logLik</span>(M1)</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -96.01663 (df=3)</code></pre>
@@ -817,7 +832,7 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="model-selection.html#cb776-1"></a><span class="kw">set.seed</span>(<span class="dv">4</span>)</span>
 <span id="cb776-2"><a href="model-selection.html#cb776-2"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">logcit =</span> <span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</span>
 <span id="cb776-3"><a href="model-selection.html#cb776-3"></a><span class="co"># sample 10% of the data</span></span>
-<span id="cb776-4"><a href="model-selection.html#cb776-4"></a>data_test &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_frac</span>(<span class="fl">0.1</span>)</span>
+<span id="cb776-4"><a href="model-selection.html#cb776-4"></a>data_test &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_frac</span>(<span class="fl">0.3</span>)</span>
 <span id="cb776-5"><a href="model-selection.html#cb776-5"></a>data_fit  &lt;-<span class="st"> </span><span class="kw">anti_join</span>(dt, data_test) <span class="co"># get all those not in data_test</span></span></code></pre></div>
 <pre><code>## Joining, by = c(&quot;year&quot;, &quot;journal&quot;, &quot;title_length&quot;, &quot;cites&quot;, &quot;num_papers&quot;, &quot;logcit&quot;)</code></pre>
 <p>Now fit the models:</p>
@@ -829,9 +844,9 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <span id="cb779-3"><a href="model-selection.html#cb779-3"></a>M2_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(M2, <span class="dt">newdata =</span> data_test)</span>
 <span id="cb779-4"><a href="model-selection.html#cb779-4"></a>SSQ_M2 &lt;-<span class="st"> </span><span class="kw">sum</span>((<span class="kw">log</span>(data_test<span class="op">$</span>cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>M2_predictions)<span class="op">^</span><span class="dv">2</span>)</span>
 <span id="cb779-5"><a href="model-selection.html#cb779-5"></a><span class="kw">print</span>(SSQ_M1)</span></code></pre></div>
-<pre><code>## [1] 819.1283</code></pre>
+<pre><code>## [1] 2465.712</code></pre>
 <div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb781-1"><a href="model-selection.html#cb781-1"></a><span class="kw">print</span>(SSQ_M2)</span></code></pre></div>
-<pre><code>## [1] 819.0592</code></pre>
+<pre><code>## [1] 2465.96</code></pre>
 <p>We do not gain anything by including the information on titles.</p>
 <ul>
 <li><strong>Pros</strong>: Easy to use; quite general; asymptotically equivalent to AIC.</li>
@@ -842,12 +857,6 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 </div>
 </div>
 </div>
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="1">
@@ -859,8 +868,8 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
           </div>
         </div>
       </div>
-<a href="generalized-linear-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="generalized-linear-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="principal-component-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
