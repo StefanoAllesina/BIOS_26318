@@ -34,7 +34,7 @@ autoplot(prcomp(ir, center = TRUE),
 
 ## Singular Value Decomposition
 
-At the hearth of PCA is a particular matrix decomposition (or factorization): we represent the matrix $X$ as a product of other matrices (or, equivalently, a sum of matirces). In particular, SVD is defined by the equation:
+At the hearth of PCA is a particular matrix decomposition (or factorization): we represent the matrix $X$ as a product of other matrices (or, equivalently, a sum of matrices). In particular, SVD is defined by the equation:
 
 $$
 X = U \Sigma V^T
@@ -343,7 +343,7 @@ $$
 
 $$ X = Q \Lambda^{\frac{1}{2}}$$
 
-For example, let's look at the distance in *km* between cities in Illinois:
+For example, let's look at the driving distance in *km* between cities in the US:
 
 ```{r}
 # read distances US
@@ -384,7 +384,6 @@ show(pl + geom_point(data  = mds_highlight, aes(colour = rownames(M)[hh])))
 ## Readings
 
 SVD is the most important decomposition, but several interesting variations have been proposed for data science. Read this [very cool paper](http://www.columbia.edu/~jwp2128/Teaching/E4903/papers/nmf_nature.pdf) on face recognition using Nonnegative Matrix Factorization.
-
 
 ### Exercise: PCA sommelier
 

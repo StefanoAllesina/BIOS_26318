@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-08" />
+<meta name="date" content="2020-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -446,7 +446,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="singular-value-decomposition" class="section level2">
 <h2><span class="header-section-number">14.2</span> Singular Value Decomposition</h2>
-<p>At the hearth of PCA is a particular matrix decomposition (or factorization): we represent the matrix <span class="math inline">\(X\)</span> as a product of other matrices (or, equivalently, a sum of matirces). In particular, SVD is defined by the equation:</p>
+<p>At the hearth of PCA is a particular matrix decomposition (or factorization): we represent the matrix <span class="math inline">\(X\)</span> as a product of other matrices (or, equivalently, a sum of matrices). In particular, SVD is defined by the equation:</p>
 <p><span class="math display">\[
 X = U \Sigma V^T
 \]</span></p>
@@ -694,7 +694,7 @@ B = X X^t = Q \Lambda Q^t
 \]</span></p>
 <p>(where <span class="math inline">\(Q\)</span> is the matrix of eigenvectors of <span class="math inline">\(B\)</span>, and <span class="math inline">\(\Lambda\)</span> a diagonal matrix of the eigenvalues of <span class="math inline">\(B\)</span>). Therefore:</p>
 <p><span class="math display">\[ X = Q \Lambda^{\frac{1}{2}}\]</span></p>
-<p>For example, let’s look at the distance in <em>km</em> between cities in Illinois:</p>
+<p>For example, let’s look at the driving distance in <em>km</em> between cities in the US:</p>
 <div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb805-1"><a href="principal-component-analysis.html#cb805-1"></a><span class="co"># read distances US</span></span>
 <span id="cb805-2"><a href="principal-component-analysis.html#cb805-2"></a>usa &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/dist_US.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Parsed with column specification:

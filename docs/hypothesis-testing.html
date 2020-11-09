@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-08" />
+<meta name="date" content="2020-11-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -496,13 +496,13 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##  Two Sample t-test
 ## 
 ## data:  my_sample$sample1 and my_sample$sample2
-## t = 0.36852, df = 1998, p-value = 0.7125
+## t = -1.8736, df = 1998, p-value = 0.06113
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.0689627  0.1008775
+##  -0.17200410  0.00392686
 ## sample estimates:
 ## mean of x mean of y 
-##  1.031523  1.015565</code></pre>
+## 0.9559388 1.0399774</code></pre>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
 </div>
 <div id="multiple-comparisons" class="section level2">
@@ -520,7 +520,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <span id="cb463-2"><a href="hypothesis-testing.html#cb463-2"></a>                     <span class="dt">expr =</span> <span class="kw">get_p_value_t_test</span>(<span class="kw">generate_samples</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>)))</span></code></pre></div>
 <p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
 <div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="hypothesis-testing.html#cb464-1"></a><span class="kw">sum</span>(pvalues <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
-<pre><code>## [1] 136</code></pre>
+<pre><code>## [1] 131</code></pre>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
 <div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="hypothesis-testing.html#cb466-1"></a><span class="kw">hist</span>(pvalues)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>
