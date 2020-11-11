@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -430,8 +447,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Representation of vectors in multiple bases</li>
 <li>Eigenvalues and eigenvectors of matrices</li>
 </ul>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="review-of-linear-algebra.html#cb482-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></span>
-<span id="cb482-2"><a href="review-of-linear-algebra.html#cb482-2"></a><span class="kw">library</span>(ggfortify) </span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb482-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></a>
+<a class="sourceLine" id="cb482-2" data-line-number="2"><span class="kw">library</span>(ggfortify) </a></code></pre></div>
 <div id="solving-multivariate-linear-equations" class="section level2">
 <h2><span class="header-section-number">7.1</span> Solving multivariate linear equations</h2>
 <p>Linear algebra is intimately tied to linear equations, that is, to equations where all variables are multiplied by constant terms and added together. Linear equations with one variable are easily solved by division, for example:</p>
@@ -473,9 +490,9 @@ Defining the inverse is one task, but calculating it for any given matrix, espec
  \vec x = \mathbf{A}^{-1}\vec b
 \]</span></p>
 <p><em>Example:</em> Take the linear <span class="math inline">\(2 \times 2\)</span> system of equations of above and solve it using matrix inversion.The <code>R</code> function <code>solve()</code> calculates the inverse and multiplies it by the constant vector <code>b</code>:</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="review-of-linear-algebra.html#cb483-1"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">4</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">2</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb483-2"><a href="review-of-linear-algebra.html#cb483-2"></a>b &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">10</span>)</span>
-<span id="cb483-3"><a href="review-of-linear-algebra.html#cb483-3"></a><span class="kw">solve</span>(A,b)</span></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb483-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">4</span>,<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">2</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb483-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb483-3" data-line-number="3"><span class="kw">solve</span>(A,b)</a></code></pre></div>
 <pre><code>## [1] 8 9</code></pre>
 </div>
 <div id="fitting-a-line-to-data" class="section level2">
@@ -489,16 +506,16 @@ Defining the inverse is one task, but calculating it for any given matrix, espec
 \end{aligned}
 \]</span></p>
 <p>These equations have a solution for the slope and intercept, which can be calculated in <code>R</code> using <code>solve()</code> and then plot the line with the parameters from the solution vector <code>beta</code>:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="review-of-linear-algebra.html#cb485-1"></a>xs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span>)</span>
-<span id="cb485-2"><a href="review-of-linear-algebra.html#cb485-2"></a>ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)</span>
-<span id="cb485-3"><a href="review-of-linear-algebra.html#cb485-3"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(xs[<span class="dv">1</span>], xs[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb485-4"><a href="review-of-linear-algebra.html#cb485-4"></a>b &lt;-<span class="st"> </span><span class="kw">c</span>(ys[<span class="dv">1</span>], ys[<span class="dv">2</span>])</span>
-<span id="cb485-5"><a href="review-of-linear-algebra.html#cb485-5"></a>beta &lt;-<span class="st"> </span><span class="kw">solve</span>(A, b)</span>
-<span id="cb485-6"><a href="review-of-linear-algebra.html#cb485-6"></a>data1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(xs, ys)</span>
-<span id="cb485-7"><a href="review-of-linear-algebra.html#cb485-7"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> data1) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb485-8"><a href="review-of-linear-algebra.html#cb485-8"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> xs, <span class="dt">y =</span> ys) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb485-9"><a href="review-of-linear-algebra.html#cb485-9"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb485-10"><a href="review-of-linear-algebra.html#cb485-10"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> beta[<span class="dv">1</span>], <span class="dt">intercept =</span> beta[<span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb485-1" data-line-number="1">xs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb485-2" data-line-number="2">ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb485-3" data-line-number="3">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(xs[<span class="dv">1</span>], xs[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb485-4" data-line-number="4">b &lt;-<span class="st"> </span><span class="kw">c</span>(ys[<span class="dv">1</span>], ys[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb485-5" data-line-number="5">beta &lt;-<span class="st"> </span><span class="kw">solve</span>(A, b)</a>
+<a class="sourceLine" id="cb485-6" data-line-number="6">data1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(xs, ys)</a>
+<a class="sourceLine" id="cb485-7" data-line-number="7"><span class="kw">ggplot</span>(<span class="dt">data =</span> data1) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb485-8" data-line-number="8"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> xs, <span class="dt">y =</span> ys) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb485-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb485-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> beta[<span class="dv">1</span>], <span class="dt">intercept =</span> beta[<span class="dv">2</span>])</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-186-1.png" width="672" /></p>
 <p>However, a data set with two points is very small and nobody would accept these values as reasonable estimates. Let us add one more data point, to increase our sample size to three: <span class="math inline">\((3,5), (6, 2), (9, 1)\)</span>. How do you find the best fit slope and intercept?</p>
 <p><strong>Bad idea:</strong> take two points and find a line, that is the slope and the intercept, that passes through the two. It should be clear why this is a bad idea: we are arbitrarily ignoring some of the data, while perfectly fitting two points. So how do we use all the data? Let us write down the equations that a line with slope <span class="math inline">\(m\)</span> and intercept <span class="math inline">\(b\)</span> have to satisfy in order to fit our data points:</p>
@@ -534,29 +551,29 @@ Defining the inverse is one task, but calculating it for any given matrix, espec
 \beta = (\mathbf{X}^{T} \mathbf{X})^{-1} \mathbf{X}^{T}\vec Y
 \]</span>
 <em>Example:</em> Let us see the best-fit line for the 3-point data set above:</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="review-of-linear-algebra.html#cb486-1"></a>xs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>)</span>
-<span id="cb486-2"><a href="review-of-linear-algebra.html#cb486-2"></a>ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb486-3"><a href="review-of-linear-algebra.html#cb486-3"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(xs[<span class="dv">1</span>], xs[<span class="dv">2</span>], xs[<span class="dv">3</span>], <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb486-4"><a href="review-of-linear-algebra.html#cb486-4"></a>b &lt;-<span class="st"> </span><span class="kw">c</span>(ys[<span class="dv">1</span>], ys[<span class="dv">2</span>], ys[<span class="dv">3</span>])</span>
-<span id="cb486-5"><a href="review-of-linear-algebra.html#cb486-5"></a>beta &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(A) <span class="op">%*%</span><span class="st"> </span>A, <span class="kw">t</span>(A) <span class="op">%*%</span><span class="st"> </span>b)</span>
-<span id="cb486-6"><a href="review-of-linear-algebra.html#cb486-6"></a>data1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(xs, ys)</span>
-<span id="cb486-7"><a href="review-of-linear-algebra.html#cb486-7"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> data1) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb486-8"><a href="review-of-linear-algebra.html#cb486-8"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> xs, <span class="dt">y =</span> ys) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb486-9"><a href="review-of-linear-algebra.html#cb486-9"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb486-10"><a href="review-of-linear-algebra.html#cb486-10"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> beta[<span class="dv">1</span>], <span class="dt">intercept =</span> beta[<span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb486-1" data-line-number="1">xs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb486-2" data-line-number="2">ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb486-3" data-line-number="3">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(xs[<span class="dv">1</span>], xs[<span class="dv">2</span>], xs[<span class="dv">3</span>], <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">nrow =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb486-4" data-line-number="4">b &lt;-<span class="st"> </span><span class="kw">c</span>(ys[<span class="dv">1</span>], ys[<span class="dv">2</span>], ys[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb486-5" data-line-number="5">beta &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(A) <span class="op">%*%</span><span class="st"> </span>A, <span class="kw">t</span>(A) <span class="op">%*%</span><span class="st"> </span>b)</a>
+<a class="sourceLine" id="cb486-6" data-line-number="6">data1 &lt;-<span class="st"> </span><span class="kw">tibble</span>(xs, ys)</a>
+<a class="sourceLine" id="cb486-7" data-line-number="7"><span class="kw">ggplot</span>(<span class="dt">data =</span> data1) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb486-8" data-line-number="8"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> xs, <span class="dt">y =</span> ys) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb486-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb486-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> beta[<span class="dv">1</span>], <span class="dt">intercept =</span> beta[<span class="dv">2</span>])</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-187-1.png" width="672" /></p>
 <p>Let us use the classic data set of Karl Pearson’s from 1903 containing the height of fathers and sons, which we will return to next week when we tackle linear regression properly:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="review-of-linear-algebra.html#cb487-1"></a>heights &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;http://www.randomservices.org/random/data/Pearson.txt&quot;</span>)</span>
-<span id="cb487-2"><a href="review-of-linear-algebra.html#cb487-2"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> heights) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-3"><a href="review-of-linear-algebra.html#cb487-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Father, <span class="dt">y =</span> Son) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-4"><a href="review-of-linear-algebra.html#cb487-4"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb487-5"><a href="review-of-linear-algebra.html#cb487-5"></a><span class="st">  </span><span class="kw">coord_equal</span>()</span>
-<span id="cb487-6"><a href="review-of-linear-algebra.html#cb487-6"></a>pl</span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" data-line-number="1">heights &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;http://www.randomservices.org/random/data/Pearson.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb487-2" data-line-number="2">pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> heights) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb487-3" data-line-number="3"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Father, <span class="dt">y =</span> Son) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb487-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb487-5" data-line-number="5"><span class="st">  </span><span class="kw">coord_equal</span>()</a>
+<a class="sourceLine" id="cb487-6" data-line-number="6">pl</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-188-1.png" width="672" /></p>
 <p><em>Exercise:</em> Let’s try to find the best fit line to this data set (the hard way) using the same process as above for the three - point data set:</p>
 <p>Of course, <code>R</code> can do this calculation for you with just one command:</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="review-of-linear-algebra.html#cb488-1"></a>best_beta_easy &lt;-<span class="st"> </span><span class="kw">lm</span>(Son <span class="op">~</span><span class="st"> </span>Father, <span class="dt">data =</span> heights)</span>
-<span id="cb488-2"><a href="review-of-linear-algebra.html#cb488-2"></a>best_beta_easy</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb488-1" data-line-number="1">best_beta_easy &lt;-<span class="st"> </span><span class="kw">lm</span>(Son <span class="op">~</span><span class="st"> </span>Father, <span class="dt">data =</span> heights)</a>
+<a class="sourceLine" id="cb488-2" data-line-number="2">best_beta_easy</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Son ~ Father, data = heights)
@@ -565,14 +582,14 @@ Defining the inverse is one task, but calculating it for any given matrix, espec
 ## (Intercept)       Father  
 ##      33.893        0.514</code></pre>
 <p>But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="review-of-linear-algebra.html#cb490-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="co"># lm stands for linear model</span></span></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb490-1" data-line-number="1">pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="co"># lm stands for linear model</span></a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-191-1.png" width="672" /></p>
 </div>
 </div>
 <div id="linearity-and-vector-spaces" class="section level2">
 <h2><span class="header-section-number">7.3</span> Linearity and vector spaces</h2>
-<p>We have dealt with linear models in various guises, so now would be a good time to define properly what linearity means. The word comes from the shape of graphs of linear functions of one variable, e.g. <span class="math inline">\(f(x) = a x + b\)</span>, but the algebraic meaning rests on the following two general properties:</p>
+<p>We have dealt with linear models in various guises, so now would be a good time to define properly what linearity means. The word comes from the shape of graphs of linear functions of one variable, e.g. <span class="math inline">\(f(x) = a x + b\)</span>, but the algebraic meaning rests on the following two general properties:</p>
 <p><strong>Definition.</strong> A <em>linear transformation</em> or <em>linear operator</em> is a mapping <span class="math inline">\(L\)</span> between two sets of vectors with the following properties:</p>
 <ol style="list-style-type: decimal">
 <li><em>(scalar multiplication)</em> <span class="math inline">\(L(c \vec v) = c L(\vec v)\)</span>; where <span class="math inline">\(c\)</span> is a scalar and <span class="math inline">\(\vec v\)</span> is a vector</li>
@@ -580,21 +597,21 @@ Defining the inverse is one task, but calculating it for any given matrix, espec
 </ol>
 <p>Here we have two types of objects: vectors and transformations/operators that act on those vectors. The basic example of this are vectors and matrices, because a matrix multiplied by a vector (on the right) results another vector, provided the number of columns in the matrix is the same as the number of rows in the vector. This can be interpreted as the matrix transforming the vector <span class="math inline">\(\vec v\)</span> into another one: $ A v = u$.</p>
 <p><strong>Example:</strong> Let us multiply the following matrix and vector (specially chosen to make a point):</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="review-of-linear-algebra.html#cb492-1"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb492-2"><a href="review-of-linear-algebra.html#cb492-2"></a>vec1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">-1</span>)</span>
-<span id="cb492-3"><a href="review-of-linear-algebra.html#cb492-3"></a>vec2 &lt;-<span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>vec1</span>
-<span id="cb492-4"><a href="review-of-linear-algebra.html#cb492-4"></a><span class="kw">print</span>(vec1)</span></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb492-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb492-2" data-line-number="2">vec1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">-1</span>)</a>
+<a class="sourceLine" id="cb492-3" data-line-number="3">vec2 &lt;-<span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>vec1</a>
+<a class="sourceLine" id="cb492-4" data-line-number="4"><span class="kw">print</span>(vec1)</a></code></pre></div>
 <pre><code>## [1]  1 -1</code></pre>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="review-of-linear-algebra.html#cb494-1"></a><span class="kw">print</span>(vec2)</span></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb494-1" data-line-number="1"><span class="kw">print</span>(vec2)</a></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    1
 ## [2,]   -1</code></pre>
 <p>We see that this particular vector <span class="math inline">\((1,-1)\)</span> is unchanged when multiplied by this matrix, or we can say that the matrix multiplication is equivalent to multiplication by 1. Here is another such vector for the same matrix:</p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="review-of-linear-algebra.html#cb496-1"></a>vec1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb496-2"><a href="review-of-linear-algebra.html#cb496-2"></a>vec2 &lt;-<span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>vec1</span>
-<span id="cb496-3"><a href="review-of-linear-algebra.html#cb496-3"></a><span class="kw">print</span>(vec1)</span></code></pre></div>
+<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb496-1" data-line-number="1">vec1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb496-2" data-line-number="2">vec2 &lt;-<span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>vec1</a>
+<a class="sourceLine" id="cb496-3" data-line-number="3"><span class="kw">print</span>(vec1)</a></code></pre></div>
 <pre><code>## [1] 1 2</code></pre>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="review-of-linear-algebra.html#cb498-1"></a><span class="kw">print</span>(vec2)</span></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb498-1" data-line-number="1"><span class="kw">print</span>(vec2)</a></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    4
 ## [2,]    8</code></pre>
@@ -609,7 +626,7 @@ Defining the inverse is one task, but calculating it for any given matrix, espec
 <h3><span class="header-section-number">7.3.1</span> Linear independence and basis vectors</h3>
 <p>How can we describe a vector space without trying to list all of its elements? We know that one can generate an element by taking linear combinations of vectors. It turns out that it is possible to generate (or “span”) a vector space by taking linear combinations of a subset of its vectors. The challenge is to find a minimal subset of subset that is not redundant. In order to do this, we first introduce a new concept:</p>
 <p><strong>Definition:</strong> A set of vectors <span class="math inline">\(\{ \vec v_i \}\)</span> is called <em>linearly independent</em> if the only linear combination involving them that equals the zero vector is if all the coefficients are zero. ( <span class="math inline">\(a_1 \vec v_1 + a_2 \vec v_2 + ... + a_n \vec v_n = 0\)</span> only if <span class="math inline">\(a_i = 0\)</span> for all <span class="math inline">\(i\)</span>.)</p>
-<p>In the familiar Euclidean spaces, e.g. <span class="math inline">\(\mathbb{R}^2\)</span>, linear independence has a geometric meaning: two vectors are linearly independent if the segments from the origin to the endpoint do not lie on the same line. But it can be shown that any set of three vectors in the plane is linearly dependent, because there are only two dimensions in the vector space. This brings us to the key definition of this section:</p>
+<p>In the familiar Euclidean spaces, e.g. <span class="math inline">\(\mathbb{R}^2\)</span>, linear independence has a geometric meaning: two vectors are linearly independent if the segments from the origin to the endpoint do not lie on the same line. But it can be shown that any set of three vectors in the plane is linearly dependent, because there are only two dimensions in the vector space. This brings us to the key definition of this section:</p>
 <p><strong>Definition:</strong> A <em>basis</em> of a vector space is a linearly independent set of vectors that generate (or span) the vector space. The number of vectors (cardinality) in such a set is called the <em>dimension</em> of the vector space.</p>
 <p>A vector space generally has many possible bases, as illustrated in figure. In the case of <span class="math inline">\(\mathbb{R}^2\)</span>, the usual (canonical) basis set is <span class="math inline">\(\{(1,0); (0,1)\}\)</span> which obviously generates any point on the plane and is linearly independent. But any two linearly independent vectors can generate any vector in the plane.</p>
 <p><strong>Example:</strong> The vector <span class="math inline">\(\vec r = (2,1)\)</span> can be represented as a linear combination of the two canonical vectors: <span class="math inline">\(\vec r = 2\times (1,0)+1\times (0,1)\)</span>. Let us choose another basis set, say <span class="math inline">\(\{(1,1); (-1,1)\}\)</span> (this is the canonical basis vectors rotated by <span class="math inline">\(\pi/2\)</span>.) The same vector can be represented by a linear combination of these two vectors, with coefficients <span class="math inline">\(1.5\)</span> and <span class="math inline">\(-0.5\)</span>: <span class="math inline">\(\vec r = 1.5\times (1,1) - 0.5 \times (-1,1)\)</span>. If we call the first basis <span class="math inline">\(C\)</span> for canonical and the second basis <span class="math inline">\(D\)</span> for different, we can write the same vector using different sets of coordinates for each basis:</p>
@@ -626,32 +643,32 @@ Proj(\vec r ; \vec v) = \frac{ \langle \vec r , \vec v \rangle  } {\langle \vec 
 \]</span></p>
 <p>This formula gives the projection of the vector <span class="math inline">\(\vec r\)</span> onto <span class="math inline">\(\vec v\)</span>, the result is a new vector in the direction of <span class="math inline">\(\vec v\)</span>, with the scalar coefficient <span class="math inline">\(a = \ \langle \vec r , \vec v \rangle /\vert \vec v \vert^2\)</span>.</p>
 <p><strong>Example:</strong> Here is how one might calculate the projection of the point <span class="math inline">\((2,1)\)</span> onto the basis set <span class="math inline">\(\{(1,1); (-1,1)\}\)</span>:</p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="review-of-linear-algebra.html#cb500-1"></a>v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb500-2"><a href="review-of-linear-algebra.html#cb500-2"></a>v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb500-3"><a href="review-of-linear-algebra.html#cb500-3"></a>u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb500-4"><a href="review-of-linear-algebra.html#cb500-4"></a>ProjMat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">cbind</span>(v1, v2), </span>
-<span id="cb500-5"><a href="review-of-linear-algebra.html#cb500-5"></a>                  <span class="dt">byrow =</span> T, <span class="dt">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb500-6"><a href="review-of-linear-algebra.html#cb500-6"></a><span class="kw">print</span>(ProjMat)</span></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb500-1" data-line-number="1">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb500-2" data-line-number="2">v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb500-3" data-line-number="3">u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb500-4" data-line-number="4">ProjMat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">cbind</span>(v1, v2), </a>
+<a class="sourceLine" id="cb500-5" data-line-number="5">                  <span class="dt">byrow =</span> T, <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb500-6" data-line-number="6"><span class="kw">print</span>(ProjMat)</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    1    1
 ## [2,]   -1    1</code></pre>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="review-of-linear-algebra.html#cb502-1"></a>ProjMat <span class="op">%*%</span><span class="st"> </span>u</span></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb502-1" data-line-number="1">ProjMat <span class="op">%*%</span><span class="st"> </span>u</a></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    3
 ## [2,]   -1</code></pre>
 <p>This is not quite right: the projection coefficients are off by a factor of two compared to the correct values in the example above. This is because we have neglected to <em>normalize</em> the basis vectors, so we should modify the script as follows:</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="review-of-linear-algebra.html#cb504-1"></a>v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb504-2"><a href="review-of-linear-algebra.html#cb504-2"></a>v1 &lt;-<span class="st"> </span>v1 <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(v1<span class="op">^</span><span class="dv">2</span>))</span>
-<span id="cb504-3"><a href="review-of-linear-algebra.html#cb504-3"></a>v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb504-4"><a href="review-of-linear-algebra.html#cb504-4"></a>v2 &lt;-<span class="st"> </span>v2 <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(v2<span class="op">^</span><span class="dv">2</span>))</span>
-<span id="cb504-5"><a href="review-of-linear-algebra.html#cb504-5"></a>u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb504-6"><a href="review-of-linear-algebra.html#cb504-6"></a>ProjMat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">cbind</span>(v1, v2), </span>
-<span id="cb504-7"><a href="review-of-linear-algebra.html#cb504-7"></a>                  <span class="dt">byrow =</span> T, <span class="dt">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb504-8"><a href="review-of-linear-algebra.html#cb504-8"></a><span class="kw">print</span>(ProjMat)</span></code></pre></div>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb504-1" data-line-number="1">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb504-2" data-line-number="2">v1 &lt;-<span class="st"> </span>v1 <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(v1<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb504-3" data-line-number="3">v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb504-4" data-line-number="4">v2 &lt;-<span class="st"> </span>v2 <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(v2<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb504-5" data-line-number="5">u &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb504-6" data-line-number="6">ProjMat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">cbind</span>(v1, v2), </a>
+<a class="sourceLine" id="cb504-7" data-line-number="7">                  <span class="dt">byrow =</span> T, <span class="dt">nrow =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb504-8" data-line-number="8"><span class="kw">print</span>(ProjMat)</a></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]  0.5  0.5
 ## [2,] -0.5  0.5</code></pre>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="review-of-linear-algebra.html#cb506-1"></a><span class="kw">print</span>(ProjMat <span class="op">%*%</span><span class="st"> </span>u)</span></code></pre></div>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb506-1" data-line-number="1"><span class="kw">print</span>(ProjMat <span class="op">%*%</span><span class="st"> </span>u)</a></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]  1.5
 ## [2,] -0.5</code></pre>
@@ -687,7 +704,7 @@ A  \times  (c \vec v) = c A  \times  \vec v = c \lambda \vec v =  \lambda (c \ve
 <p>This shows that when the vector <span class="math inline">\(c \vec v\)</span> is multiplied by the matrix <span class="math inline">\(A\)</span>, it results in its being multiplied by the same number <span class="math inline">\(\lambda\)</span>, so by definition it is an eigenvector. Therefore, an eigenvector <span class="math inline">\(\vec v\)</span> is not unique, as any constant multiple <span class="math inline">\(c \vec v\)</span> is also an eigenvector. It is more useful to think not of a single eigenvector <span class="math inline">\(\vec v\)</span>, but of a <strong>collection of vectors that can be interconverted by scalar multiplication</strong> that are all essentially the same eigenvector. Another way to represent this, if the eigenvector is real, is that an eigenvector as a <strong>direction that remains unchanged by multiplication by the matrix</strong>, such as direction of the vector <span class="math inline">\(v\)</span> in the figure below. As mentioned above, this is true only for real eigenvalues and eigenvectors, since complex eigenvectors cannot be
 used to define a direction in a real space.</p>
 <div class="figure">
-<img src="../images/Eigenvalue_equation.png" alt="" />
+<img src="../images/Eigenvalue_equation.png" alt="Illustration of the geometry of a matrix A multiplying its eigenvector v, resulting in a vector in the same direction \lambda v" />
 <p class="caption">Illustration of the geometry of a matrix <span class="math inline">\(A\)</span> multiplying its eigenvector <span class="math inline">\(v\)</span>, resulting in a vector in the same direction
 <span class="math inline">\(\lambda v\)</span></p>
 </div>
@@ -722,11 +739,11 @@ A = \left(\begin{array}{cc}2 &amp; 1 \\ 2&amp; 3\end{array}\right)
 \lambda = \frac{5 \pm \sqrt{5^2-4 \times 4}}{2}  =  \frac{5 \pm 3}{2}  = 4, 1
 \]</span></p>
 <p>These are the multiples we found in the example above, as expected. Of course <code>R</code> has functions to calculate this instead of doing this by hand:</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="review-of-linear-algebra.html#cb508-1"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">nrow =</span><span class="dv">2</span>)</span>
-<span id="cb508-2"><a href="review-of-linear-algebra.html#cb508-2"></a>eigs &lt;-<span class="st"> </span><span class="kw">eigen</span>(A)</span>
-<span id="cb508-3"><a href="review-of-linear-algebra.html#cb508-3"></a>eigs<span class="op">$</span>values</span></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb508-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="dt">nrow =</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb508-2" data-line-number="2">eigs &lt;-<span class="st"> </span><span class="kw">eigen</span>(A)</a>
+<a class="sourceLine" id="cb508-3" data-line-number="3">eigs<span class="op">$</span>values</a></code></pre></div>
 <pre><code>## [1] 4 1</code></pre>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="review-of-linear-algebra.html#cb510-1"></a>eigs<span class="op">$</span>vectors</span></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" data-line-number="1">eigs<span class="op">$</span>vectors</a></code></pre></div>
 <pre><code>##            [,1]       [,2]
 ## [1,] -0.4472136 -0.7071068
 ## [2,] -0.8944272  0.7071068</code></pre>

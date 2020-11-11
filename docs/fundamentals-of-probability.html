@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -430,9 +447,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The measurement of interest from a random experiment is called a <em>random variable</em>. Sometimes the measurement is simply the outcome, but usually it reports some aspect of the outcome and so several outcomes can have the same value of the random variable. The random variable can then be seen as condensing the sample space into a smaller range of values. Random variables can be <em>numeric</em> or <em>categorical</em>, with the difference that categorical variables cannot be assigned meaningful numbers. For instance, one may report an individual by phenotype (e.g., white or purple flowers), or having a nucleotide A, T, G, C in a particular position, and although one could assign numbers to these categories (e.g., 1, 2, 3, 4) they could not be used in sensical way—one can compare and do arithmetic with numbers, but A is not less than T and A + T does not equal G. Thus there are different tools for describing and working with numeric and categorical random variables.</p>
 <p><strong>Example:</strong> In a DNA sequence a codon triplet represents a specific amino acid, but there is redundancy (several triplets may code for the same amino acid). One may think of a coding DNA sequence as an outcome, but the amino acid (sequence or single one) as a random variable. Extending this framework, one may think of genotype as an outcome, but a phenotype (e.g., eye color) as a random variable—although this is not correct for any phenotype that is not strictly determined by the genotype, because then there are other factors (e.g., environmental or epigenetic) that influence the value of the random variable besides the outcome (genotype).</p>
 <p><strong>Exercise:</strong> The package <code>palmerpenguins</code> contains multiple variables measured in populations of three different species of penguins over three years on three different islands. Identify numeric and categorical variables, and specify whether numeric variables are discrete and continuous.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="fundamentals-of-probability.html#cb315-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb315-2"><a href="fundamentals-of-probability.html#cb315-2"></a><span class="kw">library</span>(palmerpenguins)</span>
-<span id="cb315-3"><a href="fundamentals-of-probability.html#cb315-3"></a><span class="kw">str</span>(penguins)</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb315-2" data-line-number="2"><span class="kw">library</span>(palmerpenguins)</a>
+<a class="sourceLine" id="cb315-3" data-line-number="3"><span class="kw">str</span>(penguins)</a></code></pre></div>
 <pre><code>## tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
 ##  $ species          : Factor w/ 3 levels &quot;Adelie&quot;,&quot;Chinstrap&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ island           : Factor w/ 3 levels &quot;Biscoe&quot;,&quot;Dream&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
@@ -474,27 +491,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>And for a density function it is defined using the integral:
 <span class="math display">\[ E(Y) =  \int_R y\, g(y) dy \]</span></p>
 <p><strong>Example:</strong> Let us examine the factors (categorical variables) in the penguins data set. They cannot be described using means and medians, but can be plotted by counts in each category as you learned in the introduction to <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="fundamentals-of-probability.html#cb317-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span></span>
-<span id="cb317-2"><a href="fundamentals-of-probability.html#cb317-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> species, <span class="dt">fill =</span> sex) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb317-3"><a href="fundamentals-of-probability.html#cb317-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span></a>
+<a class="sourceLine" id="cb317-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> species, <span class="dt">fill =</span> sex) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb317-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="fundamentals-of-probability.html#cb318-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span></span>
-<span id="cb318-2"><a href="fundamentals-of-probability.html#cb318-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">fill =</span> species) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb318-3"><a href="fundamentals-of-probability.html#cb318-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span></a>
+<a class="sourceLine" id="cb318-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">fill =</span> species) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb318-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-110-2.png" width="672" /></p>
 <p>One can plot the distributions of numeric variables like body mass for different penguin species using box plots:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="fundamentals-of-probability.html#cb319-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as.factor</span>(species), <span class="dt">y=</span>body_mass_g) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as.factor</span>(species), <span class="dt">y=</span>body_mass_g) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_boxplot).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
 <p>The following code chunk uses <code>dplyr</code> functions that we will learn in the next chapter to calculate the mean and median values of these variables aggregated by species:</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="fundamentals-of-probability.html#cb321-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(body_mass_g))</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(body_mass_g))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   species    mean
 ##   &lt;fct&gt;     &lt;dbl&gt;
 ## 1 Adelie    3706.
 ## 2 Chinstrap 3733.
 ## 3 Gentoo    5092.</code></pre>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="fundamentals-of-probability.html#cb323-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>()  <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">median =</span> <span class="kw">median</span>(body_mass_g))</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>()  <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">median =</span> <span class="kw">median</span>(body_mass_g))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   species   median
 ##   &lt;fct&gt;      &lt;dbl&gt;
@@ -513,24 +530,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Variances have squared units so they are not directly comparable to the values of the random variable. Taking the square root of the variance converts it into the same units and is called the standard deviation of the distribution:
 <span class="math display">\[ \sigma_X = \sqrt{\text{Var}(X)}\]</span>
 <strong>Example:</strong> Let’s go back to the penguins data set and calculate the measures of spread for the variable body mass for different penguin species</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="fundamentals-of-probability.html#cb325-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as.factor</span>(species), <span class="dt">y=</span>body_mass_g) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> penguins) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">as.factor</span>(species), <span class="dt">y=</span>body_mass_g) <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_boxplot).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="fundamentals-of-probability.html#cb327-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">var =</span> <span class="kw">var</span>(body_mass_g))</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">var =</span> <span class="kw">var</span>(body_mass_g))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   species       var
 ##   &lt;fct&gt;       &lt;dbl&gt;
 ## 1 Adelie    210332.
 ## 2 Chinstrap 147713.
 ## 3 Gentoo    251478.</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="fundamentals-of-probability.html#cb329-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">first_quart =</span> <span class="kw">quantile</span>(body_mass_g,<span class="fl">0.25</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">first_quart =</span> <span class="kw">quantile</span>(body_mass_g,<span class="fl">0.25</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   species   first_quart
 ##   &lt;fct&gt;           &lt;dbl&gt;
 ## 1 Adelie          3362.
 ## 2 Chinstrap       3488.
 ## 3 Gentoo          4700</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="fundamentals-of-probability.html#cb331-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">third_quart =</span> <span class="kw">quantile</span>(body_mass_g,<span class="fl">0.75</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">third_quart =</span> <span class="kw">quantile</span>(body_mass_g,<span class="fl">0.75</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   species   third_quart
 ##   &lt;fct&gt;           &lt;dbl&gt;
@@ -569,13 +586,13 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 </div>
 <div id="exploration-misleading-means" class="section level2">
 <h2><span class="header-section-number">3.7</span> Exploration: misleading means</h2>
-<p>Means are the most common type of descriptive statistic and are sometimes the only numeric quantity used to compare two data sets, e.g. “the average GPA at school A is 3.5 vs 3.8 at school B”. However, means can be misleading measures in multiple ways.</p>
+<p>Means are the most common type of descriptive statistic and are sometimes the only numeric quantity used to compare two data sets, e.g. “the average GPA at school A is 3.5 vs 3.8 at school B”. However, means can be misleading measures in multiple ways.</p>
 <p>First, means are highly sensitive to outliers, or points that are very different from other values. They can skew the mean value, even pulling it completely away from the bulk of the values, in which case the mean ceases to be a measure of a “typical” value.</p>
 <p>Second, there can be funny business with combining means of different <em>subsets</em> of data. Normally, you might expect if you have group A and group B, and each group has two subgroups divided by another variable (e.g. we are comparing the GPAs of students in school A and school B, and we split up the students in each school by gender), then if the means of each subgroup of A and larger than the means of the same subgroup of B (e.g. the GPA of girls and boys in school A are higher than those of their counterparts in school B), then the same relationship should be true for the combined mean of group A and group B (that is, the overall GPA in school A is higher than school B). That is not necessarily true!</p>
 <p>This apparent contradiction is called Simpson’s paradox. It can be illustrated in the data set of all the passengers and crew on the doomed ocean liner Titanic. The data set is found in the library <code>stablelearner</code> and is loaded by the chunk below:</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="fundamentals-of-probability.html#cb333-1"></a><span class="kw">library</span>(stablelearner)</span>
-<span id="cb333-2"><a href="fundamentals-of-probability.html#cb333-2"></a><span class="kw">data</span>(titanic)</span>
-<span id="cb333-3"><a href="fundamentals-of-probability.html#cb333-3"></a><span class="kw">str</span>(titanic)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="kw">library</span>(stablelearner)</a>
+<a class="sourceLine" id="cb333-2" data-line-number="2"><span class="kw">data</span>(titanic)</a>
+<a class="sourceLine" id="cb333-3" data-line-number="3"><span class="kw">str</span>(titanic)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    2207 obs. of  11 variables:
 ##  $ name    : chr  &quot;Abbing, Mr. Anthony&quot; &quot;Abbott, Mr. Eugene Joseph&quot; &quot;Abbott, Mr. Rossmore Edward&quot; &quot;Abbott, Mrs. Rhoda Mary &#39;Rosa&#39;&quot; ...
 ##  $ gender  : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 2 2 1 1 2 2 1 2 2 ...
@@ -589,7 +606,7 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 ##  $ parch   : Ord.factor w/ 10 levels &quot;0&quot;&lt;&quot;1&quot;&lt;&quot;2&quot;&lt;&quot;3&quot;&lt;..: 1 3 2 2 1 1 1 1 1 1 ...
 ##  $ survived: Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 1 1 2 2 2 1 2 2 2 ...</code></pre>
 <p>The chunk below calculated the survival probability of passengers of all classes compared to the crew (of all types:</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="fundamentals-of-probability.html#cb335-1"></a>titanic <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(<span class="dt">Passenger =</span> class <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;1st&#39;</span>, <span class="st">&#39;2nd&#39;</span>, <span class="st">&#39;3rd&#39;</span>), survived) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">num =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fraction =</span> num<span class="op">/</span><span class="kw">sum</span>(num)) </span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" data-line-number="1">titanic <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(<span class="dt">Passenger =</span> class <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;1st&#39;</span>, <span class="st">&#39;2nd&#39;</span>, <span class="st">&#39;3rd&#39;</span>), survived) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">num =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fraction =</span> num<span class="op">/</span><span class="kw">sum</span>(num)) </a></code></pre></div>
 <pre><code>## # A tibble: 4 x 4
 ## # Groups:   Passenger [2]
 ##   Passenger survived   num fraction

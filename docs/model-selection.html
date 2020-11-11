@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -433,8 +450,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The goal of model selection is to provide you with a disciplined way to choose among competing models. While there is no consensus on a single technique to perform model selection (we will examine some of the alternative paradigms below), all techniques are inspired by Occam’s razor: given models of similar explanatory power, choose the simplest.</p>
 <p>But what does “simplest” mean? Measuring a model’s “complexity” is far from trivial, hence the different schools of thought. Some approaches simply count the number of free parameters, and penalize models with more parameters; others take into account how much each parameter should be “fine-tuned” to fit the data; other approaches are based on entirely different premises.</p>
 <p>But why should you choose the simplest model? First, simpler models are easier to analyze, so that for example you could make analytical headway into the mechanics of the process you want to model; simpler models are also considered more beautiful. Second, you want to avoid <em>overfitting</em>: each biological data set—however carefully crafted—is noisy, and you want to fit the signal, not the noise. If you include too much flexibility in your model, you will get what looks like an excellent fit for the specific data set, but you will be unable to fit other data sets to which your model should also apply.</p>
-<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb700-1"><a href="model-selection.html#cb700-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># our friend </span></span>
-<span id="cb700-2"><a href="model-selection.html#cb700-2"></a><span class="kw">library</span>(BayesFactor) <span class="co"># Bayesian model selection</span></span></code></pre></div>
+<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb700-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># our friend </span></a>
+<a class="sourceLine" id="cb700-2" data-line-number="2"><span class="kw">library</span>(BayesFactor) <span class="co"># Bayesian model selection</span></a></code></pre></div>
 </div>
 <div id="problems" class="section level2">
 <h2><span class="header-section-number">13.2</span> Problems</h2>
@@ -498,8 +515,8 @@ Showing that by minimizing the sum of squares, we are maximizing the likelihood.
 <h4><span class="header-section-number">13.5.0.1</span> Two nested models</h4>
 <p><em>Nested</em> means that model <span class="math inline">\(\mathcal M_1\)</span> has parameters <span class="math inline">\(\theta_1\)</span>, and model <span class="math inline">\(\mathcal M_2\)</span> has parameters <span class="math inline">\(\theta_2\)</span>, such that <span class="math inline">\(\theta_1 \in \theta_2\)</span> — by setting some of the parameters of <span class="math inline">\(\mathcal M_2\)</span> to particular values, we recover <span class="math inline">\(\mathcal M_1\)</span>.</p>
 <p>For example, suppose we want to model the height of trees. We measure the response variable (height of tree <span class="math inline">\(i\)</span>, <span class="math inline">\(h_i\)</span>) as well as the girth (<span class="math inline">\(g_i\)</span>). We actually have a data set that ships with <code>R</code> that contains exactly this type of data:</p>
-<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb701-1"><a href="model-selection.html#cb701-1"></a><span class="kw">data</span>(trees)</span>
-<span id="cb701-2"><a href="model-selection.html#cb701-2"></a><span class="kw">head</span>(trees)</span></code></pre></div>
+<div class="sourceCode" id="cb701"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="kw">data</span>(trees)</a>
+<a class="sourceLine" id="cb701-2" data-line-number="2"><span class="kw">head</span>(trees)</a></code></pre></div>
 <pre><code>##   Girth Height Volume
 ## 1   8.3     70   10.3
 ## 2   8.6     65   10.3
@@ -508,9 +525,9 @@ Showing that by minimizing the sum of squares, we are maximizing the likelihood.
 ## 5  10.7     81   18.8
 ## 6  10.8     83   19.7</code></pre>
 <p>The <code>Height</code> of these cherry trees is measured in feet; the <code>Girth</code> is the diameter in inches, and the <code>Volume</code> is the measuring the amount of timber in cubic feet. Let’s add a <code>Radius</code> measured in feet:</p>
-<div class="sourceCode" id="cb703"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb703-1"><a href="model-selection.html#cb703-1"></a>trees<span class="op">$</span>Radius &lt;-<span class="st"> </span>trees<span class="op">$</span>Girth <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="co"># diameter to radius; inches to feet</span></span></code></pre></div>
+<div class="sourceCode" id="cb703"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb703-1" data-line-number="1">trees<span class="op">$</span>Radius &lt;-<span class="st"> </span>trees<span class="op">$</span>Girth <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>) <span class="co"># diameter to radius; inches to feet</span></a></code></pre></div>
 <p>Let’s look at the distribution of three heights:</p>
-<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb704-1"><a href="model-selection.html#cb704-1"></a>trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Height)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb704-1" data-line-number="1">trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Height)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-296-1.png" width="672" /></p>
 <p>A possible simple model is one that says that all tree heights have heights taken from a Gaussian distribution with a given mean. In the context of linear regression, we can write the model <span class="math inline">\(\mathcal M_0\)</span>:</p>
 <p><span class="math display">\[
@@ -518,21 +535,21 @@ h_i = \theta_0 + \epsilon_i
 \]</span>
 where we assume that the errors <span class="math inline">\(\epsilon_i \overset{\text{iid}}{\sim} \mathcal N(0, \sigma^2)\)</span>. Now fit the model, obtaining <span class="math inline">\(\hat{\theta_0}\)</span>, and compute the maximum log-likelihood <span class="math inline">\(\mathcal L_0(\hat{\theta_0}, \hat{\sigma}^2 \vert h)\)</span>.</p>
 <p>In <code>R</code>, we would call:</p>
-<div class="sourceCode" id="cb705"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb705-1"><a href="model-selection.html#cb705-1"></a>M0 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> trees, Height <span class="op">~</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># only intercept</span></span>
-<span id="cb705-2"><a href="model-selection.html#cb705-2"></a><span class="co"># the m.l.e. of theta_0</span></span>
-<span id="cb705-3"><a href="model-selection.html#cb705-3"></a>theta0_M0 &lt;-<span class="st"> </span>M0<span class="op">$</span>coefficients[<span class="dv">1</span>]</span>
-<span id="cb705-4"><a href="model-selection.html#cb705-4"></a>theta0_M0</span></code></pre></div>
+<div class="sourceCode" id="cb705"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb705-1" data-line-number="1">M0 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> trees, Height <span class="op">~</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># only intercept</span></a>
+<a class="sourceLine" id="cb705-2" data-line-number="2"><span class="co"># the m.l.e. of theta_0</span></a>
+<a class="sourceLine" id="cb705-3" data-line-number="3">theta0_M0 &lt;-<span class="st"> </span>M0<span class="op">$</span>coefficients[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb705-4" data-line-number="4">theta0_M0</a></code></pre></div>
 <pre><code>## (Intercept) 
 ##          76</code></pre>
-<div class="sourceCode" id="cb707"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb707-1"><a href="model-selection.html#cb707-1"></a><span class="co"># log likelihood</span></span>
-<span id="cb707-2"><a href="model-selection.html#cb707-2"></a><span class="kw">logLik</span>(M0)</span></code></pre></div>
+<div class="sourceCode" id="cb707"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb707-1" data-line-number="1"><span class="co"># log likelihood</span></a>
+<a class="sourceLine" id="cb707-2" data-line-number="2"><span class="kw">logLik</span>(M0)</a></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -100.8873 (df=2)</code></pre>
 <p>Now let’s plot the height of the trees vs. their radius:</p>
-<div class="sourceCode" id="cb709"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb709-1"><a href="model-selection.html#cb709-1"></a>trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Radius, <span class="dt">y =</span> Height)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb709-2"><a href="model-selection.html#cb709-2"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb709"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb709-1" data-line-number="1">trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Radius, <span class="dt">y =</span> Height)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb709-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-298-1.png" width="672" /></p>
 <p>And compute their correlation:</p>
-<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb710-1"><a href="model-selection.html#cb710-1"></a><span class="kw">cor</span>(trees<span class="op">$</span>Radius, trees<span class="op">$</span>Height)</span></code></pre></div>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb710-1" data-line-number="1"><span class="kw">cor</span>(trees<span class="op">$</span>Radius, trees<span class="op">$</span>Height)</a></code></pre></div>
 <pre><code>## [1] 0.5192801</code></pre>
 <p>Given the positive correlation between radius and height, we can build a more complex model in which the height also depends on radius (<span class="math inline">\(\mathcal M_1\)</span>):</p>
 <p><span class="math display">\[
@@ -540,38 +557,38 @@ h_i = \theta_0 + \theta_1 r_i + \epsilon_i
 \]</span>
 as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the parameters (note that <span class="math inline">\(\hat{\theta_0}\)</span> for model <span class="math inline">\(\mathcal M_0\)</span> will in general be different from <span class="math inline">\(\hat{\theta_0}\)</span> for model <span class="math inline">\(\mathcal M_1\)</span>), and compute <span class="math inline">\(\mathcal L_1(\hat{\theta_0},\hat{\theta_1},\hat{\sigma}^2 \vert h)\)</span>. These two models are nested, because when setting <span class="math inline">\(\theta_1 = 0\)</span> we recover <span class="math inline">\(\mathcal M_0\)</span>.</p>
 <p>In <code>R</code>:</p>
-<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb712-1"><a href="model-selection.html#cb712-1"></a>M1 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> trees, Height <span class="op">~</span><span class="st"> </span>Radius) <span class="co"># intercept and slope</span></span>
-<span id="cb712-2"><a href="model-selection.html#cb712-2"></a>theta0_M1 &lt;-<span class="st"> </span>M1<span class="op">$</span>coefficients[<span class="dv">1</span>]</span>
-<span id="cb712-3"><a href="model-selection.html#cb712-3"></a>theta1_M1 &lt;-<span class="st"> </span>M1<span class="op">$</span>coefficients[<span class="dv">2</span>]</span>
-<span id="cb712-4"><a href="model-selection.html#cb712-4"></a><span class="co"># note that now theta_0 takes a different value:</span></span>
-<span id="cb712-5"><a href="model-selection.html#cb712-5"></a><span class="kw">print</span>(<span class="kw">c</span>(theta0_M1, theta0_M1))</span></code></pre></div>
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb712-1" data-line-number="1">M1 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> trees, Height <span class="op">~</span><span class="st"> </span>Radius) <span class="co"># intercept and slope</span></a>
+<a class="sourceLine" id="cb712-2" data-line-number="2">theta0_M1 &lt;-<span class="st"> </span>M1<span class="op">$</span>coefficients[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb712-3" data-line-number="3">theta1_M1 &lt;-<span class="st"> </span>M1<span class="op">$</span>coefficients[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb712-4" data-line-number="4"><span class="co"># note that now theta_0 takes a different value:</span></a>
+<a class="sourceLine" id="cb712-5" data-line-number="5"><span class="kw">print</span>(<span class="kw">c</span>(theta0_M1, theta0_M1))</a></code></pre></div>
 <pre><code>## (Intercept) (Intercept) 
 ##    62.03131    62.03131</code></pre>
-<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb714-1"><a href="model-selection.html#cb714-1"></a><span class="co"># the log likelihood should improve</span></span>
-<span id="cb714-2"><a href="model-selection.html#cb714-2"></a><span class="kw">logLik</span>(M1)</span></code></pre></div>
+<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb714-1" data-line-number="1"><span class="co"># the log likelihood should improve</span></a>
+<a class="sourceLine" id="cb714-2" data-line-number="2"><span class="kw">logLik</span>(M1)</a></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -96.01663 (df=3)</code></pre>
 <p>Which model should we use? You can see that adding an extra parameter improved the likelihood somewhat.</p>
 <p>Enter the likelihood-ratio test. We want to know whether it’s worth using the more complex model, and to do this we need to calculate a likelihood-ratio statistics. We’re helped by <em>Wilks’ theorem</em>: as the sample size <span class="math inline">\(n \to \infty\)</span>, the test statistics <span class="math inline">\(2 \log(L_1 / L_0)\)</span> is asymptotically <span class="math inline">\(\chi^2\)</span> distributed with degrees of freedom equal to the difference in the number of parameters between <span class="math inline">\(\mathcal M_1\)</span> and <span class="math inline">\(\mathcal M_0\)</span>.</p>
 <p>While there are many caveats<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> this method is commonly used in practice.</p>
-<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb716-1"><a href="model-selection.html#cb716-1"></a><span class="co"># 2 * log-likelihood ratio</span></span>
-<span id="cb716-2"><a href="model-selection.html#cb716-2"></a>lrt &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(M1) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(M0)))</span>
-<span id="cb716-3"><a href="model-selection.html#cb716-3"></a><span class="kw">print</span>(<span class="st">&quot;2 log(L1 / L0)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb716"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb716-1" data-line-number="1"><span class="co"># 2 * log-likelihood ratio</span></a>
+<a class="sourceLine" id="cb716-2" data-line-number="2">lrt &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(M1) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(M0)))</a>
+<a class="sourceLine" id="cb716-3" data-line-number="3"><span class="kw">print</span>(<span class="st">&quot;2 log(L1 / L0)&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;2 log(L1 / L0)&quot;</code></pre>
-<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb718-1"><a href="model-selection.html#cb718-1"></a><span class="kw">print</span>(lrt)</span></code></pre></div>
+<div class="sourceCode" id="cb718"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb718-1" data-line-number="1"><span class="kw">print</span>(lrt)</a></code></pre></div>
 <pre><code>## [1] 9.74125</code></pre>
-<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb720-1"><a href="model-selection.html#cb720-1"></a><span class="co"># difference in parameters</span></span>
-<span id="cb720-2"><a href="model-selection.html#cb720-2"></a>df0 &lt;-<span class="st"> </span><span class="kw">length</span>(M0<span class="op">$</span>coefficients)</span>
-<span id="cb720-3"><a href="model-selection.html#cb720-3"></a>df1 &lt;-<span class="st"> </span><span class="kw">length</span>(M1<span class="op">$</span>coefficients)</span>
-<span id="cb720-4"><a href="model-selection.html#cb720-4"></a>k &lt;-<span class="st"> </span>df1 <span class="op">-</span><span class="st"> </span>df0</span>
-<span id="cb720-5"><a href="model-selection.html#cb720-5"></a><span class="kw">print</span>(<span class="st">&quot;Number of extra parameters&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb720"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb720-1" data-line-number="1"><span class="co"># difference in parameters</span></a>
+<a class="sourceLine" id="cb720-2" data-line-number="2">df0 &lt;-<span class="st"> </span><span class="kw">length</span>(M0<span class="op">$</span>coefficients)</a>
+<a class="sourceLine" id="cb720-3" data-line-number="3">df1 &lt;-<span class="st"> </span><span class="kw">length</span>(M1<span class="op">$</span>coefficients)</a>
+<a class="sourceLine" id="cb720-4" data-line-number="4">k &lt;-<span class="st"> </span>df1 <span class="op">-</span><span class="st"> </span>df0</a>
+<a class="sourceLine" id="cb720-5" data-line-number="5"><span class="kw">print</span>(<span class="st">&quot;Number of extra parameters&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;Number of extra parameters&quot;</code></pre>
-<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb722-1"><a href="model-selection.html#cb722-1"></a><span class="kw">print</span>(k)</span></code></pre></div>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb722-1" data-line-number="1"><span class="kw">print</span>(k)</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb724-1"><a href="model-selection.html#cb724-1"></a><span class="co"># calculate (approximate) p-value</span></span>
-<span id="cb724-2"><a href="model-selection.html#cb724-2"></a>res &lt;-<span class="st"> </span><span class="kw">pchisq</span>(lrt, k, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb724-3"><a href="model-selection.html#cb724-3"></a><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;p-value using Chi^2 with&quot;</span>, k, <span class="st">&quot;degrees of freedom&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb724-1" data-line-number="1"><span class="co"># calculate (approximate) p-value</span></a>
+<a class="sourceLine" id="cb724-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">pchisq</span>(lrt, k, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb724-3" data-line-number="3"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;p-value using Chi^2 with&quot;</span>, k, <span class="st">&quot;degrees of freedom&quot;</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;p-value using Chi^2 with 1 degrees of freedom&quot;</code></pre>
-<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb726-1"><a href="model-selection.html#cb726-1"></a><span class="kw">print</span>(<span class="kw">round</span>(res, <span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb726-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">round</span>(res, <span class="dv">4</span>))</a></code></pre></div>
 <pre><code>## [1] 0.0018</code></pre>
 <p>In this case, the likelihood-ratio test would favor the use of the more complex model.</p>
 <ul>
@@ -582,47 +599,47 @@ as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the paramete
 <div id="adding-more-models" class="section level4">
 <h4><span class="header-section-number">13.5.0.2</span> Adding more models</h4>
 <p>The data also contains a column with the volume. Let’s take a look:</p>
-<div class="sourceCode" id="cb728"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb728-1"><a href="model-selection.html#cb728-1"></a>trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Volume, <span class="dt">y =</span> Height) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb728"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb728-1" data-line-number="1">trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Volume, <span class="dt">y =</span> Height) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-302-1.png" width="672" /></p>
 <p>And look at the correlation</p>
-<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb729-1"><a href="model-selection.html#cb729-1"></a><span class="kw">cor</span>(trees<span class="op">$</span>Volume, trees<span class="op">$</span>Height)</span></code></pre></div>
+<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb729-1" data-line-number="1"><span class="kw">cor</span>(trees<span class="op">$</span>Volume, trees<span class="op">$</span>Height)</a></code></pre></div>
 <pre><code>## [1] 0.5982497</code></pre>
 <p>We can build another model:</p>
-<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb731-1"><a href="model-selection.html#cb731-1"></a>M2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> trees, Height <span class="op">~</span><span class="st"> </span>Volume) <span class="co"># intercept and slope</span></span></code></pre></div>
+<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1">M2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> trees, Height <span class="op">~</span><span class="st"> </span>Volume) <span class="co"># intercept and slope</span></a></code></pre></div>
 <p>Compute the log likelihood:</p>
-<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb732-1"><a href="model-selection.html#cb732-1"></a><span class="kw">logLik</span>(M2)</span></code></pre></div>
+<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb732-1" data-line-number="1"><span class="kw">logLik</span>(M2)</a></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -94.02052 (df=3)</code></pre>
 <p>and test whether that’s better than the (nested) model 0:</p>
-<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb734-1"><a href="model-selection.html#cb734-1"></a><span class="co"># 2 * log-likelihood ratio</span></span>
-<span id="cb734-2"><a href="model-selection.html#cb734-2"></a>lrt &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(M2) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(M0)))</span>
-<span id="cb734-3"><a href="model-selection.html#cb734-3"></a><span class="kw">print</span>(<span class="st">&quot;2 log(L2 / L0)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1"><span class="co"># 2 * log-likelihood ratio</span></a>
+<a class="sourceLine" id="cb734-2" data-line-number="2">lrt &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(M2) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(M0)))</a>
+<a class="sourceLine" id="cb734-3" data-line-number="3"><span class="kw">print</span>(<span class="st">&quot;2 log(L2 / L0)&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;2 log(L2 / L0)&quot;</code></pre>
-<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb736-1"><a href="model-selection.html#cb736-1"></a><span class="kw">print</span>(lrt)</span></code></pre></div>
+<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb736-1" data-line-number="1"><span class="kw">print</span>(lrt)</a></code></pre></div>
 <pre><code>## [1] 13.73348</code></pre>
-<div class="sourceCode" id="cb738"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb738-1"><a href="model-selection.html#cb738-1"></a><span class="co"># difference in parameters</span></span>
-<span id="cb738-2"><a href="model-selection.html#cb738-2"></a>df0 &lt;-<span class="st"> </span><span class="kw">length</span>(M0<span class="op">$</span>coefficients)</span>
-<span id="cb738-3"><a href="model-selection.html#cb738-3"></a>df1 &lt;-<span class="st"> </span><span class="kw">length</span>(M2<span class="op">$</span>coefficients)</span>
-<span id="cb738-4"><a href="model-selection.html#cb738-4"></a>k &lt;-<span class="st"> </span>df1 <span class="op">-</span><span class="st"> </span>df0</span>
-<span id="cb738-5"><a href="model-selection.html#cb738-5"></a><span class="kw">print</span>(<span class="st">&quot;Number of extra parameters&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb738"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb738-1" data-line-number="1"><span class="co"># difference in parameters</span></a>
+<a class="sourceLine" id="cb738-2" data-line-number="2">df0 &lt;-<span class="st"> </span><span class="kw">length</span>(M0<span class="op">$</span>coefficients)</a>
+<a class="sourceLine" id="cb738-3" data-line-number="3">df1 &lt;-<span class="st"> </span><span class="kw">length</span>(M2<span class="op">$</span>coefficients)</a>
+<a class="sourceLine" id="cb738-4" data-line-number="4">k &lt;-<span class="st"> </span>df1 <span class="op">-</span><span class="st"> </span>df0</a>
+<a class="sourceLine" id="cb738-5" data-line-number="5"><span class="kw">print</span>(<span class="st">&quot;Number of extra parameters&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;Number of extra parameters&quot;</code></pre>
-<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb740-1"><a href="model-selection.html#cb740-1"></a><span class="kw">print</span>(k)</span></code></pre></div>
+<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb740-1" data-line-number="1"><span class="kw">print</span>(k)</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb742-1"><a href="model-selection.html#cb742-1"></a><span class="co"># calculate (approximate) p-value</span></span>
-<span id="cb742-2"><a href="model-selection.html#cb742-2"></a>res &lt;-<span class="st"> </span><span class="kw">pchisq</span>(lrt, k, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb742-3"><a href="model-selection.html#cb742-3"></a><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;p-value using Chi^2 with&quot;</span>, k, <span class="st">&quot;degrees of freedom&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb742-1" data-line-number="1"><span class="co"># calculate (approximate) p-value</span></a>
+<a class="sourceLine" id="cb742-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">pchisq</span>(lrt, k, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb742-3" data-line-number="3"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;p-value using Chi^2 with&quot;</span>, k, <span class="st">&quot;degrees of freedom&quot;</span>))</a></code></pre></div>
 <pre><code>## [1] &quot;p-value using Chi^2 with 1 degrees of freedom&quot;</code></pre>
-<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb744-1"><a href="model-selection.html#cb744-1"></a><span class="kw">print</span>(<span class="kw">round</span>(res, <span class="dv">4</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb744-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">round</span>(res, <span class="dv">4</span>))</a></code></pre></div>
 <pre><code>## [1] 2e-04</code></pre>
 <p>Also in this case, the likelihood-ratio test would favor the use of the more complex model. But how can we contrast the two more complex models <span class="math inline">\(\mathcal M_1\)</span> and <span class="math inline">\(\mathcal M_2\)</span>? They are not nested!</p>
 <p>In fact, we can even concoct another model that uses a mix of radius and volume. If we assume that trees are cylinders, then we have <span class="math inline">\(V = \pi r^2 h\)</span>, and as such <span class="math inline">\(h = V / (\pi r^2)\)</span>. We can test whether this is a good approximation by creating a new variable:</p>
-<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb746-1"><a href="model-selection.html#cb746-1"></a>trees<span class="op">$</span>Guess &lt;-<span class="st"> </span>trees<span class="op">$</span>Volume <span class="op">/</span><span class="st"> </span>trees<span class="op">$</span>Radius<span class="op">^</span><span class="dv">2</span> <span class="co"># (we can omit \pi)</span></span></code></pre></div>
-<div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb747-1"><a href="model-selection.html#cb747-1"></a>trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Guess, <span class="dt">y =</span> Height) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">trees<span class="op">$</span>Guess &lt;-<span class="st"> </span>trees<span class="op">$</span>Volume <span class="op">/</span><span class="st"> </span>trees<span class="op">$</span>Radius<span class="op">^</span><span class="dv">2</span> <span class="co"># (we can omit \pi)</span></a></code></pre></div>
+<div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb747-1" data-line-number="1">trees <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Guess, <span class="dt">y =</span> Height) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-308-1.png" width="672" /></p>
-<div class="sourceCode" id="cb748"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb748-1"><a href="model-selection.html#cb748-1"></a><span class="kw">cor</span>(trees<span class="op">$</span>Guess, trees<span class="op">$</span>Height)</span></code></pre></div>
+<div class="sourceCode" id="cb748"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1"><span class="kw">cor</span>(trees<span class="op">$</span>Guess, trees<span class="op">$</span>Height)</a></code></pre></div>
 <pre><code>## [1] 0.7537768</code></pre>
 <p>Pretty good! Let’s add it to our list of models:</p>
-<div class="sourceCode" id="cb750"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb750-1"><a href="model-selection.html#cb750-1"></a>M3 &lt;-<span class="st"> </span><span class="kw">lm</span>(Height <span class="op">~</span><span class="st"> </span>Guess, <span class="dt">data =</span> trees)</span>
-<span id="cb750-2"><a href="model-selection.html#cb750-2"></a><span class="kw">logLik</span>(M3)</span></code></pre></div>
+<div class="sourceCode" id="cb750"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1">M3 &lt;-<span class="st"> </span><span class="kw">lm</span>(Height <span class="op">~</span><span class="st"> </span>Guess, <span class="dt">data =</span> trees)</a>
+<a class="sourceLine" id="cb750-2" data-line-number="2"><span class="kw">logLik</span>(M3)</a></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -87.87121 (df=3)</code></pre>
 </div>
 </div>
@@ -632,13 +649,13 @@ as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the paramete
 <p>In the early 1970s, Hirotugu Akaike proposed “an information criterion” (AIC, now known as Akaike’s Information Criterion), based, as the name implies, on information theory. Basically, AIC is measuring (asymptotically) the information loss when using the model in lieu of the actual data. Philosophically, it is rooted in the idea that there is a “true model” that generated the data, and that several possible models can serve as its approximation. Practically, it is very easy to compute:</p>
 <p><span class="math display">\[AIC = -2 \mathcal L(\theta \vert D) + 2 k\]</span></p>
 <p>where <span class="math inline">\(k\)</span> is the number of free parameters (e.g., 3 for the simplest linear regression [intercept, slope, variance of the residuals]). In <code>R</code>, many models provide a way to access their AIC score:</p>
-<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb752-1"><a href="model-selection.html#cb752-1"></a><span class="kw">AIC</span>(M0) <span class="co"># only intercept</span></span></code></pre></div>
+<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1"><span class="kw">AIC</span>(M0) <span class="co"># only intercept</span></a></code></pre></div>
 <pre><code>## [1] 205.7745</code></pre>
-<div class="sourceCode" id="cb754"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb754-1"><a href="model-selection.html#cb754-1"></a><span class="kw">AIC</span>(M1) <span class="co"># use radius</span></span></code></pre></div>
+<div class="sourceCode" id="cb754"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb754-1" data-line-number="1"><span class="kw">AIC</span>(M1) <span class="co"># use radius</span></a></code></pre></div>
 <pre><code>## [1] 198.0333</code></pre>
-<div class="sourceCode" id="cb756"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb756-1"><a href="model-selection.html#cb756-1"></a><span class="kw">AIC</span>(M2) <span class="co"># use volume</span></span></code></pre></div>
+<div class="sourceCode" id="cb756"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb756-1" data-line-number="1"><span class="kw">AIC</span>(M2) <span class="co"># use volume</span></a></code></pre></div>
 <pre><code>## [1] 194.041</code></pre>
-<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb758-1"><a href="model-selection.html#cb758-1"></a><span class="kw">AIC</span>(M3) <span class="co"># use cylinder</span></span></code></pre></div>
+<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb758-1" data-line-number="1"><span class="kw">AIC</span>(M3) <span class="co"># use cylinder</span></a></code></pre></div>
 <pre><code>## [1] 181.7424</code></pre>
 <p>You can see that AIC favors the cylinder model over the others. Typically, a difference of about 2 is considered “significant”, though of course this really depends on the size of the data, the values of AIC, etc.</p>
 <ul>
@@ -686,8 +703,8 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <h3><span class="header-section-number">13.8.3</span> Bayes factors in practice</h3>
 <p>In practice, Bayes Factors can be estimated from MCMC. While we’re not going to get into this here, we can use a package that a) automatically sets the priors for all the variables (close to the philosophy known as “Objective Bayes”); b) performs the calculation of the Bayes Factors for us.</p>
 <p>Let’s build very many models. Load the data:</p>
-<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb760-1"><a href="model-selection.html#cb760-1"></a><span class="kw">data</span>(trees)</span>
-<span id="cb760-2"><a href="model-selection.html#cb760-2"></a><span class="kw">head</span>(trees)</span></code></pre></div>
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb760-1" data-line-number="1"><span class="kw">data</span>(trees)</a>
+<a class="sourceLine" id="cb760-2" data-line-number="2"><span class="kw">head</span>(trees)</a></code></pre></div>
 <pre><code>##   Girth Height Volume
 ## 1   8.3     70   10.3
 ## 2   8.6     65   10.3
@@ -695,11 +712,11 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 ## 4  10.5     72   16.4
 ## 5  10.7     81   18.8
 ## 6  10.8     83   19.7</code></pre>
-<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb762-1"><a href="model-selection.html#cb762-1"></a>trees<span class="op">$</span>Radius &lt;-<span class="st"> </span>trees<span class="op">$</span>Girth <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>)</span>
-<span id="cb762-2"><a href="model-selection.html#cb762-2"></a>trees<span class="op">$</span>Guess &lt;-<span class="st"> </span>trees<span class="op">$</span>Volume <span class="op">/</span><span class="st"> </span>trees<span class="op">$</span>Radius<span class="op">^</span><span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb762-1" data-line-number="1">trees<span class="op">$</span>Radius &lt;-<span class="st"> </span>trees<span class="op">$</span>Girth <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb762-2" data-line-number="2">trees<span class="op">$</span>Guess &lt;-<span class="st"> </span>trees<span class="op">$</span>Volume <span class="op">/</span><span class="st"> </span>trees<span class="op">$</span>Radius<span class="op">^</span><span class="dv">2</span></a></code></pre></div>
 <p>And build the models:</p>
-<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb763-1"><a href="model-selection.html#cb763-1"></a>lm_all &lt;-<span class="st"> </span><span class="kw">lm</span>(Height <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> trees) <span class="co"># . means use all cols besides Height</span></span>
-<span id="cb763-2"><a href="model-selection.html#cb763-2"></a><span class="kw">summary</span>(lm_all)</span></code></pre></div>
+<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb763-1" data-line-number="1">lm_all &lt;-<span class="st"> </span><span class="kw">lm</span>(Height <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> trees) <span class="co"># . means use all cols besides Height</span></a>
+<a class="sourceLine" id="cb763-2" data-line-number="2"><span class="kw">summary</span>(lm_all)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Height ~ ., data = trees)
@@ -721,11 +738,11 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 ## Residual standard error: 4.023 on 27 degrees of freedom
 ## Multiple R-squared:  0.6413, Adjusted R-squared:  0.6014 
 ## F-statistic: 16.09 on 3 and 27 DF,  p-value: 3.391e-06</code></pre>
-<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="model-selection.html#cb765-1"></a><span class="kw">logLik</span>(lm_all)</span></code></pre></div>
+<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb765-1" data-line-number="1"><span class="kw">logLik</span>(lm_all)</a></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; -84.99667 (df=5)</code></pre>
 <p>Perform selection among all models nested into <code>lm_all</code>:</p>
-<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb767-1"><a href="model-selection.html#cb767-1"></a>bf_analysis &lt;-<span class="st"> </span><span class="kw">regressionBF</span>(Height <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> trees)</span>
-<span id="cb767-2"><a href="model-selection.html#cb767-2"></a><span class="kw">plot</span>(bf_analysis)</span></code></pre></div>
+<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb767-1" data-line-number="1">bf_analysis &lt;-<span class="st"> </span><span class="kw">regressionBF</span>(Height <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> trees)</a>
+<a class="sourceLine" id="cb767-2" data-line-number="2"><span class="kw">plot</span>(bf_analysis)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-314-1.png" width="672" /></p>
 <p>These ratios measure how many times more probable the model is compared to that with only the intercept (assuming initially that all models are equiprobable). Note that the Bayes Factors automatically penalize for overly complex models (triplets/quadruplets are ranked after pairs or even only <code>Guess</code>).</p>
 <ul>
@@ -750,9 +767,9 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <blockquote>
 <p>Letchford A, Moat HS, Preis T (2015) <a href="https://doi.org/10.1098/rsos.150266">The advantage of short paper titles</a>. Royal Society Open Science 2(8): 150266.</p>
 </blockquote>
-<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb768-1"><a href="model-selection.html#cb768-1"></a><span class="co"># original URL</span></span>
-<span id="cb768-2"><a href="model-selection.html#cb768-2"></a><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.hg3j0</span></span>
-<span id="cb768-3"><a href="model-selection.html#cb768-3"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/LMP2015.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb768-1" data-line-number="1"><span class="co"># original URL</span></a>
+<a class="sourceLine" id="cb768-2" data-line-number="2"><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.hg3j0</span></a>
+<a class="sourceLine" id="cb768-3" data-line-number="3">dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/LMP2015.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   year = col_double(),
@@ -761,9 +778,9 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 ##   cites = col_double()
 ## )</code></pre>
 <p>The data set reports information on the top 20000 articles for each year from 2007 to 2013. The Author’s claim is that shorter titles lead to more citations:</p>
-<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb770-1"><a href="model-selection.html#cb770-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb770-2"><a href="model-selection.html#cb770-2"></a><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb770-3"><a href="model-selection.html#cb770-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">correlation =</span> <span class="kw">cor</span>(title_length, cites, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb770-1" data-line-number="1">dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb770-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb770-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">correlation =</span> <span class="kw">cor</span>(title_length, cites, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 7 x 2
 ##    year correlation
 ##   &lt;dbl&gt;       &lt;dbl&gt;
@@ -781,44 +798,44 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <li>The journals cover a wide array of disciplines. The title length could reflect different publishing cultures.</li>
 <li>Most importantly, different journals have different requirements for title lengths. For example, Nature requires titles to be less than 90 characters:</li>
 </ul>
-<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="model-selection.html#cb772-1"></a>dt<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(journal <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Nature&quot;</span>, <span class="st">&quot;Science&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb772-2"><a href="model-selection.html#cb772-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> journal, <span class="dt">y =</span> title_length) <span class="op">+</span><span class="st"> </span><span class="kw">geom_violin</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb772-1" data-line-number="1">dt<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(journal <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Nature&quot;</span>, <span class="st">&quot;Science&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb772-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> journal, <span class="dt">y =</span> title_length) <span class="op">+</span><span class="st"> </span><span class="kw">geom_violin</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-317-1.png" width="672" /></p>
 <p>But then, is the effect the Authors are reporting only due to the fact that high-profile journals mandate short titles? Let’s see whether their claims hold water when considering specific journals:</p>
-<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb773-1"><a href="model-selection.html#cb773-1"></a><span class="co"># only consider journals with more than 1000 papers in the data set</span></span>
-<span id="cb773-2"><a href="model-selection.html#cb773-2"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-3"><a href="model-selection.html#cb773-3"></a><span class="st">  </span><span class="kw">group_by</span>(journal) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-4"><a href="model-selection.html#cb773-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">num_papers =</span> <span class="kw">n</span>())<span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-5"><a href="model-selection.html#cb773-5"></a><span class="st">  </span><span class="kw">filter</span>(num_papers <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-6"><a href="model-selection.html#cb773-6"></a><span class="st">  </span><span class="kw">ungroup</span>()</span>
-<span id="cb773-7"><a href="model-selection.html#cb773-7"></a><span class="co"># now compute correlation and plot</span></span>
-<span id="cb773-8"><a href="model-selection.html#cb773-8"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-9"><a href="model-selection.html#cb773-9"></a><span class="st">  </span><span class="kw">group_by</span>(year, journal) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-10"><a href="model-selection.html#cb773-10"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">correlation =</span> <span class="kw">cor</span>(title_length, cites, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb773-11"><a href="model-selection.html#cb773-11"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb773-12"><a href="model-selection.html#cb773-12"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(<span class="kw">substr</span>(journal, <span class="dv">1</span>, <span class="dv">30</span>), (correlation)), <span class="dt">y =</span> correlation) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb773-13"><a href="model-selection.html#cb773-13"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb773-14"><a href="model-selection.html#cb773-14"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb773-15"><a href="model-selection.html#cb773-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span><span class="st">  </span><span class="co"># rotate labels x axis</span></span>
-<span id="cb773-16"><a href="model-selection.html#cb773-16"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb773-1" data-line-number="1"><span class="co"># only consider journals with more than 1000 papers in the data set</span></a>
+<a class="sourceLine" id="cb773-2" data-line-number="2">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(journal) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">num_papers =</span> <span class="kw">n</span>())<span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-5" data-line-number="5"><span class="st">  </span><span class="kw">filter</span>(num_papers <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-6" data-line-number="6"><span class="st">  </span><span class="kw">ungroup</span>()</a>
+<a class="sourceLine" id="cb773-7" data-line-number="7"><span class="co"># now compute correlation and plot</span></a>
+<a class="sourceLine" id="cb773-8" data-line-number="8">dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-9" data-line-number="9"><span class="st">  </span><span class="kw">group_by</span>(year, journal) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-10" data-line-number="10"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">correlation =</span> <span class="kw">cor</span>(title_length, cites, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-11" data-line-number="11"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-12" data-line-number="12"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(<span class="kw">substr</span>(journal, <span class="dv">1</span>, <span class="dv">30</span>), (correlation)), <span class="dt">y =</span> correlation) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb773-14" data-line-number="14"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb773-15" data-line-number="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span><span class="st">  </span><span class="co"># rotate labels x axis</span></a>
+<a class="sourceLine" id="cb773-16" data-line-number="16"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-318-1.png" width="672" /></p>
 <p>It seems that in several medical journals (NEJM, Circulation, J Clin Oncology) longer titles fare better than shorter ones. In Nature and PNAS we see a negative correlation, while Science gives no clear trend.</p>
 <p>Let’s look at the mean and standard deviation of citations by journal/year</p>
-<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="model-selection.html#cb774-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb774-2"><a href="model-selection.html#cb774-2"></a><span class="st">  </span><span class="kw">group_by</span>(journal, year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb774-3"><a href="model-selection.html#cb774-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb774-4"><a href="model-selection.html#cb774-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb774-5"><a href="model-selection.html#cb774-5"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> mean) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb774-6"><a href="model-selection.html#cb774-6"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb774-7"><a href="model-selection.html#cb774-7"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>journal)</span></code></pre></div>
+<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb774-1" data-line-number="1">dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb774-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(journal, year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb774-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb774-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb774-5" data-line-number="5"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> mean) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb774-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb774-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>journal)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-319-1.png" width="672" /></p>
-<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb775-1"><a href="model-selection.html#cb775-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb775-2"><a href="model-selection.html#cb775-2"></a><span class="st">  </span><span class="kw">group_by</span>(journal, year) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb775-3"><a href="model-selection.html#cb775-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb775-4"><a href="model-selection.html#cb775-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb775-5"><a href="model-selection.html#cb775-5"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> sd) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb775-6"><a href="model-selection.html#cb775-6"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb775-7"><a href="model-selection.html#cb775-7"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>journal)</span></code></pre></div>
+<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb775-1" data-line-number="1">dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb775-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(journal, year) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb775-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)), <span class="dt">sd =</span> <span class="kw">sd</span>(<span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb775-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb775-5" data-line-number="5"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> sd) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb775-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb775-7" data-line-number="7"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>journal)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-319-2.png" width="672" /></p>
 </div>
 <div id="two-models" class="section level4">
@@ -829,23 +846,23 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <p>Model2: the length of titles influences citations</p>
 <p><span class="math inline">\(\log(\text{cits} + 1) \sim \text{journal}:\text{year} + \text{title-length}\)</span></p>
 <p>We are going to fit the model using 90% of the data; we are going to use the remaining data for cross-validation.</p>
-<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="model-selection.html#cb776-1"></a><span class="kw">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb776-2"><a href="model-selection.html#cb776-2"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">logcit =</span> <span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</span>
-<span id="cb776-3"><a href="model-selection.html#cb776-3"></a><span class="co"># sample 10% of the data</span></span>
-<span id="cb776-4"><a href="model-selection.html#cb776-4"></a>data_test &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_frac</span>(<span class="fl">0.3</span>)</span>
-<span id="cb776-5"><a href="model-selection.html#cb776-5"></a>data_fit  &lt;-<span class="st"> </span><span class="kw">anti_join</span>(dt, data_test) <span class="co"># get all those not in data_test</span></span></code></pre></div>
+<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb776-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb776-2" data-line-number="2">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">logcit =</span> <span class="kw">log</span>(cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb776-3" data-line-number="3"><span class="co"># sample 10% of the data</span></a>
+<a class="sourceLine" id="cb776-4" data-line-number="4">data_test &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_frac</span>(<span class="fl">0.3</span>)</a>
+<a class="sourceLine" id="cb776-5" data-line-number="5">data_fit  &lt;-<span class="st"> </span><span class="kw">anti_join</span>(dt, data_test) <span class="co"># get all those not in data_test</span></a></code></pre></div>
 <pre><code>## Joining, by = c(&quot;year&quot;, &quot;journal&quot;, &quot;title_length&quot;, &quot;cites&quot;, &quot;num_papers&quot;, &quot;logcit&quot;)</code></pre>
 <p>Now fit the models:</p>
-<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="model-selection.html#cb778-1"></a>M1 &lt;-<span class="st"> </span><span class="kw">lm</span>(logcit <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(year)<span class="op">*</span>journal, <span class="dt">data =</span> data_fit)</span>
-<span id="cb778-2"><a href="model-selection.html#cb778-2"></a>M2 &lt;-<span class="st"> </span><span class="kw">lm</span>(logcit <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(year)<span class="op">*</span>journal <span class="op">+</span><span class="st"> </span>title_length, <span class="dt">data =</span> data_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb778-1" data-line-number="1">M1 &lt;-<span class="st"> </span><span class="kw">lm</span>(logcit <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(year)<span class="op">*</span>journal, <span class="dt">data =</span> data_fit)</a>
+<a class="sourceLine" id="cb778-2" data-line-number="2">M2 &lt;-<span class="st"> </span><span class="kw">lm</span>(logcit <span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(year)<span class="op">*</span>journal <span class="op">+</span><span class="st"> </span>title_length, <span class="dt">data =</span> data_fit)</a></code></pre></div>
 <p>Now let’s try to predict out-of-fit the data that we haven’t used:</p>
-<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb779-1"><a href="model-selection.html#cb779-1"></a>M1_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(M1, <span class="dt">newdata =</span> data_test)</span>
-<span id="cb779-2"><a href="model-selection.html#cb779-2"></a>SSQ_M1 &lt;-<span class="st"> </span><span class="kw">sum</span>((<span class="kw">log</span>(data_test<span class="op">$</span>cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>M1_predictions)<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb779-3"><a href="model-selection.html#cb779-3"></a>M2_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(M2, <span class="dt">newdata =</span> data_test)</span>
-<span id="cb779-4"><a href="model-selection.html#cb779-4"></a>SSQ_M2 &lt;-<span class="st"> </span><span class="kw">sum</span>((<span class="kw">log</span>(data_test<span class="op">$</span>cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>M2_predictions)<span class="op">^</span><span class="dv">2</span>)</span>
-<span id="cb779-5"><a href="model-selection.html#cb779-5"></a><span class="kw">print</span>(SSQ_M1)</span></code></pre></div>
+<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb779-1" data-line-number="1">M1_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(M1, <span class="dt">newdata =</span> data_test)</a>
+<a class="sourceLine" id="cb779-2" data-line-number="2">SSQ_M1 &lt;-<span class="st"> </span><span class="kw">sum</span>((<span class="kw">log</span>(data_test<span class="op">$</span>cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>M1_predictions)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb779-3" data-line-number="3">M2_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(M2, <span class="dt">newdata =</span> data_test)</a>
+<a class="sourceLine" id="cb779-4" data-line-number="4">SSQ_M2 &lt;-<span class="st"> </span><span class="kw">sum</span>((<span class="kw">log</span>(data_test<span class="op">$</span>cites <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>M2_predictions)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb779-5" data-line-number="5"><span class="kw">print</span>(SSQ_M1)</a></code></pre></div>
 <pre><code>## [1] 2465.712</code></pre>
-<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb781-1"><a href="model-selection.html#cb781-1"></a><span class="kw">print</span>(SSQ_M2)</span></code></pre></div>
+<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb781-1" data-line-number="1"><span class="kw">print</span>(SSQ_M2)</a></code></pre></div>
 <pre><code>## [1] 2465.96</code></pre>
 <p>We do not gain anything by including the information on titles.</p>
 <ul>
@@ -860,7 +877,7 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>see Pinheiro, José C.; Bates, Douglas M. (2000), Mixed-Effects Models in S and S-PLUS, Springer-Verlag, pp. 82–93<a href="model-selection.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>see Pinheiro, José C.; Bates, Douglas M. (2000), Mixed-Effects Models in S and S-PLUS, Springer-Verlag, pp. 82–93<a href="model-selection.html#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
             </section>

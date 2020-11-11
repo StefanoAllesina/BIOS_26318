@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -430,7 +447,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="likelihood-and-estimation" class="section level2">
 <h2><span class="header-section-number">9.1</span> Likelihood and estimation</h2>
-<div id="likelihood-vs.-probability" class="section level3">
+<div id="likelihood-vs.probability" class="section level3">
 <h3><span class="header-section-number">9.1.1</span> likelihood vs. probability</h3>
 <p>In everyday English, probability and likelihood are synonymous. In probability and statistics, however, the two are distinct, although related, concepts. The definition of likelihood is based on the notion of conditional probability that we defined in week 2, applied to a data set and a particular probability model <span class="math inline">\(M\)</span>:</p>
 <p><span class="math display">\[ 
@@ -446,7 +463,7 @@ P(k ; n , p) =  {n \choose k} p^k (1-p)^{n-k}
 L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 0.5^4 (0.5)^{6}
 \]</span></p>
 <p>To calculate this precisely, it is easiest to use the R function dbinom():</p>
-<div class="sourceCode" id="cb586"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb586-1"><a href="likelihood-and-bayes.html#cb586-1"></a><span class="kw">print</span>(<span class="kw">dbinom</span>(<span class="dv">4</span>,<span class="dv">10</span>,<span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb586"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb586-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">dbinom</span>(<span class="dv">4</span>,<span class="dv">10</span>,<span class="fl">0.5</span>))</a></code></pre></div>
 <pre><code>## [1] 0.2050781</code></pre>
 <p>So the likelihood of this data set being produced by a fair coin is about 20.5%.</p>
 <p>This certainly looks like a probability — in fact we calculated it from a probability distribution function, so why do we call it a likelihood? There are two fundamental differences between the two, one mostly abstract, the other more grounded.</p>
@@ -469,19 +486,19 @@ L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 
 <p><span class="math display">\[L(\theta \ \vert \ D) = P(X = D \ \vert \ \theta)\]</span></p>
 <p>Finding the m.l.e. of <span class="math inline">\(\theta\)</span> simply means finding the value(s) maximizing the probability of obtaining the given data under the model. In cases when this likelihood function has a simple algebraic form, we can find the maximum value using the classic method of taking its derivative and setting it to zero.</p>
 <p><strong>Example.</strong> Let’s go back to the binomial example. Based on the data set of 4 heads out of 10 coin tosses, what is the maximum likelihood estimate of the probability of a head <span class="math inline">\(p\)</span>? The range of values of <span class="math inline">\(p\)</span> is between 0 and 1, and since we have a functional expression for <span class="math inline">\(P(k=4 ; n=10, p)\)</span> (see above) we can plot it using the dbinom() function:</p>
-<div class="sourceCode" id="cb588"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb588-1"><a href="likelihood-and-bayes.html#cb588-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb588-2"><a href="likelihood-and-bayes.html#cb588-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb588-3"><a href="likelihood-and-bayes.html#cb588-3"></a>k &lt;-<span class="st"> </span><span class="dv">4</span></span>
-<span id="cb588-4"><a href="likelihood-and-bayes.html#cb588-4"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb588-5"><a href="likelihood-and-bayes.html#cb588-5"></a>like_fun &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</span>
-<span id="cb588-6"><a href="likelihood-and-bayes.html#cb588-6"></a>  lik &lt;-<span class="st"> </span><span class="kw">dbinom</span>(k, n, p)</span>
-<span id="cb588-7"><a href="likelihood-and-bayes.html#cb588-7"></a>  <span class="kw">return</span>(lik)</span>
-<span id="cb588-8"><a href="likelihood-and-bayes.html#cb588-8"></a>}</span>
-<span id="cb588-9"><a href="likelihood-and-bayes.html#cb588-9"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> like_fun) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb588-10"><a href="likelihood-and-bayes.html#cb588-10"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;probability of success (p)&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb588-11"><a href="likelihood-and-bayes.html#cb588-11"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;likelihood&#39;</span>) <span class="op">+</span></span>
-<span id="cb588-12"><a href="likelihood-and-bayes.html#cb588-12"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.4</span>, <span class="dt">linetype=</span><span class="st">&#39;dotted&#39;</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>)</span>
-<span id="cb588-13"><a href="likelihood-and-bayes.html#cb588-13"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<div class="sourceCode" id="cb588"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb588-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb588-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb588-3" data-line-number="3">k &lt;-<span class="st"> </span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb588-4" data-line-number="4">pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb588-5" data-line-number="5">like_fun &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</a>
+<a class="sourceLine" id="cb588-6" data-line-number="6">  lik &lt;-<span class="st"> </span><span class="kw">dbinom</span>(k, n, p)</a>
+<a class="sourceLine" id="cb588-7" data-line-number="7">  <span class="kw">return</span>(lik)</a>
+<a class="sourceLine" id="cb588-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb588-9" data-line-number="9">pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> like_fun) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb588-10" data-line-number="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;probability of success (p)&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb588-11" data-line-number="11"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;likelihood&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb588-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.4</span>, <span class="dt">linetype=</span><span class="st">&#39;dotted&#39;</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>)</a>
+<a class="sourceLine" id="cb588-13" data-line-number="13"><span class="kw">show</span>(pl)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-233-1.png" width="672" /></p>
 <p>It’s probably not surprising that the maximum of the likelihood function occurs at <span class="math inline">\(p=0.4\)</span>, that is the observed fraction of heads! Using the magic of derivatives, we can show that for a data set with <span class="math inline">\(k\)</span> success out of <span class="math inline">\(n\)</span> trials, the maximum likelihood value of <span class="math inline">\(p\)</span> is <span class="math inline">\(\hat p = k/n\)</span>:</p>
 <p><span class="math display">\[ 
@@ -537,11 +554,11 @@ P(A \ \vert \ B) = \frac{P(B \ \vert \ A)P(A)}{P(B \ \vert \ A) P(A) + P(B \ \ve
 <p><span class="math display">\[ = \frac{0.99 \times 0.98}{0.99 \times 0.98 + 0.01 \times 0.02} =  0.9998\]</span>
 This is again because this disease is quite rare in this population, so a negative test result is almost guaranteed to be correct. In another population, where disease is more prevalent, this may not be the case.</p>
 <div class="figure">
-<img src="images/prob_tree_tikz1.png" alt="" />
+<img src="images/prob_tree_tikz1.png" alt="Bayesian hypothesis testing tree with prior probability 0.1" />
 <p class="caption">Bayesian hypothesis testing tree with prior probability 0.1</p>
 </div>
 <div class="figure">
-<img src="images/prob_tree_tikz2.png" alt="" />
+<img src="images/prob_tree_tikz2.png" alt="Bayesian hypothesis testing tree with prior probability 0.01" />
 <p class="caption">Bayesian hypothesis testing tree with prior probability 0.01</p>
 </div>
 <p><strong>Exercise:</strong> Simulate medical testing by rolling dice for a rare disease (1/6 prevalence) and a common disease (1/2 prevalence), with both sensitivity and specificity of 5/6. Compare the positive predictive values for the two cases.</p>
@@ -583,17 +600,17 @@ L(p \ \vert \ k, n) = \binom{n}{k}p^k (1-p)^{n-k}
 \]</span>
 and our maximum likelihood estimate is <span class="math inline">\(\hat{p} = k /n\)</span>. This allows for estimation of the total population size to be <span class="math inline">\(P = n_2/\hat p\)</span>, where <span class="math inline">\(n_2\)</span> is the total number of individuals captured in the second experiment. There are more sophisticated estimators, but this one is reasonable for large enough populations.</p>
 <p>Let us plot the likelihood as a function of <span class="math inline">\(p\)</span> for the case in which <span class="math inline">\(n = 100\)</span> and <span class="math inline">\(k = 33\)</span></p>
-<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb589-1"><a href="likelihood-and-bayes.html#cb589-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb589-2"><a href="likelihood-and-bayes.html#cb589-2"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb589-3"><a href="likelihood-and-bayes.html#cb589-3"></a>m &lt;-<span class="st"> </span><span class="dv">33</span></span>
-<span id="cb589-4"><a href="likelihood-and-bayes.html#cb589-4"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
-<span id="cb589-5"><a href="likelihood-and-bayes.html#cb589-5"></a>likelihood_function &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</span>
-<span id="cb589-6"><a href="likelihood-and-bayes.html#cb589-6"></a>  lik &lt;-<span class="st"> </span><span class="kw">choose</span>(n, m) <span class="op">*</span><span class="st"> </span>p<span class="op">^</span>m <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>p)<span class="op">^</span>(n <span class="op">-</span><span class="st"> </span>m)</span>
-<span id="cb589-7"><a href="likelihood-and-bayes.html#cb589-7"></a>  <span class="co"># divide by the evidence to make into density function</span></span>
-<span id="cb589-8"><a href="likelihood-and-bayes.html#cb589-8"></a>  <span class="kw">return</span>(lik <span class="op">*</span><span class="st"> </span>(n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</span>
-<span id="cb589-9"><a href="likelihood-and-bayes.html#cb589-9"></a>}</span>
-<span id="cb589-10"><a href="likelihood-and-bayes.html#cb589-10"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> likelihood_function)</span>
-<span id="cb589-11"><a href="likelihood-and-bayes.html#cb589-11"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<div class="sourceCode" id="cb589"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb589-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb589-2" data-line-number="2">n &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb589-3" data-line-number="3">m &lt;-<span class="st"> </span><span class="dv">33</span></a>
+<a class="sourceLine" id="cb589-4" data-line-number="4">pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb589-5" data-line-number="5">likelihood_function &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</a>
+<a class="sourceLine" id="cb589-6" data-line-number="6">  lik &lt;-<span class="st"> </span><span class="kw">choose</span>(n, m) <span class="op">*</span><span class="st"> </span>p<span class="op">^</span>m <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>p)<span class="op">^</span>(n <span class="op">-</span><span class="st"> </span>m)</a>
+<a class="sourceLine" id="cb589-7" data-line-number="7">  <span class="co"># divide by the evidence to make into density function</span></a>
+<a class="sourceLine" id="cb589-8" data-line-number="8">  <span class="kw">return</span>(lik <span class="op">*</span><span class="st"> </span>(n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb589-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb589-10" data-line-number="10">pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> likelihood_function)</a>
+<a class="sourceLine" id="cb589-11" data-line-number="11"><span class="kw">show</span>(pl)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-236-1.png" width="672" /></p>
 <p>Now we choose a prior. For convenience, we choose a Beta distribution, <span class="math inline">\(P(p) = \text{Beta}(\alpha, \beta) = \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)}\)</span>, where <span class="math inline">\(B(\alpha, \beta)\)</span> is the Beta function, <span class="math inline">\(B(\alpha, \beta) = \int_0^1 t^{\alpha -1} (1-t)^{\beta - 1} dt\)</span>.</p>
 <p>Therefore:</p>
@@ -601,20 +618,20 @@ and our maximum likelihood estimate is <span class="math inline">\(\hat{p} = k /
 P(p \ \ \vert \ \ m,n) \propto L(p \ \ \vert \ \ m,n) P(p) = \left(\binom{n}{m} p^m (1-p)^{n-m} \right) \left( \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)} \right) \propto p^{m+\alpha -1} (1-p)^{n-m + \beta -1} \propto \text{Beta}(m + \alpha, \beta + m - n)
 \]</span></p>
 <p>We can explore the effect of choosing a prior on the posterior. Suppose that in the past we have seen probabilities close to 50%. Then we could choose a prior <span class="math inline">\(\text{Beta}(10,10)\)</span> (this is what is called a “strong” or “informative” prior). Let’s see what happens to the posterior:</p>
-<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb590-1"><a href="likelihood-and-bayes.html#cb590-1"></a><span class="co"># a strong prior</span></span>
-<span id="cb590-2"><a href="likelihood-and-bayes.html#cb590-2"></a>alpha &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb590-3"><a href="likelihood-and-bayes.html#cb590-3"></a>beta &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb590-4"><a href="likelihood-and-bayes.html#cb590-4"></a>prior_function &lt;-<span class="st"> </span><span class="cf">function</span>(p) <span class="kw">dbeta</span>(p, alpha, beta)</span>
-<span id="cb590-5"><a href="likelihood-and-bayes.html#cb590-5"></a>posterior_function &lt;-<span class="st"> </span><span class="cf">function</span>(p) <span class="kw">dbeta</span>(p, alpha <span class="op">+</span><span class="st"> </span>m, beta <span class="op">+</span><span class="st"> </span>n <span class="op">-</span><span class="st"> </span>m)</span>
-<span id="cb590-6"><a href="likelihood-and-bayes.html#cb590-6"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> prior_function, <span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb590-7"><a href="likelihood-and-bayes.html#cb590-7"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> posterior_function, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb590"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb590-1" data-line-number="1"><span class="co"># a strong prior</span></a>
+<a class="sourceLine" id="cb590-2" data-line-number="2">alpha &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb590-3" data-line-number="3">beta &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb590-4" data-line-number="4">prior_function &lt;-<span class="st"> </span><span class="cf">function</span>(p) <span class="kw">dbeta</span>(p, alpha, beta)</a>
+<a class="sourceLine" id="cb590-5" data-line-number="5">posterior_function &lt;-<span class="st"> </span><span class="cf">function</span>(p) <span class="kw">dbeta</span>(p, alpha <span class="op">+</span><span class="st"> </span>m, beta <span class="op">+</span><span class="st"> </span>n <span class="op">-</span><span class="st"> </span>m)</a>
+<a class="sourceLine" id="cb590-6" data-line-number="6">pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> prior_function, <span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb590-7" data-line-number="7"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> posterior_function, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-237-1.png" width="672" /></p>
 <p>You can see that the posterior “mediates” between the prior and the likelihood curve. When we use a weak prior, then our posterior will be closer to the likelihood function:</p>
-<div class="sourceCode" id="cb591"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb591-1"><a href="likelihood-and-bayes.html#cb591-1"></a><span class="co"># a weak prior</span></span>
-<span id="cb591-2"><a href="likelihood-and-bayes.html#cb591-2"></a>alpha &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb591-3"><a href="likelihood-and-bayes.html#cb591-3"></a>beta &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span></span>
-<span id="cb591-4"><a href="likelihood-and-bayes.html#cb591-4"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> prior_function, <span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb591-5"><a href="likelihood-and-bayes.html#cb591-5"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> posterior_function, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb591"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb591-1" data-line-number="1"><span class="co"># a weak prior</span></a>
+<a class="sourceLine" id="cb591-2" data-line-number="2">alpha &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb591-3" data-line-number="3">beta &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb591-4" data-line-number="4">pl <span class="op">+</span><span class="st"> </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> prior_function, <span class="dt">colour =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb591-5" data-line-number="5"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> posterior_function, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-238-1.png" width="672" /></p>
 <p>The fact that the posterior depends on the prior is the most controversial aspect of Bayesian inference. Different schools of thought treat this feature differently (e.g., “Subjective Bayes” interprets priors as beliefs before seeing the data; “Empirical Bayes” relies on previous experiments or on the data themselves to derive the prior; “Objective Bayes” tries to derive the least-informative prior given the data). In practice, the larger the data, the cleaner the signal, the lesser the influence of the prior on the resulting posterior.</p>
 </div>

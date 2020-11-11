@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -422,10 +439,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="time-series-modeling-and-forecasting" class="section level1">
 <h1><span class="header-section-number">Lecture 11</span> Time series: modeling and forecasting</h1>
-<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="time-series-modeling-and-forecasting.html#cb631-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></span>
-<span id="cb631-2"><a href="time-series-modeling-and-forecasting.html#cb631-2"></a><span class="kw">library</span>(fpp2) <span class="co"># time series forecasting</span></span>
-<span id="cb631-3"><a href="time-series-modeling-and-forecasting.html#cb631-3"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb631-4"><a href="time-series-modeling-and-forecasting.html#cb631-4"></a><span class="kw">library</span>(GGally)</span></code></pre></div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></a>
+<a class="sourceLine" id="cb631-2" data-line-number="2"><span class="kw">library</span>(fpp2) <span class="co"># time series forecasting</span></a>
+<a class="sourceLine" id="cb631-3" data-line-number="3"><span class="kw">library</span>(lubridate)</a>
+<a class="sourceLine" id="cb631-4" data-line-number="4"><span class="kw">library</span>(GGally)</a></code></pre></div>
 <blockquote>
 <p>Prediction is difficult, especially about the future.</p>
 <p>— Niels Bohr (apocryphally)</p>
@@ -442,9 +459,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="time-series-format-and-plotting" class="section level2">
 <h2><span class="header-section-number">11.2</span> Time series format and plotting</h2>
 <p>A time series is a special data set where each observation has an associated time measurement. There is a special R structure for storing and operating on time series, called <code>ts</code>, as illustrated here:</p>
-<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb632-1"><a href="time-series-modeling-and-forecasting.html#cb632-1"></a>births &lt;-<span class="st"> </span><span class="kw">scan</span>(<span class="st">&quot;http://robjhyndman.com/tsdldata/data/nybirths.dat&quot;</span>)</span>
-<span id="cb632-2"><a href="time-series-modeling-and-forecasting.html#cb632-2"></a>birthstimeseries &lt;-<span class="st"> </span><span class="kw">ts</span>(births, <span class="dt">frequency =</span> <span class="dv">12</span>, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1946</span>, <span class="dv">1</span>))</span>
-<span id="cb632-3"><a href="time-series-modeling-and-forecasting.html#cb632-3"></a>birthstimeseries</span></code></pre></div>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">births &lt;-<span class="st"> </span><span class="kw">scan</span>(<span class="st">&quot;http://robjhyndman.com/tsdldata/data/nybirths.dat&quot;</span>)</a>
+<a class="sourceLine" id="cb632-2" data-line-number="2">birthstimeseries &lt;-<span class="st"> </span><span class="kw">ts</span>(births, <span class="dt">frequency =</span> <span class="dv">12</span>, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1946</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb632-3" data-line-number="3">birthstimeseries</a></code></pre></div>
 <pre><code>##         Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    Oct
 ## 1946 26.663 23.598 26.931 24.740 25.806 24.364 24.477 23.901 23.175 23.227
 ## 1947 21.439 21.089 23.709 21.669 21.752 20.761 23.479 23.824 23.105 23.110
@@ -477,7 +494,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1959 26.992 27.897</code></pre>
 <p>This reads-in a data set recording the number of births per month in New York City, from 1946 to 1958 (it’s not clear what the units are - mabe thousands of births?) To create the time series, we had to give the function the <code>frequency</code>, or the number of time points in a year, and the starting value as a vector assigned to <code>start = c(1946, 1)</code>, the first element is the year and the second the month.</p>
 <p>Here are two different time series, of diabetic drug sales in Australia (in millions of AUS dollaors), also with monthly frequency, and of Boston marathon winning times, with yearly frequency:</p>
-<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb634-1"><a href="time-series-modeling-and-forecasting.html#cb634-1"></a>a10</span></code></pre></div>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb634-1" data-line-number="1">a10</a></code></pre></div>
 <pre><code>##            Jan       Feb       Mar       Apr       May       Jun       Jul
 ## 1991                                                              3.526591
 ## 1992  5.088335  2.814520  2.985811  3.204780  3.127578  3.270523  3.737851
@@ -516,7 +533,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2006 18.612189 16.623343 21.430241 23.575517 23.334206
 ## 2007 23.930204 22.930357 23.263340 25.250030 25.806090
 ## 2008</code></pre>
-<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="time-series-modeling-and-forecasting.html#cb636-1"></a>marathon</span></code></pre></div>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" data-line-number="1">marathon</a></code></pre></div>
 <pre><code>## Time Series:
 ## Start = 1897 
 ## End = 2016 
@@ -539,20 +556,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="visualizing-the-data" class="section level3">
 <h3><span class="header-section-number">11.2.1</span> Visualizing the data</h3>
 <p>The most straighforward way of visualizing time series is using a time plot, which can be created using <code>autoplot</code>:</p>
-<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="time-series-modeling-and-forecasting.html#cb638-1"></a><span class="kw">autoplot</span>(birthstimeseries) <span class="op">+</span></span>
-<span id="cb638-2"><a href="time-series-modeling-and-forecasting.html#cb638-2"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Number of births in NYC&quot;</span>) <span class="op">+</span></span>
-<span id="cb638-3"><a href="time-series-modeling-and-forecasting.html#cb638-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Births (thousands&quot;</span>) <span class="op">+</span></span>
-<span id="cb638-4"><a href="time-series-modeling-and-forecasting.html#cb638-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb638-1" data-line-number="1"><span class="kw">autoplot</span>(birthstimeseries) <span class="op">+</span></a>
+<a class="sourceLine" id="cb638-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Number of births in NYC&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb638-3" data-line-number="3"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Births (thousands&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb638-4" data-line-number="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-260-1.png" width="672" /></p>
-<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb639-1"><a href="time-series-modeling-and-forecasting.html#cb639-1"></a><span class="kw">autoplot</span>(a10) <span class="op">+</span></span>
-<span id="cb639-2"><a href="time-series-modeling-and-forecasting.html#cb639-2"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Antidiabetic drug sales&quot;</span>) <span class="op">+</span></span>
-<span id="cb639-3"><a href="time-series-modeling-and-forecasting.html#cb639-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;AUS$ (million)&quot;</span>) <span class="op">+</span></span>
-<span id="cb639-4"><a href="time-series-modeling-and-forecasting.html#cb639-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb639"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb639-1" data-line-number="1"><span class="kw">autoplot</span>(a10) <span class="op">+</span></a>
+<a class="sourceLine" id="cb639-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Antidiabetic drug sales&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb639-3" data-line-number="3"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;AUS$ (million)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb639-4" data-line-number="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-261-1.png" width="672" /></p>
-<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb640-1"><a href="time-series-modeling-and-forecasting.html#cb640-1"></a><span class="kw">autoplot</span>(marathon) <span class="op">+</span></span>
-<span id="cb640-2"><a href="time-series-modeling-and-forecasting.html#cb640-2"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boston marathon winning times&quot;</span>) <span class="op">+</span></span>
-<span id="cb640-3"><a href="time-series-modeling-and-forecasting.html#cb640-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Time (minutes)&quot;</span>) <span class="op">+</span></span>
-<span id="cb640-4"><a href="time-series-modeling-and-forecasting.html#cb640-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb640-1" data-line-number="1"><span class="kw">autoplot</span>(marathon) <span class="op">+</span></a>
+<a class="sourceLine" id="cb640-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boston marathon winning times&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb640-3" data-line-number="3"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Time (minutes)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb640-4" data-line-number="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-262-1.png" width="672" /></p>
 </div>
 <div id="trends-seasonality-and-cyclicity" class="section level3">
@@ -575,15 +592,15 @@ A cycle occurs when the data exhibit rises and falls that are not of a fixed fre
 <div id="visualizing-correlation-between-different-variables" class="section level3">
 <h3><span class="header-section-number">11.3.1</span> Visualizing correlation between different variables</h3>
 <p>The following data set contains the number of visitors (visitor nights) on a quarterly basis for five regions of New South Wales, Australia:</p>
-<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb641-1"><a href="time-series-modeling-and-forecasting.html#cb641-1"></a><span class="kw">autoplot</span>(visnights[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">facets=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
-<span id="cb641-2"><a href="time-series-modeling-and-forecasting.html#cb641-2"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of visitor nights each quarter (millions)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb641"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" data-line-number="1"><span class="kw">autoplot</span>(visnights[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">facets=</span><span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb641-2" data-line-number="2"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of visitor nights each quarter (millions)&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-263-1.png" width="672" /></p>
 <p>One simple question is whether different variables are related to each other. One simple way is to calculate the Pearson correlation between different time series, called the <em>cross-correlation</em> (where <span class="math inline">\(\bar X\)</span> stands for the mean of X and <span class="math inline">\(\text{Var}(X)\)</span> stands for the variance of <span class="math inline">\(X\)</span>):</p>
 <p><span class="math display">\[
 \text{Cor}(X,Y) = \frac{\sum_t (\bar X - X_t)(\bar Y - Y_t)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
 \]</span></p>
 <p>In a data set with multiple variables it can be handy to examine the correlations between all pairs between them. Here’s a convenient function for that:</p>
-<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb642-1"><a href="time-series-modeling-and-forecasting.html#cb642-1"></a><span class="kw">head</span>(visnights)</span></code></pre></div>
+<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" data-line-number="1"><span class="kw">head</span>(visnights)</a></code></pre></div>
 <pre><code>##         NSWMetro NSWNthCo NSWSthCo NSWSthIn NSWNthIn  QLDMetro QLDCntrl
 ## 1998 Q1 9.047095 8.565678 5.818029 2.679538 2.977507 12.106052 2.748374
 ## 1998 Q2 6.962126 7.124468 2.466437 3.010732 3.477703  7.786687 4.040915
@@ -605,13 +622,13 @@ A cycle occurs when the data exhibit rises and falls that are not of a fixed fre
 ## 1998 Q4 3.859567 2.752910 4.521996 1.1725514 3.304231 1.943689
 ## 1999 Q1 4.588755 3.519564 3.579347 0.3981829 3.510819 2.165838
 ## 1999 Q2 4.070401 3.160430 3.408533 0.5960182 2.871867 1.803940</code></pre>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb644-1"><a href="time-series-modeling-and-forecasting.html#cb644-1"></a>GGally<span class="op">::</span><span class="kw">ggpairs</span>(<span class="kw">as.data.frame</span>(visnights[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</span></code></pre></div>
+<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1">GGally<span class="op">::</span><span class="kw">ggpairs</span>(<span class="kw">as.data.frame</span>(visnights[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-264-1.png" width="672" /></p>
 </div>
 <div id="autocorrelation" class="section level3">
 <h3><span class="header-section-number">11.3.2</span> Autocorrelation</h3>
 <p>A time series can be correlated against itself shifted in time by some set amount, also called <em>lagged</em>. We can plot the lagged correlations for different visitor</p>
-<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb645-1"><a href="time-series-modeling-and-forecasting.html#cb645-1"></a>visnights[,<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb645"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" data-line-number="1">visnights[,<span class="dv">1</span>]</a></code></pre></div>
 <pre><code>##          Qtr1     Qtr2     Qtr3     Qtr4
 ## 1998 9.047095 6.962126 6.871963 7.147293
 ## 1999 7.956923 6.542243 6.330364 7.509212
@@ -632,8 +649,8 @@ A cycle occurs when the data exhibit rises and falls that are not of a fixed fre
 ## 2014 7.897316 5.997468 6.033533 7.103398
 ## 2015 8.725132 6.995875 6.294490 6.945476
 ## 2016 7.373757 6.792234 6.530568 7.878277</code></pre>
-<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb647-1"><a href="time-series-modeling-and-forecasting.html#cb647-1"></a>visnights_smaller &lt;-<span class="st"> </span><span class="kw">window</span>(visnights[,<span class="dv">2</span>], <span class="dt">start=</span><span class="dv">2000</span>, <span class="dt">end =</span> <span class="dv">2010</span>)</span>
-<span id="cb647-2"><a href="time-series-modeling-and-forecasting.html#cb647-2"></a><span class="kw">gglagplot</span>(visnights_smaller) </span></code></pre></div>
+<div class="sourceCode" id="cb647"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" data-line-number="1">visnights_smaller &lt;-<span class="st"> </span><span class="kw">window</span>(visnights[,<span class="dv">2</span>], <span class="dt">start=</span><span class="dv">2000</span>, <span class="dt">end =</span> <span class="dv">2010</span>)</a>
+<a class="sourceLine" id="cb647-2" data-line-number="2"><span class="kw">gglagplot</span>(visnights_smaller) </a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-265-1.png" width="672" /></p>
 <p>Here the colors indicate the quarter of the variable on the vertical axis, compared with the shifted (lagged variable on the horizontal axis, and the lines connect points in chronological order. The relationship is strongly positive at lags 4 and 8, reflecting the strong seasonality in the data.</p>
 <p>This suggests that there is a strong similarity between the time series and itself, shifted by certain time values. This is described by the <em>autocorrelation</em>, which is defined as a function of the lag <span class="math inline">\(k\)</span>:</p>
@@ -641,21 +658,21 @@ A cycle occurs when the data exhibit rises and falls that are not of a fixed fre
 r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 \]</span>
 This can be calculated and plotted for our example of the visitation nights in New South Wales:</p>
-<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb648-1"><a href="time-series-modeling-and-forecasting.html#cb648-1"></a><span class="kw">ggAcf</span>(visnights_smaller)</span></code></pre></div>
+<div class="sourceCode" id="cb648"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" data-line-number="1"><span class="kw">ggAcf</span>(visnights_smaller)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-266-1.png" width="672" /></p>
 <p>Notice the periodicity in the autocorrelation, which indicated periodicity in the time series. Let’s similarly calculate the autocorrelation of the drug sales data:</p>
-<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb649-1"><a href="time-series-modeling-and-forecasting.html#cb649-1"></a><span class="kw">ggAcf</span>(a10)</span></code></pre></div>
+<div class="sourceCode" id="cb649"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb649-1" data-line-number="1"><span class="kw">ggAcf</span>(a10)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-267-1.png" width="672" /></p>
 <p>Notice how different this <em>correlogram</em> is - there are no zero values of autcorrelation, only slow decay with some small periodic components.</p>
 <p>Autocorrelation measures the <em>memory</em> of a signal - for example, pure white noise is uncorrelated with itself even a moment later, and thus has no memory. As such, it is very useful as a measure of a trend in the data - if the time series has slowly decaying, positive autocorrelation, that indicates a pronounced trend, while periodicity indicates seasonality in the data.</p>
 <p><strong>Exercise:</strong> Use the lag and autocorrelation analysis to describe the patterns in the time series of births in NYC and in the Boston marathon winning times.</p>
-<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb650-1"><a href="time-series-modeling-and-forecasting.html#cb650-1"></a><span class="kw">gglagplot</span>(marathon)</span></code></pre></div>
+<div class="sourceCode" id="cb650"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb650-1" data-line-number="1"><span class="kw">gglagplot</span>(marathon)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-1.png" width="672" /></p>
-<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="time-series-modeling-and-forecasting.html#cb651-1"></a><span class="kw">ggAcf</span>(marathon)</span></code></pre></div>
+<div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb651-1" data-line-number="1"><span class="kw">ggAcf</span>(marathon)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-2.png" width="672" /></p>
-<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb652-1"><a href="time-series-modeling-and-forecasting.html#cb652-1"></a><span class="kw">gglagplot</span>(birthstimeseries)</span></code></pre></div>
+<div class="sourceCode" id="cb652"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" data-line-number="1"><span class="kw">gglagplot</span>(birthstimeseries)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-3.png" width="672" /></p>
-<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="time-series-modeling-and-forecasting.html#cb653-1"></a><span class="kw">ggAcf</span>(birthstimeseries)</span></code></pre></div>
+<div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb653-1" data-line-number="1"><span class="kw">ggAcf</span>(birthstimeseries)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-268-4.png" width="672" /></p>
 </div>
 </div>
@@ -673,12 +690,12 @@ X_t = T_t \times S_t \times R_t
 T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 \]</span></p>
 <p>Here <span class="math inline">\(m\)</span> is called the <em>order</em> of the moving average and is defined as <span class="math inline">\(m = 2k+1\)</span>. There is a useful function ma() that calculates these averages and allows them to be plotted.</p>
-<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb654-1"><a href="time-series-modeling-and-forecasting.html#cb654-1"></a>m &lt;-<span class="st"> </span><span class="dv">12</span></span>
-<span id="cb654-2"><a href="time-series-modeling-and-forecasting.html#cb654-2"></a>s_name &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;MA-&quot;</span>, m)</span>
-<span id="cb654-3"><a href="time-series-modeling-and-forecasting.html#cb654-3"></a><span class="kw">autoplot</span>(a10, <span class="dt">series =</span> <span class="st">&quot;data&quot;</span>) <span class="op">+</span></span>
-<span id="cb654-4"><a href="time-series-modeling-and-forecasting.html#cb654-4"></a><span class="st">  </span><span class="kw">autolayer</span>(<span class="kw">ma</span>(a10, m), <span class="dt">series =</span> <span class="st">&quot;MA&quot;</span>) <span class="op">+</span></span>
-<span id="cb654-5"><a href="time-series-modeling-and-forecasting.html#cb654-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;AUS $ (millions)&quot;</span>) <span class="op">+</span></span>
-<span id="cb654-6"><a href="time-series-modeling-and-forecasting.html#cb654-6"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Anti-diabetic drug sales&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb654"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="dv">12</span></a>
+<a class="sourceLine" id="cb654-2" data-line-number="2">s_name &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;MA-&quot;</span>, m)</a>
+<a class="sourceLine" id="cb654-3" data-line-number="3"><span class="kw">autoplot</span>(a10, <span class="dt">series =</span> <span class="st">&quot;data&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb654-4" data-line-number="4"><span class="st">  </span><span class="kw">autolayer</span>(<span class="kw">ma</span>(a10, m), <span class="dt">series =</span> <span class="st">&quot;MA&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb654-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;AUS $ (millions)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb654-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Anti-diabetic drug sales&quot;</span>) </a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-269-1.png" width="672" /></p>
 <p><strong>Exercise:</strong> Change the moving average window and see if you can make seasonality vanish!</p>
 <p>An even order of periodicity requires an asymmetric averaging window, so to create an symmetric average, one can repeat the moving average of order two on the already-averaged data.</p>
@@ -691,10 +708,10 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <li>To estimate the seasonal component for each season, average the detrended values for that season. For example, with monthly data, the seasonal component for March is the average of all the detrended March values in the data. These seasonal component values are then adjusted to ensure that they add to zero. The seasonal component is obtained by stringing together these monthly values, and then replicating the sequence for each year of data. This gives <span class="math inline">\(\hat S_t\)</span>.</li>
 <li>The remainder component is calculated by subtracting the estimated seasonal and trend-cycle components: $ R_t = X_t - T_t - S_t$</li>
 </ol>
-<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb655-1"><a href="time-series-modeling-and-forecasting.html#cb655-1"></a>a10 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">decompose</span>(<span class="dt">type=</span><span class="st">&quot;additive&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb655-2"><a href="time-series-modeling-and-forecasting.html#cb655-2"></a><span class="st">  </span><span class="kw">autoplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span></span>
-<span id="cb655-3"><a href="time-series-modeling-and-forecasting.html#cb655-3"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Classical additive decomposition</span></span>
-<span id="cb655-4"><a href="time-series-modeling-and-forecasting.html#cb655-4"></a><span class="st">    of the antidiabetic drug sales data&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb655"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb655-1" data-line-number="1">a10 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">decompose</span>(<span class="dt">type=</span><span class="st">&quot;additive&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb655-2" data-line-number="2"><span class="st">  </span><span class="kw">autoplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb655-3" data-line-number="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Classical additive decomposition</span></a>
+<a class="sourceLine" id="cb655-4" data-line-number="4"><span class="st">    of the antidiabetic drug sales data&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-270-1.png" width="672" /></p>
 <p>This simple classical decomposition has numerous flaws, so better, more modern methods are preferred. In particular, it assumes a constant seasonal term, it tends to over-estimate the variation in the trend, it misses data for the first few and last few data points, and can be sensitive to outliers.</p>
 </div>
@@ -707,8 +724,8 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <li>The smoothness of the trend-cycle can also be controlled by the user.</li>
 <li>It can be robust to outliers (i.e., the user can specify a robust decomposition), so that occasional unusual observations will not affect the estimates of the trend-cycle and seasonal components. They will, however, affect the remainder component.</li>
 </ul>
-<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb656-1"><a href="time-series-modeling-and-forecasting.html#cb656-1"></a>a10 <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">stl</span>(<span class="dt">t.window=</span><span class="dv">13</span>, <span class="dt">s.window=</span><span class="st">&quot;periodic&quot;</span>, <span class="dt">robust=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb656-2"><a href="time-series-modeling-and-forecasting.html#cb656-2"></a><span class="st">  </span><span class="kw">autoplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb656"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb656-1" data-line-number="1">a10 <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">stl</span>(<span class="dt">t.window=</span><span class="dv">13</span>, <span class="dt">s.window=</span><span class="st">&quot;periodic&quot;</span>, <span class="dt">robust=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb656-2" data-line-number="2"><span class="st">  </span><span class="kw">autoplot</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-271-1.png" width="672" /></p>
 <p><strong>Exercise:</strong> Apply the two decomposition methods to the Boston marathon and to births in NYC time series.</p>
 </div>
@@ -716,7 +733,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <div id="regression-methods" class="section level2">
 <h2><span class="header-section-number">11.5</span> Regression methods</h2>
 <p>Let us analyze the data set of US quarterly economic data, specifically, the percent change in consumption, income, production, savigs, and unemployment.</p>
-<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb657-1"><a href="time-series-modeling-and-forecasting.html#cb657-1"></a><span class="kw">head</span>(uschange)</span></code></pre></div>
+<div class="sourceCode" id="cb657"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" data-line-number="1"><span class="kw">head</span>(uschange)</a></code></pre></div>
 <pre><code>##         Consumption     Income Production   Savings Unemployment
 ## 1970 Q1   0.6159862  0.9722610 -2.4527003 4.8103115          0.9
 ## 1970 Q2   0.4603757  1.1690847 -0.5515251 7.2879923          0.5
@@ -724,26 +741,26 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 ## 1970 Q4  -0.2742451 -0.2552724 -2.1854549 0.9852296          0.7
 ## 1971 Q1   1.8973708  1.9871536  1.9097341 3.6577706         -0.1
 ## 1971 Q2   0.9119929  1.4473342  0.9015358 6.0513418         -0.1</code></pre>
-<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb659-1"><a href="time-series-modeling-and-forecasting.html#cb659-1"></a><span class="kw">autoplot</span>(uschange[,<span class="kw">c</span>(<span class="st">&quot;Consumption&quot;</span>,<span class="st">&quot;Income&quot;</span>)]) <span class="op">+</span></span>
-<span id="cb659-2"><a href="time-series-modeling-and-forecasting.html#cb659-2"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;% change&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb659"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb659-1" data-line-number="1"><span class="kw">autoplot</span>(uschange[,<span class="kw">c</span>(<span class="st">&quot;Consumption&quot;</span>,<span class="st">&quot;Income&quot;</span>)]) <span class="op">+</span></a>
+<a class="sourceLine" id="cb659-2" data-line-number="2"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;% change&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-272-1.png" width="672" /></p>
-<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb660-1"><a href="time-series-modeling-and-forecasting.html#cb660-1"></a>uschange <span class="op">%&gt;%</span></span>
-<span id="cb660-2"><a href="time-series-modeling-and-forecasting.html#cb660-2"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
-<span id="cb660-3"><a href="time-series-modeling-and-forecasting.html#cb660-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Income, <span class="dt">y=</span>Consumption)) <span class="op">+</span></span>
-<span id="cb660-4"><a href="time-series-modeling-and-forecasting.html#cb660-4"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Consumption (quarterly % change)&quot;</span>) <span class="op">+</span></span>
-<span id="cb660-5"><a href="time-series-modeling-and-forecasting.html#cb660-5"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Income (quarterly % change)&quot;</span>) <span class="op">+</span></span>
-<span id="cb660-6"><a href="time-series-modeling-and-forecasting.html#cb660-6"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb660-7"><a href="time-series-modeling-and-forecasting.html#cb660-7"></a><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb660"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" data-line-number="1">uschange <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-2" data-line-number="2"><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb660-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Income, <span class="dt">y=</span>Consumption)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb660-4" data-line-number="4"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Consumption (quarterly % change)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb660-5" data-line-number="5"><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Income (quarterly % change)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb660-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb660-7" data-line-number="7"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-273-1.png" width="672" /></p>
-<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb661-1"><a href="time-series-modeling-and-forecasting.html#cb661-1"></a>uschange <span class="op">%&gt;%</span></span>
-<span id="cb661-2"><a href="time-series-modeling-and-forecasting.html#cb661-2"></a><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></span>
-<span id="cb661-3"><a href="time-series-modeling-and-forecasting.html#cb661-3"></a><span class="st">  </span>GGally<span class="op">::</span><span class="kw">ggpairs</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb661"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb661-1" data-line-number="1">uschange <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb661-2" data-line-number="2"><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb661-3" data-line-number="3"><span class="st">  </span>GGally<span class="op">::</span><span class="kw">ggpairs</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-274-1.png" width="672" /></p>
 <p>Let us use four variables as predictors of consumption to calculate a multiple linear regression model using the function tslm():</p>
-<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb662-1"><a href="time-series-modeling-and-forecasting.html#cb662-1"></a>fit.consMR &lt;-<span class="st"> </span><span class="kw">tslm</span>(</span>
-<span id="cb662-2"><a href="time-series-modeling-and-forecasting.html#cb662-2"></a>  Consumption <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Production <span class="op">+</span><span class="st"> </span>Unemployment <span class="op">+</span><span class="st"> </span>Savings,</span>
-<span id="cb662-3"><a href="time-series-modeling-and-forecasting.html#cb662-3"></a>  <span class="dt">data=</span>uschange)</span>
-<span id="cb662-4"><a href="time-series-modeling-and-forecasting.html#cb662-4"></a><span class="kw">summary</span>(fit.consMR)</span></code></pre></div>
+<div class="sourceCode" id="cb662"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb662-1" data-line-number="1">fit.consMR &lt;-<span class="st"> </span><span class="kw">tslm</span>(</a>
+<a class="sourceLine" id="cb662-2" data-line-number="2">  Consumption <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Production <span class="op">+</span><span class="st"> </span>Unemployment <span class="op">+</span><span class="st"> </span>Savings,</a>
+<a class="sourceLine" id="cb662-3" data-line-number="3">  <span class="dt">data=</span>uschange)</a>
+<a class="sourceLine" id="cb662-4" data-line-number="4"><span class="kw">summary</span>(fit.consMR)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## tslm(formula = Consumption ~ Income + Production + Unemployment + 
@@ -767,14 +784,14 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 ## Multiple R-squared:  0.754,  Adjusted R-squared:  0.7486 
 ## F-statistic: 139.5 on 4 and 182 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>We can produce a plot of the predicted values together with the observed data on consumption:</p>
-<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb664-1"><a href="time-series-modeling-and-forecasting.html#cb664-1"></a><span class="kw">autoplot</span>(uschange[,<span class="st">&#39;Consumption&#39;</span>], <span class="dt">series=</span><span class="st">&quot;Data&quot;</span>) <span class="op">+</span></span>
-<span id="cb664-2"><a href="time-series-modeling-and-forecasting.html#cb664-2"></a><span class="st">  </span><span class="kw">autolayer</span>(<span class="kw">fitted</span>(fit.consMR), <span class="dt">series=</span><span class="st">&quot;Fitted&quot;</span>) <span class="op">+</span></span>
-<span id="cb664-3"><a href="time-series-modeling-and-forecasting.html#cb664-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
-<span id="cb664-4"><a href="time-series-modeling-and-forecasting.html#cb664-4"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Percent change in US consumption expenditure&quot;</span>) <span class="op">+</span></span>
-<span id="cb664-5"><a href="time-series-modeling-and-forecasting.html#cb664-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour=</span><span class="kw">guide_legend</span>(<span class="dt">title=</span><span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb664"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb664-1" data-line-number="1"><span class="kw">autoplot</span>(uschange[,<span class="st">&#39;Consumption&#39;</span>], <span class="dt">series=</span><span class="st">&quot;Data&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb664-2" data-line-number="2"><span class="st">  </span><span class="kw">autolayer</span>(<span class="kw">fitted</span>(fit.consMR), <span class="dt">series=</span><span class="st">&quot;Fitted&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb664-3" data-line-number="3"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb664-4" data-line-number="4"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Percent change in US consumption expenditure&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb664-5" data-line-number="5"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour=</span><span class="kw">guide_legend</span>(<span class="dt">title=</span><span class="st">&quot; &quot;</span>))</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-276-1.png" width="672" /></p>
 <p>It is useful to check the residuals of the regression model:</p>
-<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb665-1"><a href="time-series-modeling-and-forecasting.html#cb665-1"></a><span class="kw">checkresiduals</span>(fit.consMR)</span></code></pre></div>
+<div class="sourceCode" id="cb665"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb665-1" data-line-number="1"><span class="kw">checkresiduals</span>(fit.consMR)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-277-1.png" width="672" /></p>
 <pre><code>## 
 ##  Breusch-Godfrey test for serial correlation of order up to 8
@@ -784,9 +801,9 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <div id="the-perennial-warning-beware-of-spurious-correlations" class="section level3">
 <h3><span class="header-section-number">11.5.1</span> The perennial warning: beware of spurious correlations!</h3>
 <p>These two data sets, on Australian air passengers and rice production in Guinea, have a very strong positive correlation:</p>
-<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb667-1"><a href="time-series-modeling-and-forecasting.html#cb667-1"></a>aussies &lt;-<span class="st"> </span><span class="kw">window</span>(ausair, <span class="dt">end=</span><span class="dv">2011</span>)</span>
-<span id="cb667-2"><a href="time-series-modeling-and-forecasting.html#cb667-2"></a>fit &lt;-<span class="st"> </span><span class="kw">tslm</span>(aussies <span class="op">~</span><span class="st"> </span>guinearice)</span>
-<span id="cb667-3"><a href="time-series-modeling-and-forecasting.html#cb667-3"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb667"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb667-1" data-line-number="1">aussies &lt;-<span class="st"> </span><span class="kw">window</span>(ausair, <span class="dt">end=</span><span class="dv">2011</span>)</a>
+<a class="sourceLine" id="cb667-2" data-line-number="2">fit &lt;-<span class="st"> </span><span class="kw">tslm</span>(aussies <span class="op">~</span><span class="st"> </span>guinearice)</a>
+<a class="sourceLine" id="cb667-3" data-line-number="3"><span class="kw">summary</span>(fit)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## tslm(formula = aussies ~ guinearice)
@@ -806,7 +823,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 ## Multiple R-squared:  0.9578, Adjusted R-squared:  0.9568 
 ## F-statistic: 908.1 on 1 and 40 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>However, notice that the residuals indicate a strong trend, which violates the assumptions of linear regression.</p>
-<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb669-1"><a href="time-series-modeling-and-forecasting.html#cb669-1"></a><span class="kw">checkresiduals</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb669"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb669-1" data-line-number="1"><span class="kw">checkresiduals</span>(fit)</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-279-1.png" width="672" /></p>
 <pre><code>## 
 ##  Breusch-Godfrey test for serial correlation of order up to 8
@@ -819,26 +836,26 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <h3><span class="header-section-number">11.5.2</span> Forecasting using linear regression</h3>
 <p>One can distringuish between true forecasting, termed <em>ex-ante</em> (from before) prediction, in which we truly try to predict the unknown future, and <em>ex-post</em> forecasts, in which the true values both of the predictors and the response variable are known. The latter is still useful for validating models and for comparing different methods.</p>
 <p>The library <code>forecast</code> contains tools to make calculating predicted values in time series simple. One can use the model to forecast the values in the future, based on different <em>scenarios</em>. For example, we may want to investigate the prediction for an economic upturn and a downturn:</p>
-<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb671-1"><a href="time-series-modeling-and-forecasting.html#cb671-1"></a>fit.consBest &lt;-<span class="st"> </span><span class="kw">tslm</span>(</span>
-<span id="cb671-2"><a href="time-series-modeling-and-forecasting.html#cb671-2"></a>  Consumption <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Savings <span class="op">+</span><span class="st"> </span>Unemployment,</span>
-<span id="cb671-3"><a href="time-series-modeling-and-forecasting.html#cb671-3"></a>  <span class="dt">data =</span> uschange)</span>
-<span id="cb671-4"><a href="time-series-modeling-and-forecasting.html#cb671-4"></a></span>
-<span id="cb671-5"><a href="time-series-modeling-and-forecasting.html#cb671-5"></a>h &lt;-<span class="st"> </span><span class="dv">4</span></span>
-<span id="cb671-6"><a href="time-series-modeling-and-forecasting.html#cb671-6"></a>newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb671-7"><a href="time-series-modeling-and-forecasting.html#cb671-7"></a>    <span class="dt">Income =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb671-8"><a href="time-series-modeling-and-forecasting.html#cb671-8"></a>    <span class="dt">Savings =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</span>
-<span id="cb671-9"><a href="time-series-modeling-and-forecasting.html#cb671-9"></a>    <span class="dt">Unemployment =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb671-10"><a href="time-series-modeling-and-forecasting.html#cb671-10"></a>fcast.up &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">forecast</span>(fit.consBest, <span class="dt">newdata =</span> newdata)</span>
-<span id="cb671-11"><a href="time-series-modeling-and-forecasting.html#cb671-11"></a>newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb671-12"><a href="time-series-modeling-and-forecasting.html#cb671-12"></a>    <span class="dt">Income =</span> <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, h),</span>
-<span id="cb671-13"><a href="time-series-modeling-and-forecasting.html#cb671-13"></a>    <span class="dt">Savings =</span> <span class="kw">rep</span>(<span class="op">-</span><span class="fl">0.5</span>, h),</span>
-<span id="cb671-14"><a href="time-series-modeling-and-forecasting.html#cb671-14"></a>    <span class="dt">Unemployment =</span> <span class="kw">rep</span>(<span class="dv">0</span>, h))</span>
-<span id="cb671-15"><a href="time-series-modeling-and-forecasting.html#cb671-15"></a>fcast.down &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">forecast</span>(fit.consBest, <span class="dt">newdata =</span> newdata)</span></code></pre></div>
-<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb672-1"><a href="time-series-modeling-and-forecasting.html#cb672-1"></a><span class="kw">autoplot</span>(uschange[, <span class="dv">1</span>]) <span class="op">+</span></span>
-<span id="cb672-2"><a href="time-series-modeling-and-forecasting.html#cb672-2"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;% change in US consumption&quot;</span>) <span class="op">+</span></span>
-<span id="cb672-3"><a href="time-series-modeling-and-forecasting.html#cb672-3"></a><span class="st">  </span><span class="kw">autolayer</span>(fcast.up, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">series =</span> <span class="st">&quot;increase&quot;</span>)  <span class="op">+</span></span>
-<span id="cb672-4"><a href="time-series-modeling-and-forecasting.html#cb672-4"></a><span class="st">  </span><span class="kw">autolayer</span>(fcast.down, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">series =</span> <span class="st">&quot;decrease&quot;</span>) <span class="op">+</span></span>
-<span id="cb672-5"><a href="time-series-modeling-and-forecasting.html#cb672-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Scenario&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb671"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb671-1" data-line-number="1">fit.consBest &lt;-<span class="st"> </span><span class="kw">tslm</span>(</a>
+<a class="sourceLine" id="cb671-2" data-line-number="2">  Consumption <span class="op">~</span><span class="st"> </span>Income <span class="op">+</span><span class="st"> </span>Savings <span class="op">+</span><span class="st"> </span>Unemployment,</a>
+<a class="sourceLine" id="cb671-3" data-line-number="3">  <span class="dt">data =</span> uschange)</a>
+<a class="sourceLine" id="cb671-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb671-5" data-line-number="5">h &lt;-<span class="st"> </span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb671-6" data-line-number="6">newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb671-7" data-line-number="7">    <span class="dt">Income =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb671-8" data-line-number="8">    <span class="dt">Savings =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb671-9" data-line-number="9">    <span class="dt">Unemployment =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb671-10" data-line-number="10">fcast.up &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">forecast</span>(fit.consBest, <span class="dt">newdata =</span> newdata)</a>
+<a class="sourceLine" id="cb671-11" data-line-number="11">newdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb671-12" data-line-number="12">    <span class="dt">Income =</span> <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, h),</a>
+<a class="sourceLine" id="cb671-13" data-line-number="13">    <span class="dt">Savings =</span> <span class="kw">rep</span>(<span class="op">-</span><span class="fl">0.5</span>, h),</a>
+<a class="sourceLine" id="cb671-14" data-line-number="14">    <span class="dt">Unemployment =</span> <span class="kw">rep</span>(<span class="dv">0</span>, h))</a>
+<a class="sourceLine" id="cb671-15" data-line-number="15">fcast.down &lt;-<span class="st"> </span>forecast<span class="op">::</span><span class="kw">forecast</span>(fit.consBest, <span class="dt">newdata =</span> newdata)</a></code></pre></div>
+<div class="sourceCode" id="cb672"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb672-1" data-line-number="1"><span class="kw">autoplot</span>(uschange[, <span class="dv">1</span>]) <span class="op">+</span></a>
+<a class="sourceLine" id="cb672-2" data-line-number="2"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;% change in US consumption&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb672-3" data-line-number="3"><span class="st">  </span><span class="kw">autolayer</span>(fcast.up, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">series =</span> <span class="st">&quot;increase&quot;</span>)  <span class="op">+</span></a>
+<a class="sourceLine" id="cb672-4" data-line-number="4"><span class="st">  </span><span class="kw">autolayer</span>(fcast.down, <span class="dt">PI =</span> <span class="ot">TRUE</span>, <span class="dt">series =</span> <span class="st">&quot;decrease&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb672-5" data-line-number="5"><span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Scenario&quot;</span>))</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-281-1.png" width="672" /></p>
 </div>
 </div>

@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 15 Clustering | Fundamentals of Biological Data Analysis</title>
+  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 15 Clustering | Fundamentals of Biological Data Analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 15 Clustering | Fundamentals of Biological Data Analysis" />
+  
+  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
+  
+
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
+
+
+<meta name="date" content="2020-11-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="principal-component-analysis.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a><ul>
+<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
+<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
+<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
+<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
+<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
+<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
+<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
+<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
+<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
+<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
+<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
+<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
+<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
+<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
+<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
+<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
+<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
+<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
+<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
+<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
+<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
+<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
+<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
+<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
+<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
+<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
+<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
+<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
+<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
+<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
+<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
+<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
+<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
+<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
+<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a><ul>
+<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
+<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
+<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
+<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
+<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
+<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
+<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
+<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
+<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
+<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
+<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
+<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
+<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
+<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
+<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
+<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
+<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
+<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
+<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
+<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
+<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
+<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
+<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
+<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a><ul>
+<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
+<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
+<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
+<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
+<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
+<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
+<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
+<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
+<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#corrections-for-multiple-comparisons"><i class="fa fa-check"></i><b>6.5</b> Corrections for multiple comparisons</a></li>
+<li class="chapter" data-level="6.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#two-problems-with-science"><i class="fa fa-check"></i><b>6.6</b> Two problems with science</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#selective-reporting"><i class="fa fa-check"></i><b>6.6.1</b> Selective reporting</a></li>
+<li class="chapter" data-level="6.6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#p-hacking"><i class="fa fa-check"></i><b>6.6.2</b> P-hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#readings"><i class="fa fa-check"></i><b>6.7</b> Readings</a></li>
+<li class="chapter" data-level="6.8" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#how-to-fool-yourself-with-p-hacking-and-possibly-get-fired"><i class="fa fa-check"></i><b>6.8</b> How to fool yourself with p-hacking (and possibly get fired!)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html"><i class="fa fa-check"></i><b>7</b> Review of linear algebra</a><ul>
+<li class="chapter" data-level="7.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#solving-multivariate-linear-equations"><i class="fa fa-check"></i><b>7.1</b> Solving multivariate linear equations</a></li>
+<li class="chapter" data-level="7.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#fitting-a-line-to-data"><i class="fa fa-check"></i><b>7.2</b> Fitting a line to data</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#least-squares-line"><i class="fa fa-check"></i><b>7.2.1</b> Least-squares line</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linearity-and-vector-spaces"><i class="fa fa-check"></i><b>7.3</b> Linearity and vector spaces</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linear-independence-and-basis-vectors"><i class="fa fa-check"></i><b>7.3.1</b> Linear independence and basis vectors</a></li>
+<li class="chapter" data-level="7.3.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#projections-and-changes-of-basis"><i class="fa fa-check"></i><b>7.3.2</b> Projections and changes of basis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-as-linear-operators"><i class="fa fa-check"></i><b>7.4</b> Matrices as linear operators</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-transform-vectors"><i class="fa fa-check"></i><b>7.4.1</b> Matrices transform vectors</a></li>
+<li class="chapter" data-level="7.4.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#calculating-eigenvalues"><i class="fa fa-check"></i><b>7.4.2</b> calculating eigenvalues</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>8</b> Linear models</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-models.html"><a href="linear-models.html#regression-toward-the-mean"><i class="fa fa-check"></i><b>8.1</b> Regression toward the mean</a></li>
+<li class="chapter" data-level="8.2" data-path="linear-models.html"><a href="linear-models.html#finding-the-best-fitting-line-linear-regression"><i class="fa fa-check"></i><b>8.2</b> Finding the best fitting line: Linear Regression</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="linear-models.html"><a href="linear-models.html#solving-a-linear-model-some-linear-algebra"><i class="fa fa-check"></i><b>8.2.1</b> Solving a linear model — some linear algebra</a></li>
+<li class="chapter" data-level="8.2.2" data-path="linear-models.html"><a href="linear-models.html#minimizing-the-sum-of-squares"><i class="fa fa-check"></i><b>8.2.2</b> Minimizing the sum of squares</a></li>
+<li class="chapter" data-level="8.2.3" data-path="linear-models.html"><a href="linear-models.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>8.2.3</b> Assumptions of linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="linear-models.html"><a href="linear-models.html#linear-regression-in-action"><i class="fa fa-check"></i><b>8.3</b> Linear regression in action</a></li>
+<li class="chapter" data-level="8.4" data-path="linear-models.html"><a href="linear-models.html#a-regression-gone-wild"><i class="fa fa-check"></i><b>8.4</b> A regression gone wild</a></li>
+<li class="chapter" data-level="8.5" data-path="linear-models.html"><a href="linear-models.html#more-advanced-topics"><i class="fa fa-check"></i><b>8.5</b> More advanced topics</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="linear-models.html"><a href="linear-models.html#categorical-variables-in-linear-models"><i class="fa fa-check"></i><b>8.5.1</b> Categorical variables in linear models</a></li>
+<li class="chapter" data-level="8.5.2" data-path="linear-models.html"><a href="linear-models.html#interactions-in-linear-models"><i class="fa fa-check"></i><b>8.5.2</b> Interactions in linear models</a></li>
+<li class="chapter" data-level="8.5.3" data-path="linear-models.html"><a href="linear-models.html#regression-diagnostics"><i class="fa fa-check"></i><b>8.5.3</b> Regression diagnostics</a></li>
+<li class="chapter" data-level="8.5.4" data-path="linear-models.html"><a href="linear-models.html#plotting-the-residuals"><i class="fa fa-check"></i><b>8.5.4</b> Plotting the residuals</a></li>
+<li class="chapter" data-level="8.5.5" data-path="linear-models.html"><a href="linear-models.html#q-q-plot"><i class="fa fa-check"></i><b>8.5.5</b> Q-Q Plot</a></li>
+<li class="chapter" data-level="8.5.6" data-path="linear-models.html"><a href="linear-models.html#cooks-distance"><i class="fa fa-check"></i><b>8.5.6</b> Cook’s distance</a></li>
+<li class="chapter" data-level="8.5.7" data-path="linear-models.html"><a href="linear-models.html#leverage"><i class="fa fa-check"></i><b>8.5.7</b> Leverage</a></li>
+<li class="chapter" data-level="8.5.8" data-path="linear-models.html"><a href="linear-models.html#running-all-diagnostics"><i class="fa fa-check"></i><b>8.5.8</b> Running all diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="linear-models.html"><a href="linear-models.html#transforming-the-data"><i class="fa fa-check"></i><b>8.6</b> Transforming the data</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
+<li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
+<li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
+<li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-thinking"><i class="fa fa-check"></i><b>9.2</b> Bayesian thinking</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayes-formula"><i class="fa fa-check"></i><b>9.2.1</b> Bayes’ formula</a></li>
+<li class="chapter" data-level="9.2.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#positive-predictive-value"><i class="fa fa-check"></i><b>9.2.2</b> positive predictive value</a></li>
+<li class="chapter" data-level="9.2.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#prosecutors-fallacy"><i class="fa fa-check"></i><b>9.2.3</b> prosecutor’s fallacy</a></li>
+<li class="chapter" data-level="9.2.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reproducibility-in-science"><i class="fa fa-check"></i><b>9.2.4</b> reproducibility in science</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>9.3</b> Bayesian inference</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#example-capture-recapture"><i class="fa fa-check"></i><b>9.3.1</b> Example: capture-recapture</a></li>
+<li class="chapter" data-level="9.3.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#mcmc"><i class="fa fa-check"></i><b>9.3.2</b> MCMC</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>9.4</b> Reading:</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>10</b> ANOVA</a><ul>
+<li class="chapter" data-level="10.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>10.1</b> Analysis of variance</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="anova.html"><a href="anova.html#anova-assumptions"><i class="fa fa-check"></i><b>10.1.1</b> ANOVA assumptions</a></li>
+<li class="chapter" data-level="10.1.2" data-path="anova.html"><a href="anova.html#how-one-way-anova-works"><i class="fa fa-check"></i><b>10.1.2</b> How one-way ANOVA works</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="anova.html"><a href="anova.html#inference-in-one-way-anova"><i class="fa fa-check"></i><b>10.2</b> Inference in one-way ANOVA</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="anova.html"><a href="anova.html#example-of-comparing-diets"><i class="fa fa-check"></i><b>10.2.1</b> Example of comparing diets</a></li>
+<li class="chapter" data-level="10.2.2" data-path="anova.html"><a href="anova.html#comparison-of-theory-and-anova-output"><i class="fa fa-check"></i><b>10.2.2</b> Comparison of theory and ANOVA output</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="anova.html"><a href="anova.html#further-steps"><i class="fa fa-check"></i><b>10.3</b> Further steps</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="anova.html"><a href="anova.html#post-hoc-analysis"><i class="fa fa-check"></i><b>10.3.1</b> Post-hoc analysis</a></li>
+<li class="chapter" data-level="10.3.2" data-path="anova.html"><a href="anova.html#example-of-plant-growth-data"><i class="fa fa-check"></i><b>10.3.2</b> Example of plant growth data</a></li>
+<li class="chapter" data-level="10.3.3" data-path="anova.html"><a href="anova.html#two-way-anova"><i class="fa fa-check"></i><b>10.3.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a><ul>
+<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
+<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
+<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
+<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
+<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
+<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
+</ul></li>
+<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>12</b> Generalized linear models</a><ul>
+<li class="chapter" data-level="12.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#goal-3"><i class="fa fa-check"></i><b>12.1</b> Goal</a></li>
+<li class="chapter" data-level="12.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#introduction"><i class="fa fa-check"></i><b>12.2</b> Introduction</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-structure"><i class="fa fa-check"></i><b>12.2.1</b> Model structure</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-data"><i class="fa fa-check"></i><b>12.3</b> Binary data</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#logistic-regression"><i class="fa fa-check"></i><b>12.3.1</b> Logistic regression</a></li>
+<li class="chapter" data-level="12.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#a-simple-example"><i class="fa fa-check"></i><b>12.3.2</b> A simple example</a></li>
+<li class="chapter" data-level="12.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-college-admissions"><i class="fa fa-check"></i><b>12.3.3</b> Exercise in class: College admissions</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>12.4</b> Count data</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#poisson-regression"><i class="fa fa-check"></i><b>12.4.1</b> Poisson regression</a></li>
+<li class="chapter" data-level="12.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-number-of-genomes"><i class="fa fa-check"></i><b>12.4.2</b> Exercise in class: Number of genomes</a></li>
+<li class="chapter" data-level="12.4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#underdispersed-and-overdispersed-data"><i class="fa fa-check"></i><b>12.4.3</b> Underdispersed and Overdispersed data</a></li>
+<li class="chapter" data-level="12.4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-number-of-genomes-1"><i class="fa fa-check"></i><b>12.4.4</b> Exercise in class: Number of genomes</a></li>
+<li class="chapter" data-level="12.4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#separate-distribution-for-the-zeros"><i class="fa fa-check"></i><b>12.4.5</b> Separate distribution for the zeros</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#other-glms"><i class="fa fa-check"></i><b>12.5</b> Other GLMs</a></li>
+<li class="chapter" data-level="12.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#readings-and-homework"><i class="fa fa-check"></i><b>12.6</b> Readings and homework</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>13</b> Model Selection</a><ul>
+<li class="chapter" data-level="13.1" data-path="model-selection.html"><a href="model-selection.html#goal-4"><i class="fa fa-check"></i><b>13.1</b> Goal</a></li>
+<li class="chapter" data-level="13.2" data-path="model-selection.html"><a href="model-selection.html#problems"><i class="fa fa-check"></i><b>13.2</b> Problems</a></li>
+<li class="chapter" data-level="13.3" data-path="model-selection.html"><a href="model-selection.html#approaches-based-on-maximum-likelihoods"><i class="fa fa-check"></i><b>13.3</b> Approaches based on maximum-likelihoods</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="model-selection.html"><a href="model-selection.html#likelihood-function"><i class="fa fa-check"></i><b>13.3.1</b> Likelihood function</a></li>
+<li class="chapter" data-level="13.3.2" data-path="model-selection.html"><a href="model-selection.html#discrete-probability-distributions-1"><i class="fa fa-check"></i><b>13.3.2</b> Discrete probability distributions</a></li>
+<li class="chapter" data-level="13.3.3" data-path="model-selection.html"><a href="model-selection.html#continuous-probability-distributions-1"><i class="fa fa-check"></i><b>13.3.3</b> Continuous probability distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="model-selection.html"><a href="model-selection.html#likelihoods-for-linear-regression"><i class="fa fa-check"></i><b>13.4</b> Likelihoods for linear regression</a></li>
+<li class="chapter" data-level="13.5" data-path="model-selection.html"><a href="model-selection.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>13.5</b> Likelihood-ratio tests</a></li>
+<li class="chapter" data-level="13.6" data-path="model-selection.html"><a href="model-selection.html#aic"><i class="fa fa-check"></i><b>13.6</b> AIC</a></li>
+<li class="chapter" data-level="13.7" data-path="model-selection.html"><a href="model-selection.html#other-information-based-criteria"><i class="fa fa-check"></i><b>13.7</b> Other information-based criteria</a></li>
+<li class="chapter" data-level="13.8" data-path="model-selection.html"><a href="model-selection.html#bayesian-approaches-to-model-selection"><i class="fa fa-check"></i><b>13.8</b> Bayesian approaches to model selection</a><ul>
+<li class="chapter" data-level="13.8.1" data-path="model-selection.html"><a href="model-selection.html#marginal-likelihoods"><i class="fa fa-check"></i><b>13.8.1</b> Marginal likelihoods</a></li>
+<li class="chapter" data-level="13.8.2" data-path="model-selection.html"><a href="model-selection.html#bayes-factors"><i class="fa fa-check"></i><b>13.8.2</b> Bayes factors</a></li>
+<li class="chapter" data-level="13.8.3" data-path="model-selection.html"><a href="model-selection.html#bayes-factors-in-practice"><i class="fa fa-check"></i><b>13.8.3</b> Bayes factors in practice</a></li>
+</ul></li>
+<li class="chapter" data-level="13.9" data-path="model-selection.html"><a href="model-selection.html#other-approaches"><i class="fa fa-check"></i><b>13.9</b> Other approaches</a><ul>
+<li class="chapter" data-level="13.9.1" data-path="model-selection.html"><a href="model-selection.html#minimum-description-length"><i class="fa fa-check"></i><b>13.9.1</b> Minimum description length</a></li>
+<li class="chapter" data-level="13.9.2" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>13.9.2</b> Cross validation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html"><i class="fa fa-check"></i><b>14</b> Principal Component Analysis</a><ul>
+<li class="chapter" data-level="14.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#input"><i class="fa fa-check"></i><b>14.1</b> Input</a></li>
+<li class="chapter" data-level="14.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#singular-value-decomposition"><i class="fa fa-check"></i><b>14.2</b> Singular Value Decomposition</a></li>
+<li class="chapter" data-level="14.3" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#svd-and-pca"><i class="fa fa-check"></i><b>14.3</b> SVD and PCA</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-rfrom-scratch"><i class="fa fa-check"></i><b>14.3.1</b> PCA in R—from scratch</a></li>
+<li class="chapter" data-level="14.3.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-r-the-easy-way"><i class="fa fa-check"></i><b>14.3.2</b> PCA in R — the easy way</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#multidimensional-scaling"><i class="fa fa-check"></i><b>14.4</b> Multidimensional scaling</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#goal-of-mds"><i class="fa fa-check"></i><b>14.4.1</b> Goal of MDS</a></li>
+<li class="chapter" data-level="14.4.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#classic-mds"><i class="fa fa-check"></i><b>14.4.2</b> Classic MDS</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#readings-1"><i class="fa fa-check"></i><b>14.5</b> Readings</a><ul>
+<li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="clustering" class="section level1">
+<h1><span class="header-section-number">Lecture 15</span> Clustering</h1>
+<p><strong>Goals</strong></p>
+<ul>
+<li>Learn about partitional clustering</li>
+<li>Learn about hierarchical clustering</li>
+<li>Use clustering validation methods</li>
+<li>Apply different methods to larger data sets</li>
+</ul>
+<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb811-1" data-line-number="1"><span class="kw">library</span>(tidyverse) </a>
+<a class="sourceLine" id="cb811-2" data-line-number="2"><span class="kw">library</span>(ggfortify) </a>
+<a class="sourceLine" id="cb811-3" data-line-number="3"><span class="kw">library</span>(factoextra) </a>
+<a class="sourceLine" id="cb811-4" data-line-number="4"><span class="kw">library</span>(NbClust)</a>
+<a class="sourceLine" id="cb811-5" data-line-number="5"><span class="kw">library</span>(fpc)</a>
+<a class="sourceLine" id="cb811-6" data-line-number="6"><span class="kw">library</span>(clustertend)</a></code></pre></div>
+<div id="k-means-algorithm" class="section level2">
+<h2><span class="header-section-number">15.1</span> K-means algorithm</h2>
+<ul>
+<li>divide data into K clusters</li>
+<li>calculate centroids for each</li>
+<li>go through each data point until nothing changes
+<ul>
+<li>calculate distance to each centroid</li>
+<li>assign to nearest centroid</li>
+<li>recalculate centroids for the two affected clusters</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" data-line-number="1"><span class="co">#set.seed(20)</span></a>
+<a class="sourceLine" id="cb812-2" data-line-number="2">iris.scaled &lt;-<span class="st"> </span><span class="kw">scale</span>(iris[, <span class="dv">-5</span>])</a>
+<a class="sourceLine" id="cb812-3" data-line-number="3">iris_km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris.scaled, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb812-4" data-line-number="4">iris_km</a></code></pre></div>
+<pre><code>## K-means clustering with 3 clusters of sizes 53, 50, 47
+## 
+## Cluster means:
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width
+## 1  -0.05005221 -0.88042696    0.3465767   0.2805873
+## 2  -1.01119138  0.85041372   -1.3006301  -1.2507035
+## 3   1.13217737  0.08812645    0.9928284   1.0141287
+## 
+## Clustering vector:
+##   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 1 1 1 3 1 1 1 1 1 1 1 1 3 1 1 1 1 3 1 1 1
+##  [75] 1 3 3 3 1 1 1 1 1 1 1 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 3 3 3 3 1 3 3 3 3
+## [112] 3 3 1 1 3 3 3 3 1 3 1 3 1 3 3 1 3 3 3 3 3 3 1 1 3 3 3 1 3 3 3 1 3 3 3 1 3
+## [149] 3 1
+## 
+## Within cluster sum of squares by cluster:
+## [1] 44.08754 47.35062 47.45019
+##  (between_SS / total_SS =  76.7 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" data-line-number="1"><span class="kw">table</span>(iris_km<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</a></code></pre></div>
+<pre><code>##    
+##     setosa versicolor virginica
+##   1      0         39        14
+##   2     50          0         0
+##   3      0         11        36</code></pre>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" data-line-number="1"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> iris.scaled, <span class="dt">cluster =</span> iris_km<span class="op">$</span>cluster),</a>
+<a class="sourceLine" id="cb816-2" data-line-number="2"><span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-340-1.png" width="672" /></p>
+<div id="assumptions-of-k-means-algorithm" class="section level3">
+<h3><span class="header-section-number">15.1.1</span> Assumptions of K-means algorithm</h3>
+<ul>
+<li>There is a meaningful distance measure</li>
+<li>Clusters are roughly spherical</li>
+<li>Clusters are of similar size</li>
+</ul>
+<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" data-line-number="1"><span class="co"># Generate random data which will be first cluster</span></a>
+<a class="sourceLine" id="cb817-2" data-line-number="2">clust1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>), <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>))</a>
+<a class="sourceLine" id="cb817-3" data-line-number="3"><span class="co"># Generate the second cluster which will ‘surround’ the first cluster</span></a>
+<a class="sourceLine" id="cb817-4" data-line-number="4">clust2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">r =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>, <span class="dv">15</span>, <span class="fl">.5</span>), </a>
+<a class="sourceLine" id="cb817-5" data-line-number="5">                     <span class="dt">theta =</span> <span class="kw">runif</span>(<span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi),</a>
+<a class="sourceLine" id="cb817-6" data-line-number="6">                 <span class="dt">x =</span> r <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(theta), <span class="dt">y =</span> r <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb817-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(x, y)</a>
+<a class="sourceLine" id="cb817-8" data-line-number="8"><span class="co">#Combine the data</span></a>
+<a class="sourceLine" id="cb817-9" data-line-number="9">dataset_cir &lt;-<span class="st"> </span><span class="kw">rbind</span>(clust1, clust2)</a>
+<a class="sourceLine" id="cb817-10" data-line-number="10"><span class="co">#see the plot</span></a>
+<a class="sourceLine" id="cb817-11" data-line-number="11">dataset_cir <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-341-1.png" width="672" /></p>
+<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb818-1" data-line-number="1"><span class="co">#Fit the k-means model</span></a>
+<a class="sourceLine" id="cb818-2" data-line-number="2">k_clust_spher1 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(dataset_cir, <span class="dt">centers=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb818-3" data-line-number="3"><span class="co">#Plot the data and clusters</span></a>
+<a class="sourceLine" id="cb818-4" data-line-number="4"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> dataset_cir, </a>
+<a class="sourceLine" id="cb818-5" data-line-number="5">                  <span class="dt">cluster =</span> k_clust_spher1<span class="op">$</span>cluster),</a>
+<a class="sourceLine" id="cb818-6" data-line-number="6">             <span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, </a>
+<a class="sourceLine" id="cb818-7" data-line-number="7">             <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb818-8" data-line-number="8">             <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, </a>
+<a class="sourceLine" id="cb818-9" data-line-number="9">             <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-342-1.png" width="672" /></p>
+<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" data-line-number="1"><span class="co"># Make the first cluster with 1000 random values</span></a>
+<a class="sourceLine" id="cb819-2" data-line-number="2">clust1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>), </a>
+<a class="sourceLine" id="cb819-3" data-line-number="3">                     <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb819-4" data-line-number="4"><span class="co"># Keep 10 values together to make the second cluster</span></a>
+<a class="sourceLine" id="cb819-5" data-line-number="5">clust2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="fl">5.1</span>,<span class="fl">5.2</span>,<span class="fl">5.3</span>,<span class="fl">5.4</span>,<span class="dv">5</span>,<span class="fl">5.1</span>,<span class="fl">5.2</span>,<span class="fl">5.3</span>,<span class="fl">5.4</span>),</a>
+<a class="sourceLine" id="cb819-6" data-line-number="6">                     <span class="dt">y=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>))</a>
+<a class="sourceLine" id="cb819-7" data-line-number="7"><span class="co">#Combine the data</span></a>
+<a class="sourceLine" id="cb819-8" data-line-number="8">dataset_uneven &lt;-<span class="st"> </span><span class="kw">rbind</span>(clust1,clust2)</a>
+<a class="sourceLine" id="cb819-9" data-line-number="9">dataset_uneven <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-343-1.png" width="672" /></p>
+<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb820-1" data-line-number="1">k_clust_spher3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(dataset_uneven, <span class="dt">centers=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb820-2" data-line-number="2"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> dataset_uneven, </a>
+<a class="sourceLine" id="cb820-3" data-line-number="3">                  <span class="dt">cluster =</span> k_clust_spher3<span class="op">$</span>cluster),</a>
+<a class="sourceLine" id="cb820-4" data-line-number="4">             <span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, </a>
+<a class="sourceLine" id="cb820-5" data-line-number="5">             <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, </a>
+<a class="sourceLine" id="cb820-6" data-line-number="6">             <span class="dt">stand =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb820-7" data-line-number="7">             <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, </a>
+<a class="sourceLine" id="cb820-8" data-line-number="8">             <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-344-1.png" width="672" /></p>
+</div>
+<div id="exercise-pca-sommelier-1" class="section level3">
+<h3><span class="header-section-number">15.1.2</span> Exercise: PCA sommelier</h3>
+<p>The file <code>Wine.csv</code> contains several measures made on 178 wines from Piedmont, produced using three different grapes (column <code>Grape</code>, with 1 = Barolo, 2 = Grignolino, 3 = Barbera). Use the 13 measured variables (i.e., all but <code>Grape</code>) to perform a PCA, and use k-means to cluster the data in PC space. Can you recover the right classification of grapes?</p>
+<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb821-1" data-line-number="1">wine &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Wine.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb821-2" data-line-number="2"><span class="co"># make into a matrix for PCA</span></a>
+<a class="sourceLine" id="cb821-3" data-line-number="3">mat &lt;-<span class="st"> </span>wine <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>Grape) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</a>
+<a class="sourceLine" id="cb821-4" data-line-number="4"><span class="co"># perform PCA by scaling and centering all 13 variables</span></a>
+<a class="sourceLine" id="cb821-5" data-line-number="5">pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(mat, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale. =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb821-6" data-line-number="6"><span class="co"># pca$x contains the coordinates</span></a>
+<a class="sourceLine" id="cb821-7" data-line-number="7"><span class="co"># let&#39;s see how are we doing</span></a>
+<a class="sourceLine" id="cb821-8" data-line-number="8"><span class="kw">ggplot</span>(<span class="kw">cbind</span>(wine, <span class="kw">as_tibble</span>(pca<span class="op">$</span>x))) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb821-9" data-line-number="9"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb821-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
+<p>Now let’s apply k-means to divide the data into three clusters</p>
+<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb822-1" data-line-number="1">cl &lt;-<span class="st"> </span><span class="kw">kmeans</span>(pca<span class="op">$</span>x, <span class="dt">centers =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb822-2" data-line-number="2"><span class="kw">ggplot</span>(wine <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_column</span>(<span class="dt">cluster =</span> cl<span class="op">$</span>cluster)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb822-3" data-line-number="3"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Grape, <span class="dt">y =</span> cluster, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb822-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_jitter</span>()</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-346-1.png" width="672" /></p>
+<p>You can see that we correctly classify all the wines for grapes 1 and 3, while some of the ones from grape 2 are misclassified.</p>
+<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb823-1" data-line-number="1"><span class="co"># find convex hull for each cluster</span></a>
+<a class="sourceLine" id="cb823-2" data-line-number="2"><span class="co"># i.e. minimal convex polygon containing all points</span></a>
+<a class="sourceLine" id="cb823-3" data-line-number="3">hull &lt;-<span class="st"> </span>pca<span class="op">$</span>x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb823-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(PC1, PC2) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb823-5" data-line-number="5"><span class="st">  </span><span class="kw">add_column</span>(<span class="dt">cluster =</span> cl<span class="op">$</span>cluster) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb823-6" data-line-number="6"><span class="st">  </span><span class="kw">group_by</span>(cluster) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb823-7" data-line-number="7"><span class="st">  </span><span class="kw">slice</span>(<span class="kw">chull</span>(PC1, PC2))</a>
+<a class="sourceLine" id="cb823-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb823-9" data-line-number="9"><span class="co"># plot the convex hulls</span></a>
+<a class="sourceLine" id="cb823-10" data-line-number="10">pl &lt;-<span class="st"> </span>hull <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">group =</span> cluster, <span class="dt">fill =</span> <span class="kw">factor</span>(cluster))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_polygon</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb823-11" data-line-number="11">  </a>
+<a class="sourceLine" id="cb823-12" data-line-number="12"><span class="kw">show</span>(pl)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-347-1.png" width="672" /></p>
+<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb824-1" data-line-number="1"><span class="co"># now add the points</span></a>
+<a class="sourceLine" id="cb824-2" data-line-number="2">pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> pca<span class="op">$</span>x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb824-3" data-line-number="3"><span class="st">         </span><span class="kw">select</span>(PC1, PC2) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb824-4" data-line-number="4"><span class="st">         </span><span class="kw">add_column</span>(<span class="dt">Grape =</span> wine<span class="op">$</span>Grape, <span class="dt">cluster =</span> cl<span class="op">$</span>cluster), </a>
+<a class="sourceLine" id="cb824-5" data-line-number="5">  <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape), <span class="dt">shape =</span> <span class="kw">factor</span>(Grape)))</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-347-2.png" width="672" /></p>
+<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb825-1" data-line-number="1"><span class="kw">table</span>(cl<span class="op">$</span>cluster, wine<span class="op">$</span>Grape)</a></code></pre></div>
+<pre><code>##    
+##      1  2  3
+##   1 59  3  0
+##   2  0  3 48
+##   3  0 65  0</code></pre>
+<p>You can see that we are misclassifying the grapes that are at the border of the cluster or nestled among the points belonging to a different grape. But the outcome is quite good: we would have misclassified only 6 wines out of 178 (3.3%).</p>
+</div>
+</div>
+<div id="hierarchical-clustering" class="section level2">
+<h2><span class="header-section-number">15.2</span> Hierarchical clustering</h2>
+<div id="agglomerative-clustering" class="section level3">
+<h3><span class="header-section-number">15.2.1</span> Agglomerative clustering</h3>
+<p>Start with single data points as “clusters,” then iteratively combine the closest pair of clusters. The closenest may be defined in the following ways:</p>
+<ol style="list-style-type: decimal">
+<li><p>Single Linkage: In single linkage, we define the distance between two clusters as the minimum distance between any single data point in the first cluster and any single data point in the second cluster.</p></li>
+<li><p>Complete Linkage: In complete linkage, we define the distance between two clusters to be the maximum distance between any single data point in the first cluster and any single data point in the second cluster.</p></li>
+<li><p>Average Linkage: In average linkage, we define the distance between two clusters to be the average distance between data points in the first cluster and data points in the second cluster.</p></li>
+<li>Centroid Method: In centroid method, the distance between two clusters is the distance between the two mean vectors of the clusters.<br />
+</li>
+<li><p>Ward’s Method: This method does not directly define a measure of distance between two points or clusters. It is an ANOVA based approach. One-way univariate ANOVAs are done for each variable with groups defined by the clusters at that stage of the process. At each stage, two clusters merge that provide the smallest increase in the combined error sum of squares.</p></li>
+</ol>
+<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb827-1" data-line-number="1"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
+<a class="sourceLine" id="cb827-2" data-line-number="2">cir_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(dataset_cir, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</a>
+<a class="sourceLine" id="cb827-3" data-line-number="3"><span class="co"># Visualize dendrogram</span></a>
+<a class="sourceLine" id="cb827-4" data-line-number="4"><span class="kw">fviz_dend</span>(cir_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-348-1.png" width="672" /></p>
+<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb828-1" data-line-number="1"><span class="co"># Visualize cluster</span></a>
+<a class="sourceLine" id="cb828-2" data-line-number="2"><span class="kw">fviz_cluster</span>(cir_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-348-2.png" width="672" /></p>
+<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb829-1" data-line-number="1"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
+<a class="sourceLine" id="cb829-2" data-line-number="2">uneven_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(dataset_uneven, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</a>
+<a class="sourceLine" id="cb829-3" data-line-number="3"><span class="co"># Visualize dendrogram</span></a>
+<a class="sourceLine" id="cb829-4" data-line-number="4"><span class="co">#fviz_dend(uneven_hc, show_labels = FALSE, rect = TRUE)</span></a>
+<a class="sourceLine" id="cb829-5" data-line-number="5"><span class="co"># Visualize cluster</span></a>
+<a class="sourceLine" id="cb829-6" data-line-number="6"><span class="kw">fviz_cluster</span>(uneven_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-349-1.png" width="672" /></p>
+</div>
+<div id="cluster-the-irises-using-hierarchical-methods" class="section level3">
+<h3><span class="header-section-number">15.2.2</span> Cluster the irises using hierarchical methods</h3>
+<p>Try different methods and see which one generates the best results</p>
+<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" data-line-number="1"><span class="co"># Hierarchical clustering</span></a>
+<a class="sourceLine" id="cb830-2" data-line-number="2"><span class="co"># ++++++++++++++++++++++++</span></a>
+<a class="sourceLine" id="cb830-3" data-line-number="3"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
+<a class="sourceLine" id="cb830-4" data-line-number="4">iris_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(iris.scaled, <span class="dt">k =</span> <span class="dv">3</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</a>
+<a class="sourceLine" id="cb830-5" data-line-number="5"><span class="co"># Visualize dendrogram</span></a>
+<a class="sourceLine" id="cb830-6" data-line-number="6"><span class="kw">fviz_dend</span>(iris_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-350-1.png" width="672" /></p>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" data-line-number="1"><span class="co"># Visualize cluster</span></a>
+<a class="sourceLine" id="cb831-2" data-line-number="2"><span class="kw">fviz_cluster</span>(iris_hc)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-350-2.png" width="672" /></p>
+<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb832-1" data-line-number="1"><span class="kw">table</span>(iris_hc<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</a></code></pre></div>
+<pre><code>##    
+##     setosa versicolor virginica
+##   1     49          0         0
+##   2      1          0         0
+##   3      0         50        50</code></pre>
+</div>
+<div id="taste-the-wine-again" class="section level3">
+<h3><span class="header-section-number">15.2.3</span> Taste the wine again!</h3>
+<p>For the wine data set, use hierarchical clustering on the PCA - reduced data set and compare the results to the complete data set. Which hierarchical clustering method performs the best?</p>
+</div>
+</div>
+<div id="clustering-analysis-and-validation" class="section level2">
+<h2><span class="header-section-number">15.3</span> Clustering analysis and validation</h2>
+<div id="hopkins-statistic" class="section level3">
+<h3><span class="header-section-number">15.3.1</span> Hopkins statistic</h3>
+<p>Comparing the mean nearest-neighbor distance between uniformly generated sample points and mean nearest-neighbor distance within the data set.
+<span class="math display">\[
+H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
+\]</span>
+This quantifies the “clustering tendency” of the data set.</p>
+<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb834-1" data-line-number="1"><span class="co"># Check Cluster Tendency--Hopkins Statistic</span></a>
+<a class="sourceLine" id="cb834-2" data-line-number="2"><span class="kw">hopkins</span>(iris.scaled, <span class="dt">n =</span> <span class="dv">30</span>) <span class="co"># n should be about 20% of the data</span></a></code></pre></div>
+<pre><code>## $H
+## [1] 0.1794449</code></pre>
+<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb836-1" data-line-number="1"><span class="co"># run a couple times to sample repeatedly</span></a></code></pre></div>
+<p>If H is below 0.5 reject the null hypothesis, which is that the data are generated by a Poisson point process (uniformly distributed.)</p>
+<div class="sourceCode" id="cb837"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb837-1" data-line-number="1"><span class="co"># Visual Assessment of Cluster Tendency</span></a>
+<a class="sourceLine" id="cb837-2" data-line-number="2"><span class="kw">fviz_dist</span>(<span class="kw">dist</span>(iris.scaled), <span class="dt">show_labels =</span> <span class="ot">FALSE</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Iris Data&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-353-1.png" width="672" />
+- Red is high similarity (low dissimilarity)
+- Blue is low similarity (high dissimilarity)</p>
+</div>
+<div id="elbow-method" class="section level3">
+<h3><span class="header-section-number">15.3.2</span> Elbow method</h3>
+<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb838-1" data-line-number="1"><span class="co"># Elbow method</span></a>
+<a class="sourceLine" id="cb838-2" data-line-number="2"><span class="kw">fviz_nbclust</span>(iris.scaled, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb838-3" data-line-number="3"><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Elbow method for K-means&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-354-1.png" width="672" />
+### Silhouette Plot
+Measures how similar an object <span class="math inline">\(i\)</span> is to the other objects in its same cluster versus the objects outside of its cluster; <span class="math inline">\(S_i\)</span> values range from -1 to 1. Close to 1 means very similar to objects in its own group and dissimilar to others</p>
+<div class="sourceCode" id="cb839"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb839-1" data-line-number="1"><span class="co"># Silhouette method</span></a>
+<a class="sourceLine" id="cb839-2" data-line-number="2"><span class="kw">fviz_nbclust</span>(iris.scaled, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Silhouette method for k-means&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
+</div>
+<div id="lazy-way-use-all-the-methods" class="section level3">
+<h3><span class="header-section-number">15.3.3</span> Lazy way: use all the methods!</h3>
+<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb840-1" data-line-number="1">nb &lt;-<span class="st"> </span><span class="kw">NbClust</span>(iris.scaled, <span class="dt">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">min.nc =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb840-2" data-line-number="2">        <span class="dt">max.nc =</span> <span class="dv">10</span>, <span class="dt">method =</span> <span class="st">&quot;kmeans&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-356-1.png" width="672" /></p>
+<pre><code>## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## </code></pre>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-356-2.png" width="672" /></p>
+<pre><code>## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 11 proposed 2 as the best number of clusters 
+## * 10 proposed 3 as the best number of clusters 
+## * 1 proposed 4 as the best number of clusters 
+## * 1 proposed 6 as the best number of clusters 
+## * 1 proposed 10 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  2 
+##  
+##  
+## *******************************************************************</code></pre>
+<div class="sourceCode" id="cb843"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb843-1" data-line-number="1"><span class="kw">fviz_nbclust</span>(nb)</a></code></pre></div>
+<pre><code>## Among all indices: 
+## ===================
+## * 2 proposed  0 as the best number of clusters
+## * 11 proposed  2 as the best number of clusters
+## * 10 proposed  3 as the best number of clusters
+## * 1 proposed  4 as the best number of clusters
+## * 1 proposed  6 as the best number of clusters
+## * 1 proposed  10 as the best number of clusters
+## 
+## Conclusion
+## =========================
+## * According to the majority rule, the best number of clusters is  2 .</code></pre>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-356-3.png" width="672" /></p>
+</div>
+<div id="validation" class="section level3">
+<h3><span class="header-section-number">15.3.4</span> Validation</h3>
+<p>One common approach to validating clustering is to use the approach called bootstrappingm which involves repeatedly sampling from the data set, running the clustering algorithm and comparing the results. One algorithm uses the Jaccard coefficient to quantify similarity between sets, which is defined as the number of points in the intersection of the two sets (those which are in both sets), divided by the number of points in the union of the two sets (the point that are in either one or the other set):</p>
+<p><span class="math display">\[
+J = \frac{ \vert A \cap B \vert }{\vert A \cup B \vert}
+\]</span>
+The vertical lines indicate the number of points (cardinality) in the set.</p>
+<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb845-1" data-line-number="1">k &lt;-<span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb845-2" data-line-number="2">cboot.hclust &lt;-<span class="st"> </span><span class="kw">clusterboot</span>(iris.scaled, <span class="dt">clustermethod=</span>kmeansCBI, <span class="dt">k=</span> k)</a></code></pre></div>
+<pre><code>## boot 1 
+## boot 2 
+## boot 3 
+## boot 4 
+## boot 5 
+## boot 6 
+## boot 7 
+## boot 8 
+## boot 9 
+## boot 10 
+## boot 11 
+## boot 12 
+## boot 13 
+## boot 14 
+## boot 15 
+## boot 16 
+## boot 17 
+## boot 18 
+## boot 19 
+## boot 20 
+## boot 21 
+## boot 22 
+## boot 23 
+## boot 24 
+## boot 25 
+## boot 26 
+## boot 27 
+## boot 28 
+## boot 29 
+## boot 30 
+## boot 31 
+## boot 32 
+## boot 33 
+## boot 34 
+## boot 35 
+## boot 36 
+## boot 37 
+## boot 38 
+## boot 39 
+## boot 40 
+## boot 41 
+## boot 42 
+## boot 43 
+## boot 44 
+## boot 45 
+## boot 46 
+## boot 47 
+## boot 48 
+## boot 49 
+## boot 50 
+## boot 51 
+## boot 52 
+## boot 53 
+## boot 54 
+## boot 55 
+## boot 56 
+## boot 57 
+## boot 58 
+## boot 59 
+## boot 60 
+## boot 61 
+## boot 62 
+## boot 63 
+## boot 64 
+## boot 65 
+## boot 66 
+## boot 67 
+## boot 68 
+## boot 69 
+## boot 70 
+## boot 71 
+## boot 72 
+## boot 73 
+## boot 74 
+## boot 75 
+## boot 76 
+## boot 77 
+## boot 78 
+## boot 79 
+## boot 80 
+## boot 81 
+## boot 82 
+## boot 83 
+## boot 84 
+## boot 85 
+## boot 86 
+## boot 87 
+## boot 88 
+## boot 89 
+## boot 90 
+## boot 91 
+## boot 92 
+## boot 93 
+## boot 94 
+## boot 95 
+## boot 96 
+## boot 97 
+## boot 98 
+## boot 99 
+## boot 100</code></pre>
+<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb847-1" data-line-number="1"><span class="kw">print</span>(cboot.hclust)</a></code></pre></div>
+<pre><code>## * Cluster stability assessment *
+## Cluster method:  kmeans 
+## Full clustering results are given as parameter result
+## of the clusterboot object, which also provides further statistics
+## of the resampling results.
+## Number of resampling runs:  100 
+## 
+## Number of clusters found in data:  3 
+## 
+##  Clusterwise Jaccard bootstrap (omitting multiple points) mean:
+## [1] 0.9328980 0.8346651 0.8318038
+## dissolved:
+## [1]  1  5 12
+## recovered:
+## [1] 83 75 79</code></pre>
+<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb849-1" data-line-number="1"><span class="co">#cboot.hclust &lt;- clusterboot(bcdata, clustermethod=hclustCBI,</span></a>
+<a class="sourceLine" id="cb849-2" data-line-number="2">       <span class="co">#                    method=&quot;single&quot;, k=2)</span></a></code></pre></div>
+</div>
+</div>
+<div id="application-to-breast-cancer-data" class="section level2">
+<h2><span class="header-section-number">15.4</span> Application to breast cancer data</h2>
+<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb850-1" data-line-number="1"><span class="co"># Import Breast Cancer Data Set</span></a>
+<a class="sourceLine" id="cb850-2" data-line-number="2">fulldata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Wisconsin_Breast_Cancers.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb850-3" data-line-number="3">bcdata &lt;-<span class="st"> </span>fulldata[,<span class="dv">2</span><span class="op">:</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb850-4" data-line-number="4">class &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dt">data=</span> fulldata[,<span class="dv">11</span>])</a>
+<a class="sourceLine" id="cb850-5" data-line-number="5"><span class="kw">head</span>(fulldata)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 11
+##   Sample Clump_Thickness Size_Uniformity Shape_Uniformity Marginal_Adhesi…
+##    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 1.00e6               5               1                1                1
+## 2 1.00e6               5               4                4                5
+## 3 1.02e6               3               1                1                1
+## 4 1.02e6               6               8                8                1
+## 5 1.02e6               4               1                1                3
+## 6 1.02e6               8              10               10                8
+## # … with 6 more variables: Single_Epithelial_Cell_Size &lt;dbl&gt;,
+## #   Bare_Nuclei &lt;dbl&gt;, Bland_Chromatin &lt;dbl&gt;, Normal_Nucleoli &lt;dbl&gt;,
+## #   Mitoses &lt;dbl&gt;, Class &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb852-1" data-line-number="1"><span class="co"># Visually Inspect Data (PCA)</span></a>
+<a class="sourceLine" id="cb852-2" data-line-number="2"><span class="kw">fviz_pca_ind</span>(<span class="kw">prcomp</span>(bcdata), <span class="dt">title =</span> <span class="st">&quot;PCA - Breast Cancer data&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-359-1.png" width="672" /></p>
+<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb853-1" data-line-number="1">bc_km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(<span class="kw">scale</span>(bcdata), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb853-2" data-line-number="2">bc_km</a></code></pre></div>
+<pre><code>## K-means clustering with 2 clusters of sizes 453, 231
+## 
+## Cluster means:
+##   Clump_Thickness Size_Uniformity Shape_Uniformity Marginal_Adhesion
+## 1      -0.4973081      -0.6104358       -0.6062297        -0.5191788
+## 2       0.9752406       1.1970884        1.1888401         1.0181299
+##   Single_Epithelial_Cell_Size Bare_Nuclei Bland_Chromatin Normal_Nucleoli
+## 1                  -0.5133379  -0.5896356      -0.5498977       -0.531641
+## 2                   1.0066757   1.1562984       1.0783707        1.042569
+##      Mitoses
+## 1 -0.3070638
+## 2  0.6021640
+## 
+## Clustering vector:
+##   [1] 1 2 1 2 1 2 1 1 1 1 1 1 1 1 2 2 1 1 2 1 2 2 1 1 1 1 1 1 1 1 1 2 1 1 1 2 1
+##  [38] 2 2 2 2 2 2 1 2 1 1 2 2 1 2 2 2 2 2 1 1 1 2 1 2 1 1 2 1 2 2 1 1 2 1 2 2 1
+##  [75] 1 1 1 1 1 1 1 1 2 2 2 2 1 1 1 1 1 1 1 1 1 1 2 2 2 1 1 1 2 2 2 2 1 2 1 2 2
+## [112] 2 1 1 1 2 1 1 1 1 2 2 2 1 2 1 2 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 1 2
+## [149] 2 1 1 2 1 1 2 2 1 1 1 1 2 2 1 1 1 1 1 2 2 2 1 2 1 1 1 1 1 2 2 1 2 2 2 1 2
+## [186] 2 1 1 1 1 2 1 1 1 2 2 1 1 1 2 2 1 1 1 2 2 1 2 2 2 1 1 2 1 1 2 1 2 2 1 2 2
+## [223] 1 2 2 2 1 2 1 2 2 2 2 1 1 1 1 1 1 2 1 1 1 2 2 2 2 2 1 1 1 2 2 2 2 2 2 1 2
+## [260] 2 2 1 2 1 2 1 1 1 1 1 2 1 1 2 2 2 2 2 1 2 2 1 1 2 2 2 1 2 2 1 2 1 2 2 1 1
+## [297] 2 1 1 1 2 1 1 2 2 1 2 2 1 2 1 1 1 1 2 2 2 1 1 2 2 1 2 1 1 2 2 1 1 1 2 1 1
+## [334] 1 1 2 1 1 2 2 1 1 1 2 2 2 2 2 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1
+## [371] 1 1 2 1 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 1 2 1 2 1 1 1 1 2
+## [408] 1 1 1 2 1 2 1 1 1 1 1 1 2 2 2 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1 2 1 1 2 2 1
+## [445] 1 1 1 1 1 1 2 2 2 1 1 1 1 1 1 1 1 1 1 1 2 1 1 2 2 1 1 1 2 2 1 1 2 1 2 1 1
+## [482] 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 2 2 1 1 1 2 1 1 2 2 1 1 1 1 1 1 2 1 1
+## [519] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 2 2
+## [556] 2 2 1 1 2 1 1 1 1 1 1 2 2 1 1 1 2 1 2 1 2 2 2 1 2 1 1 1 1 1 1 1 1 2 2 2 1
+## [593] 1 2 1 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 2 1 1 2 1 1 1 1 1 1 1 1
+## [630] 1 1 1 2 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 2 2 2 1 1 1 1 1 1 1 1 1 2 2
+## [667] 1 1 1 1 1 1 1 1 1 2 1 1 1 1 2 2 2 2
+## 
+## Within cluster sum of squares by cluster:
+## [1]  573.108 2156.785
+##  (between_SS / total_SS =  55.6 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<div class="sourceCode" id="cb855"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb855-1" data-line-number="1"><span class="kw">table</span>(bc_km<span class="op">$</span>cluster, fulldata<span class="op">$</span>Class)</a></code></pre></div>
+<pre><code>##    
+##       2   4
+##   1 434  19
+##   2  10 221</code></pre>
+<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb857-1" data-line-number="1"><span class="co">#irisCluster$cluster &lt;- as.factor(irisCluster$cluster)</span></a>
+<a class="sourceLine" id="cb857-2" data-line-number="2"><span class="co">#ggplot(iris, aes(Petal.Length, Petal.Width, color = iris$cluster)) + geom_point()</span></a>
+<a class="sourceLine" id="cb857-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb857-4" data-line-number="4"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> bcdata, <span class="dt">cluster =</span> bc_km<span class="op">$</span>cluster),</a>
+<a class="sourceLine" id="cb857-5" data-line-number="5"><span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-360-1.png" width="672" /></p>
+<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb858-1" data-line-number="1"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
+<a class="sourceLine" id="cb858-2" data-line-number="2">bc_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(<span class="kw">scale</span>(bcdata), <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;ward&quot;</span>)</a>
+<a class="sourceLine" id="cb858-3" data-line-number="3"><span class="co"># Visualize dendrogram</span></a>
+<a class="sourceLine" id="cb858-4" data-line-number="4"><span class="kw">fviz_dend</span>(bc_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-361-1.png" width="672" /></p>
+<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb859-1" data-line-number="1"><span class="co"># Visualize cluster</span></a>
+<a class="sourceLine" id="cb859-2" data-line-number="2"><span class="kw">fviz_cluster</span>(bc_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</a></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-361-2.png" width="672" /></p>
+<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb860-1" data-line-number="1"><span class="kw">table</span>(bc_hc<span class="op">$</span>cluster, fulldata<span class="op">$</span>Class)</a></code></pre></div>
+<pre><code>##    
+##       2   4
+##   1 412   2
+##   2  32 238</code></pre>
+</div>
+<div id="references-1" class="section level2">
+<h2><span class="header-section-number">15.5</span> References:</h2>
+<ol style="list-style-type: decimal">
+<li><a href="https://www.r-bloggers.com/exploring-assumptions-of-k-means-clustering-using-r/" class="uri">https://www.r-bloggers.com/exploring-assumptions-of-k-means-clustering-using-r/</a></li>
+<li><a href="https://onlinecourses.science.psu.edu/stat505/node/143/" class="uri">https://onlinecourses.science.psu.edu/stat505/node/143/</a></li>
+<li><a href="https://github.com/hhundiwala/hierarchical-clustering" class="uri">https://github.com/hhundiwala/hierarchical-clustering</a></li>
+<li><a href="https://www.r-bloggers.com/bootstrap-evaluation-of-clusters/" class="uri">https://www.r-bloggers.com/bootstrap-evaluation-of-clusters/</a></li>
+</ol>
+
+</div>
+</div>
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="principal-component-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -426,8 +443,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">12.1</span> Goal</h2>
 <p>Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand.</p>
 <p>Let’s load some packages:</p>
-<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb673-1"><a href="generalized-linear-models.html#cb673-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></span>
-<span id="cb673-2"><a href="generalized-linear-models.html#cb673-2"></a><span class="kw">library</span>(MASS) <span class="co"># negative binom regression</span></span></code></pre></div>
+<div class="sourceCode" id="cb673"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb673-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></a>
+<a class="sourceLine" id="cb673-2" data-line-number="2"><span class="kw">library</span>(MASS) <span class="co"># negative binom regression</span></a></code></pre></div>
 </div>
 <div id="introduction" class="section level2">
 <h2><span class="header-section-number">12.2</span> Introduction</h2>
@@ -475,15 +492,15 @@ P(Y_i = y_i | \pi_i) = \pi_i^{y_i} (1 - \pi_i)^{1 - y_i}
 \pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}} = 1 - \frac{1}{1 + e^{\beta_0 + \beta_1 x_i}}
 \]</span></p>
 <p>Clearly, when <span class="math inline">\(\beta_0 + \beta_1 x_i = 0\)</span>, the probability <span class="math inline">\(\pi_i = 1/2\)</span>, while the probability tends to 1 when <span class="math inline">\((\beta_0 + \beta_1 x_i) \to \infty\)</span> and to zero when <span class="math inline">\((\beta_0 + \beta_1 x_i) \to -\infty\)</span>. :</p>
-<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb674-1"><a href="generalized-linear-models.html#cb674-1"></a><span class="co"># some random data</span></span>
-<span id="cb674-2"><a href="generalized-linear-models.html#cb674-2"></a>X &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)</span>
-<span id="cb674-3"><a href="generalized-linear-models.html#cb674-3"></a>beta_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="fl">0.35</span></span>
-<span id="cb674-4"><a href="generalized-linear-models.html#cb674-4"></a>beta_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="fl">-3.2</span></span>
-<span id="cb674-5"><a href="generalized-linear-models.html#cb674-5"></a>linear_predictor &lt;-<span class="st"> </span>beta_<span class="dv">0</span> <span class="op">+</span><span class="st"> </span>beta_<span class="dv">1</span> <span class="op">*</span><span class="st"> </span>X</span>
-<span id="cb674-6"><a href="generalized-linear-models.html#cb674-6"></a>predicted_pi_i &lt;-<span class="st"> </span><span class="kw">exp</span>(linear_predictor) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(linear_predictor))</span>
-<span id="cb674-7"><a href="generalized-linear-models.html#cb674-7"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">tibble</span>(<span class="dt">linear_predictor =</span> linear_predictor, <span class="dt">probability =</span> predicted_pi_i)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb674-8"><a href="generalized-linear-models.html#cb674-8"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> linear_predictor, <span class="dt">y =</span> probability) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb674-9"><a href="generalized-linear-models.html#cb674-9"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb674"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb674-1" data-line-number="1"><span class="co"># some random data</span></a>
+<a class="sourceLine" id="cb674-2" data-line-number="2">X &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb674-3" data-line-number="3">beta_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="fl">0.35</span></a>
+<a class="sourceLine" id="cb674-4" data-line-number="4">beta_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="fl">-3.2</span></a>
+<a class="sourceLine" id="cb674-5" data-line-number="5">linear_predictor &lt;-<span class="st"> </span>beta_<span class="dv">0</span> <span class="op">+</span><span class="st"> </span>beta_<span class="dv">1</span> <span class="op">*</span><span class="st"> </span>X</a>
+<a class="sourceLine" id="cb674-6" data-line-number="6">predicted_pi_i &lt;-<span class="st"> </span><span class="kw">exp</span>(linear_predictor) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(linear_predictor))</a>
+<a class="sourceLine" id="cb674-7" data-line-number="7"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">tibble</span>(<span class="dt">linear_predictor =</span> linear_predictor, <span class="dt">probability =</span> predicted_pi_i)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb674-8" data-line-number="8"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> linear_predictor, <span class="dt">y =</span> probability) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb674-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-283-1.png" width="672" /></p>
 <p>As you can see, this is a logistic curve, hence the name. The parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> control the location of the inflection point and the steepness of the curve, allowing you to model binary response variables (and, with a slight abuse of the error structure, proportions or probabilities).</p>
 <p>Other choices of link functions are possible. For example, in economics the <em>probit</em> function is preferred:</p>
@@ -503,13 +520,13 @@ Clearly, you could alternatively use the cumulative distribution function of any
 <div id="a-simple-example" class="section level3">
 <h3><span class="header-section-number">12.3.2</span> A simple example</h3>
 <p>We want to know whether being in first, second and third class, as well as gender (women and women first!) influenced the probability of survival in the Titanic disaster. We start with a null model (all passengers have the same probability of survival):</p>
-<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="generalized-linear-models.html#cb675-1"></a><span class="kw">library</span>(titanic)</span>
-<span id="cb675-2"><a href="generalized-linear-models.html#cb675-2"></a><span class="co"># model 0: probability of survival in general</span></span>
-<span id="cb675-3"><a href="generalized-linear-models.html#cb675-3"></a><span class="co"># regress against an intercept</span></span>
-<span id="cb675-4"><a href="generalized-linear-models.html#cb675-4"></a>model0 &lt;-<span class="st"> </span><span class="kw">glm</span>(Survived <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="co"># only intercept</span></span>
-<span id="cb675-5"><a href="generalized-linear-models.html#cb675-5"></a>              <span class="dt">data =</span> titanic_train, </span>
-<span id="cb675-6"><a href="generalized-linear-models.html#cb675-6"></a>              <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>) <span class="co"># logistic regression</span></span>
-<span id="cb675-7"><a href="generalized-linear-models.html#cb675-7"></a><span class="kw">summary</span>(model0)</span></code></pre></div>
+<div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb675-1" data-line-number="1"><span class="kw">library</span>(titanic)</a>
+<a class="sourceLine" id="cb675-2" data-line-number="2"><span class="co"># model 0: probability of survival in general</span></a>
+<a class="sourceLine" id="cb675-3" data-line-number="3"><span class="co"># regress against an intercept</span></a>
+<a class="sourceLine" id="cb675-4" data-line-number="4">model0 &lt;-<span class="st"> </span><span class="kw">glm</span>(Survived <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="co"># only intercept</span></a>
+<a class="sourceLine" id="cb675-5" data-line-number="5">              <span class="dt">data =</span> titanic_train, </a>
+<a class="sourceLine" id="cb675-6" data-line-number="6">              <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>) <span class="co"># logistic regression</span></a>
+<a class="sourceLine" id="cb675-7" data-line-number="7"><span class="kw">summary</span>(model0)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Survived ~ 1, family = &quot;binomial&quot;, data = titanic_train)
@@ -531,18 +548,18 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## AIC: 1188.7
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb677-1"><a href="generalized-linear-models.html#cb677-1"></a><span class="co"># the best fitting (alpha) intercept should lead to </span></span>
-<span id="cb677-2"><a href="generalized-linear-models.html#cb677-2"></a><span class="co"># e^alpha / (1 + e^alpha) = mean(Survived)</span></span>
-<span id="cb677-3"><a href="generalized-linear-models.html#cb677-3"></a><span class="kw">mean</span>(titanic_train<span class="op">$</span>Survived)</span></code></pre></div>
+<div class="sourceCode" id="cb677"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb677-1" data-line-number="1"><span class="co"># the best fitting (alpha) intercept should lead to </span></a>
+<a class="sourceLine" id="cb677-2" data-line-number="2"><span class="co"># e^alpha / (1 + e^alpha) = mean(Survived)</span></a>
+<a class="sourceLine" id="cb677-3" data-line-number="3"><span class="kw">mean</span>(titanic_train<span class="op">$</span>Survived)</a></code></pre></div>
 <pre><code>## [1] 0.3838384</code></pre>
-<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb679-1"><a href="generalized-linear-models.html#cb679-1"></a><span class="kw">exp</span>(model0<span class="op">$</span>coefficients) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(model0<span class="op">$</span>coefficients))</span></code></pre></div>
+<div class="sourceCode" id="cb679"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb679-1" data-line-number="1"><span class="kw">exp</span>(model0<span class="op">$</span>coefficients) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(model0<span class="op">$</span>coefficients))</a></code></pre></div>
 <pre><code>## (Intercept) 
 ##   0.3838384</code></pre>
 <p>Now let’s include gender:</p>
-<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb681-1"><a href="generalized-linear-models.html#cb681-1"></a>model1 &lt;-<span class="st"> </span><span class="kw">glm</span>(Survived <span class="op">~</span><span class="st"> </span>Sex, <span class="co"># one sex as baseline, the other modifies intercept</span></span>
-<span id="cb681-2"><a href="generalized-linear-models.html#cb681-2"></a>              <span class="dt">data =</span> titanic_train,</span>
-<span id="cb681-3"><a href="generalized-linear-models.html#cb681-3"></a>              <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb681-4"><a href="generalized-linear-models.html#cb681-4"></a><span class="kw">summary</span>(model1)</span></code></pre></div>
+<div class="sourceCode" id="cb681"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb681-1" data-line-number="1">model1 &lt;-<span class="st"> </span><span class="kw">glm</span>(Survived <span class="op">~</span><span class="st"> </span>Sex, <span class="co"># one sex as baseline, the other modifies intercept</span></a>
+<a class="sourceLine" id="cb681-2" data-line-number="2">              <span class="dt">data =</span> titanic_train,</a>
+<a class="sourceLine" id="cb681-3" data-line-number="3">              <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</a>
+<a class="sourceLine" id="cb681-4" data-line-number="4"><span class="kw">summary</span>(model1)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Survived ~ Sex, family = &quot;binomial&quot;, data = titanic_train)
@@ -566,18 +583,18 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>What is the best-fitting probability of survival for male/female?</p>
-<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb683-1"><a href="generalized-linear-models.html#cb683-1"></a>coeffs &lt;-<span class="st"> </span>model1<span class="op">$</span>coefficients</span>
-<span id="cb683-2"><a href="generalized-linear-models.html#cb683-2"></a><span class="co"># prob women</span></span>
-<span id="cb683-3"><a href="generalized-linear-models.html#cb683-3"></a><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb683"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb683-1" data-line-number="1">coeffs &lt;-<span class="st"> </span>model1<span class="op">$</span>coefficients</a>
+<a class="sourceLine" id="cb683-2" data-line-number="2"><span class="co"># prob women</span></a>
+<a class="sourceLine" id="cb683-3" data-line-number="3"><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>])))</a></code></pre></div>
 <pre><code>## [1] 0.7420382</code></pre>
-<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb685-1"><a href="generalized-linear-models.html#cb685-1"></a><span class="co"># prob men</span></span>
-<span id="cb685-2"><a href="generalized-linear-models.html#cb685-2"></a><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>coeffs[<span class="dv">2</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb685"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb685-1" data-line-number="1"><span class="co"># prob men</span></a>
+<a class="sourceLine" id="cb685-2" data-line-number="2"><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>coeffs[<span class="dv">2</span>])))</a></code></pre></div>
 <pre><code>## [1] 0.1889081</code></pre>
 <p>Now let’s see whether we can explain better the data using the class:</p>
-<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb687-1"><a href="generalized-linear-models.html#cb687-1"></a>model2 &lt;-<span class="st"> </span><span class="kw">glm</span>(Survived <span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(Pclass), <span class="co"># combine Sex and Pclass</span></span>
-<span id="cb687-2"><a href="generalized-linear-models.html#cb687-2"></a>              <span class="dt">data =</span> titanic_train,</span>
-<span id="cb687-3"><a href="generalized-linear-models.html#cb687-3"></a>              <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb687-4"><a href="generalized-linear-models.html#cb687-4"></a><span class="kw">summary</span>(model2)</span></code></pre></div>
+<div class="sourceCode" id="cb687"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb687-1" data-line-number="1">model2 &lt;-<span class="st"> </span><span class="kw">glm</span>(Survived <span class="op">~</span><span class="st"> </span>Sex <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(Pclass), <span class="co"># combine Sex and Pclass</span></a>
+<a class="sourceLine" id="cb687-2" data-line-number="2">              <span class="dt">data =</span> titanic_train,</a>
+<a class="sourceLine" id="cb687-3" data-line-number="3">              <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</a>
+<a class="sourceLine" id="cb687-4" data-line-number="4"><span class="kw">summary</span>(model2)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Survived ~ Sex + factor(Pclass), family = &quot;binomial&quot;, 
@@ -604,19 +621,19 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>A woman in first class would have survival probability:</p>
-<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb689-1"><a href="generalized-linear-models.html#cb689-1"></a>coeffs &lt;-<span class="st"> </span>model2<span class="op">$</span>coefficients</span>
-<span id="cb689-2"><a href="generalized-linear-models.html#cb689-2"></a><span class="co"># prob women first class</span></span>
-<span id="cb689-3"><a href="generalized-linear-models.html#cb689-3"></a><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb689"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb689-1" data-line-number="1">coeffs &lt;-<span class="st"> </span>model2<span class="op">$</span>coefficients</a>
+<a class="sourceLine" id="cb689-2" data-line-number="2"><span class="co"># prob women first class</span></a>
+<a class="sourceLine" id="cb689-3" data-line-number="3"><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>])))</a></code></pre></div>
 <pre><code>## [1] 0.9086385</code></pre>
 <p>While a man in third class:</p>
-<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb691-1"><a href="generalized-linear-models.html#cb691-1"></a><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>coeffs[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>coeffs[<span class="dv">4</span>])))</span></code></pre></div>
+<div class="sourceCode" id="cb691"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb691-1" data-line-number="1"><span class="kw">as.numeric</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(coeffs[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>coeffs[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>coeffs[<span class="dv">4</span>])))</a></code></pre></div>
 <pre><code>## [1] 0.09532814</code></pre>
 <p>Consider the alternative models <code>Survived ~ Sex * factor(Pclass)</code>, <code>Survived ~ Sex + Pclass</code>, <code>Survived ~ Sex * Pclass</code>, <code>Survived ~ Sex:factor(Pclass)</code>, <code>Survived ~ Sex:Pclass</code>. Explain what each model is doing in English.</p>
 </div>
 <div id="exercise-in-class-college-admissions" class="section level3">
 <h3><span class="header-section-number">12.3.3</span> Exercise in class: College admissions</h3>
 <p>With slight abuse of notation, you can fit probabilities using the logistic regression (the only problem is that you don’t know how many values contributed to the calculations of the probabilities—i.e., sample sizes). Read in the file <code>admission_rates.csv</code>, containing data on admissions to several universities. Your goal is to find a good prediction (or a good combination of predictors) for the <code>Admission_rate</code>. You can use <code>State</code>, <code>Ownership</code> (public/private), <code>Citytype</code> (town, suburb, city), <code>SAT</code> (typical SAT score of admits), <code>AvgCost</code> (tuitions). Fit the models using:</p>
-<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb693-1"><a href="generalized-linear-models.html#cb693-1"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/admission_rates.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb693"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb693-1" data-line-number="1">dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/admission_rates.csv&quot;</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   Name = col_character(),
@@ -627,21 +644,21 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ##   AvgCost = col_double(),
 ##   Admission_rate = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb695"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb695-1"><a href="generalized-linear-models.html#cb695-1"></a><span class="co"># example</span></span>
-<span id="cb695-2"><a href="generalized-linear-models.html#cb695-2"></a>logit_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(Admission_rate <span class="op">~</span><span class="st"> </span>AvgCost, <span class="dt">data =</span> dt, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb695"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb695-1" data-line-number="1"><span class="co"># example</span></a>
+<a class="sourceLine" id="cb695-2" data-line-number="2">logit_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">glm</span>(Admission_rate <span class="op">~</span><span class="st"> </span>AvgCost, <span class="dt">data =</span> dt, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)</a></code></pre></div>
 <pre><code>## Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
 <p>(do not worry about the warning <code>non-integer #successes in a binomial glm!</code>).</p>
 <ul>
 <li>Plot fitted vs. observed admission rates, when using different combinations of predictors.</li>
 </ul>
 <p>For the example above:</p>
-<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb697-1"><a href="generalized-linear-models.html#cb697-1"></a><span class="kw">plot</span>(dt<span class="op">$</span>Admission_rate, logit_<span class="dv">1</span><span class="op">$</span>fitted.values)</span>
-<span id="cb697-2"><a href="generalized-linear-models.html#cb697-2"></a><span class="kw">abline</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb697"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb697-1" data-line-number="1"><span class="kw">plot</span>(dt<span class="op">$</span>Admission_rate, logit_<span class="dv">1</span><span class="op">$</span>fitted.values)</a>
+<a class="sourceLine" id="cb697-2" data-line-number="2"><span class="kw">abline</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</a></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-291-1.png" width="672" /></p>
 <ul>
 <li>Score the models using <code>AIC</code>: which is the single best predictor of acceptance rate? (Note: as we will see later this week, the lower the AIC, the better).</li>
 </ul>
-<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb698-1"><a href="generalized-linear-models.html#cb698-1"></a><span class="kw">AIC</span>(logit_<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb698-1" data-line-number="1"><span class="kw">AIC</span>(logit_<span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## [1] 220.7783</code></pre>
 <ul>
 <li>Which the best combination of two predictors?</li>
@@ -669,7 +686,7 @@ Y_i \sim \text{Pois}(\lambda_i)
 <li>Count the number of genomes published per year (store the value as <code>n</code>) and store it in the tibble <code>num_genomes</code> along with the values <code>Year</code> and <code>Dollars_per_Mb</code> (note: you need to use <code>inner_join</code> to pull this off);</li>
 <li>Fit the number of genomes published in a given year:
 <ul>
-<li>using only an intercept (your predictions should match the mean) (Code: <code>pois_1 &lt;- glm(n ~ 1, data = num_genomes, family = "poisson")</code>)</li>
+<li>using only an intercept (your predictions should match the mean) (Code: <code>pois_1 &lt;- glm(n ~ 1, data = num_genomes, family = &quot;poisson&quot;)</code>)</li>
 <li>using the year as a predictor</li>
 <li>using the cost of sequencing as a predictor</li>
 </ul></li>
@@ -714,7 +731,7 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 <div id="exercise-in-class-number-of-genomes-1" class="section level3">
 <h3><span class="header-section-number">12.4.4</span> Exercise in class: Number of genomes</h3>
 <ul>
-<li>For the models above, change the family to <code>quasipoisson</code> to check the dispersion (e.g., <code>qpois_1 &lt;- glm(n ~ 1, data = num_genomes, family = "quasipoisson")</code>).</li>
+<li>For the models above, change the family to <code>quasipoisson</code> to check the dispersion (e.g., <code>qpois_1 &lt;- glm(n ~ 1, data = num_genomes, family = &quot;quasipoisson&quot;)</code>).</li>
 <li>Do you have overdispersion?</li>
 <li>If the data are overdispersed, fit them again using <code>glm.nb</code> (a negative binomial regression model provided by the package <code>MASS</code>).</li>
 </ul>

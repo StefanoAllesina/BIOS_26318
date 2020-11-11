@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2020-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +64,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +80,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -240,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -289,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -401,6 +399,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a><ul>
+<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
+<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
+<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
+<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
+<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
+<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
+<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
+<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -431,21 +448,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>As biologists living in the XXI century, we are often faced with tons of data, possibly replicated over several organisms, treatments, or locations. We would like to streamline and automate our analysis as much as possible, writing scripts that are easy to read, fast to run, and easy to debug. Base <code>R</code> can get the job done, but often the code contains complicated operations, and a lot of <code>$</code> signs and brackets.</p>
 <p>We’re going to learn about the packages <code>dplyr</code> and <code>tidyr</code>, which are part of <code>tidyverse</code> and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base <code>R</code> commands, are very compact, and can be concatenated into “pipelines”.</p>
 <p>To start, we need to import the libraries:</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="data-wrangling.html#cb337-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></span>
-<span id="cb337-2"><a href="data-wrangling.html#cb337-2"></a><span class="kw">library</span>(palmerpenguins) <span class="co"># a nice data set to play with</span></span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></a>
+<a class="sourceLine" id="cb337-2" data-line-number="2"><span class="kw">library</span>(palmerpenguins) <span class="co"># a nice data set to play with</span></a></code></pre></div>
 <p>We are going to use the data set <code>penguins</code> from the package <code>palmerpenguins</code>, which we have already seen last week.</p>
 </div>
 <div id="a-new-data-type-tibble" class="section level2">
 <h2><span class="header-section-number">4.3</span> A new data type, <code>tibble</code></h2>
 <p>This is now a :</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="data-wrangling.html#cb338-1"></a><span class="kw">class</span>(penguins)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" data-line-number="1"><span class="kw">class</span>(penguins)</a></code></pre></div>
 <pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
 <p><code>dplyr</code> ships with a new data type, called a <code>tibble</code>. To convert a <code>data.frame</code> into a tibble, use <code>as_tibble</code>:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="data-wrangling.html#cb340-1"></a><span class="co"># load a data frame</span></span>
-<span id="cb340-2"><a href="data-wrangling.html#cb340-2"></a><span class="kw">data</span>(<span class="st">&quot;trees&quot;</span>)</span>
-<span id="cb340-3"><a href="data-wrangling.html#cb340-3"></a><span class="kw">class</span>(trees)</span>
-<span id="cb340-4"><a href="data-wrangling.html#cb340-4"></a>trees &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(trees)</span>
-<span id="cb340-5"><a href="data-wrangling.html#cb340-5"></a><span class="kw">class</span>(trees)</span></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" data-line-number="1"><span class="co"># load a data frame</span></a>
+<a class="sourceLine" id="cb340-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;trees&quot;</span>)</a>
+<a class="sourceLine" id="cb340-3" data-line-number="3"><span class="kw">class</span>(trees)</a>
+<a class="sourceLine" id="cb340-4" data-line-number="4">trees &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(trees)</a>
+<a class="sourceLine" id="cb340-5" data-line-number="5"><span class="kw">class</span>(trees)</a></code></pre></div>
 <p>The nice feature of <code>tbl</code> objects is that they will print only what fits on the screen, and also give you useful information on the size of the data, as well as the type of data in each column. Other than that, a <code>tbl</code> object behaves very much like a <code>data.frame</code>. In some rare cases, you want to transform the <code>tbl</code> back into a <code>data.frame</code>. For this, use the function <code>as.data.frame(tbl_object)</code>.</p>
 <p>We can take a look at the data using one of several functions:</p>
 <ul>
@@ -458,7 +475,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="selecting-rows-and-columns" class="section level2">
 <h2><span class="header-section-number">4.4</span> Selecting rows and columns</h2>
 <p>There are many ways to subset the data, either by row (subsetting the <em>observations</em>), or by column (subsetting the <em>variables</em>). For example, let’s select only the rows with observations from the island <code>Torgersen</code>:</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="data-wrangling.html#cb341-1"></a><span class="kw">filter</span>(penguins, island <span class="op">==</span><span class="st"> &quot;Torgersen&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="kw">filter</span>(penguins, island <span class="op">==</span><span class="st"> &quot;Torgersen&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 52 x 8
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
 ##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
@@ -479,7 +496,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <code>filter(penguins,  bill_length_mm &gt; 40,  bill_depth_mm &gt; 20, sex == male)</code></p>
 </blockquote>
 <p>We can also select particular variables (columns) using the function <code>select(tbl, cols to select)</code>. For example, select <code>species</code> and <code>island</code>:</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="data-wrangling.html#cb343-1"></a><span class="kw">select</span>(penguins, species, island)</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="kw">select</span>(penguins, species, island)</a></code></pre></div>
 <pre><code>## # A tibble: 344 x 2
 ##    species island   
 ##    &lt;fct&gt;   &lt;fct&gt;    
@@ -495,7 +512,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 Adelie  Torgersen
 ## # … with 334 more rows</code></pre>
 <p>How many <code>species</code> are represented in the data set? We can use the function <code>distinct(tbl, cols to select)</code> to retain only the rows that differ from each other:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="data-wrangling.html#cb345-1"></a><span class="kw">distinct</span>(<span class="kw">select</span>(penguins, species))</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="kw">distinct</span>(<span class="kw">select</span>(penguins, species))</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 1
 ##   species  
 ##   &lt;fct&gt;    
@@ -505,23 +522,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Showing that there are three species, once we removed the duplicates. There are many other ways to subset observations:</p>
 <ul>
 <li><code>sample_n(tbl, howmany, replace = TRUE)</code> sample <code>howmany</code> rows at random (with replacement)</li>
-<li><code>sample_frac(tbl, proportion, replace = FALSE)</code> sample a certain proportion (e.g. <code>0.2</code> for 20%) of rows at random without replacement</li>
+<li><code>sample_frac(tbl, proportion, replace = FALSE)</code> sample a certain proportion (e.g. <code>0.2</code> for 20%) of rows at random without replacement</li>
 <li><code>slice(tbl, 5:20)</code> extract the rows <code>5</code> to <code>20</code></li>
 <li><code>top_n(penguins, 10, body_mass_g)</code> extract the first <code>10</code> rows, once ordered by <code>body_mass_g</code></li>
 </ul>
 <p>More ways to select columns:</p>
 <ul>
-<li><code>select(penguins, contains("mm"))</code> select all columns containing the string <code>mm</code></li>
+<li><code>select(penguins, contains(&quot;mm&quot;))</code> select all columns containing the string <code>mm</code></li>
 <li><code>select(penguins, -year, -body_mass_g)</code> exclude the columns <code>year</code> and <code>body_mass_g</code></li>
-<li><code>select(penguins, matches("length|bill"))</code> select all columns whose names match a regular expression</li>
+<li><code>select(penguins, matches(&quot;length|bill&quot;))</code> select all columns whose names match a regular expression</li>
 </ul>
 </div>
 <div id="creating-pipelines-using" class="section level2">
 <h2><span class="header-section-number">4.5</span> Creating pipelines using <code>%&gt;%</code></h2>
 <p>We’ve been calling nested functions, such as <code>distinct(select(penguins, species))</code>. If you have to add another layer or two, the code would become unreadable. <code>dplyr</code> allows you to “un-nest” these functions and create a “pipeline” in which you concatenate commands separated by a special operator, <code>%&gt;%</code>. For example:</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="data-wrangling.html#cb347-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># take a data table</span></span>
-<span id="cb347-2"><a href="data-wrangling.html#cb347-2"></a><span class="st">  </span><span class="kw">select</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># select a column</span></span>
-<span id="cb347-3"><a href="data-wrangling.html#cb347-3"></a><span class="st">  </span><span class="kw">distinct</span>() <span class="co"># remove duplicates</span></span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># take a data table</span></a>
+<a class="sourceLine" id="cb347-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># select a column</span></a>
+<a class="sourceLine" id="cb347-3" data-line-number="3"><span class="st">  </span><span class="kw">distinct</span>() <span class="co"># remove duplicates</span></a></code></pre></div>
 <pre><code>## # A tibble: 3 x 1
 ##   species  
 ##   &lt;fct&gt;    
@@ -534,26 +551,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="producing-summaries" class="section level2">
 <h2><span class="header-section-number">4.6</span> Producing summaries</h2>
 <p>Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shedded by the infected mice. We can do this using <code>summarise</code> (you can use British or American spelling):</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="data-wrangling.html#cb349-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb349-2"><a href="data-wrangling.html#cb349-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb349-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb349-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##     avg
 ##   &lt;dbl&gt;
 ## 1 4202.</code></pre>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="data-wrangling.html#cb351-1"></a><span class="co"># alternatively, drop_na(body_mass_g) removes all the observations for which</span></span>
-<span id="cb351-2"><a href="data-wrangling.html#cb351-2"></a><span class="co"># body_mass_g is NA</span></span>
-<span id="cb351-3"><a href="data-wrangling.html#cb351-3"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb351-4"><a href="data-wrangling.html#cb351-4"></a><span class="st">  </span><span class="kw">drop_na</span>(body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb351-5"><a href="data-wrangling.html#cb351-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="co"># alternatively, drop_na(body_mass_g) removes all the observations for which</span></a>
+<a class="sourceLine" id="cb351-2" data-line-number="2"><span class="co"># body_mass_g is NA</span></a>
+<a class="sourceLine" id="cb351-3" data-line-number="3">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb351-4" data-line-number="4"><span class="st">  </span><span class="kw">drop_na</span>(body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb351-5" data-line-number="5"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##     avg
 ##   &lt;dbl&gt;
 ## 1 4202.</code></pre>
 <p>where we used <code>na.rm = TRUE</code> to ignore missing values. This command returns a <code>tbl</code> object with just the average egg count. You can combine multiple statistics (use <code>first</code>, <code>last</code>, <code>min</code>, <code>max</code>, <code>n</code> [count the number of rows], <code>n_distinct</code> [count the number of distinct rows], <code>mean</code>, <code>median</code>, <code>var</code>, <code>sd</code>, etc.):</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="data-wrangling.html#cb353-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb353-2"><a href="data-wrangling.html#cb353-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb353-3"><a href="data-wrangling.html#cb353-3"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb353-4"><a href="data-wrangling.html#cb353-4"></a>            <span class="dt">median =</span> <span class="kw">median</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb353-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </a>
+<a class="sourceLine" id="cb353-3" data-line-number="3">            <span class="dt">sd =</span> <span class="kw">sd</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </a>
+<a class="sourceLine" id="cb353-4" data-line-number="4">            <span class="dt">median =</span> <span class="kw">median</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 1 x 3
 ##     avg    sd median
 ##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -562,10 +579,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="summaries-by-group" class="section level2">
 <h2><span class="header-section-number">4.7</span> Summaries by group</h2>
 <p>One of the most useful features of <code>dplyr</code> is the ability to produce statistics for the data once subsetted by <em>groups</em>. For example, we would like to compute the average body mass by species and sex:</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="data-wrangling.html#cb355-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb355-2"><a href="data-wrangling.html#cb355-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb355-3"><a href="data-wrangling.html#cb355-3"></a><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb355-4"><a href="data-wrangling.html#cb355-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb355-2" data-line-number="2"><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb355-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb355-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ## # Groups:   sex [2]
 ##   sex    species    mean
@@ -584,8 +601,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ordering-the-data" class="section level2">
 <h2><span class="header-section-number">4.8</span> Ordering the data</h2>
 <p>To order the data according to one or more variables, use <code>arrange()</code>:</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="data-wrangling.html#cb357-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb357-2"><a href="data-wrangling.html#cb357-2"></a><span class="st">  </span><span class="kw">arrange</span>(body_mass_g) <span class="co"># ascending</span></span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb357-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(body_mass_g) <span class="co"># ascending</span></a></code></pre></div>
 <pre><code>## # A tibble: 344 x 8
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
 ##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
@@ -600,8 +617,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 Adelie  Dream            37.5          18.9              179        2975
 ## 10 Adelie  Dream            37            16.9              185        3000
 ## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="data-wrangling.html#cb359-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb359-2"><a href="data-wrangling.html#cb359-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(body_mass_g)) <span class="co"># descending</span></span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb359-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(body_mass_g)) <span class="co"># descending</span></a></code></pre></div>
 <pre><code>## # A tibble: 344 x 8
 ##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
 ##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
@@ -620,8 +637,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="renaming-columns" class="section level2">
 <h2><span class="header-section-number">4.9</span> Renaming columns</h2>
 <p>To rename one or more columns, use <code>rename()</code>:</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="data-wrangling.html#cb361-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb361-2"><a href="data-wrangling.html#cb361-2"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">bm =</span> body_mass_g)</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb361-2" data-line-number="2"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">bm =</span> body_mass_g)</a></code></pre></div>
 <pre><code>## # A tibble: 344 x 8
 ##    species island bill_length_mm bill_depth_mm flipper_length_…    bm sex  
 ##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt; &lt;int&gt; &lt;fct&gt;
@@ -640,9 +657,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="adding-new-variables-using-mutate" class="section level2">
 <h2><span class="header-section-number">4.10</span> Adding new variables using mutate</h2>
 <p>If you want to add one or more new columns, with the content being a function of other columns, use the function <code>mutate</code>. For example, we are going to add a new column showing the z-score for the body mass of each individual:</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="data-wrangling.html#cb363-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb363-2"><a href="data-wrangling.html#cb363-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb363-3"><a href="data-wrangling.html#cb363-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm)</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb363-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb363-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm)</a></code></pre></div>
 <pre><code>## # A tibble: 344 x 4
 ##    species sex    body_mass_g zscore_bm[,1]
 ##    &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
@@ -658,21 +675,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 Adelie  &lt;NA&gt;          4250        0.0602
 ## # … with 334 more rows</code></pre>
 <p>We can pipe the results to <code>ggplot</code> for plotting!</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="data-wrangling.html#cb365-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb365-2"><a href="data-wrangling.html#cb365-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb365-3"><a href="data-wrangling.html#cb365-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb365-4"><a href="data-wrangling.html#cb365-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> species, <span class="dt">y =</span> zscore_bm, <span class="dt">colour =</span> sex) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb365-5"><a href="data-wrangling.html#cb365-5"></a><span class="st">    </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb365-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb365-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb365-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> species, <span class="dt">y =</span> zscore_bm, <span class="dt">colour =</span> sex) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb365-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_jitter</span>()</a></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
 <p>You can use the function <code>transmute()</code> to create a new column and drop the original columns.</p>
 <p>Most importantly, you can use <code>mutate</code> and <code>transmute</code> on grouped data. For example, let’s recompute the z-score of the <code>body_mass_g</code> once the data is grouped by species and sex:</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="data-wrangling.html#cb367-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-2"><a href="data-wrangling.html#cb367-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-3"><a href="data-wrangling.html#cb367-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-4"><a href="data-wrangling.html#cb367-4"></a><span class="st">  </span><span class="kw">group_by</span>(species, sex) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-5"><a href="data-wrangling.html#cb367-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-6"><a href="data-wrangling.html#cb367-6"></a><span class="st">  </span><span class="kw">arrange</span>(body_mass_g)</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1">penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb367-2" data-line-number="2"><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb367-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb367-4" data-line-number="4"><span class="st">  </span><span class="kw">group_by</span>(species, sex) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb367-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb367-6" data-line-number="6"><span class="st">  </span><span class="kw">arrange</span>(body_mass_g)</a></code></pre></div>
 <pre><code>## # A tibble: 333 x 4
 ## # Groups:   species, sex [6]
 ##    species   sex    body_mass_g zscore_bm
@@ -698,13 +715,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Each type of observational unit forms a table</li>
 </ul>
 <p>This is often called <em>narrow table</em> format. Any other form of data (e.g., <em>wide table</em> format) is considered <em>messy</em>. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package <code>tidyr</code> allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="data-wrangling.html#cb369-1"></a>penguin_bm &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-2"><a href="data-wrangling.html#cb369-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-3"><a href="data-wrangling.html#cb369-3"></a><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-4"><a href="data-wrangling.html#cb369-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">body_mass =</span> <span class="kw">mean</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-5"><a href="data-wrangling.html#cb369-5"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="co"># remove group information</span></span>
-<span id="cb369-6"><a href="data-wrangling.html#cb369-6"></a></span>
-<span id="cb369-7"><a href="data-wrangling.html#cb369-7"></a>penguin_bm</span></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" data-line-number="1">penguin_bm &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb369-2" data-line-number="2"><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb369-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb369-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">body_mass =</span> <span class="kw">mean</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb369-5" data-line-number="5"><span class="st">  </span><span class="kw">ungroup</span>() <span class="co"># remove group information</span></a>
+<a class="sourceLine" id="cb369-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb369-7" data-line-number="7">penguin_bm</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   sex    species   body_mass
 ##   &lt;fct&gt;  &lt;fct&gt;         &lt;dbl&gt;
@@ -718,8 +735,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="from-narrow-to-wide" class="section level2">
 <h2><span class="header-section-number">4.12</span> From narrow to wide</h2>
 <p>Our data is in tidy form. For a paper, we want to show the difference between males and females in a table:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="data-wrangling.html#cb371-1"></a>penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb371-2"><a href="data-wrangling.html#cb371-2"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> sex, <span class="dt">values_from =</span> body_mass)</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1">penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> sex, <span class="dt">values_from =</span> body_mass)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 3
 ##   species   female  male
 ##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;
@@ -727,8 +744,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2 Chinstrap  3527. 3939.
 ## 3 Gentoo     4680. 5485.</code></pre>
 <p>where we have created new column names using the values found in <code>sex</code> (hence, <code>names_from</code>), and filled each cell with the corresponding value found in <code>body_mass</code> (hence, <code>values_from</code>). Similarly, if we want to show the data with species as column names, and sex as rows, we can use:</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="data-wrangling.html#cb373-1"></a>penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb373-2"><a href="data-wrangling.html#cb373-2"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> species, <span class="dt">values_from =</span> body_mass)</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1">penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb373-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> species, <span class="dt">values_from =</span> body_mass)</a></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   sex    Adelie Chinstrap Gentoo
 ##   &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
@@ -742,8 +759,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><em>Tree-ring analysis for sustainable harvest of Millettia stuhlmannii in Mozambique</em>, I.A.D.Remane M.D.Therrell, <strong>South African Journal of Botany</strong> Volume 125, September 2019, Pages 120-125</p>
 </blockquote>
 <p>You can read a tab-separated file from:</p>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="data-wrangling.html#cb375-1"></a>dt &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://rb.gy/upqoxh&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb375-2"><a href="data-wrangling.html#cb375-2"></a><span class="st">  </span><span class="kw">select</span>(Age, <span class="kw">contains</span>(<span class="st">&quot;CAT&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1">dt &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://rb.gy/upqoxh&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb375-2" data-line-number="2"><span class="st">  </span><span class="kw">select</span>(Age, <span class="kw">contains</span>(<span class="st">&quot;CAT&quot;</span>))</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double(),
@@ -767,32 +784,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   X55 = col_logical()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="data-wrangling.html#cb378-1"></a><span class="co"># selecting only age and samples</span></span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="co"># selecting only age and samples</span></a></code></pre></div>
 <p>Each column besides <code>Age</code> represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns <code>tree</code> and <code>diameter</code>:</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="data-wrangling.html#cb379-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb379-2"><a href="data-wrangling.html#cb379-2"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">-</span>Age, <span class="dt">names_to =</span> <span class="st">&quot;tree&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;diameter&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">-</span>Age, <span class="dt">names_to =</span> <span class="st">&quot;tree&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;diameter&quot;</span>)</a></code></pre></div>
 <p>and then remove the NAs:</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="data-wrangling.html#cb380-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(diameter))</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(diameter))</a></code></pre></div>
 <p>Now it is easy to plot the growth trajectory of each tree (as in Fig. 3 of the original paper):</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="data-wrangling.html#cb381-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb381-2"><a href="data-wrangling.html#cb381-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb381-3"><a href="data-wrangling.html#cb381-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Age, <span class="dt">y =</span> diameter) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb381-4"><a href="data-wrangling.html#cb381-4"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> tree)) <span class="op">+</span><span class="st"> </span><span class="co"># note---this makes a line for each tree</span></span>
-<span id="cb381-5"><a href="data-wrangling.html#cb381-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="co"># while the smoothing function considers all trees</span></span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1">dt <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb381-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb381-3" data-line-number="3"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Age, <span class="dt">y =</span> diameter) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb381-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> tree)) <span class="op">+</span><span class="st"> </span><span class="co"># note---this makes a line for each tree</span></a>
+<a class="sourceLine" id="cb381-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="co"># while the smoothing function considers all trees</span></a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
 </div>
 <div id="separate-split-a-column-into-two-or-more" class="section level2">
 <h2><span class="header-section-number">4.14</span> Separate: split a column into two or more</h2>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="data-wrangling.html#cb383-1"></a>test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;Allesina, Stefano&quot;</span>, <span class="st">&quot;Kondrashov, Dmitry&quot;</span>, <span class="st">&quot;Smith, Julia&quot;</span>))</span>
-<span id="cb383-2"><a href="data-wrangling.html#cb383-2"></a>test</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1">test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;Allesina, Stefano&quot;</span>, <span class="st">&quot;Kondrashov, Dmitry&quot;</span>, <span class="st">&quot;Smith, Julia&quot;</span>))</a>
+<a class="sourceLine" id="cb383-2" data-line-number="2">test</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 1
 ##   name              
 ##   &lt;chr&gt;             
 ## 1 Allesina, Stefano 
 ## 2 Kondrashov, Dmitry
 ## 3 Smith, Julia</code></pre>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="data-wrangling.html#cb385-1"></a>test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate</span>(name, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;first_name&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1">test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate</span>(name, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;first_name&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   last_name  first_name
 ##   &lt;chr&gt;      &lt;chr&gt;     
@@ -803,8 +820,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="separate-rows-from-one-row-to-many" class="section level2">
 <h2><span class="header-section-number">4.15</span> Separate rows: from one row to many</h2>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="data-wrangling.html#cb387-1"></a>test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">id =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">records =</span> <span class="kw">c</span>(<span class="st">&quot;a;b;c&quot;</span>, <span class="st">&quot;c;d&quot;</span>, <span class="st">&quot;a;e&quot;</span>, <span class="st">&quot;f&quot;</span>))</span>
-<span id="cb387-2"><a href="data-wrangling.html#cb387-2"></a>test</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">id =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">records =</span> <span class="kw">c</span>(<span class="st">&quot;a;b;c&quot;</span>, <span class="st">&quot;c;d&quot;</span>, <span class="st">&quot;a;e&quot;</span>, <span class="st">&quot;f&quot;</span>))</a>
+<a class="sourceLine" id="cb387-2" data-line-number="2">test</a></code></pre></div>
 <pre><code>## # A tibble: 4 x 2
 ##      id records
 ##   &lt;dbl&gt; &lt;chr&gt;  
@@ -813,7 +830,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 3     3 a;e    
 ## 4     4 f</code></pre>
 <p>To make it into tidy form, only one record per row:</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="data-wrangling.html#cb389-1"></a>test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate_rows</span>(records, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1">test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate_rows</span>(records, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)</a></code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##      id records
 ##   &lt;dbl&gt; &lt;chr&gt;  
@@ -837,10 +854,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Save to the data folder in your working folder.</li>
 </ol>
 <p>If you don’t want to go through all this, you can use the downloaded file called <code>Ursus_GBIF.csv</code> that should be in the data folder for this week. The following command loads and displays the contents of the tibble:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="data-wrangling.html#cb391-1"></a><span class="co"># you will need ggmap!</span></span>
-<span id="cb391-2"><a href="data-wrangling.html#cb391-2"></a><span class="kw">library</span>(ggmap)</span>
-<span id="cb391-3"><a href="data-wrangling.html#cb391-3"></a>Ursus_data &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;data/Ursus_GBIF.csv&quot;</span>)</span>
-<span id="cb391-4"><a href="data-wrangling.html#cb391-4"></a><span class="kw">glimpse</span>(Ursus_data)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1"><span class="co"># you will need ggmap!</span></a>
+<a class="sourceLine" id="cb391-2" data-line-number="2"><span class="kw">library</span>(ggmap)</a>
+<a class="sourceLine" id="cb391-3" data-line-number="3">Ursus_data &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;data/Ursus_GBIF.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb391-4" data-line-number="4"><span class="kw">glimpse</span>(Ursus_data)</a></code></pre></div>
 <pre><code>## Rows: 23,498
 ## Columns: 50
 ## $ gbifID                           &lt;dbl&gt; 2382421192, 2382420986, 2382420916, …
@@ -894,13 +911,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## $ mediaType                        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
 ## $ issue                            &lt;chr&gt; NA, NA, NA, NA, &quot;TAXON_MATCH_HIGHERR…</code></pre>
 <p>You see there are 50 variables in the data set, so it may be useful to remove the ones we don’t need. For this exercise, our objective is to plot the occurrences of this species on the world map, so we need two variables for certain: <code>decimalLatitude</code> and <code>decimalLongitude</code>, as well as the <code>BasisofRecord</code> for additional information. Use your <code>tidyverse</code> skills to create a new tibble with only those variables. In addition, remove duplicate records from the tibble.</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="data-wrangling.html#cb393-1"></a><span class="co"># your code goes here!</span></span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1"><span class="co"># your code goes here!</span></a></code></pre></div>
 <p>Now we can plot this data set on the world map, using the useful package maps. To plot, use the <code>ggplot()</code> syntax with the following addition:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="data-wrangling.html#cb394-1"></a>mapWorld &lt;-<span class="st"> </span><span class="kw">borders</span>(<span class="st">&quot;world&quot;</span>, <span class="dt">colour=</span><span class="st">&quot;gray50&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray50&quot;</span>) <span class="co"># create a layer of borders</span></span>
-<span id="cb394-2"><a href="data-wrangling.html#cb394-2"></a><span class="co"># now you can call </span></span>
-<span id="cb394-3"><a href="data-wrangling.html#cb394-3"></a><span class="co"># ggplot() + mapWorld + ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb394-1" data-line-number="1">mapWorld &lt;-<span class="st"> </span><span class="kw">borders</span>(<span class="st">&quot;world&quot;</span>, <span class="dt">colour=</span><span class="st">&quot;gray50&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray50&quot;</span>) <span class="co"># create a layer of borders</span></a>
+<a class="sourceLine" id="cb394-2" data-line-number="2"><span class="co"># now you can call </span></a>
+<a class="sourceLine" id="cb394-3" data-line-number="3"><span class="co"># ggplot() + mapWorld + ...</span></a></code></pre></div>
 <p>Note the warning message generated by <code>ggplot</code>. Then consider the map with the locations of the brown bear specimens. Do any of them seem strange to you? What may be the explanation behind these strange data point? Now filter out the points that you identified as suspicious and print out their BasisofRecord. Does this suggest an explanation for the strangeness?</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="data-wrangling.html#cb395-1"></a><span class="co"># your code goes here!</span></span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="co"># your code goes here!</span></a></code></pre></div>
 </div>
 <div id="resources-2" class="section level2">
 <h2><span class="header-section-number">4.17</span> Resources</h2>
