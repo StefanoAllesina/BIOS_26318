@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lecture 4 Data wrangling | Fundamentals of Biological Data Analysis</title>
+  <title>Lecture 16 Building phylogeneric trees | Fundamentals of Biological Data Analysis</title>
   <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Lecture 4 Data wrangling | Fundamentals of Biological Data Analysis" />
+  <meta property="og:title" content="Lecture 16 Building phylogeneric trees | Fundamentals of Biological Data Analysis" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lecture 4 Data wrangling | Fundamentals of Biological Data Analysis" />
+  <meta name="twitter:title" content="Lecture 16 Building phylogeneric trees | Fundamentals of Biological Data Analysis" />
   
   <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="fundamentals-of-probability.html"/>
-<link rel="next" href="distributions-and-their-properties.html"/>
+<link rel="prev" href="clustering.html"/>
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -455,507 +455,385 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-wrangling" class="section level1">
-<h1><span class="header-section-number">Lecture 4</span> Data wrangling</h1>
-<div id="goal-2" class="section level2">
-<h2><span class="header-section-number">4.1</span> Goal</h2>
-<p>Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of <code>dplyr</code>, <code>tidyr</code>, and the “pipeline” operator <code>%&gt;%</code>. Effortlessly produce statistics for grouped data. Massage data into “tidy” form.</p>
+<div id="building-phylogeneric-trees" class="section level1">
+<h1><span class="header-section-number">Lecture 16</span> Building phylogeneric trees</h1>
+<p>Let’s import some libraries:</p>
+<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb862-1"><a href="building-phylogeneric-trees.html#cb862-1"></a><span class="kw">library</span>(ape) <span class="co"># most important library for phylogeny</span></span>
+<span id="cb862-2"><a href="building-phylogeneric-trees.html#cb862-2"></a><span class="kw">library</span>(phangorn) <span class="co"># tree reconstruction</span></span></code></pre></div>
+<div id="introduction-1" class="section level2">
+<h2><span class="header-section-number">16.1</span> Introduction</h2>
+<center>
+<img src="http://darwin-online.org.uk/converted/scans/manuscript%20scans/1837-9_TransmutationNotebooks/DarwinArchive_1837_NotebookB_CUL-DAR121.-_038.jpg">
+</center>
+<p>Since Darwin’s “I think…” biologists have been constructing trees connecting species to their common ancestors. The goal of this brief tutorial is to introduce some of the basic terminology, and illustrate the most common approaches to building trees.</p>
+<p>This tutorial is based on the freely available book <a href="https://jarhodesuaf.github.io/PhyloBook.pdf">The Mathematics of Phylogenetics</a>, by Allman and Rhodes.</p>
 </div>
-<div id="what-is-data-wrangling" class="section level2">
-<h2><span class="header-section-number">4.2</span> What is data wrangling?</h2>
-<p>As biologists living in the XXI century, we are often faced with tons of data, possibly replicated over several organisms, treatments, or locations. We would like to streamline and automate our analysis as much as possible, writing scripts that are easy to read, fast to run, and easy to debug. Base <code>R</code> can get the job done, but often the code contains complicated operations, and a lot of <code>$</code> signs and brackets.</p>
-<p>We’re going to learn about the packages <code>dplyr</code> and <code>tidyr</code>, which are part of <code>tidyverse</code> and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base <code>R</code> commands, are very compact, and can be concatenated into “pipelines”.</p>
-<p>To start, we need to import the libraries:</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="data-wrangling.html#cb337-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></span>
-<span id="cb337-2"><a href="data-wrangling.html#cb337-2"></a><span class="kw">library</span>(palmerpenguins) <span class="co"># a nice data set to play with</span></span></code></pre></div>
-<p>We are going to use the data set <code>penguins</code> from the package <code>palmerpenguins</code>, which we have already seen last week.</p>
+<div id="input-1" class="section level2">
+<h2><span class="header-section-number">16.2</span> Input</h2>
+<p>The input is assumed to be a series of <strong>sequences</strong>, one for each <strong>taxon</strong>. For simplicity, we deal with DNA sequences, and assume that the taxa are different species. However, the methods introduced here can be extended to other types of sequences (e.g., amino acids, RNA, morphological features) and taxa (e.g., individuals of the same species, or even cells from the same individual). We assume the DNA sequences to be <strong>orthologous</strong> (i.e., to have descended from a common ancestral sequence) and to have been <strong>aligned</strong> (i.e., having many of the bases matching across the sequences for all the taxa).</p>
+<p>DNA is composed of four nucleotides or <strong>bases</strong>: adenine (<code>A</code>), guanine (<code>G</code>), cytosine (<code>C</code>), and thymine (<code>T</code>). <code>A</code> and <code>G</code> are both purines, <code>C</code> and <code>T</code> are pyrimidines. When DNA is copied, small errors (<strong>mutations</strong>) can be introduced: we speak of <strong>substitutions</strong> when a base is changed, <strong>deletions</strong> when one or more consecutive bases are not copied, and <strong>insertions</strong> when new bases are introduced in the sequence. For this tutorial, we will concentrate on substitutions, which are believed to be the most common type of mutations. We distinguish between <strong>transition</strong> (from a purine to the other purine, or from pyrimidine to pyrimidine) and <strong>transversion</strong> (from one type to the other). Many models assume that transitions are more frequent than transversions (due to smaller changes in chemical stability of DNA).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Taxon</th>
+<th align="left">Sequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">Tax 1</td>
+<td align="left">ATT<strong>G</strong>CAA<strong>TG</strong>GCA</td>
+</tr>
+<tr class="even">
+<td align="right">Tax 2</td>
+<td align="left">ATT<strong>G</strong>CAA<strong>TA</strong>GCA</td>
+</tr>
+<tr class="odd">
+<td align="right">Tax 3</td>
+<td align="left">ATT<strong>A</strong>CAA<strong>CG</strong>GCA</td>
+</tr>
+<tr class="even">
+<td align="right">Tax 4</td>
+<td align="left">ATT<strong>A</strong>CAA<strong>CA</strong>GCA</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="a-new-data-type-tibble" class="section level2">
-<h2><span class="header-section-number">4.3</span> A new data type, <code>tibble</code></h2>
-<p>This is now a :</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="data-wrangling.html#cb338-1"></a><span class="kw">class</span>(penguins)</span></code></pre></div>
-<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
-<p><code>dplyr</code> ships with a new data type, called a <code>tibble</code>. To convert a <code>data.frame</code> into a tibble, use <code>as_tibble</code>:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="data-wrangling.html#cb340-1"></a><span class="co"># load a data frame</span></span>
-<span id="cb340-2"><a href="data-wrangling.html#cb340-2"></a><span class="kw">data</span>(<span class="st">&quot;trees&quot;</span>)</span>
-<span id="cb340-3"><a href="data-wrangling.html#cb340-3"></a><span class="kw">class</span>(trees)</span>
-<span id="cb340-4"><a href="data-wrangling.html#cb340-4"></a>trees &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(trees)</span>
-<span id="cb340-5"><a href="data-wrangling.html#cb340-5"></a><span class="kw">class</span>(trees)</span></code></pre></div>
-<p>The nice feature of <code>tbl</code> objects is that they will print only what fits on the screen, and also give you useful information on the size of the data, as well as the type of data in each column. Other than that, a <code>tbl</code> object behaves very much like a <code>data.frame</code>. In some rare cases, you want to transform the <code>tbl</code> back into a <code>data.frame</code>. For this, use the function <code>as.data.frame(tbl_object)</code>.</p>
-<p>We can take a look at the data using one of several functions:</p>
-<ul>
-<li><code>head(dt)</code> shows the first few rows</li>
-<li><code>tail(dt)</code> shows the last few rows</li>
-<li><code>glimpse(dt)</code> a summary of the data (similar to <code>str</code> in base R)</li>
-<li><code>View(dt)</code> open in spreadsheet-like window</li>
-</ul>
+<div id="representing-trees" class="section level2">
+<h2><span class="header-section-number">16.3</span> Representing trees</h2>
+<p>A graph is a collection of vertices (<span class="math inline">\(V\)</span>) and edges (<span class="math inline">\(E\)</span>). We consider simple, undirected graph for most of the tutorial; simple means that self loops are not allowed and that each two nodes can be connected by one edge at most; undirected that we do not distinguish between <span class="math inline">\(a \to b\)</span> and <span class="math inline">\(b \to a\)</span>. A graph is <strong>connected</strong> if there is a way to go from any node to any other following its edges. A <strong>cycle</strong> is a closed path connecting a node to itself. A <strong>tree</strong> is a connected graph that contains no cycles.</p>
+<p>We distinguish between <strong>rooted</strong> and <strong>unrooted</strong> trees: the root is a particular vertex from which all other taxa descend (the MRCA, most recent common ancestor of all taxa). Note that by placing the root in different places, we can obtain dramatically different-looking trees:</p>
+<center>
+<img src="http://phylogeny.life/img/features/fet3.png">
+</center>
+<p>Typically, we can only observe the <strong>tips</strong> or <strong>leaves</strong> of the tree (the extant species); their common ancestors are the <strong>internal nodes</strong> of the tree, which have to be inferred.</p>
+<p>An unrooted tree with <span class="math inline">\(n &gt; 1\)</span> leaves contains exactly <span class="math inline">\(2n -2\)</span> nodes, and <span class="math inline">\(2n -3\)</span> edges. A rooted tree has one extra node (<span class="math inline">\(2n -1\)</span>) and one extra edge (<span class="math inline">\(2n - 2\)</span>). There are very many trees one can form with <span class="math inline">\(n\)</span> leaves: we can count <span class="math inline">\((2n -3)!!\)</span> rooted trees (where the double factorial becomes <span class="math inline">\(1 \cdot 3 \cdot 5 \cdots (2n -3)\)</span>).</p>
+<p>We can add a “length” to each edge, measuring how much change has accumulated between the two vertices. In case of “molecular clock” trees, we assume lengths to be measuring time, and all leaves have the same distance (computed summing the lengths along the branches) from the root. Trees in which all leaves have the same distance from the root are called <strong>ultrametric</strong>.</p>
+<center>
+<img src="https://slideplayer.com/slide/8111866/25/images/9/Altering+the+position+of+root%2C+changes+the+meaning+of+Phylogenetic+tree.jpg">
+</center>
+<p>Mathematically, if we do not make an assumption of a “molecular clock” (i.e., that mutations are neutral and occurr at a predictable rate), we cannot identify the root of a tree without using extra information. Typically, what is done is to also align sequence(s) stemming from an <strong>outgroup</strong>, i.e., a taxon that is believed to be distantly related to the taxa we want to connect in our tree. Then, the root will connect the outgroup taxon with the rest of the tree.</p>
+<p>Many of the methods for tree reconstruction are based on unrooted, unweighted trees, and a root and lengths can be determined once one has chosen a topology for the tree.</p>
+<p>A simple way to represent a tree is provided by the <strong>Newick notation</strong>: the string <code>(((a, b), c), (d, e))</code> represents a tree in which two nodes enclosed by parentheses are connected to a common ancestor (internal node). Note that the notation cannot readily discriminate among identical trees (e.g., <code>((d, e), (c, (b, a)))</code>) so that spotting two identical trees is difficult to do by eye.</p>
 </div>
-<div id="selecting-rows-and-columns" class="section level2">
-<h2><span class="header-section-number">4.4</span> Selecting rows and columns</h2>
-<p>There are many ways to subset the data, either by row (subsetting the <em>observations</em>), or by column (subsetting the <em>variables</em>). For example, let’s select only the rows with observations from the island <code>Torgersen</code>:</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="data-wrangling.html#cb341-1"></a><span class="kw">filter</span>(penguins, island <span class="op">==</span><span class="st"> &quot;Torgersen&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 52 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
-##  1 Adelie  Torge…           39.1          18.7              181        3750
-##  2 Adelie  Torge…           39.5          17.4              186        3800
-##  3 Adelie  Torge…           40.3          18                195        3250
-##  4 Adelie  Torge…           NA            NA                 NA          NA
-##  5 Adelie  Torge…           36.7          19.3              193        3450
-##  6 Adelie  Torge…           39.3          20.6              190        3650
-##  7 Adelie  Torge…           38.9          17.8              181        3625
-##  8 Adelie  Torge…           39.2          19.6              195        4675
-##  9 Adelie  Torge…           34.1          18.1              193        3475
-## 10 Adelie  Torge…           42            20.2              190        4250
-## # … with 42 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
-<p>We have 52 observations. We have used the command <code>filter(tbl, conditions)</code> to select certain observations. We can combine several conditions, by listing them side by side, possibly using logical operators.</p>
-<blockquote>
-<p><strong>Exercise:</strong> what does this do?
-<code>filter(penguins,  bill_length_mm &gt; 40,  bill_depth_mm &gt; 20, sex == male)</code></p>
-</blockquote>
-<p>We can also select particular variables (columns) using the function <code>select(tbl, cols to select)</code>. For example, select <code>species</code> and <code>island</code>:</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="data-wrangling.html#cb343-1"></a><span class="kw">select</span>(penguins, species, island)</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 2
-##    species island   
-##    &lt;fct&gt;   &lt;fct&gt;    
-##  1 Adelie  Torgersen
-##  2 Adelie  Torgersen
-##  3 Adelie  Torgersen
-##  4 Adelie  Torgersen
-##  5 Adelie  Torgersen
-##  6 Adelie  Torgersen
-##  7 Adelie  Torgersen
-##  8 Adelie  Torgersen
-##  9 Adelie  Torgersen
-## 10 Adelie  Torgersen
-## # … with 334 more rows</code></pre>
-<p>How many <code>species</code> are represented in the data set? We can use the function <code>distinct(tbl, cols to select)</code> to retain only the rows that differ from each other:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="data-wrangling.html#cb345-1"></a><span class="kw">distinct</span>(<span class="kw">select</span>(penguins, species))</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
-##   species  
-##   &lt;fct&gt;    
-## 1 Adelie   
-## 2 Gentoo   
-## 3 Chinstrap</code></pre>
-<p>Showing that there are three species, once we removed the duplicates. There are many other ways to subset observations:</p>
-<ul>
-<li><code>sample_n(tbl, howmany, replace = TRUE)</code> sample <code>howmany</code> rows at random (with replacement)</li>
-<li><code>sample_frac(tbl, proportion, replace = FALSE)</code> sample a certain proportion (e.g. <code>0.2</code> for 20%) of rows at random without replacement</li>
-<li><code>slice(tbl, 5:20)</code> extract the rows <code>5</code> to <code>20</code></li>
-<li><code>top_n(penguins, 10, body_mass_g)</code> extract the first <code>10</code> rows, once ordered by <code>body_mass_g</code></li>
-</ul>
-<p>More ways to select columns:</p>
-<ul>
-<li><code>select(penguins, contains("mm"))</code> select all columns containing the string <code>mm</code></li>
-<li><code>select(penguins, -year, -body_mass_g)</code> exclude the columns <code>year</code> and <code>body_mass_g</code></li>
-<li><code>select(penguins, matches("length|bill"))</code> select all columns whose names match a regular expression</li>
-</ul>
+<div id="building-trees-from-sequence-data" class="section level2">
+<h2><span class="header-section-number">16.4</span> Building trees from sequence data</h2>
+<p>Provided with a set of orthologous, aligned sequences, we want to build a tree explaining the observed mutations. All methods to build trees from sequences are based on Occam’s razor: given alternative histories for the evolution of the sequences, take the “simplest” as the most probable.</p>
+<div id="maximum-parsimony" class="section level3">
+<h3><span class="header-section-number">16.4.1</span> Maximum Parsimony</h3>
+<p>Going back to our example:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Taxon</th>
+<th align="left">Sequence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">Tax 1</td>
+<td align="left">ATT<strong>G</strong>CAA<strong>TG</strong>GCA</td>
+</tr>
+<tr class="even">
+<td align="right">Tax 2</td>
+<td align="left">ATT<strong>G</strong>CAA<strong>TA</strong>GCA</td>
+</tr>
+<tr class="odd">
+<td align="right">Tax 3</td>
+<td align="left">ATT<strong>A</strong>CAA<strong>CG</strong>GCA</td>
+</tr>
+<tr class="even">
+<td align="right">Tax 4</td>
+<td align="left">ATT<strong>A</strong>CAA<strong>CA</strong>GCA</td>
+</tr>
+</tbody>
+</table>
+<p>we could think of the tree <span class="math inline">\(((1, 2), (3, 4))\)</span> that would be consistent with the changes in position 4 and 8; the changes in position 9, however, would require a further mutation for each branch. We can count the number of changes in the sequences required for each tree, and maximum parsimony can be summarized as “The best tree to infer from data is the one requiring the fewest changes”.</p>
+<p>We can propose a tree, and for each edge connecting nodes <span class="math inline">\((u, v)\)</span>, we can count the number of changes required to go from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. We can then sum all the changes (called the <strong>parsimony score</strong>) and choose the tree with the minimum score.</p>
+<center>
+<img src="http://csls-text3.c.u-tokyo.ac.jp/images/fig/c_fig24_02.jpg">
+</center>
+<p>Computing the minimum score for a given tree and sequences for the leaves is called the “small parsimony problem” while computing the minimum parsimony over all trees is the “large parsimony problem”. The small problem can be solved efficiently (e.g., using the <a href="https://media.uaf.edu/media/t/0_tjoxyuwx">Fitch-Hartigan</a> algorithm). The large problem is computationally very difficult.</p>
 </div>
-<div id="creating-pipelines-using" class="section level2">
-<h2><span class="header-section-number">4.5</span> Creating pipelines using <code>%&gt;%</code></h2>
-<p>We’ve been calling nested functions, such as <code>distinct(select(penguins, species))</code>. If you have to add another layer or two, the code would become unreadable. <code>dplyr</code> allows you to “un-nest” these functions and create a “pipeline” in which you concatenate commands separated by a special operator, <code>%&gt;%</code>. For example:</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="data-wrangling.html#cb347-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># take a data table</span></span>
-<span id="cb347-2"><a href="data-wrangling.html#cb347-2"></a><span class="st">  </span><span class="kw">select</span>(species) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># select a column</span></span>
-<span id="cb347-3"><a href="data-wrangling.html#cb347-3"></a><span class="st">  </span><span class="kw">distinct</span>() <span class="co"># remove duplicates</span></span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
-##   species  
-##   &lt;fct&gt;    
-## 1 Adelie   
-## 2 Gentoo   
-## 3 Chinstrap</code></pre>
-<p>does exactly the same operations as the command above, but is much more readable. By concatenating many commands, you can create incredibly complex pipelines while retaining readability. It is also quite easy to add another piece of the pipeline in between commands, or to comment some of the pipeline out.</p>
-<p>Another advantage of pipelines is that they help with name completion. In fact, <code>RStudio</code> is running in the background your pipeline while you type it. Try typing <code>dt %&gt;% filter(</code> and then start typing <code>bill</code> and press <code>Tab</code>: you will see the options to complete the column name; choose it with your arrows and hit <code>Return</code>. The back tickmarks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).</p>
+<div id="example-primates" class="section level3">
+<h3><span class="header-section-number">16.4.2</span> Example: primates</h3>
+<div class="sourceCode" id="cb863"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb863-1"><a href="building-phylogeneric-trees.html#cb863-1"></a><span class="co"># read alignement primates</span></span>
+<span id="cb863-2"><a href="building-phylogeneric-trees.html#cb863-2"></a>fdir &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/trees&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;phangorn&quot;</span>)</span>
+<span id="cb863-3"><a href="building-phylogeneric-trees.html#cb863-3"></a>primates &lt;-<span class="st"> </span><span class="kw">read.phyDat</span>(<span class="kw">file.path</span>(fdir, <span class="st">&quot;primates.dna&quot;</span>), <span class="dt">format =</span> <span class="st">&quot;interleaved&quot;</span>)</span>
+<span id="cb863-4"><a href="building-phylogeneric-trees.html#cb863-4"></a>primates<span class="op">$</span>Human</span></code></pre></div>
+<pre><code>##   [1] 1 2 2 2 2 1 2 4 2 1 2 2 2 1 4 1 2 1 1 1 2 1 1 2 1 2 2 1 2 4 2 4 2 2 2 2 4
+##  [38] 1 1 4 4 1 2 1 1 4 4 4 1 1 2 2 4 2 2 2 1 2 2 4 4 2 1 3 1 1 2 4 3 1 1 2 3 2
+##  [75] 2 1 1 4 2 4 2 1 4 1 1 2 2 1 1 2 1 2 1 2 2 2 2 1 4 2 1 1 1 3 2 1 2 2 2 2 4
+## [112] 2 2 1 1 2 1 2 1 2 2 2 3 2 1 2 1 2 2 4 2 2 1 2 2 2 2 2 2 4 2 3 4 2 4 1 2 3
+## [149] 2 4 4 1 2 2 1 2 3 4 2 4 2 2 2 4 2 2 2 4 2 4 2 1 2 1 2 2 4 4 1 2 4 2 1 2 2
+## [186] 4 4 2 4 2 2 2 1 1 1 2 3 1 2 4 4 2 3 2 1 2 2 1 2 1 1 2 3 2 2 1 2</code></pre>
+<p>Now let’s build a random tree and compute parsimony:</p>
+<div class="sourceCode" id="cb865"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb865-1"><a href="building-phylogeneric-trees.html#cb865-1"></a><span class="kw">set.seed</span>(<span class="dv">0</span>)</span>
+<span id="cb865-2"><a href="building-phylogeneric-trees.html#cb865-2"></a><span class="co"># generate random tree</span></span>
+<span id="cb865-3"><a href="building-phylogeneric-trees.html#cb865-3"></a>my_tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">14</span>, <span class="dt">rooted =</span> <span class="ot">FALSE</span>, <span class="dt">tip.label =</span> <span class="kw">names</span>(primates))</span>
+<span id="cb865-4"><a href="building-phylogeneric-trees.html#cb865-4"></a><span class="kw">plot</span>(my_tree)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-368-1.png" width="672" /></p>
+<p>We can compute the parsimony score for the tree:</p>
+<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="building-phylogeneric-trees.html#cb866-1"></a><span class="kw">parsimony</span>(my_tree, primates)</span></code></pre></div>
+<pre><code>## [1] 921</code></pre>
+<p>Meaning that to recover the observed sequences from the ancestral one, we need to assume 921 changes have occurred. Clearly, this doesn’t seem to be an especially promising tree (for example, Humans and Chimpanzees are quite far, while we know that they should be close). Let’s try with another random tree:</p>
+<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="building-phylogeneric-trees.html#cb868-1"></a><span class="co"># try with another one</span></span>
+<span id="cb868-2"><a href="building-phylogeneric-trees.html#cb868-2"></a>my_tree2 &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">14</span>, <span class="dt">rooted =</span> <span class="ot">FALSE</span>, <span class="dt">tip.label =</span> <span class="kw">names</span>(primates))</span>
+<span id="cb868-3"><a href="building-phylogeneric-trees.html#cb868-3"></a><span class="kw">plot</span>(my_tree2)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-370-1.png" width="672" /></p>
+<div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb869-1"><a href="building-phylogeneric-trees.html#cb869-1"></a><span class="kw">parsimony</span>(my_tree2, primates)</span></code></pre></div>
+<pre><code>## [1] 935</code></pre>
+<p>Which is even worse! We can try to “tweak” the structure of the tree to reduce the parsimony score by calling <code>optim.parsimony</code>. For example:</p>
+<div class="sourceCode" id="cb871"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb871-1"><a href="building-phylogeneric-trees.html#cb871-1"></a><span class="co"># try to find a good tree</span></span>
+<span id="cb871-2"><a href="building-phylogeneric-trees.html#cb871-2"></a>optim_tree &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(my_tree, primates)</span></code></pre></div>
+<pre><code>## Final p-score 746 after  19 nni operations</code></pre>
+<div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb873-1"><a href="building-phylogeneric-trees.html#cb873-1"></a><span class="kw">plot</span>(optim_tree)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-371-1.png" width="672" /></p>
+<p>Trying with the other random tree:</p>
+<div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb874-1"><a href="building-phylogeneric-trees.html#cb874-1"></a>optim_tree2 &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(my_tree2, primates)</span></code></pre></div>
+<pre><code>## Final p-score 751 after  23 nni operations</code></pre>
+<div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="building-phylogeneric-trees.html#cb876-1"></a><span class="kw">plot</span>(optim_tree2)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-372-1.png" width="672" /></p>
+<p>This shows that the starting tree matters. In fact, we do not find especially good soltuions even after calling <code>optim.parsimony</code>. Now we are going to try again but with a starting tree based on distances (explained below).</p>
+<div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb877-1"><a href="building-phylogeneric-trees.html#cb877-1"></a><span class="co"># compute distances</span></span>
+<span id="cb877-2"><a href="building-phylogeneric-trees.html#cb877-2"></a>dm &lt;-<span class="st"> </span><span class="kw">dist.ml</span>(primates)</span>
+<span id="cb877-3"><a href="building-phylogeneric-trees.html#cb877-3"></a><span class="co"># build tree using distances</span></span>
+<span id="cb877-4"><a href="building-phylogeneric-trees.html#cb877-4"></a>treeNJ &lt;-<span class="st"> </span><span class="kw">NJ</span>(dm)</span>
+<span id="cb877-5"><a href="building-phylogeneric-trees.html#cb877-5"></a>treeUPGMA &lt;-<span class="st"> </span><span class="kw">upgma</span>(dm)</span>
+<span id="cb877-6"><a href="building-phylogeneric-trees.html#cb877-6"></a><span class="kw">parsimony</span>(treeNJ, primates)</span></code></pre></div>
+<pre><code>## [1] 746</code></pre>
+<div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="building-phylogeneric-trees.html#cb879-1"></a>optim_tree3 &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(treeNJ, primates)</span></code></pre></div>
+<pre><code>## Final p-score 746 after  0 nni operations</code></pre>
+<div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb881-1"><a href="building-phylogeneric-trees.html#cb881-1"></a><span class="kw">plot</span>(optim_tree3)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-1.png" width="672" /></p>
+<div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb882-1"><a href="building-phylogeneric-trees.html#cb882-1"></a><span class="kw">parsimony</span>(treeUPGMA, primates)</span></code></pre></div>
+<pre><code>## [1] 751</code></pre>
+<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb884-1"><a href="building-phylogeneric-trees.html#cb884-1"></a>optim_tree4 &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(treeUPGMA, primates)</span></code></pre></div>
+<pre><code>## Final p-score 746 after  1 nni operations</code></pre>
+<div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb886-1"><a href="building-phylogeneric-trees.html#cb886-1"></a><span class="kw">plot</span>(optim_tree4)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-2.png" width="672" /></p>
 </div>
-<div id="producing-summaries" class="section level2">
-<h2><span class="header-section-number">4.6</span> Producing summaries</h2>
-<p>Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shedded by the infected mice. We can do this using <code>summarise</code> (you can use British or American spelling):</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="data-wrangling.html#cb349-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb349-2"><a href="data-wrangling.html#cb349-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##     avg
-##   &lt;dbl&gt;
-## 1 4202.</code></pre>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="data-wrangling.html#cb351-1"></a><span class="co"># alternatively, drop_na(body_mass_g) removes all the observations for which</span></span>
-<span id="cb351-2"><a href="data-wrangling.html#cb351-2"></a><span class="co"># body_mass_g is NA</span></span>
-<span id="cb351-3"><a href="data-wrangling.html#cb351-3"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb351-4"><a href="data-wrangling.html#cb351-4"></a><span class="st">  </span><span class="kw">drop_na</span>(body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb351-5"><a href="data-wrangling.html#cb351-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
-##     avg
-##   &lt;dbl&gt;
-## 1 4202.</code></pre>
-<p>where we used <code>na.rm = TRUE</code> to ignore missing values. This command returns a <code>tbl</code> object with just the average egg count. You can combine multiple statistics (use <code>first</code>, <code>last</code>, <code>min</code>, <code>max</code>, <code>n</code> [count the number of rows], <code>n_distinct</code> [count the number of distinct rows], <code>mean</code>, <code>median</code>, <code>var</code>, <code>sd</code>, etc.):</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="data-wrangling.html#cb353-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb353-2"><a href="data-wrangling.html#cb353-2"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">avg =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb353-3"><a href="data-wrangling.html#cb353-3"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
-<span id="cb353-4"><a href="data-wrangling.html#cb353-4"></a>            <span class="dt">median =</span> <span class="kw">median</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 3
-##     avg    sd median
-##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 4202.  802.   4050</code></pre>
+<div id="parsimonygate" class="section level3">
+<h3><span class="header-section-number">16.4.3</span> <code>#ParsimonyGate</code></h3>
+<p>Maximum parsimony is often used, but has several problems (in fact, no method is perfect, and each has strengths and limitations). For example, there typically exist several trees with the same score.</p>
+<p>The journal <em>Cladistics</em> published an editorial in February 2016 stating that “Phylogenetic data sets submitted to this journal should be analysed using parsimony. If alternative methods give different results and the author prefers an unparsimonious topology, he or she is welcome to present that result, but should be prepared to defend it on <strong>philosophical</strong> grounds” (emphasis mine). The mention of phylosophy to justify scientific results led to a twitter storm, ignited by Jonathan Eisen (for an entertaining account, see <a href="https://www.wired.com/2016/02/twitter-nerd-fight-reveals-a-long-bizarre-scientific-feud/">here</a>).</p>
 </div>
-<div id="summaries-by-group" class="section level2">
-<h2><span class="header-section-number">4.7</span> Summaries by group</h2>
-<p>One of the most useful features of <code>dplyr</code> is the ability to produce statistics for the data once subsetted by <em>groups</em>. For example, we would like to compute the average body mass by species and sex:</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="data-wrangling.html#cb355-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb355-2"><a href="data-wrangling.html#cb355-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb355-3"><a href="data-wrangling.html#cb355-3"></a><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb355-4"><a href="data-wrangling.html#cb355-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(body_mass_g, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 3
-## # Groups:   sex [2]
-##   sex    species    mean
-##   &lt;fct&gt;  &lt;fct&gt;     &lt;dbl&gt;
-## 1 female Adelie    3369.
-## 2 female Chinstrap 3527.
-## 3 female Gentoo    4680.
-## 4 male   Adelie    4043.
-## 5 male   Chinstrap 3939.
-## 6 male   Gentoo    5485.</code></pre>
-<p>showing that male penguins are heavier for the three species considered.</p>
-<blockquote>
-<p><strong>Exercise:</strong> find the average <code>bill_depth_mm</code> and <code>bill_length_mm</code> by <code>species</code> and <code>sex</code>. Filter the data to consider only observations for the year 2008.</p>
-</blockquote>
 </div>
-<div id="ordering-the-data" class="section level2">
-<h2><span class="header-section-number">4.8</span> Ordering the data</h2>
-<p>To order the data according to one or more variables, use <code>arrange()</code>:</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="data-wrangling.html#cb357-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb357-2"><a href="data-wrangling.html#cb357-2"></a><span class="st">  </span><span class="kw">arrange</span>(body_mass_g) <span class="co"># ascending</span></span></code></pre></div>
-<pre><code>## # A tibble: 344 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
-##  1 Chinst… Dream            46.9          16.6              192        2700
-##  2 Adelie  Biscoe           36.5          16.6              181        2850
-##  3 Adelie  Biscoe           36.4          17.1              184        2850
-##  4 Adelie  Biscoe           34.5          18.1              187        2900
-##  5 Adelie  Dream            33.1          16.1              178        2900
-##  6 Adelie  Torge…           38.6          17                188        2900
-##  7 Chinst… Dream            43.2          16.6              187        2900
-##  8 Adelie  Biscoe           37.9          18.6              193        2925
-##  9 Adelie  Dream            37.5          18.9              179        2975
-## 10 Adelie  Dream            37            16.9              185        3000
-## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="data-wrangling.html#cb359-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb359-2"><a href="data-wrangling.html#cb359-2"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(body_mass_g)) <span class="co"># descending</span></span></code></pre></div>
-<pre><code>## # A tibble: 344 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g
-##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
-##  1 Gentoo  Biscoe           49.2          15.2              221        6300
-##  2 Gentoo  Biscoe           59.6          17                230        6050
-##  3 Gentoo  Biscoe           51.1          16.3              220        6000
-##  4 Gentoo  Biscoe           48.8          16.2              222        6000
-##  5 Gentoo  Biscoe           45.2          16.4              223        5950
-##  6 Gentoo  Biscoe           49.8          15.9              229        5950
-##  7 Gentoo  Biscoe           48.4          14.6              213        5850
-##  8 Gentoo  Biscoe           49.3          15.7              217        5850
-##  9 Gentoo  Biscoe           55.1          16                230        5850
-## 10 Gentoo  Biscoe           49.5          16.2              229        5800
-## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+<div id="distance-methods" class="section level2">
+<h2><span class="header-section-number">16.5</span> Distance Methods</h2>
+<p>A second class of methods is based on measuring “dissimilarity” (or “distance”) between sequences. The idea is then to preferentially connect with a common ancestors species that are “close”. This is similar to what we’ve done with MDS, and the basic notion of distance is the same. We start by computing a matrix of dissimilarities (or distances), and then use an algorithm to build a tree.</p>
+<p>A simple method to build a tree given the dissimilarity matrix is called <em>unweighted pair-group method with arithmetic means</em> (<strong>UPGMA</strong>). The idea is very simple: we start by joining the two leaves that have the smallest distance. We then remove the leaves and add a new node that is the average between the two leaves. We then repeat the same operation until we have built the tree.</p>
+<center>
+<img src="http://www.slimsuite.unsw.edu.au/teaching/upgma/upgma15.PNG">
+</center>
+<p>Note that the UPGMA builds trees with branch lengths and assumes that the data are produced by a molecular clock. Because this condition is often violated, we need to choose another algorithm whenever we suspect the dissimilarities are not stemming from an ultrametric tree. In practice, the “Neighbor Joining” algorithm (<strong>NJ</strong>) is often used.</p>
+<p>The algorithm is based on the so-called four-point condition: given four taxa <span class="math inline">\(a, b, c, d\)</span> (which might include repetitions), in a metric tree we have</p>
+<p><span class="math display">\[
+\delta(a, b) + \delta(c, d) \leq \max\{\delta(a, c) + \delta(b, d), \delta(a, d) + \delta(b, c)\}
+\]</span>
+This inequality is used to choose with two leaves to join, and the process is repeated as in UPGMA. Despite being more complex, NJ is often used in practice to produce a good starting tree. Note that NJ builds an unrooted tree.</p>
+<div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb887-1"><a href="building-phylogeneric-trees.html#cb887-1"></a><span class="kw">plot</span>(treeNJ, <span class="dt">type =</span> <span class="st">&quot;unrooted&quot;</span>, <span class="dt">lab4ut =</span> <span class="st">&quot;axial&quot;</span>)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-375-1.png" width="672" /></p>
 </div>
-<div id="renaming-columns" class="section level2">
-<h2><span class="header-section-number">4.9</span> Renaming columns</h2>
-<p>To rename one or more columns, use <code>rename()</code>:</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="data-wrangling.html#cb361-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb361-2"><a href="data-wrangling.html#cb361-2"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">bm =</span> body_mass_g)</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 8
-##    species island bill_length_mm bill_depth_mm flipper_length_…    bm sex  
-##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt; &lt;int&gt; &lt;fct&gt;
-##  1 Adelie  Torge…           39.1          18.7              181  3750 male 
-##  2 Adelie  Torge…           39.5          17.4              186  3800 fema…
-##  3 Adelie  Torge…           40.3          18                195  3250 fema…
-##  4 Adelie  Torge…           NA            NA                 NA    NA &lt;NA&gt; 
-##  5 Adelie  Torge…           36.7          19.3              193  3450 fema…
-##  6 Adelie  Torge…           39.3          20.6              190  3650 male 
-##  7 Adelie  Torge…           38.9          17.8              181  3625 fema…
-##  8 Adelie  Torge…           39.2          19.6              195  4675 male 
-##  9 Adelie  Torge…           34.1          18.1              193  3475 &lt;NA&gt; 
-## 10 Adelie  Torge…           42            20.2              190  4250 &lt;NA&gt; 
-## # … with 334 more rows, and 1 more variable: year &lt;int&gt;</code></pre>
+<div id="likelihood-based-methods" class="section level2">
+<h2><span class="header-section-number">16.6</span> Likelihood based methods</h2>
+<p>The goal of likelihood-based methods is to compute a probability of having observed a given set of sequences given a tree. To do so, we often make a strong <strong>assumption of independence</strong>: each site behaves independently, and the bases are taken from the same distribution (i.i.d.).</p>
+<p>Because of this assumption, we do not care of the exact sequence, only of the number of bases of each kind. For example, we can assume that the <strong>root distribution vector</strong> is</p>
+<p><span class="math display">\[
+p_\rho = (p_A, p_G, p_C, p_T)
+\]</span></p>
+<p>with elements summing to one.</p>
+<p>Now we can model the probability that a base in the root will mutate to another base by substitution along an edge <span class="math inline">\(e\)</span>. We can use a <strong>transition matrix</strong> (or <strong>Markov matrix</strong>):</p>
+<p><span class="math display">\[
+M_e = \begin{pmatrix}
+p_{AA} &amp; p_{AG} &amp; p_{AC} &amp; p_{AT}\\
+p_{GA} &amp; p_{GG} &amp; p_{GC} &amp; p_{GT}\\
+p_{CA} &amp; p_{CG} &amp; p_{CC} &amp; p_{CT}\\
+p_{TA} &amp; p_{TG} &amp; p_{TC} &amp; p_{TT}
+\end{pmatrix}
+\]</span></p>
+<p>with nonnegative entries and rows summing to one. This matrix encodes the probability that a base in the ancestor was substituted in the descendant along edge <span class="math inline">\(e\)</span>. But how can we compute the matrix for a given edge?</p>
+<p>Clearly, each edge could give rise to its own Markov matrix, making it difficult to infer a tree from sequences. Instead, we can link all the matrices along all edges by making them all a function of a matrix of rates and the length of the edge. The solution is to build a matrix of rates <span class="math inline">\(Q\)</span> (with rows summing to zero, and off-diagonal elements that are positive). The elements of the matrix <span class="math inline">\(Q\)</span> describe the instantaneous rate of substitution. We then want to model the time elapsed along one edge. We solve the differential equation:</p>
+<p><span class="math display">\[
+\frac{d p(t)}{dt} = p(t) Q
+\]</span></p>
+<p>Because it is a linear system of ODEs:</p>
+<p><span class="math display">\[
+p(t) = p(0) e^{Qt} = p(0) S e^{\Lambda t} S^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(S\)</span> is the matrix of eigenvectors, and <span class="math inline">\(\Lambda\)</span> the diagonal matrix of eigenvalues of <span class="math inline">\(Q\)</span>.</p>
+<p>When we have an edge <span class="math inline">\(e\)</span> with corresponding time <span class="math inline">\(t_e\)</span>, we choose <span class="math inline">\(M_e = M(t_e) = e^{Qt_e}\)</span> to be the matrix projecting the proportion of bases in the ancestor to the number of bases in the descendent. In practice, out of computational convenience, often we choose <span class="math inline">\(Q\)</span> with a very special structure.</p>
+<div id="jukes-cantor-model" class="section level4">
+<h4><span class="header-section-number">16.6.0.1</span> Jukes-Cantor Model</h4>
+<p>This is the simplest model for base substitution. It assumes that in the ancestral sequence, all bases occur with the same probability:</p>
+<p><span class="math display">\[
+p_\rho = (1/4, 1/4, 1/4, 1/4)
+\]</span>
+and that each base is substituted by any other with equal rates:</p>
+<p><span class="math display">\[
+Q = \begin{pmatrix}
+-\alpha &amp; \alpha / 3 &amp; \alpha / 3 &amp; \alpha / 3 \\
+\alpha / 3 &amp; -\alpha &amp;  \alpha / 3 &amp; \alpha / 3 \\
+\alpha / 3 &amp; \alpha / 3 &amp;  -\alpha &amp;  \alpha / 3 \\
+\alpha / 3 &amp; \alpha / 3 &amp;   \alpha / 3 &amp; -\alpha
+\end{pmatrix}
+\]</span>
+As such, the total rate at which a specific base is substituted (by any of the other three) is <span class="math inline">\(\alpha\)</span>. With some calculation, we find that:</p>
+<p><span class="math display">\[
+S = \begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 1 \\
+1 &amp; -1 &amp; 1 &amp; -1 \\
+1 &amp; 1 &amp; -1 &amp; -1 \\
+1 &amp; -1 &amp; -1 &amp; 1
+\end{pmatrix}
+\]</span>
+and</p>
+<p><span class="math display">\[
+\Lambda = \begin{pmatrix}
+0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; -\frac{4}{3} \alpha &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; -\frac{4}{3} \alpha &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; -\frac{4}{3} \alpha\\
+\end{pmatrix}
+\]</span></p>
+<p>and as such:</p>
+<p><span class="math display">\[
+M(t) = e^{Qt} = S e^{\Lambda t} S^{-1} = \begin{pmatrix}
+1- a(t) &amp; a(t) / 3 &amp; a(t) / 3 &amp; a(t) / 3 \\
+a(t) / 3 &amp; 1 -a(t) &amp;  a(t) / 3 &amp; a(t) / 3 \\
+a(t) / 3 &amp; a(t) / 3 &amp;  1 -a(t) &amp;  a(t) / 3 \\
+a(t) / 3 &amp; a(t) / 3 &amp;   a(t) / 3 &amp; 1-a(t)
+\end{pmatrix}
+\]</span></p>
+<p>where <span class="math inline">\(a(t) = \frac{3}{4}\left(1 - e^{-\frac{4}{3} \alpha t}\right)\)</span>. Clearly, the larger the <span class="math inline">\(t\)</span> or the <span class="math inline">\(\alpha\)</span>, the more substitutions we expect to occurr. Note however that the model encodes a stable base distribution at all vertices of the tree: <span class="math inline">\(p_\rho M(t) = p_\rho\)</span>.</p>
 </div>
-<div id="adding-new-variables-using-mutate" class="section level2">
-<h2><span class="header-section-number">4.10</span> Adding new variables using mutate</h2>
-<p>If you want to add one or more new columns, with the content being a function of other columns, use the function <code>mutate</code>. For example, we are going to add a new column showing the z-score for the body mass of each individual:</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="data-wrangling.html#cb363-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb363-2"><a href="data-wrangling.html#cb363-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb363-3"><a href="data-wrangling.html#cb363-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm)</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 4
-##    species sex    body_mass_g zscore_bm[,1]
-##    &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
-##  1 Adelie  male          3750       -0.563 
-##  2 Adelie  female        3800       -0.501 
-##  3 Adelie  female        3250       -1.19  
-##  4 Adelie  &lt;NA&gt;            NA       NA     
-##  5 Adelie  female        3450       -0.937 
-##  6 Adelie  male          3650       -0.688 
-##  7 Adelie  female        3625       -0.719 
-##  8 Adelie  male          4675        0.590 
-##  9 Adelie  &lt;NA&gt;          3475       -0.906 
-## 10 Adelie  &lt;NA&gt;          4250        0.0602
-## # … with 334 more rows</code></pre>
-<p>We can pipe the results to <code>ggplot</code> for plotting!</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="data-wrangling.html#cb365-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb365-2"><a href="data-wrangling.html#cb365-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb365-3"><a href="data-wrangling.html#cb365-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g, zscore_bm) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb365-4"><a href="data-wrangling.html#cb365-4"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> species, <span class="dt">y =</span> zscore_bm, <span class="dt">colour =</span> sex) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb365-5"><a href="data-wrangling.html#cb365-5"></a><span class="st">    </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
-<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
-<p>You can use the function <code>transmute()</code> to create a new column and drop the original columns.</p>
-<p>Most importantly, you can use <code>mutate</code> and <code>transmute</code> on grouped data. For example, let’s recompute the z-score of the <code>body_mass_g</code> once the data is grouped by species and sex:</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="data-wrangling.html#cb367-1"></a>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-2"><a href="data-wrangling.html#cb367-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-3"><a href="data-wrangling.html#cb367-3"></a><span class="st">  </span><span class="kw">select</span>(species, sex, body_mass_g) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-4"><a href="data-wrangling.html#cb367-4"></a><span class="st">  </span><span class="kw">group_by</span>(species, sex) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-5"><a href="data-wrangling.html#cb367-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zscore_bm =</span> <span class="kw">scale</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb367-6"><a href="data-wrangling.html#cb367-6"></a><span class="st">  </span><span class="kw">arrange</span>(body_mass_g)</span></code></pre></div>
-<pre><code>## # A tibble: 333 x 4
-## # Groups:   species, sex [6]
-##    species   sex    body_mass_g zscore_bm
-##    &lt;fct&gt;     &lt;fct&gt;        &lt;int&gt;     &lt;dbl&gt;
-##  1 Chinstrap female        2700     -2.90
-##  2 Adelie    female        2850     -1.93
-##  3 Adelie    female        2850     -1.93
-##  4 Adelie    female        2900     -1.74
-##  5 Adelie    female        2900     -1.74
-##  6 Adelie    female        2900     -1.74
-##  7 Chinstrap female        2900     -2.20
-##  8 Adelie    female        2925     -1.65
-##  9 Adelie    female        3000     -1.37
-## 10 Adelie    female        3000     -1.37
-## # … with 323 more rows</code></pre>
+<div id="other-models" class="section level3">
+<h3><span class="header-section-number">16.6.1</span> Other models</h3>
+<p>Other models use a larger number of parameters, attempting to model mutations more precisely. For example, the <strong>Kimura 2-parameter model</strong> uses the matrix:</p>
+<p><span class="math display">\[
+Q = \begin{pmatrix}
+-\beta - 2 \gamma &amp; \beta &amp; \gamma &amp; \gamma \\
+\beta &amp; -\beta - 2 \gamma &amp; \gamma &amp; \gamma \\
+\gamma &amp; \gamma &amp; -\beta - 2 \gamma &amp; \beta  \\
+\gamma &amp; \gamma &amp; \beta &amp; -\beta - 2 \gamma\\
+\end{pmatrix}
+\]</span></p>
+<p>Which can be treated in the same way as above, leading to a 2-parameter <span class="math inline">\(M(t)\)</span>.</p>
 </div>
-<div id="data-wrangling-1" class="section level2">
-<h2><span class="header-section-number">4.11</span> Data wrangling</h2>
-<p>Data is rarely in a format that is good for computing, and much effort goes into reading the data and wrestling with it to make it into a good format. As the name implies, <code>tidyverse</code> strongly advocates for the use of data in <em>tidy</em> form. What does this mean?</p>
-<ul>
-<li>Each variable forms a column</li>
-<li>Each observation forms a row</li>
-<li>Each type of observational unit forms a table</li>
-</ul>
-<p>This is often called <em>narrow table</em> format. Any other form of data (e.g., <em>wide table</em> format) is considered <em>messy</em>. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package <code>tidyr</code> allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="data-wrangling.html#cb369-1"></a>penguin_bm &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-2"><a href="data-wrangling.html#cb369-2"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-3"><a href="data-wrangling.html#cb369-3"></a><span class="st">  </span><span class="kw">group_by</span>(sex, species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-4"><a href="data-wrangling.html#cb369-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">body_mass =</span> <span class="kw">mean</span>(body_mass_g)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb369-5"><a href="data-wrangling.html#cb369-5"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="co"># remove group information</span></span>
-<span id="cb369-6"><a href="data-wrangling.html#cb369-6"></a></span>
-<span id="cb369-7"><a href="data-wrangling.html#cb369-7"></a>penguin_bm</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 3
-##   sex    species   body_mass
-##   &lt;fct&gt;  &lt;fct&gt;         &lt;dbl&gt;
-## 1 female Adelie        3369.
-## 2 female Chinstrap     3527.
-## 3 female Gentoo        4680.
-## 4 male   Adelie        4043.
-## 5 male   Chinstrap     3939.
-## 6 male   Gentoo        5485.</code></pre>
+<div id="maximum-likelihood" class="section level3">
+<h3><span class="header-section-number">16.6.2</span> Maximum likelihood</h3>
+<p>Armed with the definitions above, we now want to fit a length of an edge stemming from the root. We have sequences <span class="math inline">\(S0\)</span> and <span class="math inline">\(S1\)</span>, and we build the matrix <span class="math inline">\(N\)</span> whose elements <span class="math inline">\(n_{ij}\)</span> counts the number of bases that were of type <span class="math inline">\(i\)</span> in the ancestral state, and <span class="math inline">\(j\)</span> in the descendant.</p>
+<p>For example:</p>
+<p><span class="math display">\[
+S0: ATTACGGTT
+\]</span>
+<span class="math display">\[
+S1: AAGGTCGTT
+\]</span></p>
+<p>Then the matrix <span class="math inline">\(N\)</span> (the order is always <code>AGCT</code>) becomes:</p>
+<p><span class="math display">\[
+N = \begin{pmatrix}
+1 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 \\
+1 &amp; 1 &amp; 0 &amp; 2
+\end{pmatrix}
+\]</span></p>
+<p>We want to know what is the maximum likelihood estimate for the time between <span class="math inline">\(S0\)</span> and <span class="math inline">\(S1\)</span> given a model.</p>
+<p>For example, if we choose the Jukes-Cantor model, we have that we assume <span class="math inline">\(p_0 = (1/4, 1/4, 1/4, 1/4)\)</span>, and the probabilities of observing a given transition would be:</p>
+<p><span class="math display">\[
+P(t) = \text{diag}(p_0) M(t) = \begin{pmatrix}
+(1- a(t)) / 4  &amp; a(t) / 12 &amp; a(t) / 12 &amp; a(t) / 12 \\
+a(t) / 12 &amp; (1 -a(t)) / 4 &amp;  a(t) / 12 &amp; a(t) / 12 \\
+a(t) / 12 &amp; a(t) / 12 &amp;  (1 -a(t))/4 &amp;  a(t) / 12 \\
+a(t) / 12 &amp; a(t) / 12 &amp;   a(t) / 12 &amp; (1-a(t)) / 4 
+\end{pmatrix}
+\]</span></p>
+<p>The likelihood of a given edge length, <span class="math inline">\(t\)</span> would be:</p>
+<p><span class="math display">\[
+L(t \vert N ) = \prod_{i,j} p_{ij}^{n_{ij}}
+\]</span></p>
+<p>Taking the log-likelihood:</p>
+<p><span class="math display">\[
+\log L(t \vert N ) = \sum_{i,j} {n_{ij} \log p_{ij}} = \log(a / 12) \sum_{j\neq i} n_{ij} + \log((1-a) / 4) \sum_i n_{ii}
+\]</span></p>
+<p>Taking the derivative with respect to <span class="math inline">\(t\)</span>, setting it to zero, and massaging the equation we obtain:</p>
+<p><span class="math display">\[
+a(\hat{t}) = \frac{\sum_{j\neq i} n_{ij}}{\sum_{j, i} n_{ij}}
+\]</span></p>
+<p>For example, for the matrix above <span class="math inline">\(a(\hat{t}) = 5/9\)</span>. Because <span class="math inline">\(a(t) = 3/4 (1 - e^{(-t 4/3)})\)</span>, we get <span class="math inline">\(\hat{t} \approx 1.0124\)</span>, setting the maximum likelihood estimate for the length of the branch.</p>
+<p>Using this method, we can find the maximum likelihood estimate for all the branches of a tree. We can then propose a tree, and then compute the product of all likelihoods. Given that there are many possible trees, we need a smart way to explore the space.
+The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a maximum likelihood approach</em>) was the first to allow an efficient search of the space of trees, and the first to propose the method above to find optimal branch lengths.</p>
+<p>Compute using a Jukes-Cantor model:</p>
+<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb888-1"><a href="building-phylogeneric-trees.html#cb888-1"></a><span class="co"># compute likelihoods</span></span>
+<span id="cb888-2"><a href="building-phylogeneric-trees.html#cb888-2"></a>test_NJ &lt;-<span class="st"> </span><span class="kw">pml</span>(treeUPGMA, <span class="dt">data=</span>primates, <span class="dt">model =</span> <span class="st">&quot;JC&quot;</span>)</span>
+<span id="cb888-3"><a href="building-phylogeneric-trees.html#cb888-3"></a><span class="kw">print</span>(test_NJ)</span></code></pre></div>
+<pre><code>## 
+##  loglikelihood: -3079.976 
+## 
+## unconstrained loglikelihood: -1230.335 
+## 
+## Rate matrix:
+##   a c g t
+## a 0 1 1 1
+## c 1 0 1 1
+## g 1 1 0 1
+## t 1 1 1 0
+## 
+## Base frequencies:  
+## 0.25 0.25 0.25 0.25</code></pre>
+<p>Try optimizing by allowing changes in topology:</p>
+<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb890-1"><a href="building-phylogeneric-trees.html#cb890-1"></a>fitJC &lt;-<span class="st"> </span><span class="kw">optim.pml</span>(test_NJ, <span class="dt">data=</span>primates,</span>
+<span id="cb890-2"><a href="building-phylogeneric-trees.html#cb890-2"></a>                    <span class="dt">rearrangement =</span> <span class="st">&quot;NNI&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: I unrooted the tree</code></pre>
+<pre><code>## optimize edge weights:  -3079.976 --&gt; -3070.765 
+## optimize edge weights:  -3070.765 --&gt; -3070.764 
+## optimize topology:  -3070.764 --&gt; -3068.417 
+## optimize topology:  -3068.417 --&gt; -3068.295 
+## optimize topology:  -3068.295 --&gt; -3068.295 
+## 2 
+## optimize edge weights:  -3068.295 --&gt; -3068.295 
+## optimize topology:  -3068.295 --&gt; -3068.295 
+## 0 
+## optimize edge weights:  -3068.295 --&gt; -3068.295</code></pre>
+<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb893-1"><a href="building-phylogeneric-trees.html#cb893-1"></a><span class="kw">print</span>(fitJC)</span></code></pre></div>
+<pre><code>## 
+##  loglikelihood: -3068.295 
+## 
+## unconstrained loglikelihood: -1230.335 
+## 
+## Rate matrix:
+##   a c g t
+## a 0 1 1 1
+## c 1 0 1 1
+## g 1 1 0 1
+## t 1 1 1 0
+## 
+## Base frequencies:  
+## 0.25 0.25 0.25 0.25</code></pre>
+<div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb895-1"><a href="building-phylogeneric-trees.html#cb895-1"></a><span class="kw">plot</span>(fitJC)</span></code></pre></div>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-377-1.png" width="672" /></p>
 </div>
-<div id="from-narrow-to-wide" class="section level2">
-<h2><span class="header-section-number">4.12</span> From narrow to wide</h2>
-<p>Our data is in tidy form. For a paper, we want to show the difference between males and females in a table:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="data-wrangling.html#cb371-1"></a>penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb371-2"><a href="data-wrangling.html#cb371-2"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> sex, <span class="dt">values_from =</span> body_mass)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 3
-##   species   female  male
-##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;
-## 1 Adelie     3369. 4043.
-## 2 Chinstrap  3527. 3939.
-## 3 Gentoo     4680. 5485.</code></pre>
-<p>where we have created new column names using the values found in <code>sex</code> (hence, <code>names_from</code>), and filled each cell with the corresponding value found in <code>body_mass</code> (hence, <code>values_from</code>). Similarly, if we want to show the data with species as column names, and sex as rows, we can use:</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="data-wrangling.html#cb373-1"></a>penguin_bm <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb373-2"><a href="data-wrangling.html#cb373-2"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> species, <span class="dt">values_from =</span> body_mass)</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 4
-##   sex    Adelie Chinstrap Gentoo
-##   &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
-## 1 female  3369.     3527.  4680.
-## 2 male    4043.     3939.  5485.</code></pre>
-</div>
-<div id="from-wide-to-narrow" class="section level2">
-<h2><span class="header-section-number">4.13</span> From wide to narrow</h2>
-<p>For a real-world example, we will make data from:</p>
-<blockquote>
-<p><em>Tree-ring analysis for sustainable harvest of Millettia stuhlmannii in Mozambique</em>, I.A.D.Remane M.D.Therrell, <strong>South African Journal of Botany</strong> Volume 125, September 2019, Pages 120-125</p>
-</blockquote>
-<p>You can read a tab-separated file from:</p>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="data-wrangling.html#cb375-1"></a>dt &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://rb.gy/upqoxh&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb375-2"><a href="data-wrangling.html#cb375-2"></a><span class="st">  </span><span class="kw">select</span>(Age, <span class="kw">contains</span>(<span class="st">&quot;CAT&quot;</span>))</span></code></pre></div>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   X38 = col_logical(),
-##   X39 = col_logical(),
-##   X40 = col_logical(),
-##   X41 = col_logical(),
-##   X42 = col_logical(),
-##   X43 = col_logical(),
-##   X44 = col_logical(),
-##   X45 = col_logical(),
-##   X46 = col_logical(),
-##   X47 = col_logical(),
-##   X48 = col_logical(),
-##   X49 = col_logical(),
-##   X50 = col_logical(),
-##   X51 = col_logical(),
-##   X52 = col_logical(),
-##   X53 = col_logical(),
-##   X54 = col_logical(),
-##   X55 = col_logical()
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="data-wrangling.html#cb378-1"></a><span class="co"># selecting only age and samples</span></span></code></pre></div>
-<p>Each column besides <code>Age</code> represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns <code>tree</code> and <code>diameter</code>:</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="data-wrangling.html#cb379-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb379-2"><a href="data-wrangling.html#cb379-2"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="op">-</span>Age, <span class="dt">names_to =</span> <span class="st">&quot;tree&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;diameter&quot;</span>)</span></code></pre></div>
-<p>and then remove the NAs:</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="data-wrangling.html#cb380-1"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(diameter))</span></code></pre></div>
-<p>Now it is easy to plot the growth trajectory of each tree (as in Fig. 3 of the original paper):</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="data-wrangling.html#cb381-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb381-2"><a href="data-wrangling.html#cb381-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb381-3"><a href="data-wrangling.html#cb381-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Age, <span class="dt">y =</span> diameter) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb381-4"><a href="data-wrangling.html#cb381-4"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> tree)) <span class="op">+</span><span class="st"> </span><span class="co"># note---this makes a line for each tree</span></span>
-<span id="cb381-5"><a href="data-wrangling.html#cb381-5"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="co"># while the smoothing function considers all trees</span></span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
-</div>
-<div id="separate-split-a-column-into-two-or-more" class="section level2">
-<h2><span class="header-section-number">4.14</span> Separate: split a column into two or more</h2>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="data-wrangling.html#cb383-1"></a>test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;Allesina, Stefano&quot;</span>, <span class="st">&quot;Kondrashov, Dmitry&quot;</span>, <span class="st">&quot;Smith, Julia&quot;</span>))</span>
-<span id="cb383-2"><a href="data-wrangling.html#cb383-2"></a>test</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
-##   name              
-##   &lt;chr&gt;             
-## 1 Allesina, Stefano 
-## 2 Kondrashov, Dmitry
-## 3 Smith, Julia</code></pre>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="data-wrangling.html#cb385-1"></a>test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate</span>(name, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;first_name&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;, &quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
-##   last_name  first_name
-##   &lt;chr&gt;      &lt;chr&gt;     
-## 1 Allesina   Stefano   
-## 2 Kondrashov Dmitry    
-## 3 Smith      Julia</code></pre>
-<p>The complement of <code>separate</code> is called <code>unite</code>.</p>
-</div>
-<div id="separate-rows-from-one-row-to-many" class="section level2">
-<h2><span class="header-section-number">4.15</span> Separate rows: from one row to many</h2>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="data-wrangling.html#cb387-1"></a>test &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">id =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="dt">records =</span> <span class="kw">c</span>(<span class="st">&quot;a;b;c&quot;</span>, <span class="st">&quot;c;d&quot;</span>, <span class="st">&quot;a;e&quot;</span>, <span class="st">&quot;f&quot;</span>))</span>
-<span id="cb387-2"><a href="data-wrangling.html#cb387-2"></a>test</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 2
-##      id records
-##   &lt;dbl&gt; &lt;chr&gt;  
-## 1     1 a;b;c  
-## 2     2 c;d    
-## 3     3 a;e    
-## 4     4 f</code></pre>
-<p>To make it into tidy form, only one record per row:</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="data-wrangling.html#cb389-1"></a>test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">separate_rows</span>(records, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 8 x 2
-##      id records
-##   &lt;dbl&gt; &lt;chr&gt;  
-## 1     1 a      
-## 2     1 b      
-## 3     1 c      
-## 4     2 c      
-## 5     2 d      
-## 6     3 a      
-## 7     3 e      
-## 8     4 f</code></pre>
-</div>
-<div id="example-brown-bear-brown-bear-what-do-you-see" class="section level2">
-<h2><span class="header-section-number">4.16</span> Example: brown bear, brown bear, what do you see?</h2>
-<p>This exercise uses a dataset from <a href="https://www.gbif.org/en/">GBIF</a>, the Global Biodiversity Information Facility. You can download the latest version yourself by doing the following (but just skip ahead if you want to use the data provided by us).</p>
-<ol style="list-style-type: decimal">
-<li>Go to <a href="https://www.gbif.org/en/">GBIF</a> and click on Occurrences.</li>
-<li>Under Scientific Name type in <em>Ursus arctos</em> (brown bear), and hit enter.</li>
-<li>To download the data, create an account on GBIF</li>
-<li>Then click on Download, and select Simple (which should have a tab-delimited .csv file)</li>
-<li>Save to the data folder in your working folder.</li>
-</ol>
-<p>If you don’t want to go through all this, you can use the downloaded file called <code>Ursus_GBIF.csv</code> that should be in the data folder for this week. The following command loads and displays the contents of the tibble:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="data-wrangling.html#cb391-1"></a><span class="co"># you will need ggmap!</span></span>
-<span id="cb391-2"><a href="data-wrangling.html#cb391-2"></a><span class="kw">library</span>(ggmap)</span>
-<span id="cb391-3"><a href="data-wrangling.html#cb391-3"></a>Ursus_data &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;data/Ursus_GBIF.csv&quot;</span>)</span>
-<span id="cb391-4"><a href="data-wrangling.html#cb391-4"></a><span class="kw">glimpse</span>(Ursus_data)</span></code></pre></div>
-<pre><code>## Rows: 23,498
-## Columns: 50
-## $ gbifID                           &lt;dbl&gt; 2382421192, 2382420986, 2382420916, …
-## $ datasetKey                       &lt;chr&gt; &quot;88d8974c-f762-11e1-a439-00145eb45e9…
-## $ occurrenceID                     &lt;chr&gt; &quot;http://arctos.database.museum/guid/…
-## $ kingdom                          &lt;chr&gt; &quot;Animalia&quot;, &quot;Animalia&quot;, &quot;Animalia&quot;, …
-## $ phylum                           &lt;chr&gt; &quot;Chordata&quot;, &quot;Chordata&quot;, &quot;Chordata&quot;, …
-## $ class                            &lt;chr&gt; &quot;Mammalia&quot;, &quot;Mammalia&quot;, &quot;Mammalia&quot;, …
-## $ order                            &lt;chr&gt; &quot;Carnivora&quot;, &quot;Carnivora&quot;, &quot;Carnivora…
-## $ family                           &lt;chr&gt; &quot;Ursidae&quot;, &quot;Ursidae&quot;, &quot;Ursidae&quot;, &quot;Ur…
-## $ genus                            &lt;chr&gt; &quot;Ursus&quot;, &quot;Ursus&quot;, &quot;Ursus&quot;, &quot;Ursus&quot;, …
-## $ species                          &lt;chr&gt; &quot;Ursus arctos&quot;, &quot;Ursus arctos&quot;, &quot;Urs…
-## $ infraspecificEpithet             &lt;chr&gt; NA, NA, NA, &quot;horribilis&quot;, NA, NA, NA…
-## $ taxonRank                        &lt;chr&gt; &quot;SPECIES&quot;, &quot;SPECIES&quot;, &quot;SPECIES&quot;, &quot;SU…
-## $ scientificName                   &lt;chr&gt; &quot;Ursus arctos Linnaeus, 1758&quot;, &quot;Ursu…
-## $ verbatimScientificName           &lt;chr&gt; &quot;Ursus arctos&quot;, &quot;Ursus arctos&quot;, &quot;Urs…
-## $ verbatimScientificNameAuthorship &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ countryCode                      &lt;chr&gt; NA, &quot;US&quot;, NA, NA, &quot;US&quot;, NA, NA, &quot;US&quot;…
-## $ locality                         &lt;chr&gt; &quot;no specific locality recorded&quot;, &quot;no…
-## $ stateProvince                    &lt;chr&gt; NA, &quot;Alaska&quot;, NA, NA, &quot;Colorado&quot;, NA…
-## $ occurrenceStatus                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ individualCount                  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ publishingOrgKey                 &lt;chr&gt; &quot;4cadac10-3e7b-11d9-8439-b8a03c50a86…
-## $ decimalLatitude                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ decimalLongitude                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ coordinateUncertaintyInMeters    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ coordinatePrecision              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ elevation                        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ elevationAccuracy                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ depth                            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ depthAccuracy                    &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ eventDate                        &lt;dttm&gt; 1800-01-01, 1800-01-01, 1800-01-01,…
-## $ day                              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ month                            &lt;dbl&gt; 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, …
-## $ year                             &lt;dbl&gt; 1800, 1800, 1800, 1800, 1914, 1938, …
-## $ taxonKey                         &lt;dbl&gt; 2433433, 2433433, 2433433, 6163845, …
-## $ speciesKey                       &lt;dbl&gt; 2433433, 2433433, 2433433, 2433433, …
-## $ basisOfRecord                    &lt;chr&gt; &quot;PRESERVED_SPECIMEN&quot;, &quot;PRESERVED_SPE…
-## $ institutionCode                  &lt;chr&gt; &quot;UCM&quot;, &quot;UCM&quot;, &quot;UCM&quot;, &quot;UCM&quot;, &quot;UCM&quot;, &quot;…
-## $ collectionCode                   &lt;chr&gt; &quot;Mammal specimens&quot;, &quot;Mammal specimen…
-## $ catalogNumber                    &lt;chr&gt; &quot;UCM:Mamm:5003&quot;, &quot;UCM:Mamm:3329&quot;, &quot;U…
-## $ recordNumber                     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ identifiedBy                     &lt;chr&gt; &quot;T. C. Hart&quot;, &quot;unknown&quot;, &quot;unknown&quot;, …
-## $ dateIdentified                   &lt;dttm&gt; 2013-01-01, 1936-01-01, NA, 2015-10…
-## $ license                          &lt;chr&gt; &quot;CC0_1_0&quot;, &quot;CC0_1_0&quot;, &quot;CC0_1_0&quot;, &quot;CC…
-## $ rightsHolder                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ recordedBy                       &lt;chr&gt; &quot;Collector(s): T. C. Hart&quot;, &quot;Collect…
-## $ typeStatus                       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ establishmentMeans               &lt;chr&gt; NA, NA, NA, NA, NA, NA, &quot;MANAGED&quot;, N…
-## $ lastInterpreted                  &lt;dttm&gt; 2019-09-03 22:11:14, 2019-09-03 22:…
-## $ mediaType                        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ issue                            &lt;chr&gt; NA, NA, NA, NA, &quot;TAXON_MATCH_HIGHERR…</code></pre>
-<p>You see there are 50 variables in the data set, so it may be useful to remove the ones we don’t need. For this exercise, our objective is to plot the occurrences of this species on the world map, so we need two variables for certain: <code>decimalLatitude</code> and <code>decimalLongitude</code>, as well as the <code>BasisofRecord</code> for additional information. Use your <code>tidyverse</code> skills to create a new tibble with only those variables. In addition, remove duplicate records from the tibble.</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="data-wrangling.html#cb393-1"></a><span class="co"># your code goes here!</span></span></code></pre></div>
-<p>Now we can plot this data set on the world map, using the useful package maps. To plot, use the <code>ggplot()</code> syntax with the following addition:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="data-wrangling.html#cb394-1"></a>mapWorld &lt;-<span class="st"> </span><span class="kw">borders</span>(<span class="st">&quot;world&quot;</span>, <span class="dt">colour=</span><span class="st">&quot;gray50&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;gray50&quot;</span>) <span class="co"># create a layer of borders</span></span>
-<span id="cb394-2"><a href="data-wrangling.html#cb394-2"></a><span class="co"># now you can call </span></span>
-<span id="cb394-3"><a href="data-wrangling.html#cb394-3"></a><span class="co"># ggplot() + mapWorld + ...</span></span></code></pre></div>
-<p>Note the warning message generated by <code>ggplot</code>. Then consider the map with the locations of the brown bear specimens. Do any of them seem strange to you? What may be the explanation behind these strange data point? Now filter out the points that you identified as suspicious and print out their BasisofRecord. Does this suggest an explanation for the strangeness?</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="data-wrangling.html#cb395-1"></a><span class="co"># your code goes here!</span></span></code></pre></div>
-</div>
-<div id="resources-2" class="section level2">
-<h2><span class="header-section-number">4.17</span> Resources</h2>
-<ul>
-<li><a href="https://hackr.io/tutorial/r-for-data-science">R for Data Science</a></li>
-<li>A <a href="https://cfss.uchicago.edu/syllabus.html">cool class</a> at U of C in Social Sciences</li>
-<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">Data transformation</a> cheat sheet</li>
-<li><a href="https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf">Dealing with dates</a> cheat sheet</li>
-<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data import</a> cheat sheet</li>
-</ul>
+<div id="bayesian-methods" class="section level3">
+<h3><span class="header-section-number">16.6.3</span> Bayesian methods</h3>
+<p>These methods can be extended to include priors. We can use a flat prior for the ancestral sequence, for the base substitution model, and over the space of possible trees and, via MCMC, construct the posterior distribution for all the parameters. The hope is to find strong support (i.e., posterior probability close to one) for a single tree; alternatively, many trees with high posterior can be summarized in a consensus tree.</p>
 
 </div>
 </div>
+</div>
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="fundamentals-of-probability.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="distributions-and-their-properties.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="clustering.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

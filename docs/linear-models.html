@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-11" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -238,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -287,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -418,6 +420,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
 <li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
 </ul></li>
+<li class="chapter" data-level="16" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html"><i class="fa fa-check"></i><b>16</b> Building phylogeneric trees</a><ul>
+<li class="chapter" data-level="16.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#introduction-1"><i class="fa fa-check"></i><b>16.1</b> Introduction</a></li>
+<li class="chapter" data-level="16.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#input-1"><i class="fa fa-check"></i><b>16.2</b> Input</a></li>
+<li class="chapter" data-level="16.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#representing-trees"><i class="fa fa-check"></i><b>16.3</b> Representing trees</a></li>
+<li class="chapter" data-level="16.4" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#building-trees-from-sequence-data"><i class="fa fa-check"></i><b>16.4</b> Building trees from sequence data</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-parsimony"><i class="fa fa-check"></i><b>16.4.1</b> Maximum Parsimony</a></li>
+<li class="chapter" data-level="16.4.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#example-primates"><i class="fa fa-check"></i><b>16.4.2</b> Example: primates</a></li>
+<li class="chapter" data-level="16.4.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#parsimonygate"><i class="fa fa-check"></i><b>16.4.3</b> <code>#ParsimonyGate</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#distance-methods"><i class="fa fa-check"></i><b>16.5</b> Distance Methods</a></li>
+<li class="chapter" data-level="16.6" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#likelihood-based-methods"><i class="fa fa-check"></i><b>16.6</b> Likelihood based methods</a><ul>
+<li class="chapter" data-level="16.6.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#other-models"><i class="fa fa-check"></i><b>16.6.1</b> Other models</a></li>
+<li class="chapter" data-level="16.6.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-likelihood"><i class="fa fa-check"></i><b>16.6.2</b> Maximum likelihood</a></li>
+<li class="chapter" data-level="16.6.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#bayesian-methods"><i class="fa fa-check"></i><b>16.6.3</b> Bayesian methods</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -441,31 +459,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Lecture 8</span> Linear models</h1>
 <p>Learn how to perform linear regression, how to make sure that the assumptions of the model are not violated, and how to interpret the results.</p>
 <p>Note that we need a new library:</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb512-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb512-2" data-line-number="2"><span class="kw">library</span>(lindia) <span class="co"># regression diagnostic in ggplot2</span></a></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="linear-models.html#cb512-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb512-2"><a href="linear-models.html#cb512-2"></a><span class="kw">library</span>(lindia) <span class="co"># regression diagnostic in ggplot2</span></span></code></pre></div>
 <div id="regression-toward-the-mean" class="section level2">
 <h2><span class="header-section-number">8.1</span> Regression toward the mean</h2>
 <p>Francis Galton (Darwin’s half-cousin) was a biologist interested in evolution, and one of the main proponents of eugenics (he coined the term himself). To advance his research program, he set out to measure several features in human populations, and started trying to explain the variation he observed, incidentally becoming one of the founding fathers of modern statistics.</p>
 <p>In his “Regression towards mediocrity in hereditary stature” he showed an interesting pattern: children of tall parents tended to be shorter than their parents, while children of short parents tended to be taller than their parents. He called this phenomoenon “regression toward mediocrity” (now called regression toward [to] the mean).</p>
 <p>We’re going to explore this phenomenon using Karl Pearson’s (another founding father of statistics) data from 1903, recording the height of fathers and sons:</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" data-line-number="1">heights &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;http://www.randomservices.org/random/data/Pearson.txt&quot;</span>)</a>
-<a class="sourceLine" id="cb513-2" data-line-number="2">pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> heights) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Father, <span class="dt">y =</span> Son) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>()</a>
-<a class="sourceLine" id="cb513-3" data-line-number="3">pl</a></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="linear-models.html#cb513-1"></a>heights &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;http://www.randomservices.org/random/data/Pearson.txt&quot;</span>)</span>
+<span id="cb513-2"><a href="linear-models.html#cb513-2"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> heights) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> Father, <span class="dt">y =</span> Son) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_equal</span>()</span>
+<span id="cb513-3"><a href="linear-models.html#cb513-3"></a>pl</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-198-1.png" width="672" /></p>
 <p>Let’s add the 1:1 line for comparison:</p>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb514-1" data-line-number="1">pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="linear-models.html#cb514-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-199-1.png" width="672" /></p>
 <p>You can see that the sons tend to be taller than their fathers. Let’s see of how much:</p>
-<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="kw">mean</span>(heights<span class="op">$</span>Father)</a></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="linear-models.html#cb515-1"></a><span class="kw">mean</span>(heights<span class="op">$</span>Father)</span></code></pre></div>
 <pre><code>## [1] 67.68683</code></pre>
-<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="kw">mean</span>(heights<span class="op">$</span>Son)</a></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="linear-models.html#cb517-1"></a><span class="kw">mean</span>(heights<span class="op">$</span>Son)</span></code></pre></div>
 <pre><code>## [1] 68.68423</code></pre>
-<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb519-1" data-line-number="1"><span class="co"># difference</span></a>
-<a class="sourceLine" id="cb519-2" data-line-number="2"><span class="kw">mean</span>(heights<span class="op">$</span>Son) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(heights<span class="op">$</span>Father)</a></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="linear-models.html#cb519-1"></a><span class="co"># difference</span></span>
+<span id="cb519-2"><a href="linear-models.html#cb519-2"></a><span class="kw">mean</span>(heights<span class="op">$</span>Son) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(heights<span class="op">$</span>Father)</span></code></pre></div>
 <pre><code>## [1] 0.9974026</code></pre>
 <p>So let’s add a line with an intercept of 1:</p>
-<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb521-1" data-line-number="1">pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</a>
-<a class="sourceLine" id="cb521-2" data-line-number="2">pl</a></code></pre></div>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="linear-models.html#cb521-1"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb521-2"><a href="linear-models.html#cb521-2"></a>pl</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-201-1.png" width="672" /></p>
 <p>You can see that the line does not divide the cloud of points evenly: even though tall fathers tend to produce tall sons, and short fathers short sons, the sons of short fathers tend to be taller than their fathers (for example, look at the sons of fathers less than 60 inches tall), while the sons of tall fathers tend to be shorter than their fathers (for example, the sons of fathers taller than 75 inches).</p>
 <p>This phenomenon is called “regression toward the mean”: when you take two measurement on the same sample (or related samples, as here), if a variable is extreme on its first measurement, it will tend to be closer to the average on its second measurement; if it is extreme on its second measurement, it will tend to have been closer to the average on its first.</p>
@@ -512,16 +530,16 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 \hat{\mathbf{\beta}} = \left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T \mathbf{Y}
 \]</span></p>
 <p>Where the matrix <span class="math inline">\(\left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T\)</span> is known as the (left) Moore-Penrose pseudo-inverse of <span class="math inline">\(\mathbf{X}\)</span>. Let’s try to do this in <code>R</code> (the “hard” way):</p>
-<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb522-1" data-line-number="1">X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, heights<span class="op">$</span>Father)</a>
-<a class="sourceLine" id="cb522-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">cbind</span>(heights<span class="op">$</span>Son)</a>
-<a class="sourceLine" id="cb522-3" data-line-number="3">best_beta &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb522-4" data-line-number="4">best_beta</a></code></pre></div>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="linear-models.html#cb522-1"></a>X &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dv">1</span>, heights<span class="op">$</span>Father)</span>
+<span id="cb522-2"><a href="linear-models.html#cb522-2"></a>Y &lt;-<span class="st"> </span><span class="kw">cbind</span>(heights<span class="op">$</span>Son)</span>
+<span id="cb522-3"><a href="linear-models.html#cb522-3"></a>best_beta &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y</span>
+<span id="cb522-4"><a href="linear-models.html#cb522-4"></a>best_beta</span></code></pre></div>
 <pre><code>##            [,1]
 ## [1,] 33.8928005
 ## [2,]  0.5140059</code></pre>
 <p>We find that the best fitting line has an intercept of about 34 inches, and a slope of 0.51. Of course, <code>R</code> can do this calculation for you with just one command:</p>
-<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb524-1" data-line-number="1">best_beta_easy &lt;-<span class="st"> </span><span class="kw">lm</span>(Son <span class="op">~</span><span class="st"> </span>Father, <span class="dt">data =</span> heights)</a>
-<a class="sourceLine" id="cb524-2" data-line-number="2">best_beta_easy</a></code></pre></div>
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="linear-models.html#cb524-1"></a>best_beta_easy &lt;-<span class="st"> </span><span class="kw">lm</span>(Son <span class="op">~</span><span class="st"> </span>Father, <span class="dt">data =</span> heights)</span>
+<span id="cb524-2"><a href="linear-models.html#cb524-2"></a>best_beta_easy</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Son ~ Father, data = heights)
@@ -530,7 +548,7 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 ## (Intercept)       Father  
 ##      33.893        0.514</code></pre>
 <p>But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:</p>
-<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb526-1" data-line-number="1">pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="co"># lm stands for linear model</span></a></code></pre></div>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="linear-models.html#cb526-1"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="co"># lm stands for linear model</span></span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-204-1.png" width="672" /></p>
 </div>
 <div id="minimizing-the-sum-of-squares" class="section level3">
@@ -544,15 +562,15 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 \sigma = \sqrt{\frac{\sum_i \hat{\epsilon_i}^2}{n -  p}}
 \]</span></p>
 <p>where <span class="math inline">\(n\)</span> is the number of data points, and <span class="math inline">\(p\)</span> is the number of parameters in <span class="math inline">\(\mathbf{\beta}\)</span> (2 in this case); this measures the number of <strong>degrees of freedom</strong>. Let’s try to compute it:</p>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb527-1" data-line-number="1">degrees_of_freedom &lt;-<span class="st"> </span><span class="kw">length</span>(Y) <span class="op">-</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb527-2" data-line-number="2">degrees_of_freedom</a></code></pre></div>
+<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="linear-models.html#cb527-1"></a>degrees_of_freedom &lt;-<span class="st"> </span><span class="kw">length</span>(Y) <span class="op">-</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb527-2"><a href="linear-models.html#cb527-2"></a>degrees_of_freedom</span></code></pre></div>
 <pre><code>## [1] 1076</code></pre>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb529-1" data-line-number="1">epsilon_hat &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>best_beta <span class="op">-</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb529-2" data-line-number="2">sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(epsilon_hat<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>degrees_of_freedom)</a>
-<a class="sourceLine" id="cb529-3" data-line-number="3">sigma</a></code></pre></div>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="linear-models.html#cb529-1"></a>epsilon_hat &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>best_beta <span class="op">-</span><span class="st"> </span>Y</span>
+<span id="cb529-2"><a href="linear-models.html#cb529-2"></a>sigma &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(epsilon_hat<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>degrees_of_freedom)</span>
+<span id="cb529-3"><a href="linear-models.html#cb529-3"></a>sigma</span></code></pre></div>
 <pre><code>## [1] 2.438134</code></pre>
 <p>In <code>R</code>, you will find this reported as the <code>Residual standard error</code> when you call <code>summary</code> on your model:</p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb531-1" data-line-number="1"><span class="kw">summary</span>(best_beta_easy)</a></code></pre></div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="linear-models.html#cb531-1"></a><span class="kw">summary</span>(best_beta_easy)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Son ~ Father, data = heights)
@@ -576,12 +594,12 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 \]</span></p>
 <p>where <span class="math inline">\(\bar{y}\)</span> is the mean of <span class="math inline">\(y_i\)</span>. If the regression has an intercept, then the <span class="math inline">\(R^2\)</span> can vary between 0 and 1, with values close to 1 indicating a good fit to the data. Again, let’s compute it the hard way and then the easy way:</p>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb533-1" data-line-number="1">y_bar &lt;-<span class="st"> </span><span class="kw">mean</span>(Y)</a>
-<a class="sourceLine" id="cb533-2" data-line-number="2">R_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sum</span>((X <span class="op">%*%</span><span class="st"> </span>best_beta <span class="op">-</span><span class="st"> </span>y_bar)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>((Y <span class="op">-</span><span class="st"> </span>y_bar)<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb533-3" data-line-number="3">R_<span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="linear-models.html#cb533-1"></a>y_bar &lt;-<span class="st"> </span><span class="kw">mean</span>(Y)</span>
+<span id="cb533-2"><a href="linear-models.html#cb533-2"></a>R_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">sum</span>((X <span class="op">%*%</span><span class="st"> </span>best_beta <span class="op">-</span><span class="st"> </span>y_bar)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>((Y <span class="op">-</span><span class="st"> </span>y_bar)<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb533-3"><a href="linear-models.html#cb533-3"></a>R_<span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 0.251164</code></pre>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb535-1" data-line-number="1"><span class="co"># look for Multiple R-squared:</span></a>
-<a class="sourceLine" id="cb535-2" data-line-number="2"><span class="kw">summary</span>(best_beta_easy)</a></code></pre></div>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="linear-models.html#cb535-1"></a><span class="co"># look for Multiple R-squared:</span></span>
+<span id="cb535-2"><a href="linear-models.html#cb535-2"></a><span class="kw">summary</span>(best_beta_easy)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Son ~ Father, data = heights)
@@ -635,17 +653,17 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <p>Piwowar HA, Day RS, Fridsma DB (2007) <a href="https://doi.org/10.1371/journal.pone.0000308">Sharing detailed research data is associated with increased citation rate</a>. PLoS ONE 2(3): e308.</p>
 </blockquote>
 <p>The authors set out to demonstrate that sharing data accompanying papers tends to increase the number of citations received by the paper.</p>
-<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb537-1" data-line-number="1"><span class="co"># original url </span></a>
-<a class="sourceLine" id="cb537-2" data-line-number="2"><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g</span></a>
-<a class="sourceLine" id="cb537-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Piwowar_2011.csv&quot;</span>) </a>
-<a class="sourceLine" id="cb537-4" data-line-number="4"><span class="co"># rename variables for easier handling</span></a>
-<a class="sourceLine" id="cb537-5" data-line-number="5">dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">IF =</span> <span class="st">`</span><span class="dt">Impact factor of journal</span><span class="st">`</span>, </a>
-<a class="sourceLine" id="cb537-6" data-line-number="6">                      <span class="dt">NCIT =</span> <span class="st">`</span><span class="dt">Number of Citations in first 24 months after publication</span><span class="st">`</span>, </a>
-<a class="sourceLine" id="cb537-7" data-line-number="7">                      <span class="dt">SHARE =</span> <span class="st">`</span><span class="dt">Is the microarray data publicly available</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb537-8" data-line-number="8"><span class="st">      </span><span class="kw">select</span>(NCIT, IF, SHARE)</a></code></pre></div>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="linear-models.html#cb537-1"></a><span class="co"># original url </span></span>
+<span id="cb537-2"><a href="linear-models.html#cb537-2"></a><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g</span></span>
+<span id="cb537-3"><a href="linear-models.html#cb537-3"></a>dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Piwowar_2011.csv&quot;</span>) </span>
+<span id="cb537-4"><a href="linear-models.html#cb537-4"></a><span class="co"># rename variables for easier handling</span></span>
+<span id="cb537-5"><a href="linear-models.html#cb537-5"></a>dat &lt;-<span class="st"> </span>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">IF =</span> <span class="st">`</span><span class="dt">Impact factor of journal</span><span class="st">`</span>, </span>
+<span id="cb537-6"><a href="linear-models.html#cb537-6"></a>                      <span class="dt">NCIT =</span> <span class="st">`</span><span class="dt">Number of Citations in first 24 months after publication</span><span class="st">`</span>, </span>
+<span id="cb537-7"><a href="linear-models.html#cb537-7"></a>                      <span class="dt">SHARE =</span> <span class="st">`</span><span class="dt">Is the microarray data publicly available</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb537-8"><a href="linear-models.html#cb537-8"></a><span class="st">      </span><span class="kw">select</span>(NCIT, IF, SHARE)</span></code></pre></div>
 <p>First, let’s run a model in which the logarithm of the number of citations + 1 is regressed against the “Impact Factor” of the journal (which is a measure of “prestige” based on the average number of citations per paper received):</p>
-<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb538-1" data-line-number="1">my_model &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(NCIT <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(IF <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb538-2" data-line-number="2"><span class="kw">summary</span>(my_model)</a></code></pre></div>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="linear-models.html#cb538-1"></a>my_model &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(NCIT <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(IF <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">data =</span> dat)</span>
+<span id="cb538-2"><a href="linear-models.html#cb538-2"></a><span class="kw">summary</span>(my_model)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(NCIT + 1) ~ log(IF + 1), data = dat)
@@ -665,8 +683,8 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 ## Multiple R-squared:  0.5844, Adjusted R-squared:  0.5794 
 ## F-statistic: 116.7 on 1 and 83 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>You can see that the higher the impact factor, the higher the number of citations received (unsurprisingly!). Now let’s add another variable, detailing whether publicly available data accompany the paper:</p>
-<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb540-1" data-line-number="1">my_model2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(NCIT <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(IF <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>SHARE, <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb540-2" data-line-number="2"><span class="kw">summary</span>(my_model2)</a></code></pre></div>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="linear-models.html#cb540-1"></a>my_model2 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(NCIT <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(IF <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>SHARE, <span class="dt">data =</span> dat)</span>
+<span id="cb540-2"><a href="linear-models.html#cb540-2"></a><span class="kw">summary</span>(my_model2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(NCIT + 1) ~ log(IF + 1) + SHARE, data = dat)
@@ -691,15 +709,15 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <div id="a-regression-gone-wild" class="section level2">
 <h2><span class="header-section-number">8.4</span> A regression gone wild</h2>
 <p>Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in <em>Nature</em> (no less!) by Tatem <em>et al</em>. You can find the study <a href="https://www.nature.com/articles/431525a">here</a>. Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:</p>
-<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb542-1" data-line-number="1">olympics &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/100m_dash.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="linear-models.html#cb542-1"></a>olympics &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/100m_dash.csv&quot;</span>)</span></code></pre></div>
 <p>Then, they fitted a linear regression through the points, for both men and women. So far, so good:</p>
-<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb543-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb543-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb543-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="linear-models.html#cb543-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb543-2"><a href="linear-models.html#cb543-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb543-3"><a href="linear-models.html#cb543-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-213-1.png" width="672" /></p>
 <p>The fit is quite good:</p>
-<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb544-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">lm</span>(Result <span class="op">~</span><span class="st"> </span>Year<span class="op">*</span>Gender,</a>
-<a class="sourceLine" id="cb544-2" data-line-number="2">  <span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="linear-models.html#cb544-1"></a><span class="kw">summary</span>(<span class="kw">lm</span>(Result <span class="op">~</span><span class="st"> </span>Year<span class="op">*</span>Gender,</span>
+<span id="cb544-2"><a href="linear-models.html#cb544-2"></a>  <span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Result ~ Year * Gender, data = olympics %&gt;% filter(Year &gt; 
@@ -722,24 +740,24 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 ## Multiple R-squared:  0.9304, Adjusted R-squared:  0.9244 
 ## F-statistic: 155.9 on 3 and 35 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>An <span class="math inline">\(R^2\)</span> of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward:</p>
-<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb546-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb546-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb546-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb546-4" data-line-number="4"><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">1890</span>, <span class="dv">2200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">13</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="linear-models.html#cb546-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb546-2"><a href="linear-models.html#cb546-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb546-3"><a href="linear-models.html#cb546-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb546-4"><a href="linear-models.html#cb546-4"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">1890</span>, <span class="dv">2200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">13</span>))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-215-1.png" width="672" /></p>
 <p>You can see that the lines are touching in sometimes before 2200! Then women will overrun men.</p>
 <p>There are a number of things that are wrong with this result. First, by the same logic, computers will soon go faster than the speed of light, the number of people on planet Earth will be in the hundreds of billions, and the price of sequencing will drop so much that we will be paid instead of paying to get our samples sequenced…</p>
 <p>Second, if we extend backwards, rather than forward, we would find that Roman women would take more than a minute to run 100m (possibly, because of the uncomfortable tunics and sandals…).</p>
-<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb547-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb547-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb547-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb547-4" data-line-number="4"><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">2000</span>, <span class="dv">2200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">75</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="linear-models.html#cb547-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>, Year <span class="op">&lt;</span><span class="st"> </span><span class="dv">2005</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb547-2"><a href="linear-models.html#cb547-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb547-3"><a href="linear-models.html#cb547-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb547-4"><a href="linear-models.html#cb547-4"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">2000</span>, <span class="dv">2200</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">75</span>))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-216-1.png" width="672" /></p>
 <p>As Neil Bohr allegedly said (but this is disputed), “Prediction is very difficult, especially about the future”. The fact is that any non-linear curve looks quite linear if we are only considering a small range of values on the x-axis. To prove this point, let’s add the data from 2004 to today:</p>
-<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb548-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb548-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb548-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb548-4" data-line-number="4"><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">1890</span>, <span class="dv">2400</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">13</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="linear-models.html#cb548-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> olympics <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1899</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb548-2"><a href="linear-models.html#cb548-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Year, <span class="dt">y =</span> Result, <span class="dt">colour =</span> Gender) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb548-3"><a href="linear-models.html#cb548-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">fullrange =</span> <span class="ot">TRUE</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb548-4"><a href="linear-models.html#cb548-4"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">1890</span>, <span class="dv">2400</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">13</span>))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-217-1.png" width="672" /></p>
 <p>You can see that the process has already slowed down: now it would take an extra century before the “momentous sprint”.</p>
 <p>So many things were wrong with this short paper, that <em>Nature</em> was showered with replies. My favorite is from a Cambridge statistician (the Authors were from Oxford, ça va sans dire); it is perfectly short and venomous—a good candidate for the Nobel prize in Literature!</p>
@@ -790,9 +808,9 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <div id="regression-diagnostics" class="section level3">
 <h3><span class="header-section-number">8.5.3</span> Regression diagnostics</h3>
 <p>Now that we know the mechanics of linear regression, we turn to diagnostics: how can we make sure that the model fits the data “well”? We start by analyzing a data set assembled by Anscombe (<em>The American Statistician</em>, 1973)</p>
-<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb549-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Anscombe_1973.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="linear-models.html#cb549-1"></a>dat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Anscombe_1973.csv&quot;</span>)</span></code></pre></div>
 <p>The file comprised four data sets. We perform a linear regression using each data set separately:</p>
-<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb550-1" data-line-number="1"><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="linear-models.html#cb550-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_1&quot;))
@@ -800,7 +818,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Coefficients:
 ## (Intercept)            X  
 ##      3.0001       0.5001</code></pre>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb552-1" data-line-number="1"><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="linear-models.html#cb552-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_2&quot;))
@@ -808,7 +826,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Coefficients:
 ## (Intercept)            X  
 ##       3.001        0.500</code></pre>
-<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb554-1" data-line-number="1"><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="linear-models.html#cb554-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_3&quot;))
@@ -816,7 +834,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Coefficients:
 ## (Intercept)            X  
 ##      3.0025       0.4997</code></pre>
-<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb556-1" data-line-number="1"><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="linear-models.html#cb556-1"></a><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Y ~ X, data = dat %&gt;% filter(Data_set == &quot;Data_4&quot;))
@@ -825,90 +843,90 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## (Intercept)            X  
 ##      3.0017       0.4999</code></pre>
 <p>As you can see, each data set is best fit by the same line, with intercept 3 and slope <span class="math inline">\(\frac{1}{2}\)</span>. Plotting the data, however, shows that the situation is more complicated:</p>
-<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb558-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> dat) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y, <span class="dt">colour =</span> Data_set) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb558-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb558-3" data-line-number="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Data_set)</a></code></pre></div>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="linear-models.html#cb558-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> dat) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y, <span class="dt">colour =</span> Data_set) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb558-2"><a href="linear-models.html#cb558-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb558-3"><a href="linear-models.html#cb558-3"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Data_set)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-220-1.png" width="672" /></p>
 <p><code>Data_1</code> is fitted quite well; <code>Data_2</code> shows a marked nonlinearity; all points but one in <code>Data_3</code> are on the same line, but a single <strong>outlier</strong> shifts the line considerably; finally, in <code>Data_4</code> a single point is responsible for the fitting line: all other values of <code>X</code> are exactly the same. Inspecting the graphs, we would conclude that we can trust our model only in the first case. When you are performing a multiple regression, however, it is hard to see whether we’re in case 1, or one of the other cases. <code>R</code> provides a number of diagnostic tools which can help you decide whether the fit to the data is good.</p>
 </div>
 <div id="plotting-the-residuals" class="section level3">
 <h3><span class="header-section-number">8.5.4</span> Plotting the residuals</h3>
 <p>The first thing you want to do is to plot the residuals as a function of the fitted values. This plot should make it apparent whether the data was linear or not. The package <code>lindia</code> (linear regression diagnostics) makes it easy to produce this type of plot using <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb559-1" data-line-number="1"><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="linear-models.html#cb559-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-221-1.png" width="672" /></p>
 <p>What you are looking for is an approximately flat line, meaning that the residuals are approximately normally distributed with mean zero for each fitted value. This is not the case in the other data sets:</p>
-<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb560-1" data-line-number="1"><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb560-2" data-line-number="2"><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb560-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="linear-models.html#cb560-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb560-2"><a href="linear-models.html#cb560-2"></a><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb560-3"><a href="linear-models.html#cb560-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-222-1.png" width="672" /></p>
-<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb561-1" data-line-number="1"><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb561-2" data-line-number="2"><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb561-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="linear-models.html#cb561-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb561-2"><a href="linear-models.html#cb561-2"></a><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb561-3"><a href="linear-models.html#cb561-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-222-2.png" width="672" /></p>
-<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb562-1" data-line-number="1"><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb562-2" data-line-number="2"><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb562-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="linear-models.html#cb562-1"></a><span class="kw">gg_resfitted</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb562-2"><a href="linear-models.html#cb562-2"></a><span class="st">                  </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb562-3"><a href="linear-models.html#cb562-3"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-222-3.png" width="672" /></p>
 </div>
 <div id="q-q-plot" class="section level3">
 <h3><span class="header-section-number">8.5.5</span> Q-Q Plot</h3>
 <p>We can take this further, and test whether the residuals follow a normal distribution. In particular, we can estimate the density of the residuals, and plot it against the density of a normal distribution:</p>
-<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb563-1" data-line-number="1"><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="linear-models.html#cb563-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-1.png" width="672" /></p>
-<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb564-1" data-line-number="1"><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="linear-models.html#cb564-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-2.png" width="672" /></p>
-<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb565-1" data-line-number="1"><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="linear-models.html#cb565-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-3.png" width="672" /></p>
-<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb566-1" data-line-number="1"><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="linear-models.html#cb566-1"></a><span class="kw">gg_qqplot</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-223-4.png" width="672" /></p>
 <p>Here, you are looking for a good match to the 1:1 line; outliers will be found far from the line (e.g., case 3).</p>
 </div>
 <div id="cooks-distance" class="section level3">
 <h3><span class="header-section-number">8.5.6</span> Cook’s distance</h3>
 <p>Another way to detect outliers is to compute the Cook’s distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point.</p>
-<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb567-1" data-line-number="1"><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="linear-models.html#cb567-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-1.png" width="672" /></p>
-<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb568-1" data-line-number="1"><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="linear-models.html#cb568-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-2.png" width="672" /></p>
-<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb569-1" data-line-number="1"><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="linear-models.html#cb569-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-3.png" width="672" /></p>
-<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb570-1" data-line-number="1"><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="linear-models.html#cb570-1"></a><span class="kw">gg_cooksd</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-4.png" width="672" /></p>
 </div>
 <div id="leverage" class="section level3">
 <h3><span class="header-section-number">8.5.7</span> Leverage</h3>
 <p>Points that strongly influence the regression are said to have much “leverage”:</p>
-<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb571-1" data-line-number="1"><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="linear-models.html#cb571-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_1&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-1.png" width="672" /></p>
-<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb572-1" data-line-number="1"><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="linear-models.html#cb572-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-2.png" width="672" /></p>
-<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb573-1" data-line-number="1"><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="linear-models.html#cb573-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_3&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-3.png" width="672" /></p>
-<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb574-1" data-line-number="1"><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="linear-models.html#cb574-1"></a><span class="kw">gg_resleverage</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_4&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-225-4.png" width="672" /></p>
 </div>
 <div id="running-all-diagnostics" class="section level3">
 <h3><span class="header-section-number">8.5.8</span> Running all diagnostics</h3>
 <p>These are but a few of the diagnostics available. To run all diagnostics on a given model, call</p>
-<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb575-1" data-line-number="1"><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="linear-models.html#cb575-1"></a><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>X, <span class="dt">data =</span> dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Data_set <span class="op">==</span><span class="st"> &quot;Data_2&quot;</span>)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-226-1.png" width="672" /></p>
 </div>
 </div>
 <div id="transforming-the-data" class="section level2">
 <h2><span class="header-section-number">8.6</span> Transforming the data</h2>
 <p>Often, one needs to transform the data before running a linear regression, in order to fulfill the assumptions. We’re going to look at the salary of professors at the University of California to show how this is done.</p>
-<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb576-1" data-line-number="1"><span class="co"># read the data</span></a>
-<a class="sourceLine" id="cb576-2" data-line-number="2"><span class="co"># Original URL</span></a>
-<a class="sourceLine" id="cb576-3" data-line-number="3">dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv&quot;</span>, </a>
-<a class="sourceLine" id="cb576-4" data-line-number="4">               <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;title&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;pay&quot;</span>, <span class="st">&quot;loc&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb576-5" data-line-number="5"><span class="st">      </span><span class="kw">select</span>(first_name, last_name, title, loc, pay)</a>
-<a class="sourceLine" id="cb576-6" data-line-number="6"><span class="co"># get only profs</span></a>
-<a class="sourceLine" id="cb576-7" data-line-number="7">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PROF-AY&quot;</span>, <span class="st">&quot;ASSOC PROF-AY&quot;</span>, <span class="st">&quot;ASST PROF-AY&quot;</span>, </a>
-<a class="sourceLine" id="cb576-8" data-line-number="8">                                 <span class="st">&quot;PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-AY-B/E/E&quot;</span>, </a>
-<a class="sourceLine" id="cb576-9" data-line-number="9">                                 <span class="st">&quot;ASSOC PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;ASSOC PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-HCOMP&quot;</span>))</a>
-<a class="sourceLine" id="cb576-10" data-line-number="10"><span class="co"># remove those making less than 30k (probably there only for a period)</span></a>
-<a class="sourceLine" id="cb576-11" data-line-number="11">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pay <span class="op">&gt;</span><span class="st"> </span><span class="dv">30000</span>)</a>
-<a class="sourceLine" id="cb576-12" data-line-number="12">dt</a></code></pre></div>
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="linear-models.html#cb576-1"></a><span class="co"># read the data</span></span>
+<span id="cb576-2"><a href="linear-models.html#cb576-2"></a><span class="co"># Original URL</span></span>
+<span id="cb576-3"><a href="linear-models.html#cb576-3"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv&quot;</span>, </span>
+<span id="cb576-4"><a href="linear-models.html#cb576-4"></a>               <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;title&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;pay&quot;</span>, <span class="st">&quot;loc&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb576-5"><a href="linear-models.html#cb576-5"></a><span class="st">      </span><span class="kw">select</span>(first_name, last_name, title, loc, pay)</span>
+<span id="cb576-6"><a href="linear-models.html#cb576-6"></a><span class="co"># get only profs</span></span>
+<span id="cb576-7"><a href="linear-models.html#cb576-7"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PROF-AY&quot;</span>, <span class="st">&quot;ASSOC PROF-AY&quot;</span>, <span class="st">&quot;ASST PROF-AY&quot;</span>, </span>
+<span id="cb576-8"><a href="linear-models.html#cb576-8"></a>                                 <span class="st">&quot;PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-AY-B/E/E&quot;</span>, </span>
+<span id="cb576-9"><a href="linear-models.html#cb576-9"></a>                                 <span class="st">&quot;ASSOC PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;ASSOC PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-HCOMP&quot;</span>))</span>
+<span id="cb576-10"><a href="linear-models.html#cb576-10"></a><span class="co"># remove those making less than 30k (probably there only for a period)</span></span>
+<span id="cb576-11"><a href="linear-models.html#cb576-11"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pay <span class="op">&gt;</span><span class="st"> </span><span class="dv">30000</span>)</span>
+<span id="cb576-12"><a href="linear-models.html#cb576-12"></a>dt</span></code></pre></div>
 <pre><code>## # A tibble: 4,915 x 5
 ##    first_name       last_name     title           loc               pay
 ##    &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;           &lt;chr&gt;           &lt;dbl&gt;
@@ -924,14 +942,14 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## 10 KHALED A.S.      ABDEL-GHAFFAR PROF-AY-B/E/E   Davis         120100.
 ## # … with 4,905 more rows</code></pre>
 <p>The distribution of salaries is very skewed — it looks like a log-normal distribution:</p>
-<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb578-1" data-line-number="1">dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> pay) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">10000</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="linear-models.html#cb578-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> pay) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">10000</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-228-1.png" width="672" /></p>
 <p>If we set consider the log of pay, we get closer to a normal:</p>
-<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb579-1" data-line-number="1">dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log2</span>(pay)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="linear-models.html#cb579-1"></a>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">log2</span>(pay)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-229-1.png" width="672" /></p>
 <p>We can try to explain the pay as a combination of title and location:</p>
-<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb580-1" data-line-number="1">unscaled &lt;-<span class="st"> </span><span class="kw">lm</span>(pay <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt)</a>
-<a class="sourceLine" id="cb580-2" data-line-number="2"><span class="kw">summary</span>(unscaled)</a></code></pre></div>
+<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="linear-models.html#cb580-1"></a>unscaled &lt;-<span class="st"> </span><span class="kw">lm</span>(pay <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt)</span>
+<span id="cb580-2"><a href="linear-models.html#cb580-2"></a><span class="kw">summary</span>(unscaled)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = pay ~ title + loc, data = dt)
@@ -966,12 +984,12 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Residual standard error: 40970 on 4897 degrees of freedom
 ## Multiple R-squared:  0.5058, Adjusted R-squared:  0.504 
 ## F-statistic: 294.8 on 17 and 4897 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb582-1" data-line-number="1"><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(pay <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt))</a></code></pre></div>
+<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="linear-models.html#cb582-1"></a><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(pay <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-230-1.png" width="672" /></p>
 <p>To note: Berkeley has been taken as the baseline location. Similarly, <code>ASSOC-PROF AY</code> has been taken as the baseline title.</p>
 <p>The Q-Q plot shows that this is a terrible model! Now let’s try with the transformed data:</p>
-<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb583-1" data-line-number="1">scaled &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log2</span>(pay) <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt)</a>
-<a class="sourceLine" id="cb583-2" data-line-number="2"><span class="kw">summary</span>(scaled)</a></code></pre></div>
+<div class="sourceCode" id="cb583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb583-1"><a href="linear-models.html#cb583-1"></a>scaled &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log2</span>(pay) <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt)</span>
+<span id="cb583-2"><a href="linear-models.html#cb583-2"></a><span class="kw">summary</span>(scaled)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log2(pay) ~ title + loc, data = dt)
@@ -1006,7 +1024,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Residual standard error: 0.4168 on 4897 degrees of freedom
 ## Multiple R-squared:  0.5372, Adjusted R-squared:  0.5356 
 ## F-statistic: 334.3 on 17 and 4897 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb585-1" data-line-number="1"><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(<span class="kw">log2</span>(pay) <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt))</a></code></pre></div>
+<div class="sourceCode" id="cb585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb585-1"><a href="linear-models.html#cb585-1"></a><span class="kw">gg_diagnose</span>(<span class="kw">lm</span>(<span class="kw">log2</span>(pay) <span class="op">~</span><span class="st"> </span>title <span class="op">+</span><span class="st"> </span>loc, <span class="dt">data =</span> dt))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-231-1.png" width="672" /></p>
 <p>Much better! Remember to inspect your explanatory and response variables. Ideally, you want the response to be normally distributed. Sometimes one or many covariates can have a nonlinear relationship with the response variable, and you should transform them prior to analysis.</p>
 

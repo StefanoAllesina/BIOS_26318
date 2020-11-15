@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-11" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -238,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -287,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -418,6 +420,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
 <li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
 </ul></li>
+<li class="chapter" data-level="16" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html"><i class="fa fa-check"></i><b>16</b> Building phylogeneric trees</a><ul>
+<li class="chapter" data-level="16.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#introduction-1"><i class="fa fa-check"></i><b>16.1</b> Introduction</a></li>
+<li class="chapter" data-level="16.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#input-1"><i class="fa fa-check"></i><b>16.2</b> Input</a></li>
+<li class="chapter" data-level="16.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#representing-trees"><i class="fa fa-check"></i><b>16.3</b> Representing trees</a></li>
+<li class="chapter" data-level="16.4" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#building-trees-from-sequence-data"><i class="fa fa-check"></i><b>16.4</b> Building trees from sequence data</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-parsimony"><i class="fa fa-check"></i><b>16.4.1</b> Maximum Parsimony</a></li>
+<li class="chapter" data-level="16.4.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#example-primates"><i class="fa fa-check"></i><b>16.4.2</b> Example: primates</a></li>
+<li class="chapter" data-level="16.4.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#parsimonygate"><i class="fa fa-check"></i><b>16.4.3</b> <code>#ParsimonyGate</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#distance-methods"><i class="fa fa-check"></i><b>16.5</b> Distance Methods</a></li>
+<li class="chapter" data-level="16.6" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#likelihood-based-methods"><i class="fa fa-check"></i><b>16.6</b> Likelihood based methods</a><ul>
+<li class="chapter" data-level="16.6.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#other-models"><i class="fa fa-check"></i><b>16.6.1</b> Other models</a></li>
+<li class="chapter" data-level="16.6.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-likelihood"><i class="fa fa-check"></i><b>16.6.2</b> Maximum likelihood</a></li>
+<li class="chapter" data-level="16.6.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#bayesian-methods"><i class="fa fa-check"></i><b>16.6.3</b> Bayesian methods</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -439,7 +457,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="anova" class="section level1">
 <h1><span class="header-section-number">Lecture 10</span> ANOVA</h1>
-<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb592-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></a></code></pre></div>
+<div class="sourceCode" id="cb592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb592-1"><a href="anova.html#cb592-1"></a><span class="kw">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></span></code></pre></div>
 <div id="analysis-of-variance" class="section level2">
 <h2><span class="header-section-number">10.1</span> Analysis of variance</h2>
 <p>ANOVA is a method for testing the hypothesis that there is no difference in means of subsets of measurements grouped by factors. Essentially, this is a generalization of linear regression to categorical explanatory variables instead of numeric variables, and it is based on very similar assumptions.</p>
@@ -501,11 +519,11 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 <div id="example-of-comparing-diets" class="section level3">
 <h3><span class="header-section-number">10.2.1</span> Example of comparing diets</h3>
 <p>For example, the following data contains measurements of weights of individuals before starting a diet, after 6 weeks of dieting, the type of diet (1, 2, 3), and other variables.</p>
-<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb593-2" data-line-number="2"><span class="co"># Original URL: &quot;https://www.sheffield.ac.uk/polopoly_fs/1.570199!/file/stcp-Rdataset-Diet.csv&quot;</span></a>
-<a class="sourceLine" id="cb593-3" data-line-number="3">diet &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://tinyurl.com/ydzya2no&quot;</span>) </a>
-<a class="sourceLine" id="cb593-4" data-line-number="4">diet &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">weight.loss =</span> pre.weight <span class="op">-</span><span class="st"> </span>weight6weeks) </a>
-<a class="sourceLine" id="cb593-5" data-line-number="5"><span class="kw">glimpse</span>(diet)</a></code></pre></div>
+<div class="sourceCode" id="cb593"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb593-1"><a href="anova.html#cb593-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb593-2"><a href="anova.html#cb593-2"></a><span class="co"># Original URL: &quot;https://www.sheffield.ac.uk/polopoly_fs/1.570199!/file/stcp-Rdataset-Diet.csv&quot;</span></span>
+<span id="cb593-3"><a href="anova.html#cb593-3"></a>diet &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://tinyurl.com/ydzya2no&quot;</span>) </span>
+<span id="cb593-4"><a href="anova.html#cb593-4"></a>diet &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">weight.loss =</span> pre.weight <span class="op">-</span><span class="st"> </span>weight6weeks) </span>
+<span id="cb593-5"><a href="anova.html#cb593-5"></a><span class="kw">glimpse</span>(diet)</span></code></pre></div>
 <pre><code>## Rows: 78
 ## Columns: 8
 ## $ Person       &lt;dbl&gt; 25, 26, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 2…
@@ -516,25 +534,25 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 ## $ Diet         &lt;dbl&gt; 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,…
 ## $ weight6weeks &lt;dbl&gt; 60.0, 103.0, 54.2, 54.0, 63.3, 61.1, 62.2, 64.0, 65.0, 6…
 ## $ weight.loss  &lt;dbl&gt; 0.0, 0.0, 3.8, 6.0, 0.7, 2.9, 2.8, 2.0, 2.0, 8.5, 1.9, 3…</code></pre>
-<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" data-line-number="1"><span class="co"># make diet into factors</span></a>
-<a class="sourceLine" id="cb595-2" data-line-number="2">diet &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Diet =</span> <span class="kw">factor</span>(Diet))</a></code></pre></div>
+<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="anova.html#cb595-1"></a><span class="co"># make diet into factors</span></span>
+<span id="cb595-2"><a href="anova.html#cb595-2"></a>diet &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Diet =</span> <span class="kw">factor</span>(Diet))</span></code></pre></div>
 <p>Write a script below using ggplot to generate boxplots for the weights after three different diets.</p>
-<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb596-1" data-line-number="1">diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb596-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> weight.loss, </a>
-<a class="sourceLine" id="cb596-3" data-line-number="3">      <span class="dt">x =</span> Diet, </a>
-<a class="sourceLine" id="cb596-4" data-line-number="4">      <span class="dt">fill =</span> Diet) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb596-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb596-1"><a href="anova.html#cb596-1"></a>diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb596-2"><a href="anova.html#cb596-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> weight.loss, </span>
+<span id="cb596-3"><a href="anova.html#cb596-3"></a>      <span class="dt">x =</span> Diet, </span>
+<span id="cb596-4"><a href="anova.html#cb596-4"></a>      <span class="dt">fill =</span> Diet) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb596-5"><a href="anova.html#cb596-5"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-241-1.png" width="672" /></p>
 <p>We can see that there weight loss outcomes vary for each diet, but diet 3 seems to produce a larger effect on average. But is the difference between the means/medians actually due to the diet, or could it have been produced by sampling from the same distribution, given that we see substantial variation within each diet group?</p>
 <p>Here is the result of running ANOVA on the given data set:</p>
-<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb597-1" data-line-number="1">diet_anova  &lt;-<span class="st">  </span><span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data=</span>diet) <span class="co"># note that this looks like lm!</span></a>
-<a class="sourceLine" id="cb597-2" data-line-number="2"><span class="kw">summary</span>(diet_anova)</a></code></pre></div>
+<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="anova.html#cb597-1"></a>diet_anova  &lt;-<span class="st">  </span><span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data=</span>diet) <span class="co"># note that this looks like lm!</span></span>
+<span id="cb597-2"><a href="anova.html#cb597-2"></a><span class="kw">summary</span>(diet_anova)</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
 ## Diet         2   71.1   35.55   6.197 0.00323 **
 ## Residuals   75  430.2    5.74                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb599-1" data-line-number="1"><span class="kw">print</span>(diet_anova)</a></code></pre></div>
+<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="anova.html#cb599-1"></a><span class="kw">print</span>(diet_anova)</span></code></pre></div>
 <pre><code>## Call:
 ##    aov(formula = weight.loss ~ Diet, data = diet)
 ## 
@@ -549,57 +567,57 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 <div id="comparison-of-theory-and-anova-output" class="section level3">
 <h3><span class="header-section-number">10.2.2</span> Comparison of theory and ANOVA output</h3>
 <p>Let’s compare this with the calculations from the data set:</p>
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb601-1" data-line-number="1"><span class="co"># 1) compute the overall mean</span></a>
-<a class="sourceLine" id="cb601-2" data-line-number="2">bar_y &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">bar_y =</span> <span class="kw">mean</span>(weight.loss)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-4" data-line-number="4"><span class="st">  </span><span class="kw">as.numeric</span>()</a>
-<a class="sourceLine" id="cb601-5" data-line-number="5"><span class="co"># 2) compute means by diet and sample size by diet</span></a>
-<a class="sourceLine" id="cb601-6" data-line-number="6">bar_y_i &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-7" data-line-number="7"><span class="st">  </span><span class="kw">group_by</span>(Diet) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-8" data-line-number="8"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">bar_y_i =</span> <span class="kw">mean</span>(weight.loss),</a>
-<a class="sourceLine" id="cb601-9" data-line-number="9">            <span class="dt">J_i =</span> <span class="kw">n</span>())</a>
-<a class="sourceLine" id="cb601-10" data-line-number="10"><span class="co">#(NB: almost balanced!)</span></a>
-<a class="sourceLine" id="cb601-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb601-12" data-line-number="12"><span class="co"># 3) compute degrees of freedom</span></a>
-<a class="sourceLine" id="cb601-13" data-line-number="13">n &lt;-<span class="st"> </span><span class="kw">nrow</span>(diet)</a>
-<a class="sourceLine" id="cb601-14" data-line-number="14">k &lt;-<span class="st"> </span><span class="kw">nrow</span>(diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Diet) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>())</a>
-<a class="sourceLine" id="cb601-15" data-line-number="15">deg_freedom &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, n <span class="op">-</span><span class="st"> </span>k)</a>
-<a class="sourceLine" id="cb601-16" data-line-number="16"><span class="co"># 4) compute SSA, SST and SSE</span></a>
-<a class="sourceLine" id="cb601-17" data-line-number="17">SSA &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span>bar_y<span class="op">^</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb601-18" data-line-number="18">SST &lt;-<span class="st"> </span>bar_y_i <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-19" data-line-number="19"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tmp =</span> J_i <span class="op">*</span><span class="st"> </span>(bar_y_i <span class="op">-</span><span class="st"> </span>bar_y)<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-20" data-line-number="20"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sst =</span> <span class="kw">sum</span>(tmp)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-21" data-line-number="21"><span class="st">  </span><span class="kw">as.numeric</span>()</a>
-<a class="sourceLine" id="cb601-22" data-line-number="22">SSE &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-23" data-line-number="23"><span class="st">  </span><span class="kw">inner_join</span>(bar_y_i, <span class="dt">by =</span> <span class="st">&quot;Diet&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-24" data-line-number="24"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tmp =</span> (weight.loss <span class="op">-</span><span class="st"> </span>bar_y_i)<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-25" data-line-number="25"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sse =</span> <span class="kw">sum</span>(tmp)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-26" data-line-number="26"><span class="st">  </span><span class="kw">as.numeric</span>()</a>
-<a class="sourceLine" id="cb601-27" data-line-number="27"><span class="co"># 5) show that TSS = SSA + SST + SSE</span></a>
-<a class="sourceLine" id="cb601-28" data-line-number="28">TSS &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-29" data-line-number="29"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">tss =</span> <span class="kw">sum</span>(weight.loss<span class="op">^</span><span class="dv">2</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb601-30" data-line-number="30"><span class="st">  </span><span class="kw">as.numeric</span>()</a>
-<a class="sourceLine" id="cb601-31" data-line-number="31"><span class="kw">print</span>(<span class="kw">c</span>(TSS, SSA <span class="op">+</span><span class="st"> </span>SST <span class="op">+</span><span class="st"> </span>SSE))</a></code></pre></div>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="anova.html#cb601-1"></a><span class="co"># 1) compute the overall mean</span></span>
+<span id="cb601-2"><a href="anova.html#cb601-2"></a>bar_y &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-3"><a href="anova.html#cb601-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">bar_y =</span> <span class="kw">mean</span>(weight.loss)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-4"><a href="anova.html#cb601-4"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-5"><a href="anova.html#cb601-5"></a><span class="co"># 2) compute means by diet and sample size by diet</span></span>
+<span id="cb601-6"><a href="anova.html#cb601-6"></a>bar_y_i &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-7"><a href="anova.html#cb601-7"></a><span class="st">  </span><span class="kw">group_by</span>(Diet) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-8"><a href="anova.html#cb601-8"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">bar_y_i =</span> <span class="kw">mean</span>(weight.loss),</span>
+<span id="cb601-9"><a href="anova.html#cb601-9"></a>            <span class="dt">J_i =</span> <span class="kw">n</span>())</span>
+<span id="cb601-10"><a href="anova.html#cb601-10"></a><span class="co">#(NB: almost balanced!)</span></span>
+<span id="cb601-11"><a href="anova.html#cb601-11"></a></span>
+<span id="cb601-12"><a href="anova.html#cb601-12"></a><span class="co"># 3) compute degrees of freedom</span></span>
+<span id="cb601-13"><a href="anova.html#cb601-13"></a>n &lt;-<span class="st"> </span><span class="kw">nrow</span>(diet)</span>
+<span id="cb601-14"><a href="anova.html#cb601-14"></a>k &lt;-<span class="st"> </span><span class="kw">nrow</span>(diet <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Diet) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>())</span>
+<span id="cb601-15"><a href="anova.html#cb601-15"></a>deg_freedom &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, n <span class="op">-</span><span class="st"> </span>k)</span>
+<span id="cb601-16"><a href="anova.html#cb601-16"></a><span class="co"># 4) compute SSA, SST and SSE</span></span>
+<span id="cb601-17"><a href="anova.html#cb601-17"></a>SSA &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span>bar_y<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb601-18"><a href="anova.html#cb601-18"></a>SST &lt;-<span class="st"> </span>bar_y_i <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-19"><a href="anova.html#cb601-19"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tmp =</span> J_i <span class="op">*</span><span class="st"> </span>(bar_y_i <span class="op">-</span><span class="st"> </span>bar_y)<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-20"><a href="anova.html#cb601-20"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sst =</span> <span class="kw">sum</span>(tmp)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-21"><a href="anova.html#cb601-21"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-22"><a href="anova.html#cb601-22"></a>SSE &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-23"><a href="anova.html#cb601-23"></a><span class="st">  </span><span class="kw">inner_join</span>(bar_y_i, <span class="dt">by =</span> <span class="st">&quot;Diet&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-24"><a href="anova.html#cb601-24"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tmp =</span> (weight.loss <span class="op">-</span><span class="st"> </span>bar_y_i)<span class="op">^</span><span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-25"><a href="anova.html#cb601-25"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">sse =</span> <span class="kw">sum</span>(tmp)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-26"><a href="anova.html#cb601-26"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-27"><a href="anova.html#cb601-27"></a><span class="co"># 5) show that TSS = SSA + SST + SSE</span></span>
+<span id="cb601-28"><a href="anova.html#cb601-28"></a>TSS &lt;-<span class="st"> </span>diet <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-29"><a href="anova.html#cb601-29"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">tss =</span> <span class="kw">sum</span>(weight.loss<span class="op">^</span><span class="dv">2</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb601-30"><a href="anova.html#cb601-30"></a><span class="st">  </span><span class="kw">as.numeric</span>()</span>
+<span id="cb601-31"><a href="anova.html#cb601-31"></a><span class="kw">print</span>(<span class="kw">c</span>(TSS, SSA <span class="op">+</span><span class="st"> </span>SST <span class="op">+</span><span class="st"> </span>SSE))</span></code></pre></div>
 <pre><code>## [1] 1654.35 1654.35</code></pre>
 <p>Now that we have all the numbers in place, we can compute our F-statistics, and the associated p-value:</p>
-<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb603-1" data-line-number="1">Fs &lt;-<span class="st"> </span>(SST <span class="op">/</span><span class="st"> </span>(deg_freedom[<span class="dv">2</span>])) <span class="op">/</span><span class="st"> </span>(SSE <span class="op">/</span><span class="st"> </span>(deg_freedom[<span class="dv">3</span>]))</a>
-<a class="sourceLine" id="cb603-2" data-line-number="2">pval &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pf</span>(Fs, deg_freedom[<span class="dv">2</span>], deg_freedom[<span class="dv">3</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="anova.html#cb603-1"></a>Fs &lt;-<span class="st"> </span>(SST <span class="op">/</span><span class="st"> </span>(deg_freedom[<span class="dv">2</span>])) <span class="op">/</span><span class="st"> </span>(SSE <span class="op">/</span><span class="st"> </span>(deg_freedom[<span class="dv">3</span>]))</span>
+<span id="cb603-2"><a href="anova.html#cb603-2"></a>pval &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pf</span>(Fs, deg_freedom[<span class="dv">2</span>], deg_freedom[<span class="dv">3</span>])</span></code></pre></div>
 <p>Contrast these with the output of <code>aov</code>:</p>
-<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb604-1" data-line-number="1"><span class="kw">print</span>(deg_freedom[<span class="op">-</span><span class="dv">1</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb604-1"><a href="anova.html#cb604-1"></a><span class="kw">print</span>(deg_freedom[<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
 <pre><code>## [1]  2 75</code></pre>
-<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb606-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">c</span>(SST, SSE))</a></code></pre></div>
+<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb606-1"><a href="anova.html#cb606-1"></a><span class="kw">print</span>(<span class="kw">c</span>(SST, SSE))</span></code></pre></div>
 <pre><code>## [1]  71.09369 430.17926</code></pre>
-<div class="sourceCode" id="cb608"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb608-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">c</span>(Fs, pval))</a></code></pre></div>
+<div class="sourceCode" id="cb608"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb608-1"><a href="anova.html#cb608-1"></a><span class="kw">print</span>(<span class="kw">c</span>(Fs, pval))</span></code></pre></div>
 <pre><code>## [1] 6.197447453 0.003229014</code></pre>
-<div class="sourceCode" id="cb610"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb610-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">summary</span>(<span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data =</span> diet)))</a></code></pre></div>
+<div class="sourceCode" id="cb610"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb610-1"><a href="anova.html#cb610-1"></a><span class="kw">print</span>(<span class="kw">summary</span>(<span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data =</span> diet)))</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
 ## Diet         2   71.1   35.55   6.197 0.00323 **
 ## Residuals   75  430.2    5.74                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>At first glance, this process is not the same as fitting parameters for linear regression, but it is based on exactly the same assumptions: additive noise and additive effect of the factors, with the only difference being that factors are not numeric, so the effect of each one is added separately. One can run linear regression and calculate coefficients that are identical to the mean and the differences between means computed by ANOVA (and note the p-values too!)</p>
-<div class="sourceCode" id="cb612"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb612-1" data-line-number="1">diet.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data=</span>diet)</a>
-<a class="sourceLine" id="cb612-2" data-line-number="2"><span class="kw">summary</span>(diet.lm)</a></code></pre></div>
+<div class="sourceCode" id="cb612"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb612-1"><a href="anova.html#cb612-1"></a>diet.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet, <span class="dt">data=</span>diet)</span>
+<span id="cb612-2"><a href="anova.html#cb612-2"></a><span class="kw">summary</span>(diet.lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = weight.loss ~ Diet, data = diet)
@@ -619,7 +637,7 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 ## Residual standard error: 2.395 on 75 degrees of freedom
 ## Multiple R-squared:  0.1418, Adjusted R-squared:  0.1189 
 ## F-statistic: 6.197 on 2 and 75 DF,  p-value: 0.003229</code></pre>
-<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb614-1" data-line-number="1"><span class="kw">print</span>(diet.lm<span class="op">$</span>coefficients)</a></code></pre></div>
+<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb614-1"><a href="anova.html#cb614-1"></a><span class="kw">print</span>(diet.lm<span class="op">$</span>coefficients)</span></code></pre></div>
 <pre><code>## (Intercept)       Diet2       Diet3 
 ##   3.3000000  -0.2740741   1.8481481</code></pre>
 </div>
@@ -629,8 +647,8 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 <div id="post-hoc-analysis" class="section level3">
 <h3><span class="header-section-number">10.3.1</span> Post-hoc analysis</h3>
 <p>The ANOVA F-test tells us whether there is any difference in values of the response variable between the groups, but does not specify which group(s) are different. For this, a <em>post-hoc</em> test is used (Tukey’s “Honest Significant Difference”):</p>
-<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb616-1" data-line-number="1">tuk &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(diet_anova)</a>
-<a class="sourceLine" id="cb616-2" data-line-number="2">tuk</a></code></pre></div>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="anova.html#cb616-1"></a>tuk &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(diet_anova)</span>
+<span id="cb616-2"><a href="anova.html#cb616-2"></a>tuk</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -646,8 +664,8 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 <div id="example-of-plant-growth-data" class="section level3">
 <h3><span class="header-section-number">10.3.2</span> Example of plant growth data</h3>
 <p>Example taken from: <a href="http://www.sthda.com/english/wiki/one-way-anova-test-in-r">One-Way ANOVA Test in R</a></p>
-<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb618-1" data-line-number="1">my_data &lt;-<span class="st"> </span>PlantGrowth <span class="co"># import built-in data</span></a>
-<a class="sourceLine" id="cb618-2" data-line-number="2"><span class="kw">head</span>(my_data)</a></code></pre></div>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="anova.html#cb618-1"></a>my_data &lt;-<span class="st"> </span>PlantGrowth <span class="co"># import built-in data</span></span>
+<span id="cb618-2"><a href="anova.html#cb618-2"></a><span class="kw">head</span>(my_data)</span></code></pre></div>
 <pre><code>##   weight group
 ## 1   4.17  ctrl
 ## 2   5.58  ctrl
@@ -655,37 +673,37 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 ## 4   6.11  ctrl
 ## 5   4.50  ctrl
 ## 6   4.61  ctrl</code></pre>
-<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb620-1" data-line-number="1"><span class="co"># Show the levels</span></a>
-<a class="sourceLine" id="cb620-2" data-line-number="2">my_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(group) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="anova.html#cb620-1"></a><span class="co"># Show the levels</span></span>
+<span id="cb620-2"><a href="anova.html#cb620-2"></a>my_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(group) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>()</span></code></pre></div>
 <pre><code>##   group
 ## 1  ctrl
 ## 2  trt1
 ## 3  trt2</code></pre>
-<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb622-1" data-line-number="1"><span class="kw">group_by</span>(my_data, group) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb622-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb622-3" data-line-number="3">    <span class="dt">count =</span> <span class="kw">n</span>(),</a>
-<a class="sourceLine" id="cb622-4" data-line-number="4">    <span class="dt">mean =</span> <span class="kw">mean</span>(weight, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb622-5" data-line-number="5">    <span class="dt">sd =</span> <span class="kw">sd</span>(weight, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb622-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb622-1"><a href="anova.html#cb622-1"></a><span class="kw">group_by</span>(my_data, group) <span class="op">%&gt;%</span></span>
+<span id="cb622-2"><a href="anova.html#cb622-2"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
+<span id="cb622-3"><a href="anova.html#cb622-3"></a>    <span class="dt">count =</span> <span class="kw">n</span>(),</span>
+<span id="cb622-4"><a href="anova.html#cb622-4"></a>    <span class="dt">mean =</span> <span class="kw">mean</span>(weight, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb622-5"><a href="anova.html#cb622-5"></a>    <span class="dt">sd =</span> <span class="kw">sd</span>(weight, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb622-6"><a href="anova.html#cb622-6"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   group count  mean    sd
 ##   &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 ctrl     10  5.03 0.583
 ## 2 trt1     10  4.66 0.794
 ## 3 trt2     10  5.53 0.443</code></pre>
-<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb624-1" data-line-number="1">my_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb624-2" data-line-number="2"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb624-3" data-line-number="3"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> weight, <span class="dt">x =</span> group, </a>
-<a class="sourceLine" id="cb624-4" data-line-number="4">      <span class="dt">fill =</span> group) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb624-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="anova.html#cb624-1"></a>my_data <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb624-2"><a href="anova.html#cb624-2"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb624-3"><a href="anova.html#cb624-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">y =</span> weight, <span class="dt">x =</span> group, </span>
+<span id="cb624-4"><a href="anova.html#cb624-4"></a>      <span class="dt">fill =</span> group) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb624-5"><a href="anova.html#cb624-5"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
 <p><strong>Exercise:</strong> perform ANOVA and Tukey’s HSD and interpret the results.</p>
 </div>
 <div id="two-way-anova" class="section level3">
 <h3><span class="header-section-number">10.3.3</span> Two-way ANOVA</h3>
 <p>One can compare the effect of two different factors simultaneously and see if considering both explains more of the variance than of one. This is equivalent to the multiple linear regression with two interacting variables. How would you interpret these results?</p>
-<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb625-1" data-line-number="1">diet.fisher &lt;-<span class="st"> </span><span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet <span class="op">*</span><span class="st"> </span>gender, <span class="dt">data =</span> diet)</a>
-<a class="sourceLine" id="cb625-2" data-line-number="2"><span class="kw">summary</span>(diet.fisher)</a></code></pre></div>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="anova.html#cb625-1"></a>diet.fisher &lt;-<span class="st"> </span><span class="kw">aov</span>(weight.loss <span class="op">~</span><span class="st"> </span>Diet <span class="op">*</span><span class="st"> </span>gender, <span class="dt">data =</span> diet)</span>
+<span id="cb625-2"><a href="anova.html#cb625-2"></a><span class="kw">summary</span>(diet.fisher)</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
 ## Diet         2   60.5  30.264   5.629 0.00541 **
 ## gender       1    0.2   0.169   0.031 0.85991   
@@ -698,10 +716,10 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 </div>
 <div id="investigate-the-uc-salaries-dataset" class="section level2">
 <h2><span class="header-section-number">10.4</span> Investigate the UC salaries dataset</h2>
-<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1"><span class="co"># read the data</span></a>
-<a class="sourceLine" id="cb627-2" data-line-number="2"><span class="co"># Original URL</span></a>
-<a class="sourceLine" id="cb627-3" data-line-number="3">dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv&quot;</span>, </a>
-<a class="sourceLine" id="cb627-4" data-line-number="4"><span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;title&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;pay&quot;</span>, <span class="st">&quot;loc&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)) <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">select</span>(first_name, last_name, title, loc, pay)</a></code></pre></div>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb627-1"><a href="anova.html#cb627-1"></a><span class="co"># read the data</span></span>
+<span id="cb627-2"><a href="anova.html#cb627-2"></a><span class="co"># Original URL</span></span>
+<span id="cb627-3"><a href="anova.html#cb627-3"></a>dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv&quot;</span>, </span>
+<span id="cb627-4"><a href="anova.html#cb627-4"></a><span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;first_name&quot;</span>, <span class="st">&quot;last_name&quot;</span>, <span class="st">&quot;title&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;pay&quot;</span>, <span class="st">&quot;loc&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)) <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">select</span>(first_name, last_name, title, loc, pay)</span></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   first_name = col_character(),
@@ -715,17 +733,17 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 ##   c = col_double(),
 ##   d = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1"><span class="co"># get only profs</span></a>
-<a class="sourceLine" id="cb629-2" data-line-number="2">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PROF-AY&quot;</span>, <span class="st">&quot;ASSOC PROF-AY&quot;</span>, <span class="st">&quot;ASST PROF-AY&quot;</span>, </a>
-<a class="sourceLine" id="cb629-3" data-line-number="3">                                 <span class="st">&quot;PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-AY-B/E/E&quot;</span>, </a>
-<a class="sourceLine" id="cb629-4" data-line-number="4">                                 <span class="st">&quot;ASSOC PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;ASSOC PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-HCOMP&quot;</span>))</a>
-<a class="sourceLine" id="cb629-5" data-line-number="5"><span class="co"># simplify titles</span></a>
-<a class="sourceLine" id="cb629-6" data-line-number="6">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;ASST&quot;</span>, title), <span class="st">&quot;Assistant&quot;</span>, title))</a>
-<a class="sourceLine" id="cb629-7" data-line-number="7">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;ASSOC&quot;</span>, title), <span class="st">&quot;Associate&quot;</span>, title))</a>
-<a class="sourceLine" id="cb629-8" data-line-number="8">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;PROF&quot;</span>, title), <span class="st">&quot;Full&quot;</span>, title))</a>
-<a class="sourceLine" id="cb629-9" data-line-number="9"><span class="co"># remove those making less than 50k (probably there only for a period)</span></a>
-<a class="sourceLine" id="cb629-10" data-line-number="10">dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pay <span class="op">&gt;</span><span class="st"> </span><span class="dv">50000</span>)</a>
-<a class="sourceLine" id="cb629-11" data-line-number="11"><span class="kw">glimpse</span>(dt)</a></code></pre></div>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="anova.html#cb629-1"></a><span class="co"># get only profs</span></span>
+<span id="cb629-2"><a href="anova.html#cb629-2"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(title <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PROF-AY&quot;</span>, <span class="st">&quot;ASSOC PROF-AY&quot;</span>, <span class="st">&quot;ASST PROF-AY&quot;</span>, </span>
+<span id="cb629-3"><a href="anova.html#cb629-3"></a>                                 <span class="st">&quot;PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-AY-B/E/E&quot;</span>, </span>
+<span id="cb629-4"><a href="anova.html#cb629-4"></a>                                 <span class="st">&quot;ASSOC PROF-AY-B/E/E&quot;</span>, <span class="st">&quot;ASSOC PROF-HCOMP&quot;</span>, <span class="st">&quot;ASST PROF-HCOMP&quot;</span>))</span>
+<span id="cb629-5"><a href="anova.html#cb629-5"></a><span class="co"># simplify titles</span></span>
+<span id="cb629-6"><a href="anova.html#cb629-6"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;ASST&quot;</span>, title), <span class="st">&quot;Assistant&quot;</span>, title))</span>
+<span id="cb629-7"><a href="anova.html#cb629-7"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;ASSOC&quot;</span>, title), <span class="st">&quot;Associate&quot;</span>, title))</span>
+<span id="cb629-8"><a href="anova.html#cb629-8"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">title =</span> <span class="kw">ifelse</span>(<span class="kw">grepl</span>(<span class="st">&quot;PROF&quot;</span>, title), <span class="st">&quot;Full&quot;</span>, title))</span>
+<span id="cb629-9"><a href="anova.html#cb629-9"></a><span class="co"># remove those making less than 50k (probably there only for a period)</span></span>
+<span id="cb629-10"><a href="anova.html#cb629-10"></a>dt &lt;-<span class="st"> </span>dt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(pay <span class="op">&gt;</span><span class="st"> </span><span class="dv">50000</span>)</span>
+<span id="cb629-11"><a href="anova.html#cb629-11"></a><span class="kw">glimpse</span>(dt)</span></code></pre></div>
 <pre><code>## Rows: 4,795
 ## Columns: 5
 ## $ first_name &lt;chr&gt; &quot;CHRISTOPHER U&quot;, &quot;HENRY DON ISAAC&quot;, &quot;ADAM R&quot;, &quot;KEVORK N.&quot;,…
@@ -741,7 +759,7 @@ where <span class="math inline">\(F\)</span> is the <strong>F-distribution</stro
 </ol>
 <div id="a-word-of-caution-about-unbalanced-designs" class="section level3">
 <h3><span class="header-section-number">10.4.1</span> A word of caution about unbalanced designs</h3>
-<p>When we have a different number of samples in each category, we might encounter some problems, as the order in which we enter the terms might matter: for example, run <code>aov(pay ~ title + loc)</code> vs. <code>aov(pay ~ loc + title)</code>, and see that the sum of squares for the two models differ. In some cases, this might lead to the puzzling results—depending on how we enter the model, we might determine that a treatment has an effect or not. Turns out, there are three different ways to account for the sum-of-squares in ANOVA, all testing slightly different hypotheses. For balanced designs, they all return the same answer, but if you have different sizes, please read <a href="https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/">here</a>.</p>
+<p>When we have a different number of samples in each category, we might encounter some problems, as the order in which we enter the terms might matter: for example, run <code>aov(pay ~ title + loc)</code> vs. <code>aov(pay ~ loc + title)</code>, and see that the sum of squares for the two models differ. In some cases, this might lead to the puzzling results—depending on how we enter the model, we might determine that a treatment has an effect or not. Turns out, there are three different ways to account for the sum-of-squares in ANOVA, all testing slightly different hypotheses. For balanced designs, they all return the same answer, but if you have different sizes, please read <a href="https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/">here</a>.</p>
 
 </div>
 </div>

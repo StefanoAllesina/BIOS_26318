@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-11" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="principal-component-analysis.html"/>
-
+<link rel="next" href="building-phylogeneric-trees.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -238,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -287,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -418,6 +420,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
 <li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
 </ul></li>
+<li class="chapter" data-level="16" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html"><i class="fa fa-check"></i><b>16</b> Building phylogeneric trees</a><ul>
+<li class="chapter" data-level="16.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#introduction-1"><i class="fa fa-check"></i><b>16.1</b> Introduction</a></li>
+<li class="chapter" data-level="16.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#input-1"><i class="fa fa-check"></i><b>16.2</b> Input</a></li>
+<li class="chapter" data-level="16.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#representing-trees"><i class="fa fa-check"></i><b>16.3</b> Representing trees</a></li>
+<li class="chapter" data-level="16.4" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#building-trees-from-sequence-data"><i class="fa fa-check"></i><b>16.4</b> Building trees from sequence data</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-parsimony"><i class="fa fa-check"></i><b>16.4.1</b> Maximum Parsimony</a></li>
+<li class="chapter" data-level="16.4.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#example-primates"><i class="fa fa-check"></i><b>16.4.2</b> Example: primates</a></li>
+<li class="chapter" data-level="16.4.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#parsimonygate"><i class="fa fa-check"></i><b>16.4.3</b> <code>#ParsimonyGate</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#distance-methods"><i class="fa fa-check"></i><b>16.5</b> Distance Methods</a></li>
+<li class="chapter" data-level="16.6" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#likelihood-based-methods"><i class="fa fa-check"></i><b>16.6</b> Likelihood based methods</a><ul>
+<li class="chapter" data-level="16.6.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#other-models"><i class="fa fa-check"></i><b>16.6.1</b> Other models</a></li>
+<li class="chapter" data-level="16.6.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-likelihood"><i class="fa fa-check"></i><b>16.6.2</b> Maximum likelihood</a></li>
+<li class="chapter" data-level="16.6.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#bayesian-methods"><i class="fa fa-check"></i><b>16.6.3</b> Bayesian methods</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -446,12 +464,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Use clustering validation methods</li>
 <li>Apply different methods to larger data sets</li>
 </ul>
-<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb811-1" data-line-number="1"><span class="kw">library</span>(tidyverse) </a>
-<a class="sourceLine" id="cb811-2" data-line-number="2"><span class="kw">library</span>(ggfortify) </a>
-<a class="sourceLine" id="cb811-3" data-line-number="3"><span class="kw">library</span>(factoextra) </a>
-<a class="sourceLine" id="cb811-4" data-line-number="4"><span class="kw">library</span>(NbClust)</a>
-<a class="sourceLine" id="cb811-5" data-line-number="5"><span class="kw">library</span>(fpc)</a>
-<a class="sourceLine" id="cb811-6" data-line-number="6"><span class="kw">library</span>(clustertend)</a></code></pre></div>
+<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb811-1"><a href="clustering.html#cb811-1"></a><span class="kw">library</span>(tidyverse) </span>
+<span id="cb811-2"><a href="clustering.html#cb811-2"></a><span class="kw">library</span>(ggfortify) </span>
+<span id="cb811-3"><a href="clustering.html#cb811-3"></a><span class="kw">library</span>(factoextra) </span>
+<span id="cb811-4"><a href="clustering.html#cb811-4"></a><span class="kw">library</span>(NbClust)</span>
+<span id="cb811-5"><a href="clustering.html#cb811-5"></a><span class="kw">library</span>(fpc)</span>
+<span id="cb811-6"><a href="clustering.html#cb811-6"></a><span class="kw">library</span>(clustertend)</span></code></pre></div>
 <div id="k-means-algorithm" class="section level2">
 <h2><span class="header-section-number">15.1</span> K-means algorithm</h2>
 <ul>
@@ -464,10 +482,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>recalculate centroids for the two affected clusters</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" data-line-number="1"><span class="co">#set.seed(20)</span></a>
-<a class="sourceLine" id="cb812-2" data-line-number="2">iris.scaled &lt;-<span class="st"> </span><span class="kw">scale</span>(iris[, <span class="dv">-5</span>])</a>
-<a class="sourceLine" id="cb812-3" data-line-number="3">iris_km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris.scaled, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb812-4" data-line-number="4">iris_km</a></code></pre></div>
+<div class="sourceCode" id="cb812"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb812-1"><a href="clustering.html#cb812-1"></a><span class="co">#set.seed(20)</span></span>
+<span id="cb812-2"><a href="clustering.html#cb812-2"></a>iris.scaled &lt;-<span class="st"> </span><span class="kw">scale</span>(iris[, <span class="dv">-5</span>])</span>
+<span id="cb812-3"><a href="clustering.html#cb812-3"></a>iris_km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris.scaled, <span class="dv">3</span>)</span>
+<span id="cb812-4"><a href="clustering.html#cb812-4"></a>iris_km</span></code></pre></div>
 <pre><code>## K-means clustering with 3 clusters of sizes 53, 50, 47
 ## 
 ## Cluster means:
@@ -491,14 +509,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
 ## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
-<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" data-line-number="1"><span class="kw">table</span>(iris_km<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</a></code></pre></div>
+<div class="sourceCode" id="cb814"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb814-1"><a href="clustering.html#cb814-1"></a><span class="kw">table</span>(iris_km<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</span></code></pre></div>
 <pre><code>##    
 ##     setosa versicolor virginica
 ##   1      0         39        14
 ##   2     50          0         0
 ##   3      0         11        36</code></pre>
-<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" data-line-number="1"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> iris.scaled, <span class="dt">cluster =</span> iris_km<span class="op">$</span>cluster),</a>
-<a class="sourceLine" id="cb816-2" data-line-number="2"><span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb816-1"><a href="clustering.html#cb816-1"></a><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> iris.scaled, <span class="dt">cluster =</span> iris_km<span class="op">$</span>cluster),</span>
+<span id="cb816-2"><a href="clustering.html#cb816-2"></a><span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-340-1.png" width="672" /></p>
 <div id="assumptions-of-k-means-algorithm" class="section level3">
 <h3><span class="header-section-number">15.1.1</span> Assumptions of K-means algorithm</h3>
@@ -507,89 +525,89 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Clusters are roughly spherical</li>
 <li>Clusters are of similar size</li>
 </ul>
-<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" data-line-number="1"><span class="co"># Generate random data which will be first cluster</span></a>
-<a class="sourceLine" id="cb817-2" data-line-number="2">clust1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>), <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>))</a>
-<a class="sourceLine" id="cb817-3" data-line-number="3"><span class="co"># Generate the second cluster which will ‘surround’ the first cluster</span></a>
-<a class="sourceLine" id="cb817-4" data-line-number="4">clust2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">r =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>, <span class="dv">15</span>, <span class="fl">.5</span>), </a>
-<a class="sourceLine" id="cb817-5" data-line-number="5">                     <span class="dt">theta =</span> <span class="kw">runif</span>(<span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi),</a>
-<a class="sourceLine" id="cb817-6" data-line-number="6">                 <span class="dt">x =</span> r <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(theta), <span class="dt">y =</span> r <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb817-7" data-line-number="7"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(x, y)</a>
-<a class="sourceLine" id="cb817-8" data-line-number="8"><span class="co">#Combine the data</span></a>
-<a class="sourceLine" id="cb817-9" data-line-number="9">dataset_cir &lt;-<span class="st"> </span><span class="kw">rbind</span>(clust1, clust2)</a>
-<a class="sourceLine" id="cb817-10" data-line-number="10"><span class="co">#see the plot</span></a>
-<a class="sourceLine" id="cb817-11" data-line-number="11">dataset_cir <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb817"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb817-1"><a href="clustering.html#cb817-1"></a><span class="co"># Generate random data which will be first cluster</span></span>
+<span id="cb817-2"><a href="clustering.html#cb817-2"></a>clust1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>), <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>))</span>
+<span id="cb817-3"><a href="clustering.html#cb817-3"></a><span class="co"># Generate the second cluster which will ‘surround’ the first cluster</span></span>
+<span id="cb817-4"><a href="clustering.html#cb817-4"></a>clust2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">r =</span> <span class="kw">rnorm</span>(<span class="dv">200</span>, <span class="dv">15</span>, <span class="fl">.5</span>), </span>
+<span id="cb817-5"><a href="clustering.html#cb817-5"></a>                     <span class="dt">theta =</span> <span class="kw">runif</span>(<span class="dv">200</span>, <span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>pi),</span>
+<span id="cb817-6"><a href="clustering.html#cb817-6"></a>                 <span class="dt">x =</span> r <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(theta), <span class="dt">y =</span> r <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)) <span class="op">%&gt;%</span></span>
+<span id="cb817-7"><a href="clustering.html#cb817-7"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(x, y)</span>
+<span id="cb817-8"><a href="clustering.html#cb817-8"></a><span class="co">#Combine the data</span></span>
+<span id="cb817-9"><a href="clustering.html#cb817-9"></a>dataset_cir &lt;-<span class="st"> </span><span class="kw">rbind</span>(clust1, clust2)</span>
+<span id="cb817-10"><a href="clustering.html#cb817-10"></a><span class="co">#see the plot</span></span>
+<span id="cb817-11"><a href="clustering.html#cb817-11"></a>dataset_cir <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-341-1.png" width="672" /></p>
-<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb818-1" data-line-number="1"><span class="co">#Fit the k-means model</span></a>
-<a class="sourceLine" id="cb818-2" data-line-number="2">k_clust_spher1 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(dataset_cir, <span class="dt">centers=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb818-3" data-line-number="3"><span class="co">#Plot the data and clusters</span></a>
-<a class="sourceLine" id="cb818-4" data-line-number="4"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> dataset_cir, </a>
-<a class="sourceLine" id="cb818-5" data-line-number="5">                  <span class="dt">cluster =</span> k_clust_spher1<span class="op">$</span>cluster),</a>
-<a class="sourceLine" id="cb818-6" data-line-number="6">             <span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, </a>
-<a class="sourceLine" id="cb818-7" data-line-number="7">             <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb818-8" data-line-number="8">             <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, </a>
-<a class="sourceLine" id="cb818-9" data-line-number="9">             <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb818-1"><a href="clustering.html#cb818-1"></a><span class="co">#Fit the k-means model</span></span>
+<span id="cb818-2"><a href="clustering.html#cb818-2"></a>k_clust_spher1 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(dataset_cir, <span class="dt">centers=</span><span class="dv">2</span>)</span>
+<span id="cb818-3"><a href="clustering.html#cb818-3"></a><span class="co">#Plot the data and clusters</span></span>
+<span id="cb818-4"><a href="clustering.html#cb818-4"></a><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> dataset_cir, </span>
+<span id="cb818-5"><a href="clustering.html#cb818-5"></a>                  <span class="dt">cluster =</span> k_clust_spher1<span class="op">$</span>cluster),</span>
+<span id="cb818-6"><a href="clustering.html#cb818-6"></a>             <span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, </span>
+<span id="cb818-7"><a href="clustering.html#cb818-7"></a>             <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb818-8"><a href="clustering.html#cb818-8"></a>             <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, </span>
+<span id="cb818-9"><a href="clustering.html#cb818-9"></a>             <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-342-1.png" width="672" /></p>
-<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" data-line-number="1"><span class="co"># Make the first cluster with 1000 random values</span></a>
-<a class="sourceLine" id="cb819-2" data-line-number="2">clust1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>), </a>
-<a class="sourceLine" id="cb819-3" data-line-number="3">                     <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>))</a>
-<a class="sourceLine" id="cb819-4" data-line-number="4"><span class="co"># Keep 10 values together to make the second cluster</span></a>
-<a class="sourceLine" id="cb819-5" data-line-number="5">clust2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="fl">5.1</span>,<span class="fl">5.2</span>,<span class="fl">5.3</span>,<span class="fl">5.4</span>,<span class="dv">5</span>,<span class="fl">5.1</span>,<span class="fl">5.2</span>,<span class="fl">5.3</span>,<span class="fl">5.4</span>),</a>
-<a class="sourceLine" id="cb819-6" data-line-number="6">                     <span class="dt">y=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>))</a>
-<a class="sourceLine" id="cb819-7" data-line-number="7"><span class="co">#Combine the data</span></a>
-<a class="sourceLine" id="cb819-8" data-line-number="8">dataset_uneven &lt;-<span class="st"> </span><span class="kw">rbind</span>(clust1,clust2)</a>
-<a class="sourceLine" id="cb819-9" data-line-number="9">dataset_uneven <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb819"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb819-1"><a href="clustering.html#cb819-1"></a><span class="co"># Make the first cluster with 1000 random values</span></span>
+<span id="cb819-2"><a href="clustering.html#cb819-2"></a>clust1 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>), </span>
+<span id="cb819-3"><a href="clustering.html#cb819-3"></a>                     <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">1000</span>))</span>
+<span id="cb819-4"><a href="clustering.html#cb819-4"></a><span class="co"># Keep 10 values together to make the second cluster</span></span>
+<span id="cb819-5"><a href="clustering.html#cb819-5"></a>clust2 &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="fl">5.1</span>,<span class="fl">5.2</span>,<span class="fl">5.3</span>,<span class="fl">5.4</span>,<span class="dv">5</span>,<span class="fl">5.1</span>,<span class="fl">5.2</span>,<span class="fl">5.3</span>,<span class="fl">5.4</span>),</span>
+<span id="cb819-6"><a href="clustering.html#cb819-6"></a>                     <span class="dt">y=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>,<span class="fl">4.9</span>))</span>
+<span id="cb819-7"><a href="clustering.html#cb819-7"></a><span class="co">#Combine the data</span></span>
+<span id="cb819-8"><a href="clustering.html#cb819-8"></a>dataset_uneven &lt;-<span class="st"> </span><span class="kw">rbind</span>(clust1,clust2)</span>
+<span id="cb819-9"><a href="clustering.html#cb819-9"></a>dataset_uneven <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-343-1.png" width="672" /></p>
-<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb820-1" data-line-number="1">k_clust_spher3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(dataset_uneven, <span class="dt">centers=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb820-2" data-line-number="2"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> dataset_uneven, </a>
-<a class="sourceLine" id="cb820-3" data-line-number="3">                  <span class="dt">cluster =</span> k_clust_spher3<span class="op">$</span>cluster),</a>
-<a class="sourceLine" id="cb820-4" data-line-number="4">             <span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, </a>
-<a class="sourceLine" id="cb820-5" data-line-number="5">             <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, </a>
-<a class="sourceLine" id="cb820-6" data-line-number="6">             <span class="dt">stand =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb820-7" data-line-number="7">             <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, </a>
-<a class="sourceLine" id="cb820-8" data-line-number="8">             <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb820-1"><a href="clustering.html#cb820-1"></a>k_clust_spher3 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(dataset_uneven, <span class="dt">centers=</span><span class="dv">2</span>)</span>
+<span id="cb820-2"><a href="clustering.html#cb820-2"></a><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> dataset_uneven, </span>
+<span id="cb820-3"><a href="clustering.html#cb820-3"></a>                  <span class="dt">cluster =</span> k_clust_spher3<span class="op">$</span>cluster),</span>
+<span id="cb820-4"><a href="clustering.html#cb820-4"></a>             <span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, </span>
+<span id="cb820-5"><a href="clustering.html#cb820-5"></a>             <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, </span>
+<span id="cb820-6"><a href="clustering.html#cb820-6"></a>             <span class="dt">stand =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb820-7"><a href="clustering.html#cb820-7"></a>             <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, </span>
+<span id="cb820-8"><a href="clustering.html#cb820-8"></a>             <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-344-1.png" width="672" /></p>
 </div>
 <div id="exercise-pca-sommelier-1" class="section level3">
 <h3><span class="header-section-number">15.1.2</span> Exercise: PCA sommelier</h3>
 <p>The file <code>Wine.csv</code> contains several measures made on 178 wines from Piedmont, produced using three different grapes (column <code>Grape</code>, with 1 = Barolo, 2 = Grignolino, 3 = Barbera). Use the 13 measured variables (i.e., all but <code>Grape</code>) to perform a PCA, and use k-means to cluster the data in PC space. Can you recover the right classification of grapes?</p>
-<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb821-1" data-line-number="1">wine &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Wine.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb821-2" data-line-number="2"><span class="co"># make into a matrix for PCA</span></a>
-<a class="sourceLine" id="cb821-3" data-line-number="3">mat &lt;-<span class="st"> </span>wine <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>Grape) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</a>
-<a class="sourceLine" id="cb821-4" data-line-number="4"><span class="co"># perform PCA by scaling and centering all 13 variables</span></a>
-<a class="sourceLine" id="cb821-5" data-line-number="5">pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(mat, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale. =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb821-6" data-line-number="6"><span class="co"># pca$x contains the coordinates</span></a>
-<a class="sourceLine" id="cb821-7" data-line-number="7"><span class="co"># let&#39;s see how are we doing</span></a>
-<a class="sourceLine" id="cb821-8" data-line-number="8"><span class="kw">ggplot</span>(<span class="kw">cbind</span>(wine, <span class="kw">as_tibble</span>(pca<span class="op">$</span>x))) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb821-9" data-line-number="9"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb821-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb821"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb821-1"><a href="clustering.html#cb821-1"></a>wine &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Wine.csv&quot;</span>)</span>
+<span id="cb821-2"><a href="clustering.html#cb821-2"></a><span class="co"># make into a matrix for PCA</span></span>
+<span id="cb821-3"><a href="clustering.html#cb821-3"></a>mat &lt;-<span class="st"> </span>wine <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>Grape) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</span>
+<span id="cb821-4"><a href="clustering.html#cb821-4"></a><span class="co"># perform PCA by scaling and centering all 13 variables</span></span>
+<span id="cb821-5"><a href="clustering.html#cb821-5"></a>pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(mat, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale. =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb821-6"><a href="clustering.html#cb821-6"></a><span class="co"># pca$x contains the coordinates</span></span>
+<span id="cb821-7"><a href="clustering.html#cb821-7"></a><span class="co"># let&#39;s see how are we doing</span></span>
+<span id="cb821-8"><a href="clustering.html#cb821-8"></a><span class="kw">ggplot</span>(<span class="kw">cbind</span>(wine, <span class="kw">as_tibble</span>(pca<span class="op">$</span>x))) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb821-9"><a href="clustering.html#cb821-9"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb821-10"><a href="clustering.html#cb821-10"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
 <p>Now let’s apply k-means to divide the data into three clusters</p>
-<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb822-1" data-line-number="1">cl &lt;-<span class="st"> </span><span class="kw">kmeans</span>(pca<span class="op">$</span>x, <span class="dt">centers =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb822-2" data-line-number="2"><span class="kw">ggplot</span>(wine <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_column</span>(<span class="dt">cluster =</span> cl<span class="op">$</span>cluster)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb822-3" data-line-number="3"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Grape, <span class="dt">y =</span> cluster, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb822-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_jitter</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb822-1"><a href="clustering.html#cb822-1"></a>cl &lt;-<span class="st"> </span><span class="kw">kmeans</span>(pca<span class="op">$</span>x, <span class="dt">centers =</span> <span class="dv">3</span>)</span>
+<span id="cb822-2"><a href="clustering.html#cb822-2"></a><span class="kw">ggplot</span>(wine <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_column</span>(<span class="dt">cluster =</span> cl<span class="op">$</span>cluster)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb822-3"><a href="clustering.html#cb822-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> Grape, <span class="dt">y =</span> cluster, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb822-4"><a href="clustering.html#cb822-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-346-1.png" width="672" /></p>
 <p>You can see that we correctly classify all the wines for grapes 1 and 3, while some of the ones from grape 2 are misclassified.</p>
-<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb823-1" data-line-number="1"><span class="co"># find convex hull for each cluster</span></a>
-<a class="sourceLine" id="cb823-2" data-line-number="2"><span class="co"># i.e. minimal convex polygon containing all points</span></a>
-<a class="sourceLine" id="cb823-3" data-line-number="3">hull &lt;-<span class="st"> </span>pca<span class="op">$</span>x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb823-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(PC1, PC2) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb823-5" data-line-number="5"><span class="st">  </span><span class="kw">add_column</span>(<span class="dt">cluster =</span> cl<span class="op">$</span>cluster) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb823-6" data-line-number="6"><span class="st">  </span><span class="kw">group_by</span>(cluster) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb823-7" data-line-number="7"><span class="st">  </span><span class="kw">slice</span>(<span class="kw">chull</span>(PC1, PC2))</a>
-<a class="sourceLine" id="cb823-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb823-9" data-line-number="9"><span class="co"># plot the convex hulls</span></a>
-<a class="sourceLine" id="cb823-10" data-line-number="10">pl &lt;-<span class="st"> </span>hull <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">group =</span> cluster, <span class="dt">fill =</span> <span class="kw">factor</span>(cluster))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_polygon</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb823-11" data-line-number="11">  </a>
-<a class="sourceLine" id="cb823-12" data-line-number="12"><span class="kw">show</span>(pl)</a></code></pre></div>
+<div class="sourceCode" id="cb823"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb823-1"><a href="clustering.html#cb823-1"></a><span class="co"># find convex hull for each cluster</span></span>
+<span id="cb823-2"><a href="clustering.html#cb823-2"></a><span class="co"># i.e. minimal convex polygon containing all points</span></span>
+<span id="cb823-3"><a href="clustering.html#cb823-3"></a>hull &lt;-<span class="st"> </span>pca<span class="op">$</span>x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb823-4"><a href="clustering.html#cb823-4"></a><span class="st">  </span><span class="kw">select</span>(PC1, PC2) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb823-5"><a href="clustering.html#cb823-5"></a><span class="st">  </span><span class="kw">add_column</span>(<span class="dt">cluster =</span> cl<span class="op">$</span>cluster) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb823-6"><a href="clustering.html#cb823-6"></a><span class="st">  </span><span class="kw">group_by</span>(cluster) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb823-7"><a href="clustering.html#cb823-7"></a><span class="st">  </span><span class="kw">slice</span>(<span class="kw">chull</span>(PC1, PC2))</span>
+<span id="cb823-8"><a href="clustering.html#cb823-8"></a></span>
+<span id="cb823-9"><a href="clustering.html#cb823-9"></a><span class="co"># plot the convex hulls</span></span>
+<span id="cb823-10"><a href="clustering.html#cb823-10"></a>pl &lt;-<span class="st"> </span>hull <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">group =</span> cluster, <span class="dt">fill =</span> <span class="kw">factor</span>(cluster))) <span class="op">+</span><span class="st"> </span><span class="kw">geom_polygon</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb823-11"><a href="clustering.html#cb823-11"></a>  </span>
+<span id="cb823-12"><a href="clustering.html#cb823-12"></a><span class="kw">show</span>(pl)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-347-1.png" width="672" /></p>
-<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb824-1" data-line-number="1"><span class="co"># now add the points</span></a>
-<a class="sourceLine" id="cb824-2" data-line-number="2">pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> pca<span class="op">$</span>x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb824-3" data-line-number="3"><span class="st">         </span><span class="kw">select</span>(PC1, PC2) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb824-4" data-line-number="4"><span class="st">         </span><span class="kw">add_column</span>(<span class="dt">Grape =</span> wine<span class="op">$</span>Grape, <span class="dt">cluster =</span> cl<span class="op">$</span>cluster), </a>
-<a class="sourceLine" id="cb824-5" data-line-number="5">  <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape), <span class="dt">shape =</span> <span class="kw">factor</span>(Grape)))</a></code></pre></div>
+<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb824-1"><a href="clustering.html#cb824-1"></a><span class="co"># now add the points</span></span>
+<span id="cb824-2"><a href="clustering.html#cb824-2"></a>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> pca<span class="op">$</span>x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb824-3"><a href="clustering.html#cb824-3"></a><span class="st">         </span><span class="kw">select</span>(PC1, PC2) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb824-4"><a href="clustering.html#cb824-4"></a><span class="st">         </span><span class="kw">add_column</span>(<span class="dt">Grape =</span> wine<span class="op">$</span>Grape, <span class="dt">cluster =</span> cl<span class="op">$</span>cluster), </span>
+<span id="cb824-5"><a href="clustering.html#cb824-5"></a>  <span class="kw">aes</span>(<span class="dt">x =</span> PC1, <span class="dt">y =</span> PC2, <span class="dt">colour =</span> <span class="kw">factor</span>(Grape), <span class="dt">shape =</span> <span class="kw">factor</span>(Grape)))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-347-2.png" width="672" /></p>
-<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb825-1" data-line-number="1"><span class="kw">table</span>(cl<span class="op">$</span>cluster, wine<span class="op">$</span>Grape)</a></code></pre></div>
+<div class="sourceCode" id="cb825"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb825-1"><a href="clustering.html#cb825-1"></a><span class="kw">table</span>(cl<span class="op">$</span>cluster, wine<span class="op">$</span>Grape)</span></code></pre></div>
 <pre><code>##    
 ##      1  2  3
 ##   1 59  3  0
@@ -607,40 +625,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Single Linkage: In single linkage, we define the distance between two clusters as the minimum distance between any single data point in the first cluster and any single data point in the second cluster.</p></li>
 <li><p>Complete Linkage: In complete linkage, we define the distance between two clusters to be the maximum distance between any single data point in the first cluster and any single data point in the second cluster.</p></li>
 <li><p>Average Linkage: In average linkage, we define the distance between two clusters to be the average distance between data points in the first cluster and data points in the second cluster.</p></li>
-<li>Centroid Method: In centroid method, the distance between two clusters is the distance between the two mean vectors of the clusters.<br />
-</li>
+<li><p>Centroid Method: In centroid method, the distance between two clusters is the distance between the two mean vectors of the clusters.<br />
+</p></li>
 <li><p>Ward’s Method: This method does not directly define a measure of distance between two points or clusters. It is an ANOVA based approach. One-way univariate ANOVAs are done for each variable with groups defined by the clusters at that stage of the process. At each stage, two clusters merge that provide the smallest increase in the combined error sum of squares.</p></li>
 </ol>
-<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb827-1" data-line-number="1"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
-<a class="sourceLine" id="cb827-2" data-line-number="2">cir_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(dataset_cir, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</a>
-<a class="sourceLine" id="cb827-3" data-line-number="3"><span class="co"># Visualize dendrogram</span></a>
-<a class="sourceLine" id="cb827-4" data-line-number="4"><span class="kw">fviz_dend</span>(cir_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb827"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb827-1"><a href="clustering.html#cb827-1"></a><span class="co"># Use hcut() which compute hclust and cut the tree</span></span>
+<span id="cb827-2"><a href="clustering.html#cb827-2"></a>cir_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(dataset_cir, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</span>
+<span id="cb827-3"><a href="clustering.html#cb827-3"></a><span class="co"># Visualize dendrogram</span></span>
+<span id="cb827-4"><a href="clustering.html#cb827-4"></a><span class="kw">fviz_dend</span>(cir_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-348-1.png" width="672" /></p>
-<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb828-1" data-line-number="1"><span class="co"># Visualize cluster</span></a>
-<a class="sourceLine" id="cb828-2" data-line-number="2"><span class="kw">fviz_cluster</span>(cir_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb828-1"><a href="clustering.html#cb828-1"></a><span class="co"># Visualize cluster</span></span>
+<span id="cb828-2"><a href="clustering.html#cb828-2"></a><span class="kw">fviz_cluster</span>(cir_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-348-2.png" width="672" /></p>
-<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb829-1" data-line-number="1"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
-<a class="sourceLine" id="cb829-2" data-line-number="2">uneven_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(dataset_uneven, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</a>
-<a class="sourceLine" id="cb829-3" data-line-number="3"><span class="co"># Visualize dendrogram</span></a>
-<a class="sourceLine" id="cb829-4" data-line-number="4"><span class="co">#fviz_dend(uneven_hc, show_labels = FALSE, rect = TRUE)</span></a>
-<a class="sourceLine" id="cb829-5" data-line-number="5"><span class="co"># Visualize cluster</span></a>
-<a class="sourceLine" id="cb829-6" data-line-number="6"><span class="kw">fviz_cluster</span>(uneven_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb829"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb829-1"><a href="clustering.html#cb829-1"></a><span class="co"># Use hcut() which compute hclust and cut the tree</span></span>
+<span id="cb829-2"><a href="clustering.html#cb829-2"></a>uneven_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(dataset_uneven, <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</span>
+<span id="cb829-3"><a href="clustering.html#cb829-3"></a><span class="co"># Visualize dendrogram</span></span>
+<span id="cb829-4"><a href="clustering.html#cb829-4"></a><span class="co">#fviz_dend(uneven_hc, show_labels = FALSE, rect = TRUE)</span></span>
+<span id="cb829-5"><a href="clustering.html#cb829-5"></a><span class="co"># Visualize cluster</span></span>
+<span id="cb829-6"><a href="clustering.html#cb829-6"></a><span class="kw">fviz_cluster</span>(uneven_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-349-1.png" width="672" /></p>
 </div>
 <div id="cluster-the-irises-using-hierarchical-methods" class="section level3">
 <h3><span class="header-section-number">15.2.2</span> Cluster the irises using hierarchical methods</h3>
 <p>Try different methods and see which one generates the best results</p>
-<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" data-line-number="1"><span class="co"># Hierarchical clustering</span></a>
-<a class="sourceLine" id="cb830-2" data-line-number="2"><span class="co"># ++++++++++++++++++++++++</span></a>
-<a class="sourceLine" id="cb830-3" data-line-number="3"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
-<a class="sourceLine" id="cb830-4" data-line-number="4">iris_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(iris.scaled, <span class="dt">k =</span> <span class="dv">3</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</a>
-<a class="sourceLine" id="cb830-5" data-line-number="5"><span class="co"># Visualize dendrogram</span></a>
-<a class="sourceLine" id="cb830-6" data-line-number="6"><span class="kw">fviz_dend</span>(iris_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb830-1"><a href="clustering.html#cb830-1"></a><span class="co"># Hierarchical clustering</span></span>
+<span id="cb830-2"><a href="clustering.html#cb830-2"></a><span class="co"># ++++++++++++++++++++++++</span></span>
+<span id="cb830-3"><a href="clustering.html#cb830-3"></a><span class="co"># Use hcut() which compute hclust and cut the tree</span></span>
+<span id="cb830-4"><a href="clustering.html#cb830-4"></a>iris_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(iris.scaled, <span class="dt">k =</span> <span class="dv">3</span>, <span class="dt">hc_method =</span> <span class="st">&quot;single&quot;</span>)</span>
+<span id="cb830-5"><a href="clustering.html#cb830-5"></a><span class="co"># Visualize dendrogram</span></span>
+<span id="cb830-6"><a href="clustering.html#cb830-6"></a><span class="kw">fviz_dend</span>(iris_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-350-1.png" width="672" /></p>
-<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" data-line-number="1"><span class="co"># Visualize cluster</span></a>
-<a class="sourceLine" id="cb831-2" data-line-number="2"><span class="kw">fviz_cluster</span>(iris_hc)</a></code></pre></div>
+<div class="sourceCode" id="cb831"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb831-1"><a href="clustering.html#cb831-1"></a><span class="co"># Visualize cluster</span></span>
+<span id="cb831-2"><a href="clustering.html#cb831-2"></a><span class="kw">fviz_cluster</span>(iris_hc)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-350-2.png" width="672" /></p>
-<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb832-1" data-line-number="1"><span class="kw">table</span>(iris_hc<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</a></code></pre></div>
+<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb832-1"><a href="clustering.html#cb832-1"></a><span class="kw">table</span>(iris_hc<span class="op">$</span>cluster, iris<span class="op">$</span>Species)</span></code></pre></div>
 <pre><code>##    
 ##     setosa versicolor virginica
 ##   1     49          0         0
@@ -661,34 +679,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
 \]</span>
 This quantifies the “clustering tendency” of the data set.</p>
-<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb834-1" data-line-number="1"><span class="co"># Check Cluster Tendency--Hopkins Statistic</span></a>
-<a class="sourceLine" id="cb834-2" data-line-number="2"><span class="kw">hopkins</span>(iris.scaled, <span class="dt">n =</span> <span class="dv">30</span>) <span class="co"># n should be about 20% of the data</span></a></code></pre></div>
+<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="clustering.html#cb834-1"></a><span class="co"># Check Cluster Tendency--Hopkins Statistic</span></span>
+<span id="cb834-2"><a href="clustering.html#cb834-2"></a><span class="kw">hopkins</span>(iris.scaled, <span class="dt">n =</span> <span class="dv">30</span>) <span class="co"># n should be about 20% of the data</span></span></code></pre></div>
 <pre><code>## $H
 ## [1] 0.1794449</code></pre>
-<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb836-1" data-line-number="1"><span class="co"># run a couple times to sample repeatedly</span></a></code></pre></div>
+<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb836-1"><a href="clustering.html#cb836-1"></a><span class="co"># run a couple times to sample repeatedly</span></span></code></pre></div>
 <p>If H is below 0.5 reject the null hypothesis, which is that the data are generated by a Poisson point process (uniformly distributed.)</p>
-<div class="sourceCode" id="cb837"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb837-1" data-line-number="1"><span class="co"># Visual Assessment of Cluster Tendency</span></a>
-<a class="sourceLine" id="cb837-2" data-line-number="2"><span class="kw">fviz_dist</span>(<span class="kw">dist</span>(iris.scaled), <span class="dt">show_labels =</span> <span class="ot">FALSE</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Iris Data&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb837"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb837-1"><a href="clustering.html#cb837-1"></a><span class="co"># Visual Assessment of Cluster Tendency</span></span>
+<span id="cb837-2"><a href="clustering.html#cb837-2"></a><span class="kw">fviz_dist</span>(<span class="kw">dist</span>(iris.scaled), <span class="dt">show_labels =</span> <span class="ot">FALSE</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Iris Data&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-353-1.png" width="672" />
 - Red is high similarity (low dissimilarity)
 - Blue is low similarity (high dissimilarity)</p>
 </div>
 <div id="elbow-method" class="section level3">
 <h3><span class="header-section-number">15.3.2</span> Elbow method</h3>
-<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb838-1" data-line-number="1"><span class="co"># Elbow method</span></a>
-<a class="sourceLine" id="cb838-2" data-line-number="2"><span class="kw">fviz_nbclust</span>(iris.scaled, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb838-3" data-line-number="3"><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Elbow method for K-means&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb838-1"><a href="clustering.html#cb838-1"></a><span class="co"># Elbow method</span></span>
+<span id="cb838-2"><a href="clustering.html#cb838-2"></a><span class="kw">fviz_nbclust</span>(iris.scaled, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="dv">2</span>)<span class="op">+</span></span>
+<span id="cb838-3"><a href="clustering.html#cb838-3"></a><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Elbow method for K-means&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-354-1.png" width="672" />
 ### Silhouette Plot
 Measures how similar an object <span class="math inline">\(i\)</span> is to the other objects in its same cluster versus the objects outside of its cluster; <span class="math inline">\(S_i\)</span> values range from -1 to 1. Close to 1 means very similar to objects in its own group and dissimilar to others</p>
-<div class="sourceCode" id="cb839"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb839-1" data-line-number="1"><span class="co"># Silhouette method</span></a>
-<a class="sourceLine" id="cb839-2" data-line-number="2"><span class="kw">fviz_nbclust</span>(iris.scaled, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Silhouette method for k-means&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb839"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb839-1"><a href="clustering.html#cb839-1"></a><span class="co"># Silhouette method</span></span>
+<span id="cb839-2"><a href="clustering.html#cb839-2"></a><span class="kw">fviz_nbclust</span>(iris.scaled, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Silhouette method for k-means&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
 </div>
 <div id="lazy-way-use-all-the-methods" class="section level3">
 <h3><span class="header-section-number">15.3.3</span> Lazy way: use all the methods!</h3>
-<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb840-1" data-line-number="1">nb &lt;-<span class="st"> </span><span class="kw">NbClust</span>(iris.scaled, <span class="dt">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">min.nc =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb840-2" data-line-number="2">        <span class="dt">max.nc =</span> <span class="dv">10</span>, <span class="dt">method =</span> <span class="st">&quot;kmeans&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb840-1"><a href="clustering.html#cb840-1"></a>nb &lt;-<span class="st"> </span><span class="kw">NbClust</span>(iris.scaled, <span class="dt">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="dt">min.nc =</span> <span class="dv">2</span>,</span>
+<span id="cb840-2"><a href="clustering.html#cb840-2"></a>        <span class="dt">max.nc =</span> <span class="dv">10</span>, <span class="dt">method =</span> <span class="st">&quot;kmeans&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-356-1.png" width="672" /></p>
 <pre><code>## *** : The Hubert index is a graphical method of determining the number of clusters.
 ##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
@@ -715,7 +733,7 @@ Measures how similar an object <span class="math inline">\(i\)</span> is to the 
 ##  
 ##  
 ## *******************************************************************</code></pre>
-<div class="sourceCode" id="cb843"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb843-1" data-line-number="1"><span class="kw">fviz_nbclust</span>(nb)</a></code></pre></div>
+<div class="sourceCode" id="cb843"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb843-1"><a href="clustering.html#cb843-1"></a><span class="kw">fviz_nbclust</span>(nb)</span></code></pre></div>
 <pre><code>## Among all indices: 
 ## ===================
 ## * 2 proposed  0 as the best number of clusters
@@ -737,8 +755,8 @@ Measures how similar an object <span class="math inline">\(i\)</span> is to the 
 J = \frac{ \vert A \cap B \vert }{\vert A \cup B \vert}
 \]</span>
 The vertical lines indicate the number of points (cardinality) in the set.</p>
-<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb845-1" data-line-number="1">k &lt;-<span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb845-2" data-line-number="2">cboot.hclust &lt;-<span class="st"> </span><span class="kw">clusterboot</span>(iris.scaled, <span class="dt">clustermethod=</span>kmeansCBI, <span class="dt">k=</span> k)</a></code></pre></div>
+<div class="sourceCode" id="cb845"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb845-1"><a href="clustering.html#cb845-1"></a>k &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb845-2"><a href="clustering.html#cb845-2"></a>cboot.hclust &lt;-<span class="st"> </span><span class="kw">clusterboot</span>(iris.scaled, <span class="dt">clustermethod=</span>kmeansCBI, <span class="dt">k=</span> k)</span></code></pre></div>
 <pre><code>## boot 1 
 ## boot 2 
 ## boot 3 
@@ -839,7 +857,7 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## boot 98 
 ## boot 99 
 ## boot 100</code></pre>
-<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb847-1" data-line-number="1"><span class="kw">print</span>(cboot.hclust)</a></code></pre></div>
+<div class="sourceCode" id="cb847"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb847-1"><a href="clustering.html#cb847-1"></a><span class="kw">print</span>(cboot.hclust)</span></code></pre></div>
 <pre><code>## * Cluster stability assessment *
 ## Cluster method:  kmeans 
 ## Full clustering results are given as parameter result
@@ -855,17 +873,17 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## [1]  1  5 12
 ## recovered:
 ## [1] 83 75 79</code></pre>
-<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb849-1" data-line-number="1"><span class="co">#cboot.hclust &lt;- clusterboot(bcdata, clustermethod=hclustCBI,</span></a>
-<a class="sourceLine" id="cb849-2" data-line-number="2">       <span class="co">#                    method=&quot;single&quot;, k=2)</span></a></code></pre></div>
+<div class="sourceCode" id="cb849"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb849-1"><a href="clustering.html#cb849-1"></a><span class="co">#cboot.hclust &lt;- clusterboot(bcdata, clustermethod=hclustCBI,</span></span>
+<span id="cb849-2"><a href="clustering.html#cb849-2"></a>       <span class="co">#                    method=&quot;single&quot;, k=2)</span></span></code></pre></div>
 </div>
 </div>
 <div id="application-to-breast-cancer-data" class="section level2">
 <h2><span class="header-section-number">15.4</span> Application to breast cancer data</h2>
-<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb850-1" data-line-number="1"><span class="co"># Import Breast Cancer Data Set</span></a>
-<a class="sourceLine" id="cb850-2" data-line-number="2">fulldata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Wisconsin_Breast_Cancers.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb850-3" data-line-number="3">bcdata &lt;-<span class="st"> </span>fulldata[,<span class="dv">2</span><span class="op">:</span><span class="dv">10</span>]</a>
-<a class="sourceLine" id="cb850-4" data-line-number="4">class &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dt">data=</span> fulldata[,<span class="dv">11</span>])</a>
-<a class="sourceLine" id="cb850-5" data-line-number="5"><span class="kw">head</span>(fulldata)</a></code></pre></div>
+<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb850-1"><a href="clustering.html#cb850-1"></a><span class="co"># Import Breast Cancer Data Set</span></span>
+<span id="cb850-2"><a href="clustering.html#cb850-2"></a>fulldata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/Wisconsin_Breast_Cancers.csv&quot;</span>)</span>
+<span id="cb850-3"><a href="clustering.html#cb850-3"></a>bcdata &lt;-<span class="st"> </span>fulldata[,<span class="dv">2</span><span class="op">:</span><span class="dv">10</span>]</span>
+<span id="cb850-4"><a href="clustering.html#cb850-4"></a>class &lt;-<span class="st"> </span><span class="kw">array</span>(<span class="dt">data=</span> fulldata[,<span class="dv">11</span>])</span>
+<span id="cb850-5"><a href="clustering.html#cb850-5"></a><span class="kw">head</span>(fulldata)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 11
 ##   Sample Clump_Thickness Size_Uniformity Shape_Uniformity Marginal_Adhesi…
 ##    &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
@@ -878,11 +896,11 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## # … with 6 more variables: Single_Epithelial_Cell_Size &lt;dbl&gt;,
 ## #   Bare_Nuclei &lt;dbl&gt;, Bland_Chromatin &lt;dbl&gt;, Normal_Nucleoli &lt;dbl&gt;,
 ## #   Mitoses &lt;dbl&gt;, Class &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb852-1" data-line-number="1"><span class="co"># Visually Inspect Data (PCA)</span></a>
-<a class="sourceLine" id="cb852-2" data-line-number="2"><span class="kw">fviz_pca_ind</span>(<span class="kw">prcomp</span>(bcdata), <span class="dt">title =</span> <span class="st">&quot;PCA - Breast Cancer data&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb852-1"><a href="clustering.html#cb852-1"></a><span class="co"># Visually Inspect Data (PCA)</span></span>
+<span id="cb852-2"><a href="clustering.html#cb852-2"></a><span class="kw">fviz_pca_ind</span>(<span class="kw">prcomp</span>(bcdata), <span class="dt">title =</span> <span class="st">&quot;PCA - Breast Cancer data&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-359-1.png" width="672" /></p>
-<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb853-1" data-line-number="1">bc_km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(<span class="kw">scale</span>(bcdata), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb853-2" data-line-number="2">bc_km</a></code></pre></div>
+<div class="sourceCode" id="cb853"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb853-1"><a href="clustering.html#cb853-1"></a>bc_km &lt;-<span class="st"> </span><span class="kw">kmeans</span>(<span class="kw">scale</span>(bcdata), <span class="dv">2</span>)</span>
+<span id="cb853-2"><a href="clustering.html#cb853-2"></a>bc_km</span></code></pre></div>
 <pre><code>## K-means clustering with 2 clusters of sizes 453, 231
 ## 
 ## Cluster means:
@@ -925,26 +943,26 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## 
 ## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
 ## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
-<div class="sourceCode" id="cb855"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb855-1" data-line-number="1"><span class="kw">table</span>(bc_km<span class="op">$</span>cluster, fulldata<span class="op">$</span>Class)</a></code></pre></div>
+<div class="sourceCode" id="cb855"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb855-1"><a href="clustering.html#cb855-1"></a><span class="kw">table</span>(bc_km<span class="op">$</span>cluster, fulldata<span class="op">$</span>Class)</span></code></pre></div>
 <pre><code>##    
 ##       2   4
 ##   1 434  19
 ##   2  10 221</code></pre>
-<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb857-1" data-line-number="1"><span class="co">#irisCluster$cluster &lt;- as.factor(irisCluster$cluster)</span></a>
-<a class="sourceLine" id="cb857-2" data-line-number="2"><span class="co">#ggplot(iris, aes(Petal.Length, Petal.Width, color = iris$cluster)) + geom_point()</span></a>
-<a class="sourceLine" id="cb857-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb857-4" data-line-number="4"><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> bcdata, <span class="dt">cluster =</span> bc_km<span class="op">$</span>cluster),</a>
-<a class="sourceLine" id="cb857-5" data-line-number="5"><span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb857"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb857-1"><a href="clustering.html#cb857-1"></a><span class="co">#irisCluster$cluster &lt;- as.factor(irisCluster$cluster)</span></span>
+<span id="cb857-2"><a href="clustering.html#cb857-2"></a><span class="co">#ggplot(iris, aes(Petal.Length, Petal.Width, color = iris$cluster)) + geom_point()</span></span>
+<span id="cb857-3"><a href="clustering.html#cb857-3"></a></span>
+<span id="cb857-4"><a href="clustering.html#cb857-4"></a><span class="kw">fviz_cluster</span>(<span class="kw">list</span>(<span class="dt">data =</span> bcdata, <span class="dt">cluster =</span> bc_km<span class="op">$</span>cluster),</span>
+<span id="cb857-5"><a href="clustering.html#cb857-5"></a><span class="dt">ellipse.type =</span> <span class="st">&quot;norm&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">stand =</span> <span class="ot">FALSE</span>, <span class="dt">palette =</span> <span class="st">&quot;jco&quot;</span>, <span class="dt">ggtheme =</span> <span class="kw">theme_classic</span>())</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-360-1.png" width="672" /></p>
-<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb858-1" data-line-number="1"><span class="co"># Use hcut() which compute hclust and cut the tree</span></a>
-<a class="sourceLine" id="cb858-2" data-line-number="2">bc_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(<span class="kw">scale</span>(bcdata), <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;ward&quot;</span>)</a>
-<a class="sourceLine" id="cb858-3" data-line-number="3"><span class="co"># Visualize dendrogram</span></a>
-<a class="sourceLine" id="cb858-4" data-line-number="4"><span class="kw">fviz_dend</span>(bc_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb858-1"><a href="clustering.html#cb858-1"></a><span class="co"># Use hcut() which compute hclust and cut the tree</span></span>
+<span id="cb858-2"><a href="clustering.html#cb858-2"></a>bc_hc &lt;-<span class="st"> </span><span class="kw">hcut</span>(<span class="kw">scale</span>(bcdata), <span class="dt">k =</span> <span class="dv">2</span>, <span class="dt">hc_method =</span> <span class="st">&quot;ward&quot;</span>)</span>
+<span id="cb858-3"><a href="clustering.html#cb858-3"></a><span class="co"># Visualize dendrogram</span></span>
+<span id="cb858-4"><a href="clustering.html#cb858-4"></a><span class="kw">fviz_dend</span>(bc_hc, <span class="dt">show_labels =</span> <span class="ot">FALSE</span>, <span class="dt">rect =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-361-1.png" width="672" /></p>
-<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb859-1" data-line-number="1"><span class="co"># Visualize cluster</span></a>
-<a class="sourceLine" id="cb859-2" data-line-number="2"><span class="kw">fviz_cluster</span>(bc_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb859-1"><a href="clustering.html#cb859-1"></a><span class="co"># Visualize cluster</span></span>
+<span id="cb859-2"><a href="clustering.html#cb859-2"></a><span class="kw">fviz_cluster</span>(bc_hc, <span class="dt">ellipse.type =</span> <span class="st">&quot;convex&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-361-2.png" width="672" /></p>
-<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb860-1" data-line-number="1"><span class="kw">table</span>(bc_hc<span class="op">$</span>cluster, fulldata<span class="op">$</span>Class)</a></code></pre></div>
+<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb860-1"><a href="clustering.html#cb860-1"></a><span class="kw">table</span>(bc_hc<span class="op">$</span>cluster, fulldata<span class="op">$</span>Class)</span></code></pre></div>
 <pre><code>##    
 ##       2   4
 ##   1 412   2
@@ -961,19 +979,13 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 
 </div>
 </div>
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="principal-component-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="principal-component-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="building-phylogeneric-trees.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

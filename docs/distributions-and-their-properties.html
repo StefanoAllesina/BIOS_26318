@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-11" />
+<meta name="date" content="2020-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -238,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a><ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
 <li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
 <li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
 <li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
@@ -287,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>9</b> Likelihood and Bayes</a><ul>
 <li class="chapter" data-level="9.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>9.1</b> Likelihood and estimation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
+<li class="chapter" data-level="9.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>9.1.1</b> likelihood vs. probability</a></li>
 <li class="chapter" data-level="9.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>9.1.2</b> maximizing likelihood</a></li>
 <li class="chapter" data-level="9.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>9.1.3</b> discrete probability distributions</a></li>
 <li class="chapter" data-level="9.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>9.1.4</b> continuous probability distributions</a></li>
@@ -418,6 +420,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
 <li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
 </ul></li>
+<li class="chapter" data-level="16" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html"><i class="fa fa-check"></i><b>16</b> Building phylogeneric trees</a><ul>
+<li class="chapter" data-level="16.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#introduction-1"><i class="fa fa-check"></i><b>16.1</b> Introduction</a></li>
+<li class="chapter" data-level="16.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#input-1"><i class="fa fa-check"></i><b>16.2</b> Input</a></li>
+<li class="chapter" data-level="16.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#representing-trees"><i class="fa fa-check"></i><b>16.3</b> Representing trees</a></li>
+<li class="chapter" data-level="16.4" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#building-trees-from-sequence-data"><i class="fa fa-check"></i><b>16.4</b> Building trees from sequence data</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-parsimony"><i class="fa fa-check"></i><b>16.4.1</b> Maximum Parsimony</a></li>
+<li class="chapter" data-level="16.4.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#example-primates"><i class="fa fa-check"></i><b>16.4.2</b> Example: primates</a></li>
+<li class="chapter" data-level="16.4.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#parsimonygate"><i class="fa fa-check"></i><b>16.4.3</b> <code>#ParsimonyGate</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#distance-methods"><i class="fa fa-check"></i><b>16.5</b> Distance Methods</a></li>
+<li class="chapter" data-level="16.6" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#likelihood-based-methods"><i class="fa fa-check"></i><b>16.6</b> Likelihood based methods</a><ul>
+<li class="chapter" data-level="16.6.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#other-models"><i class="fa fa-check"></i><b>16.6.1</b> Other models</a></li>
+<li class="chapter" data-level="16.6.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-likelihood"><i class="fa fa-check"></i><b>16.6.2</b> Maximum likelihood</a></li>
+<li class="chapter" data-level="16.6.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#bayesian-methods"><i class="fa fa-check"></i><b>16.6.3</b> Bayesian methods</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -540,74 +558,74 @@ The calculation for two continuous random variables is analogous, only with inte
 <div id="uniform" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Uniform</h3>
 <p>The simplest probability distribution in which every value has the same probability (and one which is sometimes called “purely random” even though any random variable with any distribution is just as random). The probability distribution for a uniform random variable with <span class="math inline">\(n\)</span> values is <span class="math inline">\(P(x) = 1/n\)</span> for any value <span class="math inline">\(x\)</span>.</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1">low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></a>
-<a class="sourceLine" id="cb396-2" data-line-number="2">high &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># maximum value</span></a>
-<a class="sourceLine" id="cb396-3" data-line-number="3">values &lt;-<span class="st"> </span>low<span class="op">:</span>high <span class="co"># vector of discrete values of the RV</span></a>
-<a class="sourceLine" id="cb396-4" data-line-number="4">num &lt;-<span class="st"> </span><span class="kw">length</span>(values)</a>
-<a class="sourceLine" id="cb396-5" data-line-number="5">probs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>num, num) <span class="co"># uniform mass function vector</span></a>
-<a class="sourceLine" id="cb396-6" data-line-number="6"><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>,</a>
-<a class="sourceLine" id="cb396-7" data-line-number="7">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;uniform  distribution on integers from &quot;</span>, low, <span class="st">&quot;to &quot;</span>, high))</a></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="distributions-and-their-properties.html#cb396-1"></a>low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></span>
+<span id="cb396-2"><a href="distributions-and-their-properties.html#cb396-2"></a>high &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># maximum value</span></span>
+<span id="cb396-3"><a href="distributions-and-their-properties.html#cb396-3"></a>values &lt;-<span class="st"> </span>low<span class="op">:</span>high <span class="co"># vector of discrete values of the RV</span></span>
+<span id="cb396-4"><a href="distributions-and-their-properties.html#cb396-4"></a>num &lt;-<span class="st"> </span><span class="kw">length</span>(values)</span>
+<span id="cb396-5"><a href="distributions-and-their-properties.html#cb396-5"></a>probs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>num, num) <span class="co"># uniform mass function vector</span></span>
+<span id="cb396-6"><a href="distributions-and-their-properties.html#cb396-6"></a><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>,</span>
+<span id="cb396-7"><a href="distributions-and-their-properties.html#cb396-7"></a>        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;uniform  distribution on integers from &quot;</span>, low, <span class="st">&quot;to &quot;</span>, high))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" data-line-number="1">unif.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb397-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The expected value of uniform distribution is&quot;</span>, unif.exp)</a></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="distributions-and-their-properties.html#cb397-1"></a>unif.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</span>
+<span id="cb397-2"><a href="distributions-and-their-properties.html#cb397-2"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of uniform distribution is&quot;</span>, unif.exp)</span></code></pre></div>
 <pre><code>## [1] &quot;The expected value of uniform distribution is 5&quot;</code></pre>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1">unif.var &lt;-<span class="st"> </span><span class="kw">sum</span>((unif.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb399-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of uniform distribution is&quot;</span>, unif.var)</a></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="distributions-and-their-properties.html#cb399-1"></a>unif.var &lt;-<span class="st"> </span><span class="kw">sum</span>((unif.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</span>
+<span id="cb399-2"><a href="distributions-and-their-properties.html#cb399-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of uniform distribution is&quot;</span>, unif.var)</span></code></pre></div>
 <pre><code>## [1] &quot;The variance of uniform distribution is 10&quot;</code></pre>
 <p><em>Exercise:</em> experiment with the low and high values to see how the expectation and variance depend on them. Can you postulate a relationship without looking it up?</p>
 </div>
 <div id="binomial" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Binomial</h3>
 <p>Binary or Bernoulli trials have two discrete outcomes (mutant/wildtype, win/lose, etc.). The number of “successes” out of a sequence of <span class="math inline">\(n\)</span> independent binary trials with probability of success <span class="math inline">\(p\)</span> is described by the binomial distribution.</p>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># the number of trials</span></a>
-<a class="sourceLine" id="cb401-2" data-line-number="2">p &lt;-<span class="st"> </span><span class="fl">0.3</span> <span class="co"># the probability of success in one trial</span></a>
-<a class="sourceLine" id="cb401-3" data-line-number="3">values &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n <span class="co"># vector of discrete values of the binomial</span></a>
-<a class="sourceLine" id="cb401-4" data-line-number="4">probs &lt;-<span class="st"> </span><span class="kw">dbinom</span>(values, n, p)</a>
-<a class="sourceLine" id="cb401-5" data-line-number="5"><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>,</a>
-<a class="sourceLine" id="cb401-6" data-line-number="6">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;binomial distribution with n=&quot;</span>, n, <span class="st">&quot;and p=&quot;</span>, p))</a></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="distributions-and-their-properties.html#cb401-1"></a>n &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># the number of trials</span></span>
+<span id="cb401-2"><a href="distributions-and-their-properties.html#cb401-2"></a>p &lt;-<span class="st"> </span><span class="fl">0.3</span> <span class="co"># the probability of success in one trial</span></span>
+<span id="cb401-3"><a href="distributions-and-their-properties.html#cb401-3"></a>values &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>n <span class="co"># vector of discrete values of the binomial</span></span>
+<span id="cb401-4"><a href="distributions-and-their-properties.html#cb401-4"></a>probs &lt;-<span class="st"> </span><span class="kw">dbinom</span>(values, n, p)</span>
+<span id="cb401-5"><a href="distributions-and-their-properties.html#cb401-5"></a><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>,</span>
+<span id="cb401-6"><a href="distributions-and-their-properties.html#cb401-6"></a>        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;binomial distribution with n=&quot;</span>, n, <span class="st">&quot;and p=&quot;</span>, p))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">bin.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb402-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The expected value of binomial distribution is&quot;</span>, bin.exp)</a></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="distributions-and-their-properties.html#cb402-1"></a>bin.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</span>
+<span id="cb402-2"><a href="distributions-and-their-properties.html#cb402-2"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of binomial distribution is&quot;</span>, bin.exp)</span></code></pre></div>
 <pre><code>## [1] &quot;The expected value of binomial distribution is 3&quot;</code></pre>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1">bin.var &lt;-<span class="st"> </span><span class="kw">sum</span>((bin.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb404-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of binomial distribution is&quot;</span>, bin.var)</a></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="distributions-and-their-properties.html#cb404-1"></a>bin.var &lt;-<span class="st"> </span><span class="kw">sum</span>((bin.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</span>
+<span id="cb404-2"><a href="distributions-and-their-properties.html#cb404-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of binomial distribution is&quot;</span>, bin.var)</span></code></pre></div>
 <pre><code>## [1] &quot;The variance of binomial distribution is 2.1&quot;</code></pre>
 <p><em>Exercise:</em> Try different values of <span class="math inline">\(n\)</span> and <span class="math inline">\(p\)</span> and postulate a relationship with the expectation and variance.</p>
 </div>
 <div id="geometric" class="section level3">
 <h3><span class="header-section-number">5.3.3</span> Geometric</h3>
 <p>The random variable is the first “success” in a string of independent binary trials and the distribution describes the probability of any nonnegative value. It may be pretty intuitive that since all the trials have the same probability of success, the distribution with have a geometric (exponential) form—try to figure out the exact formula for the probability density without looking it up!</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="fl">0.3</span> <span class="co"># the probability of success</span></a>
-<a class="sourceLine" id="cb406-2" data-line-number="2">low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></a>
-<a class="sourceLine" id="cb406-3" data-line-number="3">high &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># maximum value</span></a>
-<a class="sourceLine" id="cb406-4" data-line-number="4">values &lt;-<span class="st"> </span>low<span class="op">:</span>high <span class="co"># vector of discrete values of the RV</span></a>
-<a class="sourceLine" id="cb406-5" data-line-number="5">probs &lt;-<span class="st"> </span><span class="kw">dgeom</span>(values, p)</a>
-<a class="sourceLine" id="cb406-6" data-line-number="6"><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>, <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;geometric distribution with p=&quot;</span>, p))</a></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="distributions-and-their-properties.html#cb406-1"></a>p &lt;-<span class="st"> </span><span class="fl">0.3</span> <span class="co"># the probability of success</span></span>
+<span id="cb406-2"><a href="distributions-and-their-properties.html#cb406-2"></a>low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></span>
+<span id="cb406-3"><a href="distributions-and-their-properties.html#cb406-3"></a>high &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># maximum value</span></span>
+<span id="cb406-4"><a href="distributions-and-their-properties.html#cb406-4"></a>values &lt;-<span class="st"> </span>low<span class="op">:</span>high <span class="co"># vector of discrete values of the RV</span></span>
+<span id="cb406-5"><a href="distributions-and-their-properties.html#cb406-5"></a>probs &lt;-<span class="st"> </span><span class="kw">dgeom</span>(values, p)</span>
+<span id="cb406-6"><a href="distributions-and-their-properties.html#cb406-6"></a><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>, <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;geometric distribution with p=&quot;</span>, p))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1">geom.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb407-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The expected value of geometric distribution is&quot;</span>, geom.exp)</a></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="distributions-and-their-properties.html#cb407-1"></a>geom.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</span>
+<span id="cb407-2"><a href="distributions-and-their-properties.html#cb407-2"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of geometric distribution is&quot;</span>, geom.exp)</span></code></pre></div>
 <pre><code>## [1] &quot;The expected value of geometric distribution is 2.32030059650472&quot;</code></pre>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1">geom.var &lt;-<span class="st"> </span><span class="kw">sum</span>((geom.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb409-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of geometric distribution is&quot;</span>, geom.var)</a></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="distributions-and-their-properties.html#cb409-1"></a>geom.var &lt;-<span class="st"> </span><span class="kw">sum</span>((geom.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</span>
+<span id="cb409-2"><a href="distributions-and-their-properties.html#cb409-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of geometric distribution is&quot;</span>, geom.var)</span></code></pre></div>
 <pre><code>## [1] &quot;The variance of geometric distribution is 7.52697882945385&quot;</code></pre>
 <p><em>Exercise:</em> Calculate the expectations and variances for different values of <span class="math inline">\(p\)</span> and report how they are related.</p>
 </div>
 <div id="poisson" class="section level3">
 <h3><span class="header-section-number">5.3.4</span> Poisson</h3>
 <p>Suppose that there is a discrete process that occurs with some average rate <span class="math inline">\(\lambda\)</span>, which describes the expected number of occurrences of these events in a unit of time. The Poisson random variable is the number of such occurrences, and the distribution describes the probability of any nonnegative value.</p>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb411-1" data-line-number="1">low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></a>
-<a class="sourceLine" id="cb411-2" data-line-number="2">high &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># maximum value</span></a>
-<a class="sourceLine" id="cb411-3" data-line-number="3">lambda &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># Poisson rate</span></a>
-<a class="sourceLine" id="cb411-4" data-line-number="4">values &lt;-<span class="st"> </span>low<span class="op">:</span>high <span class="co"># vector of discrete values of the RV</span></a>
-<a class="sourceLine" id="cb411-5" data-line-number="5">probs &lt;-<span class="st"> </span><span class="kw">dpois</span>(values, lambda)</a>
-<a class="sourceLine" id="cb411-6" data-line-number="6"><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>,</a>
-<a class="sourceLine" id="cb411-7" data-line-number="7">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Poisson distribution with lambda=&quot;</span>, lambda))</a></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="distributions-and-their-properties.html#cb411-1"></a>low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></span>
+<span id="cb411-2"><a href="distributions-and-their-properties.html#cb411-2"></a>high &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># maximum value</span></span>
+<span id="cb411-3"><a href="distributions-and-their-properties.html#cb411-3"></a>lambda &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># Poisson rate</span></span>
+<span id="cb411-4"><a href="distributions-and-their-properties.html#cb411-4"></a>values &lt;-<span class="st"> </span>low<span class="op">:</span>high <span class="co"># vector of discrete values of the RV</span></span>
+<span id="cb411-5"><a href="distributions-and-their-properties.html#cb411-5"></a>probs &lt;-<span class="st"> </span><span class="kw">dpois</span>(values, lambda)</span>
+<span id="cb411-6"><a href="distributions-and-their-properties.html#cb411-6"></a><span class="kw">barplot</span>(probs, <span class="dt">names.arg =</span> values, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;probability&#39;</span>,</span>
+<span id="cb411-7"><a href="distributions-and-their-properties.html#cb411-7"></a>        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Poisson distribution with lambda=&quot;</span>, lambda))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1">pois.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb412-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The expected value of Poisson distribution is&quot;</span>, pois.exp)</a></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="distributions-and-their-properties.html#cb412-1"></a>pois.exp &lt;-<span class="st"> </span><span class="kw">sum</span>(values<span class="op">*</span>probs)</span>
+<span id="cb412-2"><a href="distributions-and-their-properties.html#cb412-2"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of Poisson distribution is&quot;</span>, pois.exp)</span></code></pre></div>
 <pre><code>## [1] &quot;The expected value of Poisson distribution is 9.96545658024143&quot;</code></pre>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1">pois.var &lt;-<span class="st"> </span><span class="kw">sum</span>((pois.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</a>
-<a class="sourceLine" id="cb414-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of Poisson distribution is&quot;</span>, pois.var)</a></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="distributions-and-their-properties.html#cb414-1"></a>pois.var &lt;-<span class="st"> </span><span class="kw">sum</span>((pois.exp <span class="op">-</span><span class="st"> </span>values)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>probs)</span>
+<span id="cb414-2"><a href="distributions-and-their-properties.html#cb414-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of Poisson distribution is&quot;</span>, pois.var)</span></code></pre></div>
 <pre><code>## [1] &quot;The variance of Poisson distribution is 9.77875058489889&quot;</code></pre>
 <p><em>Exercise:</em> Calculate the expectations and variances for different values of <span class="math inline">\(\lambda\)</span> and report how they are related.</p>
 </div>
@@ -618,44 +636,44 @@ The calculation for two continuous random variables is analogous, only with inte
 <div id="uniform-1" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> Uniform</h3>
 <p>The continuous equivalent of the discrete uniform distribution.</p>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1">low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></a>
-<a class="sourceLine" id="cb416-2" data-line-number="2">high &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># maximum values</span></a>
-<a class="sourceLine" id="cb416-3" data-line-number="3">number &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb416-4" data-line-number="4">values &lt;-<span class="st"> </span><span class="kw">seq</span>(low, high, <span class="dt">length.out =</span> number) <span class="co"># vector of discrete values of the RV</span></a>
-<a class="sourceLine" id="cb416-5" data-line-number="5">probs &lt;-<span class="st"> </span><span class="kw">dunif</span>(values, <span class="dt">min=</span>low, <span class="dt">max =</span> high)</a>
-<a class="sourceLine" id="cb416-6" data-line-number="6"><span class="kw">plot</span>(values, probs, <span class="dt">t=</span><span class="st">&#39;l&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;density&#39;</span>,</a>
-<a class="sourceLine" id="cb416-7" data-line-number="7">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Uniform distribution on interval from &quot;</span>, low, <span class="st">&quot;to &quot;</span>, high))</a></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="distributions-and-their-properties.html#cb416-1"></a>low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></span>
+<span id="cb416-2"><a href="distributions-and-their-properties.html#cb416-2"></a>high &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># maximum values</span></span>
+<span id="cb416-3"><a href="distributions-and-their-properties.html#cb416-3"></a>number &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb416-4"><a href="distributions-and-their-properties.html#cb416-4"></a>values &lt;-<span class="st"> </span><span class="kw">seq</span>(low, high, <span class="dt">length.out =</span> number) <span class="co"># vector of discrete values of the RV</span></span>
+<span id="cb416-5"><a href="distributions-and-their-properties.html#cb416-5"></a>probs &lt;-<span class="st"> </span><span class="kw">dunif</span>(values, <span class="dt">min=</span>low, <span class="dt">max =</span> high)</span>
+<span id="cb416-6"><a href="distributions-and-their-properties.html#cb416-6"></a><span class="kw">plot</span>(values, probs, <span class="dt">t=</span><span class="st">&#39;l&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;density&#39;</span>,</span>
+<span id="cb416-7"><a href="distributions-and-their-properties.html#cb416-7"></a>        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Uniform distribution on interval from &quot;</span>, low, <span class="st">&quot;to &quot;</span>, high))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-154-1.png" width="672" /></p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># sample size</span></a>
-<a class="sourceLine" id="cb417-2" data-line-number="2">unif.sample &lt;-<span class="st"> </span><span class="kw">runif</span>(n, low, high) <span class="co"># generate sample</span></a>
-<a class="sourceLine" id="cb417-3" data-line-number="3">unif.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(unif.sample)</a>
-<a class="sourceLine" id="cb417-4" data-line-number="4"><span class="kw">paste</span>(<span class="st">&quot;The expected value of uniform distribution is&quot;</span>, unif.exp)</a></code></pre></div>
-<pre><code>## [1] &quot;The expected value of uniform distribution is 5.0570070964843&quot;</code></pre>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1">unif.var &lt;-<span class="st"> </span><span class="kw">var</span>(unif.sample)</a>
-<a class="sourceLine" id="cb419-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of uniform distribution is&quot;</span>, unif.var)</a></code></pre></div>
-<pre><code>## [1] &quot;The variance of uniform distribution is 8.55442070636268&quot;</code></pre>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="distributions-and-their-properties.html#cb417-1"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># sample size</span></span>
+<span id="cb417-2"><a href="distributions-and-their-properties.html#cb417-2"></a>unif.sample &lt;-<span class="st"> </span><span class="kw">runif</span>(n, low, high) <span class="co"># generate sample</span></span>
+<span id="cb417-3"><a href="distributions-and-their-properties.html#cb417-3"></a>unif.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(unif.sample)</span>
+<span id="cb417-4"><a href="distributions-and-their-properties.html#cb417-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of uniform distribution is&quot;</span>, unif.exp)</span></code></pre></div>
+<pre><code>## [1] &quot;The expected value of uniform distribution is 4.99310618747491&quot;</code></pre>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="distributions-and-their-properties.html#cb419-1"></a>unif.var &lt;-<span class="st"> </span><span class="kw">var</span>(unif.sample)</span>
+<span id="cb419-2"><a href="distributions-and-their-properties.html#cb419-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of uniform distribution is&quot;</span>, unif.var)</span></code></pre></div>
+<pre><code>## [1] &quot;The variance of uniform distribution is 8.32225101992472&quot;</code></pre>
 <p><em>Exercise:</em> experiment with the width of the interval to see how it affects the expectation and variance.</p>
 </div>
 <div id="exponential" class="section level3">
 <h3><span class="header-section-number">5.4.2</span> exponential</h3>
 <p>The random variable describes the length of time between independent discrete events occurring with a certain rate, like we saw in the Poisson distribution.</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></a>
-<a class="sourceLine" id="cb421-2" data-line-number="2">high &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># maximum values</span></a>
-<a class="sourceLine" id="cb421-3" data-line-number="3">number &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb421-4" data-line-number="4">r &lt;-<span class="st"> </span><span class="fl">0.5</span></a>
-<a class="sourceLine" id="cb421-5" data-line-number="5">values &lt;-<span class="st"> </span><span class="kw">seq</span>(low,high,<span class="dt">length.out =</span> number) <span class="co"># vactor of discrete values of the RV</span></a>
-<a class="sourceLine" id="cb421-6" data-line-number="6">probs &lt;-<span class="st"> </span><span class="kw">dexp</span>(values, r)</a>
-<a class="sourceLine" id="cb421-7" data-line-number="7"><span class="kw">plot</span>(values, probs, <span class="dt">t=</span><span class="st">&#39;l&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;density&#39;</span>,</a>
-<a class="sourceLine" id="cb421-8" data-line-number="8">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Exponential distribution with rate=&quot;</span>, r))</a></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="distributions-and-their-properties.html#cb421-1"></a>low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></span>
+<span id="cb421-2"><a href="distributions-and-their-properties.html#cb421-2"></a>high &lt;-<span class="st"> </span><span class="dv">20</span> <span class="co"># maximum values</span></span>
+<span id="cb421-3"><a href="distributions-and-their-properties.html#cb421-3"></a>number &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb421-4"><a href="distributions-and-their-properties.html#cb421-4"></a>r &lt;-<span class="st"> </span><span class="fl">0.5</span></span>
+<span id="cb421-5"><a href="distributions-and-their-properties.html#cb421-5"></a>values &lt;-<span class="st"> </span><span class="kw">seq</span>(low,high,<span class="dt">length.out =</span> number) <span class="co"># vactor of discrete values of the RV</span></span>
+<span id="cb421-6"><a href="distributions-and-their-properties.html#cb421-6"></a>probs &lt;-<span class="st"> </span><span class="kw">dexp</span>(values, r)</span>
+<span id="cb421-7"><a href="distributions-and-their-properties.html#cb421-7"></a><span class="kw">plot</span>(values, probs, <span class="dt">t=</span><span class="st">&#39;l&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;density&#39;</span>,</span>
+<span id="cb421-8"><a href="distributions-and-their-properties.html#cb421-8"></a>        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Exponential distribution with rate=&quot;</span>, r))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># sample size</span></a>
-<a class="sourceLine" id="cb422-2" data-line-number="2">exp.sample &lt;-<span class="st"> </span><span class="kw">rexp</span>(n, r) <span class="co"># generate sample</span></a>
-<a class="sourceLine" id="cb422-3" data-line-number="3">exp.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(exp.sample)</a>
-<a class="sourceLine" id="cb422-4" data-line-number="4"><span class="kw">paste</span>(<span class="st">&quot;The expected value of exponential distribution is&quot;</span>, exp.exp)</a></code></pre></div>
-<pre><code>## [1] &quot;The expected value of exponential distribution is 2.01301482994485&quot;</code></pre>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1">exp.var &lt;-<span class="st"> </span><span class="kw">var</span>(exp.sample)</a>
-<a class="sourceLine" id="cb424-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of exponential distribution is&quot;</span>, exp.var)</a></code></pre></div>
-<pre><code>## [1] &quot;The variance of exponential distribution is 4.27068043843372&quot;</code></pre>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="distributions-and-their-properties.html#cb422-1"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># sample size</span></span>
+<span id="cb422-2"><a href="distributions-and-their-properties.html#cb422-2"></a>exp.sample &lt;-<span class="st"> </span><span class="kw">rexp</span>(n, r) <span class="co"># generate sample</span></span>
+<span id="cb422-3"><a href="distributions-and-their-properties.html#cb422-3"></a>exp.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(exp.sample)</span>
+<span id="cb422-4"><a href="distributions-and-their-properties.html#cb422-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of exponential distribution is&quot;</span>, exp.exp)</span></code></pre></div>
+<pre><code>## [1] &quot;The expected value of exponential distribution is 1.93419041862166&quot;</code></pre>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="distributions-and-their-properties.html#cb424-1"></a>exp.var &lt;-<span class="st"> </span><span class="kw">var</span>(exp.sample)</span>
+<span id="cb424-2"><a href="distributions-and-their-properties.html#cb424-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of exponential distribution is&quot;</span>, exp.var)</span></code></pre></div>
+<pre><code>## [1] &quot;The variance of exponential distribution is 3.45379378602373&quot;</code></pre>
 <p><em>Exercise:</em> What is the relationship between the rate and the expectation and variance?</p>
 </div>
 <div id="normal-distribution" class="section level3">
@@ -668,71 +686,71 @@ The calculation for two continuous random variables is analogous, only with inte
 \]</span>
 where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribution with mean 0 and standard deviation 1.</p>
 </blockquote>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1">low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></a>
-<a class="sourceLine" id="cb426-2" data-line-number="2">high &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># maximum values</span></a>
-<a class="sourceLine" id="cb426-3" data-line-number="3">number &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb426-4" data-line-number="4">mu &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb426-5" data-line-number="5">sigma &lt;-<span class="st"> </span><span class="fl">0.5</span> </a>
-<a class="sourceLine" id="cb426-6" data-line-number="6">values &lt;-<span class="st"> </span><span class="kw">seq</span>(low,high,<span class="dt">length.out =</span> number) <span class="co"># vactor of discrete values of the RV</span></a>
-<a class="sourceLine" id="cb426-7" data-line-number="7">probs &lt;-<span class="st"> </span><span class="kw">dnorm</span>(values, mu, sigma)</a>
-<a class="sourceLine" id="cb426-8" data-line-number="8"><span class="kw">plot</span>(values, probs, <span class="dt">t=</span><span class="st">&#39;l&#39;</span>,<span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;density&#39;</span>,</a>
-<a class="sourceLine" id="cb426-9" data-line-number="9">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Normal distribution with mean=&quot;</span>, mu, <span class="st">&quot;and sigma=&quot;</span>, sigma))</a></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="distributions-and-their-properties.html#cb426-1"></a>low &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># minimum value</span></span>
+<span id="cb426-2"><a href="distributions-and-their-properties.html#cb426-2"></a>high &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># maximum values</span></span>
+<span id="cb426-3"><a href="distributions-and-their-properties.html#cb426-3"></a>number &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb426-4"><a href="distributions-and-their-properties.html#cb426-4"></a>mu &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb426-5"><a href="distributions-and-their-properties.html#cb426-5"></a>sigma &lt;-<span class="st"> </span><span class="fl">0.5</span> </span>
+<span id="cb426-6"><a href="distributions-and-their-properties.html#cb426-6"></a>values &lt;-<span class="st"> </span><span class="kw">seq</span>(low,high,<span class="dt">length.out =</span> number) <span class="co"># vactor of discrete values of the RV</span></span>
+<span id="cb426-7"><a href="distributions-and-their-properties.html#cb426-7"></a>probs &lt;-<span class="st"> </span><span class="kw">dnorm</span>(values, mu, sigma)</span>
+<span id="cb426-8"><a href="distributions-and-their-properties.html#cb426-8"></a><span class="kw">plot</span>(values, probs, <span class="dt">t=</span><span class="st">&#39;l&#39;</span>,<span class="dt">xlab =</span> <span class="st">&#39;values&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;density&#39;</span>,</span>
+<span id="cb426-9"><a href="distributions-and-their-properties.html#cb426-9"></a>        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Normal distribution with mean=&quot;</span>, mu, <span class="st">&quot;and sigma=&quot;</span>, sigma))</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># sample size</span></a>
-<a class="sourceLine" id="cb427-2" data-line-number="2">norm.sample &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, mu, sigma) <span class="co"># generate sample</span></a>
-<a class="sourceLine" id="cb427-3" data-line-number="3">norm.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(norm.sample)</a>
-<a class="sourceLine" id="cb427-4" data-line-number="4"><span class="kw">paste</span>(<span class="st">&quot;The expected value of normal distribution is&quot;</span>, norm.exp)</a></code></pre></div>
-<pre><code>## [1] &quot;The expected value of normal distribution is 4.96914929975184&quot;</code></pre>
-<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1">norm.var &lt;-<span class="st"> </span><span class="kw">var</span>(norm.sample)</a>
-<a class="sourceLine" id="cb429-2" data-line-number="2"><span class="kw">paste</span>(<span class="st">&quot;The variance of normal distribution is&quot;</span>, norm.var)</a></code></pre></div>
-<pre><code>## [1] &quot;The variance of normal distribution is 0.232305373306975&quot;</code></pre>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="distributions-and-their-properties.html#cb427-1"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># sample size</span></span>
+<span id="cb427-2"><a href="distributions-and-their-properties.html#cb427-2"></a>norm.sample &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, mu, sigma) <span class="co"># generate sample</span></span>
+<span id="cb427-3"><a href="distributions-and-their-properties.html#cb427-3"></a>norm.exp &lt;-<span class="st"> </span><span class="kw">mean</span>(norm.sample)</span>
+<span id="cb427-4"><a href="distributions-and-their-properties.html#cb427-4"></a><span class="kw">paste</span>(<span class="st">&quot;The expected value of normal distribution is&quot;</span>, norm.exp)</span></code></pre></div>
+<pre><code>## [1] &quot;The expected value of normal distribution is 4.98555526471394&quot;</code></pre>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="distributions-and-their-properties.html#cb429-1"></a>norm.var &lt;-<span class="st"> </span><span class="kw">var</span>(norm.sample)</span>
+<span id="cb429-2"><a href="distributions-and-their-properties.html#cb429-2"></a><span class="kw">paste</span>(<span class="st">&quot;The variance of normal distribution is&quot;</span>, norm.var)</span></code></pre></div>
+<pre><code>## [1] &quot;The variance of normal distribution is 0.266364971769665&quot;</code></pre>
 </div>
 </div>
 <div id="application-of-normal-distribution-confidence-intervals" class="section level2">
 <h2><span class="header-section-number">5.5</span> Application of normal distribution: confidence intervals</h2>
 <p>The most important use of the normal distribution has to do with estimation of means, because the normal distribution describes the <em>sampling distributions</em> of means of IID samples. The mean of that sampling distribution is the mean of the population distribution that is being sampled, and the standard deviation is called the <em>standard error</em> and is related to the standard deviation of the population <span class="math inline">\(\sigma_X\)</span> as follows: <span class="math inline">\(\sigma_{SE} = \sigma/n\)</span>, where <span class="math inline">\(n\)</span> is the sample size.</p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1">numsamples &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb431-2" data-line-number="2">size &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb431-3" data-line-number="3"><span class="co"># compute mean for different samples</span></a>
-<a class="sourceLine" id="cb431-4" data-line-number="4">samplemeans &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> numsamples, <span class="kw">mean</span>(<span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>, size, <span class="dt">replace =</span> <span class="ot">TRUE</span>)))</a>
-<a class="sourceLine" id="cb431-5" data-line-number="5">break_points &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(samplemeans), <span class="kw">max</span>(samplemeans), </a>
-<a class="sourceLine" id="cb431-6" data-line-number="6">                    (<span class="kw">max</span>(samplemeans) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(samplemeans)) <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb431-7" data-line-number="7"><span class="kw">hist</span>(samplemeans, <span class="dt">breaks =</span> break_points, <span class="dt">freq =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb431-8" data-line-number="8">     <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>,</a>
-<a class="sourceLine" id="cb431-9" data-line-number="9">     <span class="dt">main=</span> <span class="st">&#39;1000 means of samples of size 100&#39;</span>)</a>
-<a class="sourceLine" id="cb431-10" data-line-number="10">sigma &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(size)</a>
-<a class="sourceLine" id="cb431-11" data-line-number="11">mu &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb431-12" data-line-number="12">range &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(samplemeans), <span class="kw">max</span>(samplemeans), sigma <span class="op">/</span><span class="st"> </span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb431-13" data-line-number="13"><span class="kw">lines</span>(range, </a>
-<a class="sourceLine" id="cb431-14" data-line-number="14">      <span class="kw">dnorm</span>(range, mu, sigma),</a>
-<a class="sourceLine" id="cb431-15" data-line-number="15">      <span class="dt">t =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="distributions-and-their-properties.html#cb431-1"></a>numsamples &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb431-2"><a href="distributions-and-their-properties.html#cb431-2"></a>size &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb431-3"><a href="distributions-and-their-properties.html#cb431-3"></a><span class="co"># compute mean for different samples</span></span>
+<span id="cb431-4"><a href="distributions-and-their-properties.html#cb431-4"></a>samplemeans &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> numsamples, <span class="kw">mean</span>(<span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">10</span>, size, <span class="dt">replace =</span> <span class="ot">TRUE</span>)))</span>
+<span id="cb431-5"><a href="distributions-and-their-properties.html#cb431-5"></a>break_points &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(samplemeans), <span class="kw">max</span>(samplemeans), </span>
+<span id="cb431-6"><a href="distributions-and-their-properties.html#cb431-6"></a>                    (<span class="kw">max</span>(samplemeans) <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(samplemeans)) <span class="op">/</span><span class="st"> </span><span class="dv">20</span>)</span>
+<span id="cb431-7"><a href="distributions-and-their-properties.html#cb431-7"></a><span class="kw">hist</span>(samplemeans, <span class="dt">breaks =</span> break_points, <span class="dt">freq =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb431-8"><a href="distributions-and-their-properties.html#cb431-8"></a>     <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>,</span>
+<span id="cb431-9"><a href="distributions-and-their-properties.html#cb431-9"></a>     <span class="dt">main=</span> <span class="st">&#39;1000 means of samples of size 100&#39;</span>)</span>
+<span id="cb431-10"><a href="distributions-and-their-properties.html#cb431-10"></a>sigma &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">12</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(size)</span>
+<span id="cb431-11"><a href="distributions-and-their-properties.html#cb431-11"></a>mu &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb431-12"><a href="distributions-and-their-properties.html#cb431-12"></a>range &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">min</span>(samplemeans), <span class="kw">max</span>(samplemeans), sigma <span class="op">/</span><span class="st"> </span><span class="dv">100</span>)</span>
+<span id="cb431-13"><a href="distributions-and-their-properties.html#cb431-13"></a><span class="kw">lines</span>(range, </span>
+<span id="cb431-14"><a href="distributions-and-their-properties.html#cb431-14"></a>      <span class="kw">dnorm</span>(range, mu, sigma),</span>
+<span id="cb431-15"><a href="distributions-and-their-properties.html#cb431-15"></a>      <span class="dt">t =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
 <p><em>Exercise:</em> Try using different distributions from above and see if the sample means still converge to the normal distribution.</p>
 <p>The following script calculates a confidence interval based on a sample.</p>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1"><span class="co"># Computing confidence intervals</span></a>
-<a class="sourceLine" id="cb432-2" data-line-number="2"><span class="kw">qnorm</span>(<span class="fl">0.5</span>) <span class="co"># the value that divides the density function in two</span></a></code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="distributions-and-their-properties.html#cb432-1"></a><span class="co"># Computing confidence intervals</span></span>
+<span id="cb432-2"><a href="distributions-and-their-properties.html#cb432-2"></a><span class="kw">qnorm</span>(<span class="fl">0.5</span>) <span class="co"># the value that divides the density function in two</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1"><span class="kw">qnorm</span>(<span class="fl">0.95</span>) <span class="co"># the value such that 95% of density is to its left </span></a></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="distributions-and-their-properties.html#cb434-1"></a><span class="kw">qnorm</span>(<span class="fl">0.95</span>) <span class="co"># the value such that 95% of density is to its left </span></span></code></pre></div>
 <pre><code>## [1] 1.644854</code></pre>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" data-line-number="1">size &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># sample size</span></a>
-<a class="sourceLine" id="cb436-2" data-line-number="2">alpha &lt;-<span class="st"> </span><span class="fl">0.95</span> <span class="co"># significance level</span></a>
-<a class="sourceLine" id="cb436-3" data-line-number="3">sample &lt;-<span class="st"> </span><span class="kw">runif</span>(size)</a>
-<a class="sourceLine" id="cb436-4" data-line-number="4">s &lt;-<span class="st"> </span><span class="kw">sd</span>(sample) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(size) <span class="co"># standard error</span></a>
-<a class="sourceLine" id="cb436-5" data-line-number="5">z &lt;-<span class="st"> </span><span class="kw">qnorm</span>((<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># z-value</span></a>
-<a class="sourceLine" id="cb436-6" data-line-number="6">left &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">+</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</a>
-<a class="sourceLine" id="cb436-7" data-line-number="7">right &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">-</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</a>
-<a class="sourceLine" id="cb436-8" data-line-number="8"><span class="kw">print</span>(right)</a></code></pre></div>
-<pre><code>## [1] 0.563741</code></pre>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb438-1" data-line-number="1"><span class="kw">print</span>(left)</a></code></pre></div>
-<pre><code>## [1] 0.450639</code></pre>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="distributions-and-their-properties.html#cb436-1"></a>size &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># sample size</span></span>
+<span id="cb436-2"><a href="distributions-and-their-properties.html#cb436-2"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.95</span> <span class="co"># significance level</span></span>
+<span id="cb436-3"><a href="distributions-and-their-properties.html#cb436-3"></a>sample &lt;-<span class="st"> </span><span class="kw">runif</span>(size)</span>
+<span id="cb436-4"><a href="distributions-and-their-properties.html#cb436-4"></a>s &lt;-<span class="st"> </span><span class="kw">sd</span>(sample) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(size) <span class="co"># standard error</span></span>
+<span id="cb436-5"><a href="distributions-and-their-properties.html#cb436-5"></a>z &lt;-<span class="st"> </span><span class="kw">qnorm</span>((<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># z-value</span></span>
+<span id="cb436-6"><a href="distributions-and-their-properties.html#cb436-6"></a>left &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">+</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</span>
+<span id="cb436-7"><a href="distributions-and-their-properties.html#cb436-7"></a>right &lt;-<span class="st"> </span><span class="kw">mean</span>(sample) <span class="op">-</span><span class="st"> </span>s <span class="op">*</span><span class="st"> </span>z</span>
+<span id="cb436-8"><a href="distributions-and-their-properties.html#cb436-8"></a><span class="kw">print</span>(right)</span></code></pre></div>
+<pre><code>## [1] 0.5404804</code></pre>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="distributions-and-their-properties.html#cb438-1"></a><span class="kw">print</span>(left)</span></code></pre></div>
+<pre><code>## [1] 0.4298697</code></pre>
 <p><em>Exercise:</em> Modify that script to report whether the confidence interval captures the true mean. Use a loop structure (as in the script above) to generate 1000 sample means and report how many of them are within the theoretical confidence interval. Does this match the fraction you expect from the significance level? Try different significance levels and sample sizes and report what you discover.</p>
 </div>
 <div id="identifying-type-of-distribution-in-real-data" class="section level2">
 <h2><span class="header-section-number">5.6</span> Identifying type of distribution in real data</h2>
 <p>Let us consider the penguin data set again:</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb440-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb440-2" data-line-number="2"><span class="kw">library</span>(palmerpenguins)</a>
-<a class="sourceLine" id="cb440-3" data-line-number="3"><span class="kw">str</span>(penguins)</a></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="distributions-and-their-properties.html#cb440-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb440-2"><a href="distributions-and-their-properties.html#cb440-2"></a><span class="kw">library</span>(palmerpenguins)</span>
+<span id="cb440-3"><a href="distributions-and-their-properties.html#cb440-3"></a><span class="kw">str</span>(penguins)</span></code></pre></div>
 <pre><code>## tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
 ##  $ species          : Factor w/ 3 levels &quot;Adelie&quot;,&quot;Chinstrap&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ island           : Factor w/ 3 levels &quot;Biscoe&quot;,&quot;Dream&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
@@ -743,60 +761,60 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 ##  $ sex              : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 1 1 NA 1 2 1 2 NA NA ...
 ##  $ year             : int [1:344] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...</code></pre>
 <p>A simple way to visualize a distribution is to plot a histogram: data are binned, and the height of the bin represents counts (or frequencies). Here are the histograms of distributions of flipper lengths of all the species of penguins separated by sex:</p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1"><span class="kw">ggplot</span>(penguins) <span class="op">+</span></a>
-<a class="sourceLine" id="cb442-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> flipper_length_mm, <span class="dt">color =</span> sex, <span class="dt">fill=</span>sex) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="distributions-and-their-properties.html#cb442-1"></a><span class="kw">ggplot</span>(penguins) <span class="op">+</span></span>
+<span id="cb442-2"><a href="distributions-and-their-properties.html#cb442-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> flipper_length_mm, <span class="dt">color =</span> sex, <span class="dt">fill=</span>sex) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_bin).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-163-1.png" width="672" /></p>
 <p>And here are the histograms of flipper lengths separated by species:</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="kw">ggplot</span>(penguins) <span class="op">+</span></a>
-<a class="sourceLine" id="cb445-2" data-line-number="2"><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> flipper_length_mm, <span class="dt">color =</span> species, <span class="dt">fill=</span>species) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="distributions-and-their-properties.html#cb445-1"></a><span class="kw">ggplot</span>(penguins) <span class="op">+</span></span>
+<span id="cb445-2"><a href="distributions-and-their-properties.html#cb445-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> flipper_length_mm, <span class="dt">color =</span> species, <span class="dt">fill=</span>species) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_bin).</code></pre>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-164-1.png" width="672" /></p>
 <p>To decide systematically which of these distributions are closer to a theoretical distribution is via a Quantile-Quantile (QQ) plot, which plots the quantile value from a sample against the quantiles from a given distribution with best-fit parameters. If the data were to follow the distribution closely, you should find all the points lying on the identity line. For example, here is how to compare a data set drawn from the normal random number generator with the normal distribution:</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1"><span class="kw">library</span>(fitdistrplus)</a></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="distributions-and-their-properties.html#cb448-1"></a><span class="kw">library</span>(fitdistrplus)</span></code></pre></div>
 <pre><code>## Loading required package: survival</code></pre>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1">test_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="fl">1.5</span>))</a>
-<a class="sourceLine" id="cb450-2" data-line-number="2"><span class="co"># example: find best-fitting Normal</span></a>
-<a class="sourceLine" id="cb450-3" data-line-number="3">my_normal &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(test_data<span class="op">$</span>x, <span class="dt">densfun =</span> <span class="st">&quot;normal&quot;</span>)</a>
-<a class="sourceLine" id="cb450-4" data-line-number="4"><span class="co"># note the slight discrepancies</span></a>
-<a class="sourceLine" id="cb450-5" data-line-number="5"><span class="kw">print</span>(my_normal)</a></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="distributions-and-their-properties.html#cb450-1"></a>test_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">mean =</span> <span class="dv">3</span>, <span class="dt">sd =</span> <span class="fl">1.5</span>))</span>
+<span id="cb450-2"><a href="distributions-and-their-properties.html#cb450-2"></a><span class="co"># example: find best-fitting Normal</span></span>
+<span id="cb450-3"><a href="distributions-and-their-properties.html#cb450-3"></a>my_normal &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(test_data<span class="op">$</span>x, <span class="dt">densfun =</span> <span class="st">&quot;normal&quot;</span>)</span>
+<span id="cb450-4"><a href="distributions-and-their-properties.html#cb450-4"></a><span class="co"># note the slight discrepancies</span></span>
+<span id="cb450-5"><a href="distributions-and-their-properties.html#cb450-5"></a><span class="kw">print</span>(my_normal)</span></code></pre></div>
 <pre><code>##       mean          sd    
-##   2.95068332   1.48269234 
-##  (0.06630802) (0.04688685)</code></pre>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1"><span class="kw">ggplot</span>(test_data, <span class="kw">aes</span>(<span class="dt">sample =</span> x)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb452-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb452-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb452-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb452-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Q-Q plot assuming best-fitting Normal distribution&quot;</span>)</a></code></pre></div>
+##   3.04872516   1.51657900 
+##  (0.06782347) (0.04795844)</code></pre>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="distributions-and-their-properties.html#cb452-1"></a><span class="kw">ggplot</span>(test_data, <span class="kw">aes</span>(<span class="dt">sample =</span> x)) <span class="op">+</span></span>
+<span id="cb452-2"><a href="distributions-and-their-properties.html#cb452-2"></a><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
+<span id="cb452-3"><a href="distributions-and-their-properties.html#cb452-3"></a><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
+<span id="cb452-4"><a href="distributions-and-their-properties.html#cb452-4"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb452-5"><a href="distributions-and-their-properties.html#cb452-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Q-Q plot assuming best-fitting Normal distribution&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-165-1.png" width="672" />
 Now let us assess the “normality” of the flipper length data separated by sex and separated by species:</p>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1">dataset &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(flipper_length_mm) </a>
-<a class="sourceLine" id="cb453-2" data-line-number="2">my_normal &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(<span class="dt">x =</span> <span class="kw">as_vector</span>(dataset), <span class="dt">densfun =</span> <span class="st">&quot;normal&quot;</span>)</a>
-<a class="sourceLine" id="cb453-3" data-line-number="3"><span class="co"># note the slight discrepancies</span></a>
-<a class="sourceLine" id="cb453-4" data-line-number="4"><span class="kw">print</span>(my_normal)</a></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="distributions-and-their-properties.html#cb453-1"></a>dataset &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(sex <span class="op">==</span><span class="st"> &#39;female&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(flipper_length_mm) </span>
+<span id="cb453-2"><a href="distributions-and-their-properties.html#cb453-2"></a>my_normal &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(<span class="dt">x =</span> <span class="kw">as_vector</span>(dataset), <span class="dt">densfun =</span> <span class="st">&quot;normal&quot;</span>)</span>
+<span id="cb453-3"><a href="distributions-and-their-properties.html#cb453-3"></a><span class="co"># note the slight discrepancies</span></span>
+<span id="cb453-4"><a href="distributions-and-their-properties.html#cb453-4"></a><span class="kw">print</span>(my_normal)</span></code></pre></div>
 <pre><code>##       mean           sd     
 ##   197.3636364    12.4628373 
 ##  (  0.9702306) (  0.6860566)</code></pre>
-<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1"><span class="kw">ggplot</span>(dataset, <span class="kw">aes</span>(<span class="dt">sample =</span> flipper_length_mm)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb455-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb455-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb455-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb455-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Q-Q plot assuming best-fitting Normal distribution of flipper lenth for female penguins&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="distributions-and-their-properties.html#cb455-1"></a><span class="kw">ggplot</span>(dataset, <span class="kw">aes</span>(<span class="dt">sample =</span> flipper_length_mm)) <span class="op">+</span></span>
+<span id="cb455-2"><a href="distributions-and-their-properties.html#cb455-2"></a><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
+<span id="cb455-3"><a href="distributions-and-their-properties.html#cb455-3"></a><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
+<span id="cb455-4"><a href="distributions-and-their-properties.html#cb455-4"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb455-5"><a href="distributions-and-their-properties.html#cb455-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Q-Q plot assuming best-fitting Normal distribution of flipper lenth for female penguins&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1">dataset &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(flipper_length_mm) </a>
-<a class="sourceLine" id="cb456-2" data-line-number="2">my_normal &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(<span class="dt">x =</span> <span class="kw">as_vector</span>(dataset), <span class="dt">densfun =</span> <span class="st">&quot;normal&quot;</span>)</a>
-<a class="sourceLine" id="cb456-3" data-line-number="3"><span class="co"># note the slight discrepancies</span></a>
-<a class="sourceLine" id="cb456-4" data-line-number="4"><span class="kw">print</span>(my_normal)</a></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="distributions-and-their-properties.html#cb456-1"></a>dataset &lt;-<span class="st"> </span>penguins <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">filter</span>(sex <span class="op">==</span><span class="st"> &#39;male&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">drop_na</span>() <span class="op">%&gt;%</span><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(flipper_length_mm) </span>
+<span id="cb456-2"><a href="distributions-and-their-properties.html#cb456-2"></a>my_normal &lt;-<span class="st"> </span><span class="kw">fitdistr</span>(<span class="dt">x =</span> <span class="kw">as_vector</span>(dataset), <span class="dt">densfun =</span> <span class="st">&quot;normal&quot;</span>)</span>
+<span id="cb456-3"><a href="distributions-and-their-properties.html#cb456-3"></a><span class="co"># note the slight discrepancies</span></span>
+<span id="cb456-4"><a href="distributions-and-their-properties.html#cb456-4"></a><span class="kw">print</span>(my_normal)</span></code></pre></div>
 <pre><code>##       mean           sd     
 ##   204.5059524    14.5045137 
 ##  (  1.1190475) (  0.7912861)</code></pre>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="kw">ggplot</span>(dataset, <span class="kw">aes</span>(<span class="dt">sample =</span> flipper_length_mm)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb458-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></a>
-<a class="sourceLine" id="cb458-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb458-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Q-Q plot assuming best-fitting Normal distribution of flipper lenth for male penguins&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="distributions-and-their-properties.html#cb458-1"></a><span class="kw">ggplot</span>(dataset, <span class="kw">aes</span>(<span class="dt">sample =</span> flipper_length_mm)) <span class="op">+</span></span>
+<span id="cb458-2"><a href="distributions-and-their-properties.html#cb458-2"></a><span class="st">  </span><span class="kw">stat_qq</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
+<span id="cb458-3"><a href="distributions-and-their-properties.html#cb458-3"></a><span class="st">  </span><span class="kw">stat_qq_line</span>(<span class="dt">distribution =</span> qnorm, <span class="dt">dparams =</span> my_normal<span class="op">$</span>estimate) <span class="op">+</span></span>
+<span id="cb458-4"><a href="distributions-and-their-properties.html#cb458-4"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>, <span class="dt">slope =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb458-5"><a href="distributions-and-their-properties.html#cb458-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Q-Q plot assuming best-fitting Normal distribution of flipper lenth for male penguins&quot;</span>)</span></code></pre></div>
 <p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-166-2.png" width="672" /></p>
 <p>In contrast with the simulated data, here the data points and the black line that attempts to capture them is quite different from the identity line (red). This means this distribution is for from normal, as can be seen from the histograms of the flipper lengths grouped by sex.</p>
 
