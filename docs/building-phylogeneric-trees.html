@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-15" />
+<meta name="date" content="2020-11-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -462,9 +462,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb862-2"><a href="building-phylogeneric-trees.html#cb862-2"></a><span class="kw">library</span>(phangorn) <span class="co"># tree reconstruction</span></span></code></pre></div>
 <div id="introduction-1" class="section level2">
 <h2><span class="header-section-number">16.1</span> Introduction</h2>
-<center>
-<img src="http://darwin-online.org.uk/converted/scans/manuscript%20scans/1837-9_TransmutationNotebooks/DarwinArchive_1837_NotebookB_CUL-DAR121.-_038.jpg">
-</center>
+<div class="figure">
+<img src="images/darwin.jpg" alt="" />
+<p class="caption">Darwin’s tree</p>
+</div>
 <p>Since Darwin’s “I think…” biologists have been constructing trees connecting species to their common ancestors. The goal of this brief tutorial is to introduce some of the basic terminology, and illustrate the most common approaches to building trees.</p>
 <p>This tutorial is based on the freely available book <a href="https://jarhodesuaf.github.io/PhyloBook.pdf">The Mathematics of Phylogenetics</a>, by Allman and Rhodes.</p>
 </div>
@@ -504,14 +505,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>A graph is a collection of vertices (<span class="math inline">\(V\)</span>) and edges (<span class="math inline">\(E\)</span>). We consider simple, undirected graph for most of the tutorial; simple means that self loops are not allowed and that each two nodes can be connected by one edge at most; undirected that we do not distinguish between <span class="math inline">\(a \to b\)</span> and <span class="math inline">\(b \to a\)</span>. A graph is <strong>connected</strong> if there is a way to go from any node to any other following its edges. A <strong>cycle</strong> is a closed path connecting a node to itself. A <strong>tree</strong> is a connected graph that contains no cycles.</p>
 <p>We distinguish between <strong>rooted</strong> and <strong>unrooted</strong> trees: the root is a particular vertex from which all other taxa descend (the MRCA, most recent common ancestor of all taxa). Note that by placing the root in different places, we can obtain dramatically different-looking trees:</p>
 <center>
-<img src="http://phylogeny.life/img/features/fet3.png">
+<img src="https://slideplayer.com/slide/8111866/25/images/9/Altering+the+position+of+root%2C+changes+the+meaning+of+Phylogenetic+tree.jpg">
 </center>
 <p>Typically, we can only observe the <strong>tips</strong> or <strong>leaves</strong> of the tree (the extant species); their common ancestors are the <strong>internal nodes</strong> of the tree, which have to be inferred.</p>
 <p>An unrooted tree with <span class="math inline">\(n &gt; 1\)</span> leaves contains exactly <span class="math inline">\(2n -2\)</span> nodes, and <span class="math inline">\(2n -3\)</span> edges. A rooted tree has one extra node (<span class="math inline">\(2n -1\)</span>) and one extra edge (<span class="math inline">\(2n - 2\)</span>). There are very many trees one can form with <span class="math inline">\(n\)</span> leaves: we can count <span class="math inline">\((2n -3)!!\)</span> rooted trees (where the double factorial becomes <span class="math inline">\(1 \cdot 3 \cdot 5 \cdots (2n -3)\)</span>).</p>
 <p>We can add a “length” to each edge, measuring how much change has accumulated between the two vertices. In case of “molecular clock” trees, we assume lengths to be measuring time, and all leaves have the same distance (computed summing the lengths along the branches) from the root. Trees in which all leaves have the same distance from the root are called <strong>ultrametric</strong>.</p>
-<center>
-<img src="https://slideplayer.com/slide/8111866/25/images/9/Altering+the+position+of+root%2C+changes+the+meaning+of+Phylogenetic+tree.jpg">
-</center>
 <p>Mathematically, if we do not make an assumption of a “molecular clock” (i.e., that mutations are neutral and occurr at a predictable rate), we cannot identify the root of a tree without using extra information. Typically, what is done is to also align sequence(s) stemming from an <strong>outgroup</strong>, i.e., a taxon that is believed to be distantly related to the taxa we want to connect in our tree. Then, the root will connect the outgroup taxon with the rest of the tree.</p>
 <p>Many of the methods for tree reconstruction are based on unrooted, unweighted trees, and a root and lengths can be determined once one has chosen a topology for the tree.</p>
 <p>A simple way to represent a tree is provided by the <strong>Newick notation</strong>: the string <code>(((a, b), c), (d, e))</code> represents a tree in which two nodes enclosed by parentheses are connected to a common ancestor (internal node). Note that the notation cannot readily discriminate among identical trees (e.g., <code>((d, e), (c, (b, a)))</code>) so that spotting two identical trees is difficult to do by eye.</p>
@@ -550,9 +548,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>we could think of the tree <span class="math inline">\(((1, 2), (3, 4))\)</span> that would be consistent with the changes in position 4 and 8; the changes in position 9, however, would require a further mutation for each branch. We can count the number of changes in the sequences required for each tree, and maximum parsimony can be summarized as “The best tree to infer from data is the one requiring the fewest changes”.</p>
 <p>We can propose a tree, and for each edge connecting nodes <span class="math inline">\((u, v)\)</span>, we can count the number of changes required to go from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. We can then sum all the changes (called the <strong>parsimony score</strong>) and choose the tree with the minimum score.</p>
-<center>
-<img src="http://csls-text3.c.u-tokyo.ac.jp/images/fig/c_fig24_02.jpg">
-</center>
+<div class="figure">
+<img src="images/parsimony.jpg" alt="" />
+<p class="caption">Parsimony</p>
+</div>
 <p>Computing the minimum score for a given tree and sequences for the leaves is called the “small parsimony problem” while computing the minimum parsimony over all trees is the “large parsimony problem”. The small problem can be solved efficiently (e.g., using the <a href="https://media.uaf.edu/media/t/0_tjoxyuwx">Fitch-Hartigan</a> algorithm). The large problem is computationally very difficult.</p>
 </div>
 <div id="example-primates" class="section level3">
@@ -572,7 +571,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb865-2"><a href="building-phylogeneric-trees.html#cb865-2"></a><span class="co"># generate random tree</span></span>
 <span id="cb865-3"><a href="building-phylogeneric-trees.html#cb865-3"></a>my_tree &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">14</span>, <span class="dt">rooted =</span> <span class="ot">FALSE</span>, <span class="dt">tip.label =</span> <span class="kw">names</span>(primates))</span>
 <span id="cb865-4"><a href="building-phylogeneric-trees.html#cb865-4"></a><span class="kw">plot</span>(my_tree)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-368-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-365-1.png" width="672" /></p>
 <p>We can compute the parsimony score for the tree:</p>
 <div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="building-phylogeneric-trees.html#cb866-1"></a><span class="kw">parsimony</span>(my_tree, primates)</span></code></pre></div>
 <pre><code>## [1] 921</code></pre>
@@ -580,7 +579,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="building-phylogeneric-trees.html#cb868-1"></a><span class="co"># try with another one</span></span>
 <span id="cb868-2"><a href="building-phylogeneric-trees.html#cb868-2"></a>my_tree2 &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">14</span>, <span class="dt">rooted =</span> <span class="ot">FALSE</span>, <span class="dt">tip.label =</span> <span class="kw">names</span>(primates))</span>
 <span id="cb868-3"><a href="building-phylogeneric-trees.html#cb868-3"></a><span class="kw">plot</span>(my_tree2)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-370-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-367-1.png" width="672" /></p>
 <div class="sourceCode" id="cb869"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb869-1"><a href="building-phylogeneric-trees.html#cb869-1"></a><span class="kw">parsimony</span>(my_tree2, primates)</span></code></pre></div>
 <pre><code>## [1] 935</code></pre>
 <p>Which is even worse! We can try to “tweak” the structure of the tree to reduce the parsimony score by calling <code>optim.parsimony</code>. For example:</p>
@@ -588,12 +587,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb871-2"><a href="building-phylogeneric-trees.html#cb871-2"></a>optim_tree &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(my_tree, primates)</span></code></pre></div>
 <pre><code>## Final p-score 746 after  19 nni operations</code></pre>
 <div class="sourceCode" id="cb873"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb873-1"><a href="building-phylogeneric-trees.html#cb873-1"></a><span class="kw">plot</span>(optim_tree)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-371-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-368-1.png" width="672" /></p>
 <p>Trying with the other random tree:</p>
 <div class="sourceCode" id="cb874"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb874-1"><a href="building-phylogeneric-trees.html#cb874-1"></a>optim_tree2 &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(my_tree2, primates)</span></code></pre></div>
 <pre><code>## Final p-score 751 after  23 nni operations</code></pre>
 <div class="sourceCode" id="cb876"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb876-1"><a href="building-phylogeneric-trees.html#cb876-1"></a><span class="kw">plot</span>(optim_tree2)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-372-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-369-1.png" width="672" /></p>
 <p>This shows that the starting tree matters. In fact, we do not find especially good soltuions even after calling <code>optim.parsimony</code>. Now we are going to try again but with a starting tree based on distances (explained below).</p>
 <div class="sourceCode" id="cb877"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb877-1"><a href="building-phylogeneric-trees.html#cb877-1"></a><span class="co"># compute distances</span></span>
 <span id="cb877-2"><a href="building-phylogeneric-trees.html#cb877-2"></a>dm &lt;-<span class="st"> </span><span class="kw">dist.ml</span>(primates)</span>
@@ -605,13 +604,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb879"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb879-1"><a href="building-phylogeneric-trees.html#cb879-1"></a>optim_tree3 &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(treeNJ, primates)</span></code></pre></div>
 <pre><code>## Final p-score 746 after  0 nni operations</code></pre>
 <div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb881-1"><a href="building-phylogeneric-trees.html#cb881-1"></a><span class="kw">plot</span>(optim_tree3)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-370-1.png" width="672" /></p>
 <div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb882-1"><a href="building-phylogeneric-trees.html#cb882-1"></a><span class="kw">parsimony</span>(treeUPGMA, primates)</span></code></pre></div>
 <pre><code>## [1] 751</code></pre>
 <div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb884-1"><a href="building-phylogeneric-trees.html#cb884-1"></a>optim_tree4 &lt;-<span class="st"> </span><span class="kw">optim.parsimony</span>(treeUPGMA, primates)</span></code></pre></div>
 <pre><code>## Final p-score 746 after  1 nni operations</code></pre>
 <div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb886-1"><a href="building-phylogeneric-trees.html#cb886-1"></a><span class="kw">plot</span>(optim_tree4)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-2.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-370-2.png" width="672" /></p>
 </div>
 <div id="parsimonygate" class="section level3">
 <h3><span class="header-section-number">16.4.3</span> <code>#ParsimonyGate</code></h3>
@@ -623,9 +622,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">16.5</span> Distance Methods</h2>
 <p>A second class of methods is based on measuring “dissimilarity” (or “distance”) between sequences. The idea is then to preferentially connect with a common ancestors species that are “close”. This is similar to what we’ve done with MDS, and the basic notion of distance is the same. We start by computing a matrix of dissimilarities (or distances), and then use an algorithm to build a tree.</p>
 <p>A simple method to build a tree given the dissimilarity matrix is called <em>unweighted pair-group method with arithmetic means</em> (<strong>UPGMA</strong>). The idea is very simple: we start by joining the two leaves that have the smallest distance. We then remove the leaves and add a new node that is the average between the two leaves. We then repeat the same operation until we have built the tree.</p>
-<center>
-<img src="http://www.slimsuite.unsw.edu.au/teaching/upgma/upgma15.PNG">
-</center>
+<div class="figure">
+<img src="images/upgma.png" alt="" />
+<p class="caption">UPGMA</p>
+</div>
 <p>Note that the UPGMA builds trees with branch lengths and assumes that the data are produced by a molecular clock. Because this condition is often violated, we need to choose another algorithm whenever we suspect the dissimilarities are not stemming from an ultrametric tree. In practice, the “Neighbor Joining” algorithm (<strong>NJ</strong>) is often used.</p>
 <p>The algorithm is based on the so-called four-point condition: given four taxa <span class="math inline">\(a, b, c, d\)</span> (which might include repetitions), in a metric tree we have</p>
 <p><span class="math display">\[
@@ -633,7 +633,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \]</span>
 This inequality is used to choose with two leaves to join, and the process is repeated as in UPGMA. Despite being more complex, NJ is often used in practice to produce a good starting tree. Note that NJ builds an unrooted tree.</p>
 <div class="sourceCode" id="cb887"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb887-1"><a href="building-phylogeneric-trees.html#cb887-1"></a><span class="kw">plot</span>(treeNJ, <span class="dt">type =</span> <span class="st">&quot;unrooted&quot;</span>, <span class="dt">lab4ut =</span> <span class="st">&quot;axial&quot;</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-375-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-371-1.png" width="672" /></p>
 </div>
 <div id="likelihood-based-methods" class="section level2">
 <h2><span class="header-section-number">16.6</span> Likelihood based methods</h2>
@@ -812,7 +812,7 @@ The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a
 ## Base frequencies:  
 ## 0.25 0.25 0.25 0.25</code></pre>
 <div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb895-1"><a href="building-phylogeneric-trees.html#cb895-1"></a><span class="kw">plot</span>(fitJC)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-377-1.png" width="672" /></p>
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-1.png" width="672" /></p>
 </div>
 <div id="bayesian-methods" class="section level3">
 <h3><span class="header-section-number">16.6.3</span> Bayesian methods</h3>

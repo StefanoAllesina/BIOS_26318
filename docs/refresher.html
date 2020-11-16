@@ -24,7 +24,7 @@
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-15" />
+<meta name="date" content="2020-11-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1160,21 +1160,21 @@ and run a script to confirm your intuition.</p>
 <h2><span class="header-section-number">1.12</span> Random numbers</h2>
 <p>To perform randomization, or any simulation, we typically need to draw random numbers. <code>R</code> has functions to sample random numbers from very many different statistical distributions. For example:</p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="refresher.html#cb204-1"></a><span class="kw">runif</span>(<span class="dv">5</span>) <span class="co"># sample 5 numbers from the uniform distribution between 0 and 1</span></span></code></pre></div>
-<pre><code>## [1] 0.86710183 0.17960058 0.93251881 0.34169992 0.08429534</code></pre>
+<pre><code>## [1] 0.8094765 0.5568433 0.7634501 0.6556762 0.0200934</code></pre>
 <div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="refresher.html#cb206-1"></a><span class="kw">runif</span>(<span class="dv">5</span>, <span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">9</span>) <span class="co"># set the limits of the uniform distribution</span></span></code></pre></div>
-<pre><code>## [1] 5.365514 4.484075 7.848325 3.669705 7.458310</code></pre>
+<pre><code>## [1] 1.858371 2.459589 6.277405 4.188236 7.636056</code></pre>
 <div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="refresher.html#cb208-1"></a><span class="kw">rnorm</span>(<span class="dv">3</span>) <span class="co"># three values from standard normal</span></span></code></pre></div>
-<pre><code>## [1] -0.5867154 -0.2221652 -1.9206612</code></pre>
+<pre><code>## [1] -1.0460438 -2.4895286  0.5813049</code></pre>
 <div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="refresher.html#cb210-1"></a><span class="kw">rnorm</span>(<span class="dv">3</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> <span class="dv">4</span>) <span class="co"># specify mean and standard deviation</span></span></code></pre></div>
-<pre><code>## [1] 4.7971885 0.5099554 2.6788737</code></pre>
+<pre><code>## [1] 5.429709 4.622021 7.088033</code></pre>
 <p>To sample from a set of values, use <code>sample</code>:</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="refresher.html#cb212-1"></a>v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>)</span>
 <span id="cb212-2"><a href="refresher.html#cb212-2"></a><span class="kw">sample</span>(v, <span class="dv">2</span>) <span class="co"># without replacement</span></span></code></pre></div>
-<pre><code>## [1] &quot;b&quot; &quot;a&quot;</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;c&quot;</code></pre>
 <div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="refresher.html#cb214-1"></a><span class="kw">sample</span>(v, <span class="dv">6</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>) <span class="co"># with replacement</span></span></code></pre></div>
-<pre><code>## [1] &quot;d&quot; &quot;b&quot; &quot;d&quot; &quot;c&quot; &quot;a&quot; &quot;c&quot;</code></pre>
+<pre><code>## [1] &quot;b&quot; &quot;b&quot; &quot;d&quot; &quot;a&quot; &quot;d&quot; &quot;b&quot;</code></pre>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="refresher.html#cb216-1"></a><span class="kw">sample</span>(v) <span class="co"># simply shuffle the elements</span></span></code></pre></div>
-<pre><code>## [1] &quot;b&quot; &quot;a&quot; &quot;d&quot; &quot;c&quot;</code></pre>
+<pre><code>## [1] &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;a&quot;</code></pre>
 </div>
 <div id="writing-functions" class="section level2">
 <h2><span class="header-section-number">1.13</span> Writing functions</h2>
@@ -1227,7 +1227,7 @@ and run a script to confirm your intuition.</p>
 <span id="cb231-4"><a href="refresher.html#cb231-4"></a>}</span>
 <span id="cb231-5"><a href="refresher.html#cb231-5"></a></span>
 <span id="cb231-6"><a href="refresher.html#cb231-6"></a><span class="kw">order_two_numbers</span>(<span class="kw">runif</span>(<span class="dv">1</span>), <span class="kw">runif</span>(<span class="dv">1</span>))</span></code></pre></div>
-<pre><code>## [1] 0.78312067 0.04263206</code></pre>
+<pre><code>## [1] 0.9075607 0.5755125</code></pre>
 </div>
 <div id="organizing-and-running-code" class="section level2">
 <h2><span class="header-section-number">1.14</span> Organizing and running code</h2>

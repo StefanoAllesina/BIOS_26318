@@ -9,11 +9,7 @@ library(phangorn) # tree reconstruction
 
 ## Introduction
 
-```{r, echo=FALSE}
-# Define variable containing url
-url <- "http://darwin-online.org.uk/converted/scans/manuscript%20scans/1837-9_TransmutationNotebooks/DarwinArchive_1837_NotebookB_CUL-DAR121.-_038.jpg"
-```
-<center><img src="`r url`"></center>
+![Darwin's tree](images/darwin.jpg)
 
 Since Darwin's "I think..." biologists have been constructing trees connecting species to their common ancestors. The goal of this brief tutorial is to introduce some of the basic terminology, and illustrate the most common approaches to building trees. 
 
@@ -40,7 +36,7 @@ We distinguish between **rooted** and **unrooted** trees: the root is a particul
 
 ```{r, echo=FALSE}
 # Define variable containing url
-url <- "http://phylogeny.life/img/features/fet3.png"
+url <- "https://slideplayer.com/slide/8111866/25/images/9/Altering+the+position+of+root%2C+changes+the+meaning+of+Phylogenetic+tree.jpg"
 ```
 <center><img src="`r url`"></center>
 
@@ -49,13 +45,6 @@ Typically, we can only observe the **tips** or **leaves** of the tree (the extan
 An unrooted tree with $n > 1$ leaves contains exactly $2n -2$ nodes, and $2n -3$ edges. A rooted tree has one extra node ($2n -1$) and one extra edge ($2n - 2$). There are very many trees one can form with $n$ leaves: we can count $(2n -3)!!$ rooted trees (where the double factorial becomes $1 \cdot 3 \cdot 5 \cdots (2n -3)$).
 
 We can add a "length" to each edge, measuring how much change has accumulated between the two vertices. In case of "molecular clock" trees, we assume lengths to be measuring time, and all leaves have the same distance (computed summing the lengths along the branches) from the root. Trees in which all leaves have the same distance from the root are called **ultrametric**.
-
-```{r, echo=FALSE}
-# Define variable containing url
-url <- "https://slideplayer.com/slide/8111866/25/images/9/Altering+the+position+of+root%2C+changes+the+meaning+of+Phylogenetic+tree.jpg"
-```
-<center><img src="`r url`"></center>
-
 
 Mathematically, if we do not make an assumption of a "molecular clock" (i.e., that mutations are neutral and occurr at a predictable rate), we cannot identify the root of a tree without using extra information. Typically, what is done is to also align sequence(s) stemming from an **outgroup**, i.e., a taxon that is believed to be distantly related to the taxa we want to connect in our tree. Then, the root will connect the outgroup taxon with the rest of the tree.
 
@@ -82,12 +71,7 @@ we could think of the tree $((1, 2), (3, 4))$ that would be consistent with the 
 
 We can propose a tree, and for each edge connecting nodes $(u, v)$, we can count the number of changes required to go from $u$ to $v$. We can then sum all the changes (called the **parsimony score**) and choose the tree with the minimum score.
 
-```{r, echo=FALSE}
-# Define variable containing url
-url <- "http://csls-text3.c.u-tokyo.ac.jp/images/fig/c_fig24_02.jpg"
-```
-<center><img src="`r url`"></center>
-
+![Parsimony](images/parsimony.jpg)
 
 Computing the minimum score for a given tree and sequences for the leaves is called the "small parsimony problem" while computing the minimum parsimony over all trees is the "large parsimony problem".  The small problem can be solved efficiently (e.g., using the [Fitch-Hartigan](https://media.uaf.edu/media/t/0_tjoxyuwx) algorithm). The large problem is computationally very difficult.
 
@@ -167,11 +151,7 @@ A second class of methods is based on measuring "dissimilarity" (or "distance") 
 
 A simple method to build a tree given the dissimilarity matrix is called *unweighted pair-group method with arithmetic means* (**UPGMA**). The idea is very simple: we start by joining the two leaves that have the smallest distance. We then remove the leaves and add a new node that is the average between the two leaves. We then repeat the same operation until we have built the tree.
 
-```{r, echo=FALSE}
-# Define variable containing url
-url <- "http://www.slimsuite.unsw.edu.au/teaching/upgma/upgma15.PNG"
-```
-<center><img src="`r url`"></center>
+![UPGMA](images/upgma.png)
 
 Note that the UPGMA builds trees with branch lengths and assumes that the data are produced by a molecular clock. Because this condition is often violated, we need to choose another algorithm whenever we suspect the dissimilarities are not stemming from an ultrametric tree. In practice, the "Neighbor Joining" algorithm (**NJ**) is often used.
 
