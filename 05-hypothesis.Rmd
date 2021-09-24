@@ -6,10 +6,10 @@ A large number of scientific questions can be expressed as an hypothesis test---
 
 A statistical test begins by stating the **null hypothesis**, usually one that is expected, or that shows no effect: for example, that two samples come from a distribution with the same mean, or that a rare allele has frequency of less than 0.1. One may state the **alternative hypothesis explicitly**, although it's usually the logical converse of the null, i.e., the two samples have different population means, or the allele has frequency greater than 0.1.
 
-After the hypothesis is stated, the data are collected and are used to test the hypothesis. By default, the null hypothesis is assumed to be true, and the test assesses whether the data provide sufficient evidence against the null hypothesis---in which case the **null hypothesis is rejected**. There is an adversarial relationship: either the data knock off the hypothesis, or else they fail to do so. Standard terminology reflects this somewhat counterintuitive setup: rejecting the null hypothesis is called a **positive test result**, while not rejecting it is called a **negative result**.
+After the hypothesis is stated, the data are collected and are used to test the hypothesis. By default, the null hypothesis is assumed to be true, and the test assesses whether the data provide sufficient evidence against the null hypothesis---in which case the **null hypothesis is rejected**. There is an adversarial relationship: either the data knock off the hypothesis, or else they fail to do so. Standard terminology reflects this somewhat counter-intuitive setup: rejecting the null hypothesis is called a **positive test result**, while not rejecting it is called a **negative result**.
 
 ```{r, echo=FALSE}
-# Define variable containing url
+# Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/null_hypothesis.png"
 ```
 <center><img src="`r url`"></center>
@@ -43,7 +43,7 @@ Knowledge of sensitivity and specificity determine the Type I and Type II error 
 
 Of course, it is desirable for a test to be both very sensitive (reject false null hypotheses, detect disease, convict guilty defendants) and very specific (not reject true null hypotheses, correctly identify healthy patients, acquit innocent defendants), but no test is perfect, and sometimes it makes the wrong decision. This is where statistical inference comes into play: given some information about these parameters,  a statistician can calculate the error rate in making different decisions.
 
-The probability that a given data set is produced from the model of the null hypothesis is called the **p-value** of a test. More precicely:
+The probability that a given data set is produced from the model of the null hypothesis is called the **p-value** of a test. More precisely:
 
 > For a given data set $D$ and a null hypothesis $H_0$, the  *p-value* is the probability of obtaining a result *as far from expectation or farther than the observed data, given the null hypothesis.* 
 
@@ -52,7 +52,7 @@ The p-value is the most used, misused, and even abused quantity in statistics, s
 Typically, one sets a critical threshold bounding the probability of making a Type I error in a test to a "small" number (often, $\alpha = 0.05$ or $0.01$), and calls the result of a test "significant" if the p-value is less than $\alpha$.
 
 ```{r, echo=FALSE}
-# Define variable containing url
+# Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/p_values.png"
 ```
 <center><img src="`r url`"></center>
@@ -118,7 +118,7 @@ hist(pvalues)
 This means that when you are performing multiple tests, some will turn out to find "significant" differences even when there are none. Again, this is better summarized by xkcd:
 
 ```{r, echo=FALSE}
-# Define variable containing url
+# Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/significant.png"
 ```
 <center><img src="`r url`"></center>
@@ -132,7 +132,7 @@ The main approach to deal with the problem of multiple comparisons is to adjust 
 
 - **Gene expression** In a typical microarray experiment, we contrast the differential expression of tens of thousands of genes in treatment and control tissues. 
 
-- **GWAS** In Genomewide Association Studies we want to find SNPs associated with a given phenotype. It is common to test tens of thousands or even millions of SNPs for signficant associations.  
+- **GWAS** In Genomewide Association Studies we want to find SNPs associated with a given phenotype. It is common to test tens of thousands or even millions of SNPs for significant associations.  
 
 - **Identifying binding sites** Identifying candidate binding sites for a transcriptional regulator requires scanning the whole genome, yielding tens of millions of tests. 
 

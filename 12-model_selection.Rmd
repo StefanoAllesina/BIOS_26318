@@ -14,7 +14,7 @@ The goal of model selection is to provide you with a disciplined way to choose a
 
 But what does "simplest" mean? Measuring a model's "complexity" is far from trivial, hence the different schools of thought. Some approaches simply count the number of free parameters, and penalize models with more parameters; others take into account how much each parameter should be "fine-tuned" to fit the data; other approaches are based on entirely different premises.
 
-But why should you choose the simplest model? First, simpler models are easier to analyze, so that for example you could make analytical headway into the mechanics of the process you want to model; simpler models are also considered more beautiful. Second, you want to avoid *overfitting*: each biological data set---however carefully crafted---is noisy, and you want to fit the signal, not the noise. If you include too much flexibility in your model, you will get what looks like an excellent fit for the specific data set, but you will be unable to fit other data sets to which your model should also apply.
+But why should you choose the simplest model? First, simpler models are easier to analyze, so that for example you could make analytical headway into the mechanics of the process you want to model; simpler models are also considered more beautiful. Second, you want to avoid *over-fitting*: each biological data set---however carefully crafted---is noisy, and you want to fit the signal, not the noise. If you include too much flexibility in your model, you will get what looks like an excellent fit for the specific data set, but you will be unable to fit other data sets to which your model should also apply.
 
 ```{r, message=FALSE,warning=FALSE}
 library(tidyverse) # our friend 
@@ -23,7 +23,7 @@ library(BayesFactor) # Bayesian model selection
 
 ## Problems
 
-1. Overfitting can lead to wrong inference. (The problem is similar to that of spurious correlations).
+1. Over-fitting can lead to wrong inference. (The problem is similar to that of spurious correlations).
 2. Identifiability of parameters. Sometimes it is hard/impossible to find the best value for a set of parameters. For example, when parameters only appear as sums or products in the model. In general, it is difficult to prove that the set of parameters leading to the maximum likelihood is unique.
 3. Finding best estimates. For complex models, it might be difficult to find the best estimates for a set of parameters. For example, several areas of the parameter space could yield a good fit, and the good sets of parameters could be separated by areas with poor fit. Then, we might get "stuck" in a sub-optimal region of the parameters space.
 
@@ -357,7 +357,7 @@ plot(bf_analysis)
 
 These ratios measure how many times more probable the model is compared to that with only the intercept (assuming initially that all models are equiprobable). Note that the Bayes Factors automatically penalize for overly complex models (triplets/quadruplets are ranked after pairs or even only `Guess`).
 
-* **Pros**: Elegant, straigthforward interpretation.
+* **Pros**: Elegant, straightforward interpretation.
 * **Cons**: Difficult to compute for complex models; requires priors.
 
 ## Other approaches
@@ -369,7 +369,7 @@ Another completely different way to perform model selection is based on the idea
 
 One very robust method to perform model selection, often used in machine learning, is cross-validation. The idea is simple: split the data in three parts: a small data set for exploring; a large set for fitting; a small set for testing (for example, 5\%, 75\%, 20\%). You can use the first data set to explore freely and get inspired for a good model. These data are then discarded. You use the largest data set for accurately fitting your model(s). Finally, you validate your model or select over competing models using the last data set. 
 
-Because you haven't used the test data for fitting, this should dramatically reduce the risk of overfitting. The downside of this is that we're wasting precious data. There are less expensive methods for cross validation, but if you have much data, or data is cheap, then this has the virtue of being fairly robust.
+Because you haven't used the test data for fitting, this should dramatically reduce the risk of over-fitting. The downside of this is that we're wasting precious data. There are less expensive methods for cross validation, but if you have much data, or data is cheap, then this has the virtue of being fairly robust.
 
 #### Exercise: Do shorter titles lead to more citations?
 

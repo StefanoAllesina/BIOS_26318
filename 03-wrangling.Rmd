@@ -105,11 +105,11 @@ penguins %>% # take a data table
 
 does exactly the same operations as the command above, but is much more readable. By concatenating many commands, you can create incredibly complex pipelines while retaining readability. It is also quite easy to add another piece of the pipeline in between commands, or to comment some of the pipeline out.
 
-Another advantage of pipelines is that they help with name completion. In fact, `RStudio` is running in the background your pipeline while you type it. Try typing `dt %>% filter(` and then start typing `bill` and press `Tab`: you will see the options to complete the column name; choose it with your arrows and hit `Return`. The back tickmarks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).
+Another advantage of pipelines is that they help with name completion. In fact, `RStudio` is running in the background your pipeline while you type it. Try typing `dt %>% filter(` and then start typing `bill` and press `Tab`: you will see the options to complete the column name; choose it with your arrows and hit `Return`. The back tick-marks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).
 
 ## Producing summaries
 
-Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shedded by the infected mice. We can do this using `summarise` (you can use British or American spelling):
+Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shed by the infected mice. We can do this using `summarise` (you can use British or American spelling):
 
 ```{r}
 penguins %>% 

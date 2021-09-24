@@ -149,7 +149,7 @@ You can see that we are misclassifying the grapes that are at the border of the 
 
 ### Agglomerative clustering
 
-Start with single data points as "clusters," then iteratively combine the closest pair of clusters. The closenest may be defined in the following ways:
+Start with single data points as "clusters," then iteratively combine the closest pair of clusters. The closeness may be defined in the following ways:
 
  1. Single Linkage: In single linkage, we define the distance between two clusters as the minimum distance between any single data point in the first cluster and any single data point in the second cluster. 
 
@@ -250,7 +250,7 @@ fviz_nbclust(nb)
 
 ### Validation
 
-One common approach to validating clustering is to use the approach called bootstrappingm which involves repeatedly sampling from the data set, running the clustering algorithm and comparing the results. One algorithm uses the Jaccard coefficient to quantify similarity between sets, which is defined as the number of points in the intersection of the two sets (those which are in both sets), divided by the number of points in the union of the two sets (the point that are in either one or the other set):
+One common approach to validating clustering is to use the approach called bootstrapping which involves repeatedly sampling from the data set, running the clustering algorithm and comparing the results. One algorithm uses the Jaccard coefficient to quantify similarity between sets, which is defined as the number of points in the intersection of the two sets (those which are in both sets), divided by the number of points in the union of the two sets (the point that are in either one or the other set):
 
 $$
 J = \frac{ \vert A \cap B \vert }{\vert A \cup B \vert}

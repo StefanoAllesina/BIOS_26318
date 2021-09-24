@@ -17,7 +17,7 @@ $$
 
 The model is based on a set of assumptions that allow us to calculate probabilities of outcomes of a random experiment, typically a random variable with a well-defined probability distribution function. 
 
-**Example.** $M$ may represent the binomial random variable, based on the assumptions that the data are strings of $n$ independent binary outcomes with a set probability $p$ of "success." We then have the following formula for the probability of obtaining $k$ succcesses:
+**Example.** $M$ may represent the binomial random variable, based on the assumptions that the data are strings of $n$ independent binary outcomes with a set probability $p$ of "success." We then have the following formula for the probability of obtaining $k$ successes:
 
 $$ 
 P(k ; n , p) =  {n \choose k} p^k (1-p)^{n-k}
@@ -131,7 +131,7 @@ Bayes' formula gives us the probability of $A$ given $B$ from probabilities of $
 
 
 ```{r, echo=FALSE}
-# Define variable containing url
+# Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/modified_bayes_theorem.png"
 ```
 
@@ -165,7 +165,7 @@ This is again because this disease is quite rare in this population, so a negati
 ### prosecutor's fallacy 
 
 ```{r, echo=FALSE}
-# Define variable containing url
+# Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/frequentists_vs_bayesians.png"
 ```
 
@@ -202,7 +202,7 @@ where:
 - $P(\theta \ \vert \ D)$ is the **posterior distribution** of $\theta$, i.e., our updated belief in the values of $\theta$.
 - $P(D \ \vert \ \theta)$ is the **likelihood function**: $P(DX \ \vert \ \theta) = L(\theta \ \vert \ D)$.
 - $P(\theta)$ is the **prior distribution**, i.e. our belief on the distribution of $\theta$ before seeing the data.
-- $P(D)$ is caled the **evidence**: $P(D) = \int P(D \ \vert \ \theta) d \theta$ (in practice, this need not to be calculated).
+- $P(D)$ is called the **evidence**: $P(D) = \int P(D \ \vert \ \theta) d \theta$ (in practice, this need not to be calculated).
 
 ### Example: capture-recapture
 
@@ -266,7 +266,7 @@ The fact that the posterior depends on the prior is the most controversial aspec
 The type of calculation performed above is feasible only for very simple models, and for appropriately chosen priors (called "conjugate priors"). For more complex models, we rely on simulations. In particular, one can use Markov-Chain Monte Carlo (MCMC) to sample from the posterior distribution of complex models. Very briefly, one builds a Markov-Chain in which the states represent sets of parameters; parameters are sampled from the prior, and the probability of moving to one state to another is proportional to the difference in their likelihood. When the MC converges, then one obtains the posterior distribution of the parameters. 
 
 
-Bayesian inference is used for many compex problems, including phylogenetic tree builiding [5].
+Bayesian inference is used for many complex problems, including phylogenetic tree building [5].
 
 ## Reading:
 

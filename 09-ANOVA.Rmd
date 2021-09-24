@@ -66,7 +66,7 @@ Note that the degrees of freedom associated with each term are $1$, $k-1$ and $n
 
 If the null hypothesis were true, then we would expect the between-treatment "variance" SST, divided by the degrees of freedom ($k-1$) to be the same as the within-treatment "variance" divided by $n-k$.
 
-Let's look at this hypothesis more closely. If the null hypothesis were true, then $SST$ would be the sum of the squares of independent, normally distributed random variables with mean zero and variance $\sigma^2$. If you remember, the distirbution of:
+Let's look at this hypothesis more closely. If the null hypothesis were true, then $SST$ would be the sum of the squares of independent, normally distributed random variables with mean zero and variance $\sigma^2$. If you remember, the distribution of:
 
 $$
 Q = \sum_{i=1}^d Z_i^2 \sim \chi^2(d)

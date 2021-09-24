@@ -44,7 +44,7 @@ $$
 This now looks analogous to the one-variable equation above, which we solved by dividing both sides by the multiple of $x$. The difficulty is that matrix operations are more complicated than scalar multiplication and division. Matrix multiplication is used in the equation above to multiply all the coefficients in the matrix by their respective variables, which involves a relatively complicated  [procedure in general](https://en.wikipedia.org/wiki/Matrix_multiplication). 
 
 
-The "division" equivalent is called [matrix inversion](https://en.wikipedia.org/wiki/Invertible_matrix) and it is even more complicated. First, we need to define the identity matrix, or the equivalent of the number 1 for matrix multiplication. The identity matrix is defined only for square matrices (equal number of rows and columns), so a size $n$ by $n$ idenitity matrix is define to have all 1s on the diagonal and all zeros on the off-diagonal:
+The "division" equivalent is called [matrix inversion](https://en.wikipedia.org/wiki/Invertible_matrix) and it is even more complicated. First, we need to define the identity matrix, or the equivalent of the number 1 for matrix multiplication. The identity matrix is defined only for square matrices (equal number of rows and columns), so a size $n$ by $n$ identity matrix is define to have all 1s on the diagonal and all zeros on the off-diagonal:
 $$
 I = \begin{pmatrix} 1 & 0 & \dots & 0 \\ 0 & 1  &\dots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 &\dots & 1\end{pmatrix}
 $$
@@ -138,7 +138,7 @@ $$
 $$
 *Exercise:* Carry out the matrix multiplications to verify that $\mathbf{A}^T \mathbf{A}$ is a $2 \times 2$ matrix and $\mathbf{A}^T \vec b$ is a vector of length 2. 
 
-Now we can solve this equation with a square matrix $\mathbf{A}^T \mathbf{A}$ by multiplying both sides by the inverse! In general, for an $n$-dimensional data set consisting of a bunch of values of $x$ and $y$,  the process loooks like this:
+Now we can solve this equation with a square matrix $\mathbf{A}^T \mathbf{A}$ by multiplying both sides by the inverse! In general, for an $n$-dimensional data set consisting of a bunch of values of $x$ and $y$,  the process looks like this:
 
 
 $$
@@ -332,7 +332,7 @@ $$
 A  \times  (c \vec v) = c A  \times  \vec v = c \lambda \vec v =  \lambda (c \vec v)
 $$
 
-This shows that when the vector $c \vec v$ is multiplied by the matrix $A$, it results in its being multiplied by the same number $\lambda$, so by definition it is an eigenvector. Therefore, an eigenvector $\vec v$ is not unique, as any constant multiple $c \vec v$ is also an eigenvector. It is more useful to think not of a single eigenvector $\vec v$, but of a **collection of vectors that can be interconverted by scalar multiplication** that are all essentially the same eigenvector. Another way to represent this, if the eigenvector is real, is that an eigenvector as a **direction that remains unchanged by multiplication by the matrix**, such as direction of the vector $v$ in  the figure below. As mentioned above, this is true only for real eigenvalues and eigenvectors, since complex eigenvectors cannot be
+This shows that when the vector $c \vec v$ is multiplied by the matrix $A$, it results in its being multiplied by the same number $\lambda$, so by definition it is an eigenvector. Therefore, an eigenvector $\vec v$ is not unique, as any constant multiple $c \vec v$ is also an eigenvector. It is more useful to think not of a single eigenvector $\vec v$, but of a **collection of vectors that can be inter-converted by scalar multiplication** that are all essentially the same eigenvector. Another way to represent this, if the eigenvector is real, is that an eigenvector as a **direction that remains unchanged by multiplication by the matrix**, such as direction of the vector $v$ in  the figure below. As mentioned above, this is true only for real eigenvalues and eigenvectors, since complex eigenvectors cannot be
 used to define a direction in a real space.
 
 ![Illustration of the geometry of a matrix $A$ multiplying its eigenvector $v$, resulting in a vector in the same direction
@@ -391,4 +391,4 @@ eigs$values
 eigs$vectors
 ```
 
-**Note:** a real-valued matrix can have complex eigenvalues and eigenvectors, but whenever it acts on a real vector, the result is still real. This is because the complex numbers cancel each other's imaginary parts. 
+**Note:** a real-valued matrix can have complex eigenvalues and eigenvectors, but whenever it acts on a real vector, the result is still real. This is because the complex numbers cancel each others imaginary parts. 

@@ -71,7 +71,7 @@ description: "Course material for Fundamentals of Biological Data Analysis, BIOS
 #### Week 5 {-}
 
 - Analysis of variance
-- Modeling timeseries data
+- Modeling time-series data
 
 #### Week 6 {-}
 

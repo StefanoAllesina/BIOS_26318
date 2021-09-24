@@ -40,7 +40,7 @@ $$
 X = U \Sigma V^T
 $$
 
-$X$ is a $n \times m$ matrix, $U$ is an $n \times n$ **orthogonal**, **unitary** matrix and $V$ is an $m \times m$ orthogonal, unitary matrix, and $\Sigma$ is a $m \times n$ rectangular, diagonal matrix with nonnegative values on the diagonal. If $V$ is a (real) unitary matrix, then $VV^T = I_m$ (the $m \times m$ identity matrix), and if $U$ is also unitary, then $UU^T = I_n$. Another way to put this is $U^{-1} = U^T$. 
+$X$ is a $n \times m$ matrix, $U$ is an $n \times n$ **orthogonal**, **unitary** matrix and $V$ is an $m \times m$ orthogonal, unitary matrix, and $\Sigma$ is a $m \times n$ rectangular, diagonal matrix with non-negative values on the diagonal. If $V$ is a (real) unitary matrix, then $VV^T = I_m$ (the $m \times m$ identity matrix), and if $U$ is also unitary, then $UU^T = I_n$. Another way to put this is $U^{-1} = U^T$. 
 
 (Note: this defines the "full" SVD of $A$; equivalently, one can perform a "thin", or "reduced" SVD by having $U$ of dimension $n \times p$, and $\Sigma$ and $V$ of dimension $p \times p$, where $p \leq m$ is the rank of $A$---by default `R` returns a "thin" SVD; read the details [here](http://www.seas.ucla.edu/~vandenbe/133B/lectures/svd.pdf)).
 
@@ -125,7 +125,7 @@ $$
 
 where $W$ is an appropriate change of basis, transforming the data such that the directions of main variation are exposed. While we could choose any $m \times m$ matrix, we want a) $W$ to be orthogonal (i.e., a "rotation" of the data), and b) all columns of $W$ to be unit vectors (no stretching of the data).
 
-The new columns (i.e., the trasformed "measurements") $Y_i$ can be written as:
+The new columns (i.e., the transformed "measurements") $Y_i$ can be written as:
 
 $$
 Y_{i} = X W_i
@@ -152,7 +152,7 @@ Therefore, the first column of $Y$ is given by the projection of the data on the
 Note that the first axis captures $\lambda_1 / \sum_{i = 1}^m \lambda_i$ of the total variance in $X$. This is typically reported in PCA as the "loadings" of the various components.
 
 ```{r}
-# build sample covaiance matrix
+# build sample covariance matrix
 S <- (1 / (nrow(X) - 1)) * t(X) %*% X
 # compute eigenvalues and eigenvectors
 eS <- eigen(S, symmetric = TRUE)
@@ -383,7 +383,7 @@ show(pl + geom_point(data  = mds_highlight, aes(colour = rownames(M)[hh])))
 
 ## Readings
 
-SVD is the most important decomposition, but several interesting variations have been proposed for data science. Read this [very cool paper](http://www.columbia.edu/~jwp2128/Teaching/E4903/papers/nmf_nature.pdf) on face recognition using Nonnegative Matrix Factorization.
+SVD is the most important decomposition, but several interesting variations have been proposed for data science. Read this [very cool paper](http://www.columbia.edu/~jwp2128/Teaching/E4903/papers/nmf_nature.pdf) on face recognition using Non-negative Matrix Factorization.
 
 ### Exercise: PCA sommelier
 

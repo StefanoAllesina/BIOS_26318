@@ -1,3 +1,4 @@
+refresher
 goal
 motivation
 before-we-start

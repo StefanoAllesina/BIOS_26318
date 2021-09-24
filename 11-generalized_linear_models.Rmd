@@ -158,7 +158,7 @@ Consider the alternative models `Survived ~ Sex * factor(Pclass)`, `Survived ~ S
 
 ### Exercise in class: College admissions
 
-With slight abuse of notation, you can fit probabilities using the logistic regression (the only problem is that you don't know how many values contributed to the calculations of the probabilities---i.e., sample sizes). Read in the file `admission_rates.csv`, containing data on admissions to several universities. Your goal is to find a good prediction (or a good combination of predictors) for the `Admission_rate`. You can use `State`, `Ownership` (public/private), `Citytype` (town, suburb, city), `SAT` (typical SAT score of admits), `AvgCost` (tuitions). Fit the models using:
+With slight abuse of notation, you can fit probabilities using the logistic regression (the only problem is that you don't know how many values contributed to the calculations of the probabilities---i.e., sample sizes). Read in the file `admission_rates.csv`, containing data on admissions to several universities. Your goal is to find a good prediction (or a good combination of predictors) for the `Admission_rate`. You can use `State`, `Ownership` (public/private), `Citytype` (town, suburb, city), `SAT` (typical SAT score of admits), `AvgCost` (tuition). Fit the models using:
 
 ```{r}
 dt <- read_csv("data/admission_rates.csv")
@@ -187,7 +187,7 @@ AIC(logit_1)
 ## Count data
 ### Poisson regression
 
-Suppose your response variables are nonnegative integers. For example, we are counting the number of eggs females lay as a function of their age, body size, etc. A possible model for this case is to think of the response variable as being sampled from a Poisson distribution:
+Suppose your response variables are non-negative integers. For example, we are counting the number of eggs females lay as a function of their age, body size, etc. A possible model for this case is to think of the response variable as being sampled from a Poisson distribution:
 
 $$
 Y_i \sim \text{Pois}(\lambda_i)
@@ -243,7 +243,7 @@ $$
 \end{aligned}
 $$
 
-The fact that the variance equals the mean is a hard constraint, rarely matched by real data. When you encounter **overdispersion** (i.e., the variance in the data is much larger than what assumed by Poisson), you need to choose a different model. This happens very often, and the main solution to use is a **Negative Binomial Regression** (a negative binomial distribution can be thought of as a Poisson with a scaled variance). In practice, this amounts to fitting:
+The fact that the variance equals the mean is a hard constraint, rarely matched by real data. When you encounter **over-dispersion** (i.e., the variance in the data is much larger than what assumed by Poisson), you need to choose a different model. This happens very often, and the main solution to use is a **Negative Binomial Regression** (a negative binomial distribution can be thought of as a Poisson with a scaled variance). In practice, this amounts to fitting:
 
 $$
 \mathbb E[\lambda_i] = \beta_0 + \beta_1 X_i
@@ -253,13 +253,13 @@ and
 $$
 \mathbb E[\lambda_i^2] - \mathbb E[\lambda_i]^2 = \mathbb V[\lambda_i] = \phi \lambda_i
 $$
-Where $\phi$ controls the dispersion of the data. A value $\phi > 1$ signals overdispersion, while (the very rare case of) $\phi < 1$ underdispersion. The Poisson regression is appropriate only when $\phi \approx 1$. A simple way to test for dispersion in to fit a `quasipoisson` model, which returns a dispersion parameter (anything larger than 1 means overdispersion). 
+Where $\phi$ controls the dispersion of the data. A value $\phi > 1$ signals over-dispersion, while (the very rare case of) $\phi < 1$ under-dispersion. The Poisson regression is appropriate only when $\phi \approx 1$. A simple way to test for dispersion in to fit a `quasipoisson` model, which returns a dispersion parameter (anything larger than 1 means over-dispersion). 
 
 ### Exercise in class: Number of genomes
 
 - For the models above, change the family to `quasipoisson` to check the dispersion (e.g., `qpois_1 <- glm(n ~ 1, data = num_genomes, family = "quasipoisson")`).
-- Do you have overdispersion?
-- If the data are overdispersed, fit them again using `glm.nb` (a negative binomial regression model provided by the package `MASS`).
+- Do you have over-dispersion?
+- If the data are over-dispersed, fit them again using `glm.nb` (a negative binomial regression model provided by the package `MASS`).
 
 ### Separate distribution for the zeros
 
@@ -278,19 +278,19 @@ Historically, GLMs have been defined for the canonical families:
 - Gaussian: linear regression
 - Gamma and Inverse Gaussian: Positive, continuous
 - Poisson: count data
-- Negative Binomial: count data (fit an ancillary parameter for overdispersion)
+- Negative Binomial: count data (fit an ancillary parameter for over-dispersion)
 - Binary/Binomial (logistic): binary responses; number of successes; probabilities/proportions (with slight abuse).
 
 However, the same basic idea led to the development of "non-canonical" GLMs:
 
-- Lognormal: Positive, continuous
+- Log-normal: Positive, continuous
 - Log-gamma: survival models
 - Probit: binary
 
 and many others. Fitting the models can be done using Maximum Likelihoods, or in a Bayesian framework (typically, through MCMC).
 
 ## Readings and homework
-- There are two useful swirls in the corse `Regression Models`: `Binary Outcomes` and `Count Outcomes`
+- There are two useful swirls in the course `Regression Models`: `Binary Outcomes` and `Count Outcomes`
 - [An excellent book on GLMs in R](https://link.springer.com/book/10.1007/978-1-4419-0118-7)
 - [Regression Models for Count Data in R](https://cran.r-project.org/web/packages/pscl/vignettes/countreg.pdf)
 

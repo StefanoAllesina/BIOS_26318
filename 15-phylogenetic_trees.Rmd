@@ -35,7 +35,7 @@ A graph is a collection of vertices ($V$) and edges ($E$). We consider simple, u
 We distinguish between **rooted** and **unrooted** trees: the root is a particular vertex from which all other taxa descend (the MRCA, most recent common ancestor of all taxa). Note that by placing the root in different places, we can obtain dramatically different-looking trees:
 
 ```{r, echo=FALSE}
-# Define variable containing url
+# Define variable containing URL
 url <- "https://slideplayer.com/slide/8111866/25/images/9/Altering+the+position+of+root%2C+changes+the+meaning+of+Phylogenetic+tree.jpg"
 ```
 <center><img src="`r url`"></center>
@@ -46,7 +46,7 @@ An unrooted tree with $n > 1$ leaves contains exactly $2n -2$ nodes, and $2n -3$
 
 We can add a "length" to each edge, measuring how much change has accumulated between the two vertices. In case of "molecular clock" trees, we assume lengths to be measuring time, and all leaves have the same distance (computed summing the lengths along the branches) from the root. Trees in which all leaves have the same distance from the root are called **ultrametric**.
 
-Mathematically, if we do not make an assumption of a "molecular clock" (i.e., that mutations are neutral and occurr at a predictable rate), we cannot identify the root of a tree without using extra information. Typically, what is done is to also align sequence(s) stemming from an **outgroup**, i.e., a taxon that is believed to be distantly related to the taxa we want to connect in our tree. Then, the root will connect the outgroup taxon with the rest of the tree.
+Mathematically, if we do not make an assumption of a "molecular clock" (i.e., that mutations are neutral and occur at a predictable rate), we cannot identify the root of a tree without using extra information. Typically, what is done is to also align sequence(s) stemming from an **out-group**, i.e., a taxon that is believed to be distantly related to the taxa we want to connect in our tree. Then, the root will connect the out-group taxon with the rest of the tree.
 
 Many of the methods for tree reconstruction are based on unrooted, unweighted trees, and a root and lengths can be determined once one has chosen a topology for the tree.
 
@@ -78,7 +78,7 @@ Computing the minimum score for a given tree and sequences for the leaves is cal
 ### Example: primates
 
 ```{r}
-# read alignement primates
+# read alignment primates
 fdir <- system.file("extdata/trees", package = "phangorn")
 primates <- read.phyDat(file.path(fdir, "primates.dna"), format = "interleaved")
 primates$Human
@@ -123,7 +123,7 @@ optim_tree2 <- optim.parsimony(my_tree2, primates)
 plot(optim_tree2)
 ```
 
-This shows that the starting tree matters. In fact, we do not find especially good soltuions even after calling `optim.parsimony`. Now we are going to try again but with a starting tree based on distances (explained below).
+This shows that the starting tree matters. In fact, we do not find especially good solutions even after calling `optim.parsimony`. Now we are going to try again but with a starting tree based on distances (explained below).
 
 ```{r}
 # compute distances
@@ -143,7 +143,7 @@ plot(optim_tree4)
 
 Maximum parsimony is often used, but has several problems (in fact, no method is perfect, and each has strengths and limitations). For example, there typically exist several trees with the same score. 
 
-The journal *Cladistics* published an editorial in February 2016 stating that "Phylogenetic data sets submitted to this journal should be analysed using parsimony. If alternative methods give different results and the author prefers an unparsimonious topology, he or she is welcome to present that result, but should be prepared to defend it on **philosophical** grounds" (emphasis mine). The mention of phylosophy to justify scientific results led to a twitter storm, ignited by Jonathan Eisen (for an entertaining account, see [here](https://www.wired.com/2016/02/twitter-nerd-fight-reveals-a-long-bizarre-scientific-feud/)).
+The journal *Cladistics* published an editorial in February 2016 stating that "Phylogenetic data sets submitted to this journal should be analysed using parsimony. If alternative methods give different results and the author prefers an unparsimonious topology, he or she is welcome to present that result, but should be prepared to defend it on **philosophical** grounds" (emphasis mine). The mention of philosophy to justify scientific results led to a twitter storm, ignited by Jonathan Eisen (for an entertaining account, see [here](https://www.wired.com/2016/02/twitter-nerd-fight-reveals-a-long-bizarre-scientific-feud/)).
 
 ## Distance Methods
 
@@ -189,7 +189,7 @@ p_{TA} & p_{TG} & p_{TC} & p_{TT}
 \end{pmatrix}
 $$
 
-with nonnegative entries and rows summing to one. This matrix encodes the probability that a base in the ancestor was substituted in the descendant along edge $e$. But how can we compute the matrix for a given edge? 
+with non-negative entries and rows summing to one. This matrix encodes the probability that a base in the ancestor was substituted in the descendant along edge $e$. But how can we compute the matrix for a given edge? 
 
 Clearly, each edge could give rise to its own Markov matrix, making it difficult to infer a tree from sequences. Instead, we can link all the matrices along all edges by making them all a function of a matrix of rates and the length of the edge. The solution is to build a matrix of rates $Q$ (with rows summing to zero, and off-diagonal elements that are positive). The elements of the matrix $Q$ describe the instantaneous rate of substitution. We then want to model the time elapsed along one edge. We solve the differential equation:
 
@@ -205,7 +205,7 @@ $$
 
 where $S$ is the matrix of eigenvectors, and $\Lambda$ the diagonal matrix of eigenvalues of $Q$. 
 
-When we have an edge $e$ with corresponding time $t_e$, we choose $M_e = M(t_e) = e^{Qt_e}$ to be the matrix projecting the proportion of bases in the ancestor to the number of bases in the descendent. In practice, out of computational convenience, often we choose $Q$ with a very special structure.
+When we have an edge $e$ with corresponding time $t_e$, we choose $M_e = M(t_e) = e^{Qt_e}$ to be the matrix projecting the proportion of bases in the ancestor to the number of bases in the descendant. In practice, out of computational convenience, often we choose $Q$ with a very special structure.
 
 #### Jukes-Cantor Model
 
@@ -256,7 +256,7 @@ a(t) / 3 & a(t) / 3 &   a(t) / 3 & 1-a(t)
 \end{pmatrix}
 $$
 
-where $a(t) = \frac{3}{4}\left(1 - e^{-\frac{4}{3} \alpha t}\right)$. Clearly, the larger the $t$ or the $\alpha$, the more substitutions we expect to occurr. Note however that the model encodes a stable base distribution at all vertices of the tree: $p_\rho M(t) = p_\rho$.
+where $a(t) = \frac{3}{4}\left(1 - e^{-\frac{4}{3} \alpha t}\right)$. Clearly, the larger the $t$ or the $\alpha$, the more substitutions we expect to occur. Note however that the model encodes a stable base distribution at all vertices of the tree: $p_\rho M(t) = p_\rho$.
 
 ### Other models
 

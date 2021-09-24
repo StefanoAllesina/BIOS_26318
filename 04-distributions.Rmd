@@ -28,7 +28,7 @@ If $P(A\cap B) = 0$, then $P(A\vert B) = 0/P(B) = 0$
 
 **Important note:** one common source of confusion about conditional probability is the difference between the probability of $A$ and $B$ and the probability of $A$ given $B$. This is a result of the discrepancy between everyday word usage and mathematical terminology, because the statement "what are the odds of finding a tall person who also likes tea?" is hard to distinguish from "what are the odds that a person who is tall likes tea?" The critical difference between these two statements is that in the former you start out with no information and are picking out a person from the entire population, while is in the latter you start out with the knowledge that a person is tall. 
 
-**Example:**  In the classic Mendelian pea experiment, each diploid organism carries two alleles. The allele $A$ is dominant and results in pink flowers, while $a$ is recessive and results in white flowers. There are three possible genotypes ($AA$, $Aa$, $aa$) and two phenotypes (Pink or White). For the questions below, assume that two heterozygous pea plants (each having genotype $Aa$) are crossed, producing the following table of genotypes with equal probabilites in each cell:
+**Example:**  In the classic Mendelian pea experiment, each diploid organism carries two alleles. The allele $A$ is dominant and results in pink flowers, while $a$ is recessive and results in white flowers. There are three possible genotypes ($AA$, $Aa$, $aa$) and two phenotypes (Pink or White). For the questions below, assume that two heterozygous pea plants (each having genotype $Aa$) are crossed, producing the following table of genotypes with equal probabilities in each cell:
 
 parent| A | a 
 ------|---|---
@@ -45,7 +45,7 @@ $$P(X \vert  Y ) \neq P(Y \vert  X)$$
 
 ### Independence
 
-Independence is a fundamental concept in probability that may be misinterpreted without careful thinking. Intuitively, two events (or random variables) are independent if one does not influence the other. More precisely, it means that the probability of one event is the same regarless of whether the other one happens or not. This is expressed precisely using conditional probabilities:
+Independence is a fundamental concept in probability that may be misinterpreted without careful thinking. Intuitively, two events (or random variables) are independent if one does not influence the other. More precisely, it means that the probability of one event is the same regardless of whether the other one happens or not. This is expressed precisely using conditional probabilities:
 
 > **Definition**: Two events $A$ and $B$ in a sample space $\Omega$ with a probability measure $P$ are **independent** if $P(A\vert B) = P(A)$, or equivalently if $P(B\vert A) = P(B)$.
 
@@ -53,7 +53,7 @@ Independence is not a straightforward concept. It may be confused with mutual ex
 
 **Example:** In the sample space of weather phenomena, are the events of snowing and hot weather independent?
 
-**Example:** A slighly more subtle example, the lifetime risk of breast cancer is about 1 in 8 for women and about 1 in 1000 for men. Are sex and breast cancer independent?
+**Example:** A slightly more subtle example, the lifetime risk of breast cancer is about 1 in 8 for women and about 1 in 1000 for men. Are sex and breast cancer independent?
 
 ### Usefulness of independence
 
@@ -66,7 +66,7 @@ Multiplying both sides by $P(B)$, we get the **product rule** of independence, p
 
 $$P(A \cap B) = P(A)P(B)$$
 
-**Example:** The probability that two randomly selected individuals have red hair--assuming that the occurence of this trait is independent--is the square of the probability of red hair in one individual. (Note that this is never exactly the case for a finite population---why?)
+**Example:** The probability that two randomly selected individuals have red hair--assuming that the occurrence of this trait is independent--is the square of the probability of red hair in one individual. (Note that this is never exactly the case for a finite population---why?)
 
 **Example:** The probability of two alleles of two separate genes (call them A and B) occurring on the same gamete may be independent or may be linked. In population genetics, the concept of *linkage disequilibrium* describes the extent of such linkage; for example, alleles that are located on separate chromosomes (in eukaryotes) are usually not linked and their occurrence is independent. The *coefficient of linkage disequilibrium* is defined as the difference between what is expected from independence and the actual probability of both alleles being present:
 $$D_{AB} = P(A \cap B) - P(A)P(B) $$
@@ -88,7 +88,7 @@ $$=E (X-E_X)^2 +  E(Y-E_Y)^2 - 2 E[(X-E_X)(Y-E_Y)]  = $$
 The first two terms are the respective variances, while the third term is called the *covariance* of $X$ and $Y$:
 
 $$= \text{Var}(X) + \text{Var}(Y) - 2 \text{Cov}(X,Y) $$
-Covariance describes how much two random variables vary together, or more precisely, how much they deviate from their respective means in the same direction. Thus it should be reasonable to think that two indepdendent random variables have covariance 0, which is demonstrated as follows:
+Covariance describes how much two random variables vary together, or more precisely, how much they deviate from their respective means in the same direction. Thus it should be reasonable to think that two independent random variables have covariance 0, which is demonstrated as follows:
 
 $$E[(X-E_X)(Y-E_Y)] = E(XY) - E_Y E_X - E_YE_X + E_XE_Y = E(XY) - E_X E_Y  $$
 
@@ -129,7 +129,7 @@ paste("The variance of uniform distribution is", unif.var)
 
 ### Binomial
 
-Binary or Bernoulli trials have two discrete outcomes (mutant/wildtype, win/lose, etc.). The number of "successes" out of a sequence of $n$ independent binary trials with probability of success $p$ is described by the binomial distribution.
+Binary or Bernoulli trials have two discrete outcomes (mutant/wild-type, win/lose, etc.). The number of "successes" out of a sequence of $n$ independent binary trials with probability of success $p$ is described by the binomial distribution.
 
 ```{r}
 n <- 10 # the number of trials
@@ -151,7 +151,7 @@ paste("The variance of binomial distribution is", bin.var)
 
 ### Geometric
 
-The random variable is the first "success" in a string of independent binary trials and the distribution describes the probability of any nonnegative value. It may be pretty intuitive that since all the trials have the same probability of success, the distribution with have a geometric (exponential) form---try to figure out the exact formula for the probability density without looking it up!
+The random variable is the first "success" in a string of independent binary trials and the distribution describes the probability of any non-negative value. It may be pretty intuitive that since all the trials have the same probability of success, the distribution with have a geometric (exponential) form---try to figure out the exact formula for the probability density without looking it up!
 
 ```{r}
 p <- 0.3 # the probability of success
@@ -173,7 +173,7 @@ paste("The variance of geometric distribution is", geom.var)
 
 ### Poisson 
 
-Suppose that there is a discrete process that occurs with some average rate $\lambda$, which describes the expected number of occurrences of these events in a unit of time. The Poisson random variable is the number of such occurrences, and the distribution describes the probability of any nonnegative value. 
+Suppose that there is a discrete process that occurs with some average rate $\lambda$, which describes the expected number of occurrences of these events in a unit of time. The Poisson random variable is the number of such occurrences, and the distribution describes the probability of any non-negative value. 
 
 ```{r}
 low <- 0 # minimum value
@@ -234,7 +234,7 @@ low <- 0 # minimum value
 high <- 20 # maximum values
 number <- 100
 r <- 0.5
-values <- seq(low,high,length.out = number) # vactor of discrete values of the RV
+values <- seq(low,high,length.out = number) # vector of discrete values of the RV
 probs <- dexp(values, r)
 plot(values, probs, t='l', xlab = 'values', ylab = 'density',
         main = paste("Exponential distribution with rate=", r))
@@ -267,7 +267,7 @@ high <- 10 # maximum values
 number <- 100
 mu <- 5
 sigma <- 0.5 
-values <- seq(low,high,length.out = number) # vactor of discrete values of the RV
+values <- seq(low,high,length.out = number) # vector of discrete values of the RV
 probs <- dnorm(values, mu, sigma)
 plot(values, probs, t='l',xlab = 'values', ylab = 'density',
         main = paste("Normal distribution with mean=", mu, "and sigma=", sigma))
