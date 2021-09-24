@@ -16,6 +16,12 @@ library(tidyverse) # this loads both dplyr and tidyr, along with other packages
 library(palmerpenguins) # a nice data set to play with
 ```
 
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+# make sure function select is the right one...
+select <- dplyr::select
+```
+
+
 We are going to use the data set `penguins` from the package `palmerpenguins`, which we have already seen last week.
 
 ## A new data type, `tibble`
@@ -204,8 +210,7 @@ This is often called *narrow table* format. Any other form of data (e.g., *wide 
 penguin_bm <- penguins %>% 
   drop_na() %>% 
   group_by(sex, species) %>% 
-  summarise(body_mass = mean(body_mass_g)) %>% 
-  ungroup() # remove group information
+  summarise(body_mass = mean(body_mass_g), .groups = "drop") # remove groups after calculation
 
 penguin_bm
 ```
@@ -235,12 +240,12 @@ For a real-world example, we will make data from:
 You can read a tab-separated file from:
 
 ```{r, warning=FALSE}
-dt <- read_tsv("https://rb.gy/upqoxh") %>% 
+dt <- read_tsv("data/annual_increment.txt") %>% 
   select(Age, contains("CAT"))
 # selecting only age and samples
 ```
 
-Each column besides `Age` represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns `tree` and `diameter`:
+Each column besides `YEAR` represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns `tree` and `diameter`:
 
 ```{r}
 dt <- dt %>% 

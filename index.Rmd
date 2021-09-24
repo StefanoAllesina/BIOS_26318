@@ -7,7 +7,7 @@ documentclass: book
 bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
-description: "Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2020-2021"
+description: "Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2021-2022"
 ---
 
 # Organization of the class {-}
@@ -61,12 +61,12 @@ description: "Course material for Fundamentals of Biological Data Analysis, BIOS
 #### Week 3 {-}
 
 - Hypothesis testing
-- Linear algebra refresher
+- Likelihood
 
 #### Week 4 {-}
 
+- Linear algebra refresher
 - Linear models
-- Likelihood
 
 #### Week 5 {-}
 
@@ -99,4 +99,4 @@ Thanksgiving break
 
 ## Acknowledgements {-}
 
-Zach Miller for TAing the first iteration of the class, and for contributing materials and comments, Julia Smith for TAing the current version. Development of the class was partially supported by the Burroughs Wellcome Fund through the program ["Quantitative and statistical thinking in the life sciences"](https://www.bwfund.org/grant-programs/institutional-programs/quantitative-and-statistical-thinking-life-sciences/grant) (Stefano Allesina, PI).
+Zach Miller for TAing the first iteration of the class, and for contributing materials and comments; Julia Smith for TAing the second iteration; Cassie Manrique for TAing this year. Development of the class was partially supported by the Burroughs Wellcome Fund through the program ["Quantitative and statistical thinking in the life sciences"](https://www.bwfund.org/grant-programs/institutional-programs/quantitative-and-statistical-thinking-life-sciences/grant) (Stefano Allesina, PI).

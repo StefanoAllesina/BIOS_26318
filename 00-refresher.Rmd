@@ -1,4 +1,4 @@
-# `R`efresher {#refresher}
+  # `R`efresher {#refresher}
 
 ## Goal
 
@@ -313,6 +313,7 @@ dim(B)[1]
 nrow(B) 
 dim(B)[2]
 ncol(B)
+nrow(B)
 ```
 
 Use indices to access a particular row/column of a matrix:
