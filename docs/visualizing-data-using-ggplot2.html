@@ -1,526 +1,82 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Lecture 2 Visualizing data using ggplot2 | Fundamentals of Biological Data Analysis</title>
-  <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2021-2022" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Lecture 2 Visualizing data using ggplot2 | Fundamentals of Biological Data Analysis" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2021-2022" />
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Lecture 2 Visualizing data using ggplot2 | Fundamentals of Biological Data Analysis" />
-  
-  <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2021-2022" />
-  
-
-<meta name="author" content="Dmitry Kondrashov and Stefano Allesina" />
-
-
-<meta name="date" content="2021-09-24" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="refresher.html"/>
-<link rel="next" href="fundamentals-of-probability.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Lecture 2 Visualizing data using ggplot2 | Fundamentals of Biological Data Analysis</title>
+<meta name="author" content="Dmitry Kondrashov and Stefano Allesina">
+<meta name="description" content="2.1 Goal Introduce the package ggplot2, which is part of the tidyverse bundle. Learn how to use ggplot2 to produce publication-quality figures. Discuss the philosophical underpinnings of the...">
+<meta name="generator" content="bookdown 0.24.1 with bs4_book()">
+<meta property="og:title" content="Lecture 2 Visualizing data using ggplot2 | Fundamentals of Biological Data Analysis">
+<meta property="og:type" content="book">
+<meta property="og:description" content="2.1 Goal Introduce the package ggplot2, which is part of the tidyverse bundle. Learn how to use ggplot2 to produce publication-quality figures. Discuss the philosophical underpinnings of the...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lecture 2 Visualizing data using ggplot2 | Fundamentals of Biological Data Analysis">
+<meta name="twitter:description" content="2.1 Goal Introduce the package ggplot2, which is part of the tidyverse bundle. Learn how to use ggplot2 to produce publication-quality figures. Discuss the philosophical underpinnings of the...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0.9000/transition.js"></script><script src="libs/bs3compat-0.3.0.9000/tabs.js"></script><script src="libs/bs3compat-0.3.0.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">BIOS 26318 Fundamentals of Biological Data Analysis</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Organization of the class</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#learning-goals"><i class="fa fa-check"></i>Learning goals</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#approach"><i class="fa fa-check"></i>Approach</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i>Materials</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="refresher.html"><a href="refresher.html"><i class="fa fa-check"></i><b>1</b> <code>R</code>efresher</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="refresher.html"><a href="refresher.html#goal"><i class="fa fa-check"></i><b>1.1</b> Goal</a></li>
-<li class="chapter" data-level="1.2" data-path="refresher.html"><a href="refresher.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
-<li class="chapter" data-level="1.3" data-path="refresher.html"><a href="refresher.html#before-we-start"><i class="fa fa-check"></i><b>1.3</b> Before we start</a></li>
-<li class="chapter" data-level="1.4" data-path="refresher.html"><a href="refresher.html#what-is-r"><i class="fa fa-check"></i><b>1.4</b> What is R?</a></li>
-<li class="chapter" data-level="1.5" data-path="refresher.html"><a href="refresher.html#rstudio"><i class="fa fa-check"></i><b>1.5</b> RStudio</a></li>
-<li class="chapter" data-level="1.6" data-path="refresher.html"><a href="refresher.html#how-to-write-a-simple-program"><i class="fa fa-check"></i><b>1.6</b> How to write a simple program</a>
-<ul>
-<li class="chapter" data-level="1.6.1" data-path="refresher.html"><a href="refresher.html#the-most-basic-operation-assignment"><i class="fa fa-check"></i><b>1.6.1</b> The most basic operation: assignment</a></li>
-<li class="chapter" data-level="1.6.2" data-path="refresher.html"><a href="refresher.html#data-types"><i class="fa fa-check"></i><b>1.6.2</b> Data types</a></li>
-<li class="chapter" data-level="1.6.3" data-path="refresher.html"><a href="refresher.html#operators-and-functions"><i class="fa fa-check"></i><b>1.6.3</b> Operators and functions</a></li>
-<li class="chapter" data-level="1.6.4" data-path="refresher.html"><a href="refresher.html#getting-help"><i class="fa fa-check"></i><b>1.6.4</b> Getting help</a></li>
-<li class="chapter" data-level="1.6.5" data-path="refresher.html"><a href="refresher.html#data-structures"><i class="fa fa-check"></i><b>1.6.5</b> Data structures</a></li>
-</ul></li>
-<li class="chapter" data-level="1.7" data-path="refresher.html"><a href="refresher.html#reading-and-writing-data"><i class="fa fa-check"></i><b>1.7</b> Reading and writing data</a></li>
-<li class="chapter" data-level="1.8" data-path="refresher.html"><a href="refresher.html#conditional-branching"><i class="fa fa-check"></i><b>1.8</b> Conditional branching</a></li>
-<li class="chapter" data-level="1.9" data-path="refresher.html"><a href="refresher.html#looping"><i class="fa fa-check"></i><b>1.9</b> Looping</a></li>
-<li class="chapter" data-level="1.10" data-path="refresher.html"><a href="refresher.html#useful-functions"><i class="fa fa-check"></i><b>1.10</b> Useful Functions</a></li>
-<li class="chapter" data-level="1.11" data-path="refresher.html"><a href="refresher.html#packages"><i class="fa fa-check"></i><b>1.11</b> Packages</a>
-<ul>
-<li class="chapter" data-level="1.11.1" data-path="refresher.html"><a href="refresher.html#installing-a-package"><i class="fa fa-check"></i><b>1.11.1</b> Installing a package</a></li>
-<li class="chapter" data-level="1.11.2" data-path="refresher.html"><a href="refresher.html#loading-a-package"><i class="fa fa-check"></i><b>1.11.2</b> Loading a package</a></li>
-<li class="chapter" data-level="1.11.3" data-path="refresher.html"><a href="refresher.html#example"><i class="fa fa-check"></i><b>1.11.3</b> Example</a></li>
-</ul></li>
-<li class="chapter" data-level="1.12" data-path="refresher.html"><a href="refresher.html#random-numbers"><i class="fa fa-check"></i><b>1.12</b> Random numbers</a></li>
-<li class="chapter" data-level="1.13" data-path="refresher.html"><a href="refresher.html#writing-functions"><i class="fa fa-check"></i><b>1.13</b> Writing functions</a></li>
-<li class="chapter" data-level="1.14" data-path="refresher.html"><a href="refresher.html#organizing-and-running-code"><i class="fa fa-check"></i><b>1.14</b> Organizing and running code</a></li>
-<li class="chapter" data-level="1.15" data-path="refresher.html"><a href="refresher.html#documenting-the-code-using-knitr"><i class="fa fa-check"></i><b>1.15</b> Documenting the code using <code>knitr</code></a></li>
-<li class="chapter" data-level="1.16" data-path="refresher.html"><a href="refresher.html#resources"><i class="fa fa-check"></i><b>1.16</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html"><i class="fa fa-check"></i><b>2</b> Visualizing data using <code>ggplot2</code></a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#goal-1"><i class="fa fa-check"></i><b>2.1</b> Goal</a></li>
-<li class="chapter" data-level="2.2" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#introduction-to-the-grammar-of-graphics"><i class="fa fa-check"></i><b>2.2</b> Introduction to the Grammar of Graphics</a></li>
-<li class="chapter" data-level="2.3" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#basic-ggplot2"><i class="fa fa-check"></i><b>2.3</b> Basic <code>ggplot2</code></a></li>
-<li class="chapter" data-level="2.4" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#building-a-well-formed-graph"><i class="fa fa-check"></i><b>2.4</b> Building a well-formed graph</a></li>
-<li class="chapter" data-level="2.5" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scatterplots"><i class="fa fa-check"></i><b>2.5</b> Scatterplots</a></li>
-<li class="chapter" data-level="2.6" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#histograms-density-and-boxplots"><i class="fa fa-check"></i><b>2.6</b> Histograms, density and boxplots</a></li>
-<li class="chapter" data-level="2.7" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#scales"><i class="fa fa-check"></i><b>2.7</b> Scales</a></li>
-<li class="chapter" data-level="2.8" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-aesthetic-mappings"><i class="fa fa-check"></i><b>2.8</b> List of aesthetic mappings</a></li>
-<li class="chapter" data-level="2.9" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-geometries"><i class="fa fa-check"></i><b>2.9</b> List of geometries</a></li>
-<li class="chapter" data-level="2.10" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#list-of-scales"><i class="fa fa-check"></i><b>2.10</b> List of scales</a></li>
-<li class="chapter" data-level="2.11" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#themes"><i class="fa fa-check"></i><b>2.11</b> Themes</a></li>
-<li class="chapter" data-level="2.12" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#faceting"><i class="fa fa-check"></i><b>2.12</b> Faceting</a></li>
-<li class="chapter" data-level="2.13" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#setting-features"><i class="fa fa-check"></i><b>2.13</b> Setting features</a></li>
-<li class="chapter" data-level="2.14" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#saving-graphs"><i class="fa fa-check"></i><b>2.14</b> Saving graphs</a></li>
-<li class="chapter" data-level="2.15" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#multiple-layers"><i class="fa fa-check"></i><b>2.15</b> Multiple layers</a></li>
-<li class="chapter" data-level="2.16" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#try-on-your-own-data"><i class="fa fa-check"></i><b>2.16</b> Try on your own data!</a></li>
-<li class="chapter" data-level="2.17" data-path="visualizing-data-using-ggplot2.html"><a href="visualizing-data-using-ggplot2.html#resources-1"><i class="fa fa-check"></i><b>2.17</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html"><i class="fa fa-check"></i><b>3</b> Fundamentals of probability</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#sample-spaces-and-random-variables"><i class="fa fa-check"></i><b>3.1</b> Sample spaces and random variables</a></li>
-<li class="chapter" data-level="3.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-axioms"><i class="fa fa-check"></i><b>3.2</b> Probability axioms</a></li>
-<li class="chapter" data-level="3.3" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#probability-distributions"><i class="fa fa-check"></i><b>3.3</b> Probability distributions</a></li>
-<li class="chapter" data-level="3.4" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-center-medians-and-means"><i class="fa fa-check"></i><b>3.4</b> Measures of center: medians and means</a></li>
-<li class="chapter" data-level="3.5" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#measures-of-spread-quartiles-and-variances"><i class="fa fa-check"></i><b>3.5</b> Measures of spread: quartiles and variances</a></li>
-<li class="chapter" data-level="3.6" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#data-as-samples-from-distributions-statistics"><i class="fa fa-check"></i><b>3.6</b> Data as samples from distributions: statistics</a>
-<ul>
-<li class="chapter" data-level="3.6.1" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#law-of-large-numbers"><i class="fa fa-check"></i><b>3.6.1</b> Law of large numbers</a></li>
-<li class="chapter" data-level="3.6.2" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#central-limit-theorem"><i class="fa fa-check"></i><b>3.6.2</b> Central Limit Theorem</a></li>
-</ul></li>
-<li class="chapter" data-level="3.7" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#exploration-misleading-means"><i class="fa fa-check"></i><b>3.7</b> Exploration: misleading means</a></li>
-<li class="chapter" data-level="3.8" data-path="fundamentals-of-probability.html"><a href="fundamentals-of-probability.html#references"><i class="fa fa-check"></i><b>3.8</b> References</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>4</b> Data wrangling</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="data-wrangling.html"><a href="data-wrangling.html#goal-2"><i class="fa fa-check"></i><b>4.1</b> Goal</a></li>
-<li class="chapter" data-level="4.2" data-path="data-wrangling.html"><a href="data-wrangling.html#what-is-data-wrangling"><i class="fa fa-check"></i><b>4.2</b> What is data wrangling?</a></li>
-<li class="chapter" data-level="4.3" data-path="data-wrangling.html"><a href="data-wrangling.html#a-new-data-type-tibble"><i class="fa fa-check"></i><b>4.3</b> A new data type, <code>tibble</code></a></li>
-<li class="chapter" data-level="4.4" data-path="data-wrangling.html"><a href="data-wrangling.html#selecting-rows-and-columns"><i class="fa fa-check"></i><b>4.4</b> Selecting rows and columns</a></li>
-<li class="chapter" data-level="4.5" data-path="data-wrangling.html"><a href="data-wrangling.html#creating-pipelines-using"><i class="fa fa-check"></i><b>4.5</b> Creating pipelines using <code>%&gt;%</code></a></li>
-<li class="chapter" data-level="4.6" data-path="data-wrangling.html"><a href="data-wrangling.html#producing-summaries"><i class="fa fa-check"></i><b>4.6</b> Producing summaries</a></li>
-<li class="chapter" data-level="4.7" data-path="data-wrangling.html"><a href="data-wrangling.html#summaries-by-group"><i class="fa fa-check"></i><b>4.7</b> Summaries by group</a></li>
-<li class="chapter" data-level="4.8" data-path="data-wrangling.html"><a href="data-wrangling.html#ordering-the-data"><i class="fa fa-check"></i><b>4.8</b> Ordering the data</a></li>
-<li class="chapter" data-level="4.9" data-path="data-wrangling.html"><a href="data-wrangling.html#renaming-columns"><i class="fa fa-check"></i><b>4.9</b> Renaming columns</a></li>
-<li class="chapter" data-level="4.10" data-path="data-wrangling.html"><a href="data-wrangling.html#adding-new-variables-using-mutate"><i class="fa fa-check"></i><b>4.10</b> Adding new variables using mutate</a></li>
-<li class="chapter" data-level="4.11" data-path="data-wrangling.html"><a href="data-wrangling.html#data-wrangling-1"><i class="fa fa-check"></i><b>4.11</b> Data wrangling</a></li>
-<li class="chapter" data-level="4.12" data-path="data-wrangling.html"><a href="data-wrangling.html#from-narrow-to-wide"><i class="fa fa-check"></i><b>4.12</b> From narrow to wide</a></li>
-<li class="chapter" data-level="4.13" data-path="data-wrangling.html"><a href="data-wrangling.html#from-wide-to-narrow"><i class="fa fa-check"></i><b>4.13</b> From wide to narrow</a></li>
-<li class="chapter" data-level="4.14" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-split-a-column-into-two-or-more"><i class="fa fa-check"></i><b>4.14</b> Separate: split a column into two or more</a></li>
-<li class="chapter" data-level="4.15" data-path="data-wrangling.html"><a href="data-wrangling.html#separate-rows-from-one-row-to-many"><i class="fa fa-check"></i><b>4.15</b> Separate rows: from one row to many</a></li>
-<li class="chapter" data-level="4.16" data-path="data-wrangling.html"><a href="data-wrangling.html#example-brown-bear-brown-bear-what-do-you-see"><i class="fa fa-check"></i><b>4.16</b> Example: brown bear, brown bear, what do you see?</a></li>
-<li class="chapter" data-level="4.17" data-path="data-wrangling.html"><a href="data-wrangling.html#resources-2"><i class="fa fa-check"></i><b>4.17</b> Resources</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html"><i class="fa fa-check"></i><b>5</b> Distributions and their properties</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#objectives"><i class="fa fa-check"></i><b>5.1</b> Objectives:</a></li>
-<li class="chapter" data-level="5.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence"><i class="fa fa-check"></i><b>5.2</b> Independence</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#conditional-probability"><i class="fa fa-check"></i><b>5.2.1</b> Conditional probability</a></li>
-<li class="chapter" data-level="5.2.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#independence-1"><i class="fa fa-check"></i><b>5.2.2</b> Independence</a></li>
-<li class="chapter" data-level="5.2.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#usefulness-of-independence"><i class="fa fa-check"></i><b>5.2.3</b> Usefulness of independence</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-discrete"><i class="fa fa-check"></i><b>5.3</b> Probability distribution examples (discrete)</a>
-<ul>
-<li class="chapter" data-level="5.3.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform"><i class="fa fa-check"></i><b>5.3.1</b> Uniform</a></li>
-<li class="chapter" data-level="5.3.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#binomial"><i class="fa fa-check"></i><b>5.3.2</b> Binomial</a></li>
-<li class="chapter" data-level="5.3.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#geometric"><i class="fa fa-check"></i><b>5.3.3</b> Geometric</a></li>
-<li class="chapter" data-level="5.3.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#poisson"><i class="fa fa-check"></i><b>5.3.4</b> Poisson</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#probability-distribution-examples-continuous"><i class="fa fa-check"></i><b>5.4</b> Probability distribution examples (continuous)</a>
-<ul>
-<li class="chapter" data-level="5.4.1" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#uniform-1"><i class="fa fa-check"></i><b>5.4.1</b> Uniform</a></li>
-<li class="chapter" data-level="5.4.2" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#exponential"><i class="fa fa-check"></i><b>5.4.2</b> exponential</a></li>
-<li class="chapter" data-level="5.4.3" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#normal-distribution"><i class="fa fa-check"></i><b>5.4.3</b> normal distribution</a></li>
-</ul></li>
-<li class="chapter" data-level="5.5" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#application-of-normal-distribution-confidence-intervals"><i class="fa fa-check"></i><b>5.5</b> Application of normal distribution: confidence intervals</a></li>
-<li class="chapter" data-level="5.6" data-path="distributions-and-their-properties.html"><a href="distributions-and-their-properties.html#identifying-type-of-distribution-in-real-data"><i class="fa fa-check"></i><b>5.6</b> Identifying type of distribution in real data</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis testing</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-results-vs.-the-truth"><i class="fa fa-check"></i><b>6.1</b> Test results vs. the truth</a></li>
-<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#types-of-errors"><i class="fa fa-check"></i><b>6.2</b> Types of errors</a></li>
-<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-parameters-and-p-values"><i class="fa fa-check"></i><b>6.3</b> Test parameters and p-values</a></li>
-<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#multiple-comparisons"><i class="fa fa-check"></i><b>6.4</b> Multiple comparisons</a></li>
-<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#corrections-for-multiple-comparisons"><i class="fa fa-check"></i><b>6.5</b> Corrections for multiple comparisons</a></li>
-<li class="chapter" data-level="6.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#two-problems-with-science"><i class="fa fa-check"></i><b>6.6</b> Two problems with science</a>
-<ul>
-<li class="chapter" data-level="6.6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#selective-reporting"><i class="fa fa-check"></i><b>6.6.1</b> Selective reporting</a></li>
-<li class="chapter" data-level="6.6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#p-hacking"><i class="fa fa-check"></i><b>6.6.2</b> P-hacking</a></li>
-</ul></li>
-<li class="chapter" data-level="6.7" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#readings"><i class="fa fa-check"></i><b>6.7</b> Readings</a></li>
-<li class="chapter" data-level="6.8" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#how-to-fool-yourself-with-p-hacking-and-possibly-get-fired"><i class="fa fa-check"></i><b>6.8</b> How to fool yourself with p-hacking (and possibly get fired!)</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html"><i class="fa fa-check"></i><b>7</b> Likelihood and Bayes</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-and-estimation"><i class="fa fa-check"></i><b>7.1</b> Likelihood and estimation</a>
-<ul>
-<li class="chapter" data-level="7.1.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#likelihood-vs.-probability"><i class="fa fa-check"></i><b>7.1.1</b> likelihood vs. probability</a></li>
-<li class="chapter" data-level="7.1.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#maximizing-likelihood"><i class="fa fa-check"></i><b>7.1.2</b> maximizing likelihood</a></li>
-<li class="chapter" data-level="7.1.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#discrete-probability-distributions"><i class="fa fa-check"></i><b>7.1.3</b> discrete probability distributions</a></li>
-<li class="chapter" data-level="7.1.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#continuous-probability-distributions"><i class="fa fa-check"></i><b>7.1.4</b> continuous probability distributions</a></li>
-</ul></li>
-<li class="chapter" data-level="7.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-thinking"><i class="fa fa-check"></i><b>7.2</b> Bayesian thinking</a>
-<ul>
-<li class="chapter" data-level="7.2.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayes-formula"><i class="fa fa-check"></i><b>7.2.1</b> Bayes’ formula</a></li>
-<li class="chapter" data-level="7.2.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#positive-predictive-value"><i class="fa fa-check"></i><b>7.2.2</b> positive predictive value</a></li>
-<li class="chapter" data-level="7.2.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#prosecutors-fallacy"><i class="fa fa-check"></i><b>7.2.3</b> prosecutor’s fallacy</a></li>
-<li class="chapter" data-level="7.2.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reproducibility-in-science"><i class="fa fa-check"></i><b>7.2.4</b> reproducibility in science</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#bayesian-inference"><i class="fa fa-check"></i><b>7.3</b> Bayesian inference</a>
-<ul>
-<li class="chapter" data-level="7.3.1" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#example-capture-recapture"><i class="fa fa-check"></i><b>7.3.1</b> Example: capture-recapture</a></li>
-<li class="chapter" data-level="7.3.2" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#mcmc"><i class="fa fa-check"></i><b>7.3.2</b> MCMC</a></li>
-</ul></li>
-<li class="chapter" data-level="7.4" data-path="likelihood-and-bayes.html"><a href="likelihood-and-bayes.html#reading"><i class="fa fa-check"></i><b>7.4</b> Reading:</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html"><i class="fa fa-check"></i><b>8</b> Review of linear algebra</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#solving-multivariate-linear-equations"><i class="fa fa-check"></i><b>8.1</b> Solving multivariate linear equations</a></li>
-<li class="chapter" data-level="8.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#fitting-a-line-to-data"><i class="fa fa-check"></i><b>8.2</b> Fitting a line to data</a>
-<ul>
-<li class="chapter" data-level="8.2.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#least-squares-line"><i class="fa fa-check"></i><b>8.2.1</b> Least-squares line</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linearity-and-vector-spaces"><i class="fa fa-check"></i><b>8.3</b> Linearity and vector spaces</a>
-<ul>
-<li class="chapter" data-level="8.3.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#linear-independence-and-basis-vectors"><i class="fa fa-check"></i><b>8.3.1</b> Linear independence and basis vectors</a></li>
-<li class="chapter" data-level="8.3.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#projections-and-changes-of-basis"><i class="fa fa-check"></i><b>8.3.2</b> Projections and changes of basis</a></li>
-</ul></li>
-<li class="chapter" data-level="8.4" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-as-linear-operators"><i class="fa fa-check"></i><b>8.4</b> Matrices as linear operators</a>
-<ul>
-<li class="chapter" data-level="8.4.1" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#matrices-transform-vectors"><i class="fa fa-check"></i><b>8.4.1</b> Matrices transform vectors</a></li>
-<li class="chapter" data-level="8.4.2" data-path="review-of-linear-algebra.html"><a href="review-of-linear-algebra.html#calculating-eigenvalues"><i class="fa fa-check"></i><b>8.4.2</b> calculating eigenvalues</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="linear-models.html"><a href="linear-models.html"><i class="fa fa-check"></i><b>9</b> Linear models</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="linear-models.html"><a href="linear-models.html#regression-toward-the-mean"><i class="fa fa-check"></i><b>9.1</b> Regression toward the mean</a></li>
-<li class="chapter" data-level="9.2" data-path="linear-models.html"><a href="linear-models.html#finding-the-best-fitting-line-linear-regression"><i class="fa fa-check"></i><b>9.2</b> Finding the best fitting line: Linear Regression</a>
-<ul>
-<li class="chapter" data-level="9.2.1" data-path="linear-models.html"><a href="linear-models.html#solving-a-linear-model-some-linear-algebra"><i class="fa fa-check"></i><b>9.2.1</b> Solving a linear model — some linear algebra</a></li>
-<li class="chapter" data-level="9.2.2" data-path="linear-models.html"><a href="linear-models.html#minimizing-the-sum-of-squares"><i class="fa fa-check"></i><b>9.2.2</b> Minimizing the sum of squares</a></li>
-<li class="chapter" data-level="9.2.3" data-path="linear-models.html"><a href="linear-models.html#assumptions-of-linear-regression"><i class="fa fa-check"></i><b>9.2.3</b> Assumptions of linear regression</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="linear-models.html"><a href="linear-models.html#linear-regression-in-action"><i class="fa fa-check"></i><b>9.3</b> Linear regression in action</a></li>
-<li class="chapter" data-level="9.4" data-path="linear-models.html"><a href="linear-models.html#a-regression-gone-wild"><i class="fa fa-check"></i><b>9.4</b> A regression gone wild</a></li>
-<li class="chapter" data-level="9.5" data-path="linear-models.html"><a href="linear-models.html#more-advanced-topics"><i class="fa fa-check"></i><b>9.5</b> More advanced topics</a>
-<ul>
-<li class="chapter" data-level="9.5.1" data-path="linear-models.html"><a href="linear-models.html#categorical-variables-in-linear-models"><i class="fa fa-check"></i><b>9.5.1</b> Categorical variables in linear models</a></li>
-<li class="chapter" data-level="9.5.2" data-path="linear-models.html"><a href="linear-models.html#interactions-in-linear-models"><i class="fa fa-check"></i><b>9.5.2</b> Interactions in linear models</a></li>
-<li class="chapter" data-level="9.5.3" data-path="linear-models.html"><a href="linear-models.html#regression-diagnostics"><i class="fa fa-check"></i><b>9.5.3</b> Regression diagnostics</a></li>
-<li class="chapter" data-level="9.5.4" data-path="linear-models.html"><a href="linear-models.html#plotting-the-residuals"><i class="fa fa-check"></i><b>9.5.4</b> Plotting the residuals</a></li>
-<li class="chapter" data-level="9.5.5" data-path="linear-models.html"><a href="linear-models.html#q-q-plot"><i class="fa fa-check"></i><b>9.5.5</b> Q-Q Plot</a></li>
-<li class="chapter" data-level="9.5.6" data-path="linear-models.html"><a href="linear-models.html#cooks-distance"><i class="fa fa-check"></i><b>9.5.6</b> Cook’s distance</a></li>
-<li class="chapter" data-level="9.5.7" data-path="linear-models.html"><a href="linear-models.html#leverage"><i class="fa fa-check"></i><b>9.5.7</b> Leverage</a></li>
-<li class="chapter" data-level="9.5.8" data-path="linear-models.html"><a href="linear-models.html#running-all-diagnostics"><i class="fa fa-check"></i><b>9.5.8</b> Running all diagnostics</a></li>
-</ul></li>
-<li class="chapter" data-level="9.6" data-path="linear-models.html"><a href="linear-models.html#transforming-the-data"><i class="fa fa-check"></i><b>9.6</b> Transforming the data</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>10</b> ANOVA</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>10.1</b> Analysis of variance</a>
-<ul>
-<li class="chapter" data-level="10.1.1" data-path="anova.html"><a href="anova.html#anova-assumptions"><i class="fa fa-check"></i><b>10.1.1</b> ANOVA assumptions</a></li>
-<li class="chapter" data-level="10.1.2" data-path="anova.html"><a href="anova.html#how-one-way-anova-works"><i class="fa fa-check"></i><b>10.1.2</b> How one-way ANOVA works</a></li>
-</ul></li>
-<li class="chapter" data-level="10.2" data-path="anova.html"><a href="anova.html#inference-in-one-way-anova"><i class="fa fa-check"></i><b>10.2</b> Inference in one-way ANOVA</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="anova.html"><a href="anova.html#example-of-comparing-diets"><i class="fa fa-check"></i><b>10.2.1</b> Example of comparing diets</a></li>
-<li class="chapter" data-level="10.2.2" data-path="anova.html"><a href="anova.html#comparison-of-theory-and-anova-output"><i class="fa fa-check"></i><b>10.2.2</b> Comparison of theory and ANOVA output</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="anova.html"><a href="anova.html#further-steps"><i class="fa fa-check"></i><b>10.3</b> Further steps</a>
-<ul>
-<li class="chapter" data-level="10.3.1" data-path="anova.html"><a href="anova.html#post-hoc-analysis"><i class="fa fa-check"></i><b>10.3.1</b> Post-hoc analysis</a></li>
-<li class="chapter" data-level="10.3.2" data-path="anova.html"><a href="anova.html#example-of-plant-growth-data"><i class="fa fa-check"></i><b>10.3.2</b> Example of plant growth data</a></li>
-<li class="chapter" data-level="10.3.3" data-path="anova.html"><a href="anova.html#two-way-anova"><i class="fa fa-check"></i><b>10.3.3</b> Two-way ANOVA</a></li>
-</ul></li>
-<li class="chapter" data-level="10.4" data-path="anova.html"><a href="anova.html#investigate-the-uc-salaries-dataset"><i class="fa fa-check"></i><b>10.4</b> Investigate the UC salaries dataset</a>
-<ul>
-<li class="chapter" data-level="10.4.1" data-path="anova.html"><a href="anova.html#a-word-of-caution-about-unbalanced-designs"><i class="fa fa-check"></i><b>10.4.1</b> A word of caution about unbalanced designs</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html"><i class="fa fa-check"></i><b>11</b> Time series: modeling and forecasting</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#goals"><i class="fa fa-check"></i><b>11.1</b> Goals:</a></li>
-<li class="chapter" data-level="11.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#time-series-format-and-plotting"><i class="fa fa-check"></i><b>11.2</b> Time series format and plotting</a>
-<ul>
-<li class="chapter" data-level="11.2.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.2.1</b> Visualizing the data</a></li>
-<li class="chapter" data-level="11.2.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#trends-seasonality-and-cyclicity"><i class="fa fa-check"></i><b>11.2.2</b> Trends, seasonality, and cyclicity</a></li>
-</ul></li>
-<li class="chapter" data-level="11.3" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#correlations-of-time-series-cross--auto--and-lag-plot"><i class="fa fa-check"></i><b>11.3</b> Correlations of time series: cross-, auto-, and lag plot</a>
-<ul>
-<li class="chapter" data-level="11.3.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#visualizing-correlation-between-different-variables"><i class="fa fa-check"></i><b>11.3.1</b> Visualizing correlation between different variables</a></li>
-<li class="chapter" data-level="11.3.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#autocorrelation"><i class="fa fa-check"></i><b>11.3.2</b> Autocorrelation</a></li>
-</ul></li>
-<li class="chapter" data-level="11.4" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#decomposition-of-time-series"><i class="fa fa-check"></i><b>11.4</b> Decomposition of time series</a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#classic-decomposition"><i class="fa fa-check"></i><b>11.4.1</b> Classic decomposition:</a></li>
-<li class="chapter" data-level="11.4.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#stl-decomposition"><i class="fa fa-check"></i><b>11.4.2</b> STL decomposition</a></li>
-</ul></li>
-<li class="chapter" data-level="11.5" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#regression-methods"><i class="fa fa-check"></i><b>11.5</b> Regression methods</a>
-<ul>
-<li class="chapter" data-level="11.5.1" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#the-perennial-warning-beware-of-spurious-correlations"><i class="fa fa-check"></i><b>11.5.1</b> The perennial warning: beware of spurious correlations!</a></li>
-<li class="chapter" data-level="11.5.2" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#forecasting-using-linear-regression"><i class="fa fa-check"></i><b>11.5.2</b> Forecasting using linear regression</a></li>
-</ul></li>
-<li class="chapter" data-level="11.6" data-path="time-series-modeling-and-forecasting.html"><a href="time-series-modeling-and-forecasting.html#references-and-further-reading"><i class="fa fa-check"></i><b>11.6</b> References and further reading:</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html"><i class="fa fa-check"></i><b>12</b> Generalized linear models</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#goal-3"><i class="fa fa-check"></i><b>12.1</b> Goal</a></li>
-<li class="chapter" data-level="12.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#introduction"><i class="fa fa-check"></i><b>12.2</b> Introduction</a>
-<ul>
-<li class="chapter" data-level="12.2.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#model-structure"><i class="fa fa-check"></i><b>12.2.1</b> Model structure</a></li>
-</ul></li>
-<li class="chapter" data-level="12.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#binary-data"><i class="fa fa-check"></i><b>12.3</b> Binary data</a>
-<ul>
-<li class="chapter" data-level="12.3.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#logistic-regression"><i class="fa fa-check"></i><b>12.3.1</b> Logistic regression</a></li>
-<li class="chapter" data-level="12.3.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#a-simple-example"><i class="fa fa-check"></i><b>12.3.2</b> A simple example</a></li>
-<li class="chapter" data-level="12.3.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-college-admissions"><i class="fa fa-check"></i><b>12.3.3</b> Exercise in class: College admissions</a></li>
-</ul></li>
-<li class="chapter" data-level="12.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#count-data"><i class="fa fa-check"></i><b>12.4</b> Count data</a>
-<ul>
-<li class="chapter" data-level="12.4.1" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#poisson-regression"><i class="fa fa-check"></i><b>12.4.1</b> Poisson regression</a></li>
-<li class="chapter" data-level="12.4.2" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-number-of-genomes"><i class="fa fa-check"></i><b>12.4.2</b> Exercise in class: Number of genomes</a></li>
-<li class="chapter" data-level="12.4.3" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#underdispersed-and-overdispersed-data"><i class="fa fa-check"></i><b>12.4.3</b> Underdispersed and Overdispersed data</a></li>
-<li class="chapter" data-level="12.4.4" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#exercise-in-class-number-of-genomes-1"><i class="fa fa-check"></i><b>12.4.4</b> Exercise in class: Number of genomes</a></li>
-<li class="chapter" data-level="12.4.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#separate-distribution-for-the-zeros"><i class="fa fa-check"></i><b>12.4.5</b> Separate distribution for the zeros</a></li>
-</ul></li>
-<li class="chapter" data-level="12.5" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#other-glms"><i class="fa fa-check"></i><b>12.5</b> Other GLMs</a></li>
-<li class="chapter" data-level="12.6" data-path="generalized-linear-models.html"><a href="generalized-linear-models.html#readings-and-homework"><i class="fa fa-check"></i><b>12.6</b> Readings and homework</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>13</b> Model Selection</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="model-selection.html"><a href="model-selection.html#goal-4"><i class="fa fa-check"></i><b>13.1</b> Goal</a></li>
-<li class="chapter" data-level="13.2" data-path="model-selection.html"><a href="model-selection.html#problems"><i class="fa fa-check"></i><b>13.2</b> Problems</a></li>
-<li class="chapter" data-level="13.3" data-path="model-selection.html"><a href="model-selection.html#approaches-based-on-maximum-likelihoods"><i class="fa fa-check"></i><b>13.3</b> Approaches based on maximum-likelihoods</a>
-<ul>
-<li class="chapter" data-level="13.3.1" data-path="model-selection.html"><a href="model-selection.html#likelihood-function"><i class="fa fa-check"></i><b>13.3.1</b> Likelihood function</a></li>
-<li class="chapter" data-level="13.3.2" data-path="model-selection.html"><a href="model-selection.html#discrete-probability-distributions-1"><i class="fa fa-check"></i><b>13.3.2</b> Discrete probability distributions</a></li>
-<li class="chapter" data-level="13.3.3" data-path="model-selection.html"><a href="model-selection.html#continuous-probability-distributions-1"><i class="fa fa-check"></i><b>13.3.3</b> Continuous probability distributions</a></li>
-</ul></li>
-<li class="chapter" data-level="13.4" data-path="model-selection.html"><a href="model-selection.html#likelihoods-for-linear-regression"><i class="fa fa-check"></i><b>13.4</b> Likelihoods for linear regression</a></li>
-<li class="chapter" data-level="13.5" data-path="model-selection.html"><a href="model-selection.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>13.5</b> Likelihood-ratio tests</a></li>
-<li class="chapter" data-level="13.6" data-path="model-selection.html"><a href="model-selection.html#aic"><i class="fa fa-check"></i><b>13.6</b> AIC</a></li>
-<li class="chapter" data-level="13.7" data-path="model-selection.html"><a href="model-selection.html#other-information-based-criteria"><i class="fa fa-check"></i><b>13.7</b> Other information-based criteria</a></li>
-<li class="chapter" data-level="13.8" data-path="model-selection.html"><a href="model-selection.html#bayesian-approaches-to-model-selection"><i class="fa fa-check"></i><b>13.8</b> Bayesian approaches to model selection</a>
-<ul>
-<li class="chapter" data-level="13.8.1" data-path="model-selection.html"><a href="model-selection.html#marginal-likelihoods"><i class="fa fa-check"></i><b>13.8.1</b> Marginal likelihoods</a></li>
-<li class="chapter" data-level="13.8.2" data-path="model-selection.html"><a href="model-selection.html#bayes-factors"><i class="fa fa-check"></i><b>13.8.2</b> Bayes factors</a></li>
-<li class="chapter" data-level="13.8.3" data-path="model-selection.html"><a href="model-selection.html#bayes-factors-in-practice"><i class="fa fa-check"></i><b>13.8.3</b> Bayes factors in practice</a></li>
-</ul></li>
-<li class="chapter" data-level="13.9" data-path="model-selection.html"><a href="model-selection.html#other-approaches"><i class="fa fa-check"></i><b>13.9</b> Other approaches</a>
-<ul>
-<li class="chapter" data-level="13.9.1" data-path="model-selection.html"><a href="model-selection.html#minimum-description-length"><i class="fa fa-check"></i><b>13.9.1</b> Minimum description length</a></li>
-<li class="chapter" data-level="13.9.2" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>13.9.2</b> Cross validation</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html"><i class="fa fa-check"></i><b>14</b> Principal Component Analysis</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#input"><i class="fa fa-check"></i><b>14.1</b> Input</a></li>
-<li class="chapter" data-level="14.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#singular-value-decomposition"><i class="fa fa-check"></i><b>14.2</b> Singular Value Decomposition</a></li>
-<li class="chapter" data-level="14.3" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#svd-and-pca"><i class="fa fa-check"></i><b>14.3</b> SVD and PCA</a>
-<ul>
-<li class="chapter" data-level="14.3.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-rfrom-scratch"><i class="fa fa-check"></i><b>14.3.1</b> PCA in R—from scratch</a></li>
-<li class="chapter" data-level="14.3.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#pca-in-r-the-easy-way"><i class="fa fa-check"></i><b>14.3.2</b> PCA in R — the easy way</a></li>
-</ul></li>
-<li class="chapter" data-level="14.4" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#multidimensional-scaling"><i class="fa fa-check"></i><b>14.4</b> Multidimensional scaling</a>
-<ul>
-<li class="chapter" data-level="14.4.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#goal-of-mds"><i class="fa fa-check"></i><b>14.4.1</b> Goal of MDS</a></li>
-<li class="chapter" data-level="14.4.2" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#classic-mds"><i class="fa fa-check"></i><b>14.4.2</b> Classic MDS</a></li>
-</ul></li>
-<li class="chapter" data-level="14.5" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#readings-1"><i class="fa fa-check"></i><b>14.5</b> Readings</a>
-<ul>
-<li class="chapter" data-level="14.5.1" data-path="principal-component-analysis.html"><a href="principal-component-analysis.html#exercise-pca-sommelier"><i class="fa fa-check"></i><b>14.5.1</b> Exercise: PCA sommelier</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>15</b> Clustering</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="clustering.html"><a href="clustering.html#k-means-algorithm"><i class="fa fa-check"></i><b>15.1</b> K-means algorithm</a>
-<ul>
-<li class="chapter" data-level="15.1.1" data-path="clustering.html"><a href="clustering.html#assumptions-of-k-means-algorithm"><i class="fa fa-check"></i><b>15.1.1</b> Assumptions of K-means algorithm</a></li>
-<li class="chapter" data-level="15.1.2" data-path="clustering.html"><a href="clustering.html#exercise-pca-sommelier-1"><i class="fa fa-check"></i><b>15.1.2</b> Exercise: PCA sommelier</a></li>
-</ul></li>
-<li class="chapter" data-level="15.2" data-path="clustering.html"><a href="clustering.html#hierarchical-clustering"><i class="fa fa-check"></i><b>15.2</b> Hierarchical clustering</a>
-<ul>
-<li class="chapter" data-level="15.2.1" data-path="clustering.html"><a href="clustering.html#agglomerative-clustering"><i class="fa fa-check"></i><b>15.2.1</b> Agglomerative clustering</a></li>
-<li class="chapter" data-level="15.2.2" data-path="clustering.html"><a href="clustering.html#cluster-the-irises-using-hierarchical-methods"><i class="fa fa-check"></i><b>15.2.2</b> Cluster the irises using hierarchical methods</a></li>
-<li class="chapter" data-level="15.2.3" data-path="clustering.html"><a href="clustering.html#taste-the-wine-again"><i class="fa fa-check"></i><b>15.2.3</b> Taste the wine again!</a></li>
-</ul></li>
-<li class="chapter" data-level="15.3" data-path="clustering.html"><a href="clustering.html#clustering-analysis-and-validation"><i class="fa fa-check"></i><b>15.3</b> Clustering analysis and validation</a>
-<ul>
-<li class="chapter" data-level="15.3.1" data-path="clustering.html"><a href="clustering.html#hopkins-statistic"><i class="fa fa-check"></i><b>15.3.1</b> Hopkins statistic</a></li>
-<li class="chapter" data-level="15.3.2" data-path="clustering.html"><a href="clustering.html#elbow-method"><i class="fa fa-check"></i><b>15.3.2</b> Elbow method</a></li>
-<li class="chapter" data-level="15.3.3" data-path="clustering.html"><a href="clustering.html#lazy-way-use-all-the-methods"><i class="fa fa-check"></i><b>15.3.3</b> Lazy way: use all the methods!</a></li>
-<li class="chapter" data-level="15.3.4" data-path="clustering.html"><a href="clustering.html#validation"><i class="fa fa-check"></i><b>15.3.4</b> Validation</a></li>
-</ul></li>
-<li class="chapter" data-level="15.4" data-path="clustering.html"><a href="clustering.html#application-to-breast-cancer-data"><i class="fa fa-check"></i><b>15.4</b> Application to breast cancer data</a></li>
-<li class="chapter" data-level="15.5" data-path="clustering.html"><a href="clustering.html#references-1"><i class="fa fa-check"></i><b>15.5</b> References:</a></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html"><i class="fa fa-check"></i><b>16</b> Building phylogeneric trees</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#introduction-1"><i class="fa fa-check"></i><b>16.1</b> Introduction</a></li>
-<li class="chapter" data-level="16.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#input-1"><i class="fa fa-check"></i><b>16.2</b> Input</a></li>
-<li class="chapter" data-level="16.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#representing-trees"><i class="fa fa-check"></i><b>16.3</b> Representing trees</a></li>
-<li class="chapter" data-level="16.4" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#building-trees-from-sequence-data"><i class="fa fa-check"></i><b>16.4</b> Building trees from sequence data</a>
-<ul>
-<li class="chapter" data-level="16.4.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-parsimony"><i class="fa fa-check"></i><b>16.4.1</b> Maximum Parsimony</a></li>
-<li class="chapter" data-level="16.4.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#example-primates"><i class="fa fa-check"></i><b>16.4.2</b> Example: primates</a></li>
-<li class="chapter" data-level="16.4.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#parsimonygate"><i class="fa fa-check"></i><b>16.4.3</b> <code>#ParsimonyGate</code></a></li>
-</ul></li>
-<li class="chapter" data-level="16.5" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#distance-methods"><i class="fa fa-check"></i><b>16.5</b> Distance Methods</a></li>
-<li class="chapter" data-level="16.6" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#likelihood-based-methods"><i class="fa fa-check"></i><b>16.6</b> Likelihood based methods</a>
-<ul>
-<li class="chapter" data-level="16.6.1" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#other-models"><i class="fa fa-check"></i><b>16.6.1</b> Other models</a></li>
-<li class="chapter" data-level="16.6.2" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#maximum-likelihood"><i class="fa fa-check"></i><b>16.6.2</b> Maximum likelihood</a></li>
-<li class="chapter" data-level="16.6.3" data-path="building-phylogeneric-trees.html"><a href="building-phylogeneric-trees.html#bayesian-methods"><i class="fa fa-check"></i><b>16.6.3</b> Bayesian methods</a></li>
-</ul></li>
-</ul></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Fundamentals of Biological Data Analysis</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fundamentals of Biological Data Analysis</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Organization of the class</a></li>
+<li><a class="" href="refresher.html"><span class="header-section-number">1</span> Refresher</a></li>
+<li><a class="active" href="visualizing-data-using-ggplot2.html"><span class="header-section-number">2</span> Visualizing data using ggplot2</a></li>
+<li><a class="" href="fundamentals-of-probability.html"><span class="header-section-number">3</span> Fundamentals of probability</a></li>
+<li><a class="" href="data-wrangling.html"><span class="header-section-number">4</span> Data wrangling</a></li>
+<li><a class="" href="distributions-and-their-properties.html"><span class="header-section-number">5</span> Distributions and their properties</a></li>
+<li><a class="" href="hypothesis-testing.html"><span class="header-section-number">6</span> Hypothesis testing</a></li>
+<li><a class="" href="likelihood-and-bayes.html"><span class="header-section-number">7</span> Likelihood and Bayes</a></li>
+<li><a class="" href="review-of-linear-algebra.html"><span class="header-section-number">8</span> Review of linear algebra</a></li>
+<li><a class="" href="linear-models.html"><span class="header-section-number">9</span> Linear models</a></li>
+<li><a class="" href="anova.html"><span class="header-section-number">10</span> ANOVA</a></li>
+<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">11</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">12</span> Generalized linear models</a></li>
+<li><a class="" href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></li>
+<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">14</span> Principal Component Analysis</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">15</span> Clustering</a></li>
+<li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
+</ul>
+
+        <div class="book-extra">
+          
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="visualizing-data-using-ggplot2" class="section level1" number="2">
-<h1><span class="header-section-number">Lecture 2</span> Visualizing data using <code>ggplot2</code></h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="visualizing-data-using-ggplot2" class="section level1" number="2">
+<h1>
+<span class="header-section-number">Lecture 2</span> Visualizing data using <code>ggplot2</code><a class="anchor" aria-label="anchor" href="#visualizing-data-using-ggplot2"><i class="fas fa-link"></i></a>
+</h1>
 <div id="goal-1" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Goal</h2>
+<h2>
+<span class="header-section-number">2.1</span> Goal<a class="anchor" aria-label="anchor" href="#goal-1"><i class="fas fa-link"></i></a>
+</h2>
 <p>Introduce the package <code>ggplot2</code>, which is part of the <code>tidyverse</code> bundle. Learn how to use <code>ggplot2</code> to produce publication-quality figures. Discuss the philosophical underpinnings of the “Grammar of Graphics,” showcase the <code>ggplot2</code> syntax, produce examples of the different types of graphs. Learn how to change colors, legends, scales. Visualize histograms, barplots, scatterplots, etc.</p>
 </div>
 <div id="introduction-to-the-grammar-of-graphics" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Introduction to the Grammar of Graphics</h2>
+<h2>
+<span class="header-section-number">2.2</span> Introduction to the Grammar of Graphics<a class="anchor" aria-label="anchor" href="#introduction-to-the-grammar-of-graphics"><i class="fas fa-link"></i></a>
+</h2>
 <p>The most salient feature of scientific graphs should be clarity. Each figure should make crystal-clear a) what is being plotted; b) what are the axes; c) what do colors, shapes, and sizes represent; d) the message the figure wants to convey. Each figure is accompanied by a (sometimes long) caption, where the details can be explained further, but the main message should be clear from glancing at the figure (often, figures are the first thing editors and referees look at).</p>
 <p>Many scientific publications contain very poor graphics: labels are missing, scales are unintelligible, there is no explanation of some graphical elements. Moreover, some color graphs are impossible to understand if printed in black and white, or difficult to discern for color-blind people.</p>
 <p>Given the effort that you put into your science, you want to ensure that it is well presented and accessible. The investment to master some plotting software will be rewarded by pleasing graphics that convey a clear message.</p>
@@ -538,17 +94,21 @@ of colors do we want to use?</p></li>
 <p>Exactly like in the grammar of a natural language, we can easily change the meaning of a “sentence” by adding or removing parts. Also, it is very easy to completely change the type of geometry if we are moving from say a histogram to a boxplot or a violin plot, as these types of plots are meant to describe one-dimensional distributions. Similarly, we can go from points to lines, changing one “word” in our code. Finally, the look and feel of the graphs is controlled by a theming system, separating the content from the presentation.</p>
 </div>
 <div id="basic-ggplot2" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Basic <code>ggplot2</code></h2>
+<h2>
+<span class="header-section-number">2.3</span> Basic <code>ggplot2</code><a class="anchor" aria-label="anchor" href="#basic-ggplot2"><i class="fas fa-link"></i></a>
+</h2>
 <p><code>ggplot2</code> ships with a simplified graphing function, called <code>qplot</code>. In this introduction we are not going to use it, and we concentrate instead on the function <code>ggplot</code>, which gives you complete control over your plotting. First, we need to load the package:</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="visualizing-data-using-ggplot2.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 <p>To explore the features of <code>ggplot2</code>, we are going to use a data set detailing the total number of COVID cases and deaths in US counties. The data are provided by the <a href="https://github.com/nytimes/covid-19-data/blob/master/live/us-counties.csv">New York Times</a>.</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="visualizing-data-using-ggplot2.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data</span></span>
-<span id="cb254-2"><a href="visualizing-data-using-ggplot2.html#cb254-2" aria-hidden="true" tabindex="-1"></a><span class="co"># original URL https://github.com/nytimes/covid-19-data/raw/master/live/us-counties.csv</span></span>
-<span id="cb254-3"><a href="visualizing-data-using-ggplot2.html#cb254-3" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://rb.gy/zr65gg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># read the data</span>
+<span class="co"># original URL https://github.com/nytimes/covid-19-data/raw/master/live/us-counties.csv</span>
+<span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://rb.gy/zr65gg"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
-##   date = col_date(format = &quot;&quot;),
+##   date = col_date(format = ""),
 ##   county = col_character(),
 ##   state = col_character(),
 ##   fips = col_character(),
@@ -559,7 +119,8 @@ of colors do we want to use?</p></li>
 ##   probable_cases = col_double(),
 ##   probable_deaths = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="visualizing-data-using-ggplot2.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 10
 ##   date       county  state   fips  cases deaths confirmed_cases confirmed_deaths
 ##   &lt;date&gt;     &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
@@ -572,138 +133,179 @@ of colors do we want to use?</p></li>
 ## # … with 2 more variables: probable_cases &lt;dbl&gt;, probable_deaths &lt;dbl&gt;</code></pre>
 <p>we are going to work with <code>date</code>, <code>county</code>, <code>state</code>, <code>cases</code> and <code>deaths</code>.</p>
 <p>Let’s select Illnois, and take only the counties with more than 10k cases (to have a less crowded graph):</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="visualizing-data-using-ggplot2.html#cb258-1" aria-hidden="true" tabindex="-1"></a>dti <span class="ot">&lt;-</span> dt[(dt<span class="sc">$</span>state <span class="sc">==</span> <span class="st">&quot;Illinois&quot;</span>) <span class="sc">&amp;</span> (dt<span class="sc">$</span>cases <span class="sc">&gt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>), ]</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dti</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span><span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">==</span> <span class="st">"Illinois"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="va">cases</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">^</span><span class="fl">4</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
 <p>A particularity of <code>ggplot2</code> is that it accepts exclusively data organized in tables (a <code>data.frame</code> or a <code>tibble</code> object—more on tibbles later). Thus, all of your data needs to be converted into a data frame format for plotting.</p>
 </div>
 <div id="building-a-well-formed-graph" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Building a well-formed graph</h2>
+<h2>
+<span class="header-section-number">2.4</span> Building a well-formed graph<a class="anchor" aria-label="anchor" href="#building-a-well-formed-graph"><i class="fas fa-link"></i></a>
+</h2>
 <p>For our first plot, we’re going to produce a barplot detailing how many cases have been reported in each County:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="visualizing-data-using-ggplot2.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dti)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-84-1.png" width="672"></div>
 <p>As you can see, nothing is drawn: we need to specify what we would like to associate to the <em>x</em> axis, and what to the <em>y</em> axis, etc. (i.e., we want to set as the <em>aesthetic mappings</em>). A barplot typically has classes on the <em>x</em> axis, while the <em>y</em> axis reports the counts in each class.</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="visualizing-data-using-ggplot2.html#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dti) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> county, <span class="at">y =</span> cases)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
-<p>Note that we concatenate pieces of our “sentence” using the <code>+</code> sign! We’ve got the aestethic mappings figured out, but still no graph… we need to specify a geometry, i.e., the type of graph we want to produce. In this case, a barplot where the height of the bars is specified by the <code>y</code> value:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="visualizing-data-using-ggplot2.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dti) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> county, <span class="at">y =</span> cases) <span class="sc">+</span> <span class="fu">geom_col</span>()</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<div class="sourceCode" id="cb260"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">county</span>, y <span class="op">=</span> <span class="va">cases</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-85-1.png" width="672"></div>
+<p>Note that we concatenate pieces of our “sentence” using the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> sign! We’ve got the aestethic mappings figured out, but still no graph… we need to specify a geometry, i.e., the type of graph we want to produce. In this case, a barplot where the height of the bars is specified by the <code>y</code> value:</p>
+<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">county</span>, y <span class="op">=</span> <span class="va">cases</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-86-1.png" width="672"></div>
 <p>Because it is very difficult to see the labels, let’s swap the axes:</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="visualizing-data-using-ggplot2.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dti) <span class="sc">+</span> </span>
-<span id="cb262-2"><a href="visualizing-data-using-ggplot2.html#cb262-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> county, <span class="at">y =</span> cases) <span class="sc">+</span> </span>
-<span id="cb262-3"><a href="visualizing-data-using-ggplot2.html#cb262-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> </span>
-<span id="cb262-4"><a href="visualizing-data-using-ggplot2.html#cb262-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<div class="sourceCode" id="cb262"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">county</span>, y <span class="op">=</span> <span class="va">cases</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-87-1.png" width="672"></div>
 <p>The graph shows that, naturally, the vast majority of cases was reported in Cook county. We have written a “well-formed sentence,” composed of <strong>data</strong> + <strong>mapping</strong> + <strong>geometry</strong>, and this is sufficient to produce a graph. We can add “adjectives” and “adverbs” to our graph, to make it clearer:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="visualizing-data-using-ggplot2.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dti) <span class="sc">+</span> </span>
-<span id="cb263-2"><a href="visualizing-data-using-ggplot2.html#cb263-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(county, cases), <span class="at">y =</span> cases) <span class="sc">+</span> <span class="co"># order labels according to cases</span></span>
-<span id="cb263-3"><a href="visualizing-data-using-ggplot2.html#cb263-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb263-4"><a href="visualizing-data-using-ggplot2.html#cb263-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Number of COVID cases reported&quot;</span>) <span class="sc">+</span> <span class="co"># x label</span></span>
-<span id="cb263-5"><a href="visualizing-data-using-ggplot2.html#cb263-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Illinois County&quot;</span>) <span class="sc">+</span> <span class="co"># y label</span></span>
-<span id="cb263-6"><a href="visualizing-data-using-ggplot2.html#cb263-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="co"># transform the counts to logs</span></span>
-<span id="cb263-7"><a href="visualizing-data-using-ggplot2.html#cb263-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb263-8"><a href="visualizing-data-using-ggplot2.html#cb263-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(dti<span class="sc">$</span>date[<span class="dv">1</span>]) <span class="co"># main title (use current date)</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html">reorder</a></span><span class="op">(</span><span class="va">county</span>, <span class="va">cases</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">cases</span><span class="op">)</span> <span class="op">+</span> <span class="co"># order labels according to cases</span>
+  <span class="fu">geom_col</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Number of COVID cases reported"</span><span class="op">)</span> <span class="op">+</span> <span class="co"># x label</span>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Illinois County"</span><span class="op">)</span> <span class="op">+</span> <span class="co"># y label</span>
+  <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="co"># transform the counts to logs</span>
+  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">ggtitle</span><span class="op">(</span><span class="va">dti</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="co"># main title (use current date)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-88-1.png" width="672"></div>
 </div>
 <div id="scatterplots" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Scatterplots</h2>
+<h2>
+<span class="header-section-number">2.5</span> Scatterplots<a class="anchor" aria-label="anchor" href="#scatterplots"><i class="fas fa-link"></i></a>
+</h2>
 <p>Using <code>ggplot2</code>, one can produce very many types of graphs. The package works very well for 2D graphs (or 3D rendered in two dimensions), while it lack capabilities to draw proper 3D graphs, or networks.</p>
 <p>The main feature of <code>ggplot2</code> is that you can tinker with your graph fairly easily, and with a common grammar. You don’t have to settle on a certain presentation of the data until you’re ready, and it is very easy to switch from one type of graph to another.</p>
 <p>For example, let’s plot the number of cases vs. number of deaths:</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="visualizing-data-using-ggplot2.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can store the graph in a variable</span></span>
-<span id="cb264-2"><a href="visualizing-data-using-ggplot2.html#cb264-2" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dti)</span>
-<span id="cb264-3"><a href="visualizing-data-using-ggplot2.html#cb264-3" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> cases, <span class="at">y =</span> deaths) <span class="co"># for a scatter plot, we need two aes mappings!</span></span>
-<span id="cb264-4"><a href="visualizing-data-using-ggplot2.html#cb264-4" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="co"># draw points in a scatterplot</span></span>
-<span id="cb264-5"><a href="visualizing-data-using-ggplot2.html#cb264-5" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">scale_x_sqrt</span>() <span class="sc">+</span> <span class="fu">scale_y_sqrt</span>() <span class="co"># transform axes</span></span>
-<span id="cb264-6"><a href="visualizing-data-using-ggplot2.html#cb264-6" aria-hidden="true" tabindex="-1"></a>pl <span class="co"># or show(pl)</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
+<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># you can store the graph in a variable</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">cases</span>, y <span class="op">=</span> <span class="va">deaths</span><span class="op">)</span> <span class="co"># for a scatter plot, we need two aes mappings!</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="co"># draw points in a scatterplot</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">scale_x_sqrt</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_y_sqrt</span><span class="op">(</span><span class="op">)</span> <span class="co"># transform axes</span>
+<span class="va">pl</span> <span class="co"># or show(pl)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-89-1.png" width="672"></div>
 <p>Showing that number of daily cases and number of daily deaths are highly correlated (but it would be a stronger correlation if we were to plot past cases vs. current deaths).</p>
 </div>
 <div id="histograms-density-and-boxplots" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Histograms, density and boxplots</h2>
+<h2>
+<span class="header-section-number">2.6</span> Histograms, density and boxplots<a class="anchor" aria-label="anchor" href="#histograms-density-and-boxplots"><i class="fas fa-link"></i></a>
+</h2>
 <p>It would be nice to see the distribution of the ratio deaths/cases. To do so, we can produce a histogram:</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="visualizing-data-using-ggplot2.html#cb265-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dti)</span>
-<span id="cb265-2"><a href="visualizing-data-using-ggplot2.html#cb265-2" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> deaths <span class="sc">/</span> cases)  </span>
-<span id="cb265-3"><a href="visualizing-data-using-ggplot2.html#cb265-3" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.0025</span>) </span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span><span class="op">)</span>  
+<span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.0025</span><span class="op">)</span> </code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-90-1.png" width="672"></div>
 <p>We can control the width of the bins by specifying:</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="visualizing-data-using-ggplot2.html#cb266-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="co"># specify the number of bins</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="visualizing-data-using-ggplot2.html#cb267-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.001</span>) <span class="co"># specify the bin width</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-91-2.png" width="672" /></p>
+<div class="sourceCode" id="cb266"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="co"># specify the number of bins</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-91-1.png" width="672"></div>
+<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span> <span class="co"># specify the bin width</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-91-2.png" width="672"></div>
 <p>Let’s see whether the histograms differ between Illinois and Indiana:</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="visualizing-data-using-ggplot2.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="sc">+</span> </span>
-<span id="cb268-2"><a href="visualizing-data-using-ggplot2.html#cb268-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> deaths <span class="sc">/</span> cases, <span class="at">fill =</span> state) <span class="sc">+</span> <span class="co"># fill the bar colors by state</span></span>
-<span id="cb268-3"><a href="visualizing-data-using-ggplot2.html#cb268-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
+<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Indiana"</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span>, fill <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="co"># fill the bar colors by state</span>
+  <span class="fu">geom_histogram</span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-92-1.png" width="672"></div>
 <p>To plot the histogram side by side, use</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="visualizing-data-using-ggplot2.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="sc">+</span> </span>
-<span id="cb269-2"><a href="visualizing-data-using-ggplot2.html#cb269-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> deaths <span class="sc">/</span> cases, <span class="at">fill =</span> state) <span class="sc">+</span> <span class="co"># fill the bar colors by state</span></span>
-<span id="cb269-3"><a href="visualizing-data-using-ggplot2.html#cb269-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">bins =</span> <span class="dv">30</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
+<div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Indiana"</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span>, fill <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="co"># fill the bar colors by state</span>
+  <span class="fu">geom_histogram</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span>, bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-93-1.png" width="672"></div>
 <p>Similarly, we can approximate the histogram using a density plot, which interpolates the bin height to create a smooth distribution:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="visualizing-data-using-ggplot2.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="sc">+</span> </span>
-<span id="cb270-2"><a href="visualizing-data-using-ggplot2.html#cb270-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> deaths <span class="sc">/</span> cases, <span class="at">fill =</span> state) <span class="sc">+</span> <span class="co"># fill by state</span></span>
-<span id="cb270-3"><a href="visualizing-data-using-ggplot2.html#cb270-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-94-1.png" width="672" /></p>
+<div class="sourceCode" id="cb270"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Indiana"</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span>, fill <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="co"># fill by state</span>
+  <span class="fu">geom_density</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-94-1.png" width="672"></div>
 <p>To see the graph better, let’s make the coloring semi-transparent:</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="visualizing-data-using-ggplot2.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="sc">+</span> </span>
-<span id="cb271-2"><a href="visualizing-data-using-ggplot2.html#cb271-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> deaths <span class="sc">/</span> cases, <span class="at">fill =</span> state) <span class="sc">+</span> <span class="co"># fill by state</span></span>
-<span id="cb271-3"><a href="visualizing-data-using-ggplot2.html#cb271-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-95-1.png" width="672" /></p>
+<div class="sourceCode" id="cb271"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Indiana"</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span>, fill <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="co"># fill by state</span>
+  <span class="fu">geom_density</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-95-1.png" width="672"></div>
 <p>Showing a similar distribution for the death rate in the two states. For this type of comparison, the ideal graph to show is maybe a box-plot or a violin plot:</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="visualizing-data-using-ggplot2.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="sc">+</span> </span>
-<span id="cb272-2"><a href="visualizing-data-using-ggplot2.html#cb272-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> deaths <span class="sc">/</span> cases, <span class="at">fill =</span> state) <span class="sc">+</span> <span class="co"># we need both x and y</span></span>
-<span id="cb272-3"><a href="visualizing-data-using-ggplot2.html#cb272-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-96-1.png" width="672" /></p>
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Indiana"</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">state</span>, y <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span>, fill <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="co"># we need both x and y</span>
+  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-96-1.png" width="672"></div>
 <p>A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent “outliers.” To show the full distribution, you can use a violin plot:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="visualizing-data-using-ggplot2.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Indiana&quot;</span>),]) <span class="sc">+</span> </span>
-<span id="cb273-2"><a href="visualizing-data-using-ggplot2.html#cb273-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> deaths <span class="sc">/</span> cases, <span class="at">fill =</span> state) <span class="sc">+</span> <span class="co"># we need both x and y</span></span>
-<span id="cb273-3"><a href="visualizing-data-using-ggplot2.html#cb273-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<div class="sourceCode" id="cb273"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Indiana"</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">state</span>, y <span class="op">=</span> <span class="va">deaths</span> <span class="op">/</span> <span class="va">cases</span>, fill <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="co"># we need both x and y</span>
+  <span class="fu">geom_violin</span><span class="op">(</span>draw_quantiles <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-97-1.png" width="672"></div>
 <p>Note that when we’re producing “similar” plots (e.g., histogram vs. density, box vs. violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!</p>
 </div>
 <div id="scales" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Scales</h2>
+<h2>
+<span class="header-section-number">2.7</span> Scales<a class="anchor" aria-label="anchor" href="#scales"><i class="fas fa-link"></i></a>
+</h2>
 <p>We can use scales to determine how the aesthetic mappings are displayed. For example, we could set the <em>x</em> axis to be in logarithmic scale, or we can choose how the colors, shapes and sizes are used. <code>ggplot2</code> uses two types of scales: <code>continuous</code> scales are used for continuos variables (e.g., real numbers); <code>discrete</code> scales for variables that can only take a certain number of values (e.g., colors, shapes, sizes).</p>
 <p>For example, let’s plot deaths vs. cases in our <code>dti</code> data set:</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="visualizing-data-using-ggplot2.html#cb274-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dti) <span class="sc">+</span> </span>
-<span id="cb274-2"><a href="visualizing-data-using-ggplot2.html#cb274-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> cases, <span class="at">y =</span> deaths, <span class="at">colour =</span> <span class="fu">log</span>(deaths)) <span class="sc">+</span></span>
-<span id="cb274-3"><a href="visualizing-data-using-ggplot2.html#cb274-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() </span>
-<span id="cb274-4"><a href="visualizing-data-using-ggplot2.html#cb274-4" aria-hidden="true" tabindex="-1"></a>pl</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">cases</span>, y <span class="op">=</span> <span class="va">deaths</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">deaths</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> 
+<span class="va">pl</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-98-1.png" width="672"></div>
 <p>We can change the scale of the <em>x</em> axis by calling:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="visualizing-data-using-ggplot2.html#cb275-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="co"># log-log plot</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="visualizing-data-using-ggplot2.html#cb276-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">scale_x_sqrt</span>() <span class="co"># sqrt of number of cases</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-99-2.png" width="672" /></p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="visualizing-data-using-ggplot2.html#cb277-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">scale_x_reverse</span>() <span class="co"># from large to small</span></span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-99-3.png" width="672" /></p>
+<div class="sourceCode" id="cb275"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="co"># log-log plot</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-99-1.png" width="672"></div>
+<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">scale_x_sqrt</span><span class="op">(</span><span class="op">)</span> <span class="co"># sqrt of number of cases</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-99-2.png" width="672"></div>
+<div class="sourceCode" id="cb277"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">scale_x_reverse</span><span class="op">(</span><span class="op">)</span> <span class="co"># from large to small</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-99-3.png" width="672"></div>
 <p>Similarly, we can change the use of colors, points, etc.</p>
 </div>
 <div id="list-of-aesthetic-mappings" class="section level2" number="2.8">
-<h2><span class="header-section-number">2.8</span> List of aesthetic mappings</h2>
+<h2>
+<span class="header-section-number">2.8</span> List of aesthetic mappings<a class="anchor" aria-label="anchor" href="#list-of-aesthetic-mappings"><i class="fas fa-link"></i></a>
+</h2>
 <p>We’ve seen some of the aesthetic mappings. Here’s a list of the main <code>aes</code>:</p>
 <ul>
-<li><code>x</code> what to use for <em>x</em> axis</li>
-<li><code>y</code> what to use for <em>y</em> axis</li>
-<li><code>color</code> the color of points and lines</li>
-<li><code>fill</code> the color of shapes (e.g., boxes, bars, etc.)</li>
-<li><code>size</code> the size of points, lines, etc.</li>
-<li><code>shape</code> the shape of points</li>
-<li><code>alpha</code> the level of transparency of the object</li>
-<li><code>linetype</code> the type of line (e.g., solid, dashed, etc.)</li>
+<li>
+<code>x</code> what to use for <em>x</em> axis</li>
+<li>
+<code>y</code> what to use for <em>y</em> axis</li>
+<li>
+<code>color</code> the color of points and lines</li>
+<li>
+<code>fill</code> the color of shapes (e.g., boxes, bars, etc.)</li>
+<li>
+<code>size</code> the size of points, lines, etc.</li>
+<li>
+<code>shape</code> the shape of points</li>
+<li>
+<code>alpha</code> the level of transparency of the object</li>
+<li>
+<code>linetype</code> the type of line (e.g., solid, dashed, etc.)</li>
 </ul>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="visualizing-data-using-ggplot2.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a more complex example</span></span>
-<span id="cb278-2"><a href="visualizing-data-using-ggplot2.html#cb278-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt) <span class="sc">+</span> </span>
-<span id="cb278-3"><a href="visualizing-data-using-ggplot2.html#cb278-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> cases, <span class="at">y =</span> deaths, </span>
-<span id="cb278-4"><a href="visualizing-data-using-ggplot2.html#cb278-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> state) <span class="sc">+</span></span>
-<span id="cb278-5"><a href="visualizing-data-using-ggplot2.html#cb278-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb278-6"><a href="visualizing-data-using-ggplot2.html#cb278-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="co"># note that the points with 0 cases or deaths will not work</span></span>
-<span id="cb278-7"><a href="visualizing-data-using-ggplot2.html#cb278-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb278-8"><a href="visualizing-data-using-ggplot2.html#cb278-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># a more complex example</span>
+<span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">cases</span>, y <span class="op">=</span> <span class="va">deaths</span>, 
+          color <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="co"># note that the points with 0 cases or deaths will not work</span>
+  <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-100-1.png" width="672"></div>
 </div>
 <div id="list-of-geometries" class="section level2" number="2.9">
-<h2><span class="header-section-number">2.9</span> List of geometries</h2>
+<h2>
+<span class="header-section-number">2.9</span> List of geometries<a class="anchor" aria-label="anchor" href="#list-of-geometries"><i class="fas fa-link"></i></a>
+</h2>
 <p>There are very many geometries; here are a few of the most useful ones:</p>
 <ul>
 <li>Lines: <code>geom_abline</code> (line given slope and intercept); <code>geom_hline</code>, <code>geom_vline</code> (horizontal, vertical line); <code>geom_line</code> (connect observation in scatterplot).</li>
@@ -717,170 +319,191 @@ of colors do we want to use?</p></li>
 </ul>
 </div>
 <div id="list-of-scales" class="section level2" number="2.10">
-<h2><span class="header-section-number">2.10</span> List of scales</h2>
+<h2>
+<span class="header-section-number">2.10</span> List of scales<a class="anchor" aria-label="anchor" href="#list-of-scales"><i class="fas fa-link"></i></a>
+</h2>
 <p>There are also very many scales. Here are a few:</p>
 <ul>
-<li><code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code> control labels and ranges of the axes.</li>
-<li><code>scale_alpha</code> transparency of the points/shapes.</li>
-<li><code>scale_color</code> (many options) colors of points and lines.</li>
-<li><code>scale_fill</code> (many options) colors of boxes, bars and shapes.</li>
-<li><code>scale_shape</code> shape of the points.</li>
-<li><code>scale_linetype</code> type of lines.</li>
-<li><code>scale_size</code> size of points and lines.</li>
-<li><code>scale_x</code>, <code>scale_y</code> (many options) transformations of the axes.</li>
+<li>
+<code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code> control labels and ranges of the axes.</li>
+<li>
+<code>scale_alpha</code> transparency of the points/shapes.</li>
+<li>
+<code>scale_color</code> (many options) colors of points and lines.</li>
+<li>
+<code>scale_fill</code> (many options) colors of boxes, bars and shapes.</li>
+<li>
+<code>scale_shape</code> shape of the points.</li>
+<li>
+<code>scale_linetype</code> type of lines.</li>
+<li>
+<code>scale_size</code> size of points and lines.</li>
+<li>
+<code>scale_x</code>, <code>scale_y</code> (many options) transformations of the axes.</li>
 </ul>
 </div>
 <div id="themes" class="section level2" number="2.11">
-<h2><span class="header-section-number">2.11</span> Themes</h2>
+<h2>
+<span class="header-section-number">2.11</span> Themes<a class="anchor" aria-label="anchor" href="#themes"><i class="fas fa-link"></i></a>
+</h2>
 <p>Themes allow you to manipulate the look and feel of a graph with just one command. The package <code>ggthemes</code> extends the themes collection of <code>ggplot2</code> considerably. For example:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="visualizing-data-using-ggplot2.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to install, type install.packages(&quot;ggthemes&quot;) in the console</span></span>
-<span id="cb279-2"><a href="visualizing-data-using-ggplot2.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
-<span id="cb279-3"><a href="visualizing-data-using-ggplot2.html#cb279-3" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dti) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> cases, <span class="at">y =</span> deaths) <span class="sc">+</span></span>
-<span id="cb279-4"><a href="visualizing-data-using-ggplot2.html#cb279-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span>
-<span id="cb279-5"><a href="visualizing-data-using-ggplot2.html#cb279-5" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="co"># white background</span></span>
-<span id="cb279-6"><a href="visualizing-data-using-ggplot2.html#cb279-6" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">theme_economist</span>() <span class="co"># like in the magazine &quot;The Economist&quot;</span></span>
-<span id="cb279-7"><a href="visualizing-data-using-ggplot2.html#cb279-7" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">theme_wsj</span>() <span class="co"># like &quot;The Wall Street Journal&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># to install, type install.packages("ggthemes") in the console</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/jrnold/ggthemes">ggthemes</a></span><span class="op">)</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dti</span><span class="op">)</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">cases</span>, y <span class="op">=</span> <span class="va">deaths</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span>
+<span class="va">pl</span> <span class="op">+</span> <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="co"># white background</span>
+<span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_economist.html">theme_economist</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># like in the magazine "The Economist"</span>
+<span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_wsj.html">theme_wsj</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># like "The Wall Street Journal"</span></code></pre></div>
 </div>
 <div id="faceting" class="section level2" number="2.12">
-<h2><span class="header-section-number">2.12</span> Faceting</h2>
+<h2>
+<span class="header-section-number">2.12</span> Faceting<a class="anchor" aria-label="anchor" href="#faceting"><i class="fas fa-link"></i></a>
+</h2>
 <p>In many cases, we would like to produce a multi-panel graph, in which each panel shows the data for a certain combination of parameters. In <code>ggplot2</code> this is called <em>faceting</em>: the command <code>facet_grid</code> is used when you want to produce a grid of panels, in which all the panels in the same row (or column) have axes-ranges in common; <code>facet_wrap</code> is used when the different panels do not necessarily have axes-ranges in common.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="visualizing-data-using-ggplot2.html#cb280-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dt[dt<span class="sc">$</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Illinois&quot;</span>, <span class="st">&quot;Missouri&quot;</span>, <span class="st">&quot;Wisconsin&quot;</span>, <span class="st">&quot;Indiana&quot;</span>), ]) <span class="sc">+</span> </span>
-<span id="cb280-2"><a href="visualizing-data-using-ggplot2.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> cases, <span class="at">y =</span> deaths, <span class="at">colour =</span> state) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>()</span>
-<span id="cb280-3"><a href="visualizing-data-using-ggplot2.html#cb280-3" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>state)</span>
-<span id="cb280-4"><a href="visualizing-data-using-ggplot2.html#cb280-4" aria-hidden="true" tabindex="-1"></a>pl</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
+<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">dt</span><span class="op">$</span><span class="va">state</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Illinois"</span>, <span class="st">"Missouri"</span>, <span class="st">"Wisconsin"</span>, <span class="st">"Indiana"</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">cases</span>, y <span class="op">=</span> <span class="va">deaths</span>, colour <span class="op">=</span> <span class="va">state</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">state</span><span class="op">)</span>
+<span class="va">pl</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-102-1.png" width="672"></div>
 <p>Let’s add a line separating showing the best-fit line:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="visualizing-data-using-ggplot2.html#cb281-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">geom_smooth</span>()</span>
-<span id="cb281-2"><a href="visualizing-data-using-ggplot2.html#cb281-2" aria-hidden="true" tabindex="-1"></a>pl</span></code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
+<div class="sourceCode" id="cb281"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_smooth</span><span class="op">(</span><span class="op">)</span>
+<span class="va">pl</span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-103-1.png" width="672"></div>
 <p>Make ranges on <em>x</em> and <em>y</em> axes equal, and add the 1:1 line:</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="visualizing-data-using-ggplot2.html#cb283-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> pl <span class="sc">+</span> <span class="fu">coord_equal</span>() <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>)</span>
-<span id="cb283-2"><a href="visualizing-data-using-ggplot2.html#cb283-2" aria-hidden="true" tabindex="-1"></a>pl</span></code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
+<div class="sourceCode" id="cb283"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">coord_equal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_abline</span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">pl</span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-104-1.png" width="672"></div>
 </div>
 <div id="setting-features" class="section level2" number="2.13">
-<h2><span class="header-section-number">2.13</span> Setting features</h2>
+<h2>
+<span class="header-section-number">2.13</span> Setting features<a class="anchor" aria-label="anchor" href="#setting-features"><i class="fas fa-link"></i></a>
+</h2>
 <p>Often, you want to simply set a feature (e.g., the color of the points, or their shape), rather than using it to display information (i.e., mapping some aestethic). In such cases, simply declare the feature outside the <code>aes</code>:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="visualizing-data-using-ggplot2.html#cb285-1" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> dt) <span class="sc">+</span> </span>
-<span id="cb285-2"><a href="visualizing-data-using-ggplot2.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> cases, <span class="at">y =</span> deaths) <span class="sc">+</span> </span>
-<span id="cb285-3"><a href="visualizing-data-using-ggplot2.html#cb285-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> </span>
-<span id="cb285-4"><a href="visualizing-data-using-ggplot2.html#cb285-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span>
-<span id="cb285-5"><a href="visualizing-data-using-ggplot2.html#cb285-5" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="visualizing-data-using-ggplot2.html#cb286-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-2.png" width="672" /></p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="visualizing-data-using-ggplot2.html#cb287-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">3</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-3.png" width="672" /></p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="visualizing-data-using-ggplot2.html#cb288-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-4.png" width="672" /></p>
+<div class="sourceCode" id="cb285"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">cases</span>, y <span class="op">=</span> <span class="va">deaths</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">scale_y_log10</span><span class="op">(</span><span class="op">)</span>
+<span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-1.png" width="672"></div>
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-2.png" width="672"></div>
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-3.png" width="672"></div>
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-105-4.png" width="672"></div>
 </div>
 <div id="saving-graphs" class="section level2" number="2.14">
-<h2><span class="header-section-number">2.14</span> Saving graphs</h2>
+<h2>
+<span class="header-section-number">2.14</span> Saving graphs<a class="anchor" aria-label="anchor" href="#saving-graphs"><i class="fas fa-link"></i></a>
+</h2>
 <p>You can either save graphs as done normally in <code>R</code>:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="visualizing-data-using-ggplot2.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save to pdf format</span></span>
-<span id="cb289-2"><a href="visualizing-data-using-ggplot2.html#cb289-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;my_output.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">4</span>)</span>
-<span id="cb289-3"><a href="visualizing-data-using-ggplot2.html#cb289-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_plot)</span>
-<span id="cb289-4"><a href="visualizing-data-using-ggplot2.html#cb289-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb289-5"><a href="visualizing-data-using-ggplot2.html#cb289-5" aria-hidden="true" tabindex="-1"></a><span class="co"># save to svg format</span></span>
-<span id="cb289-6"><a href="visualizing-data-using-ggplot2.html#cb289-6" aria-hidden="true" tabindex="-1"></a><span class="fu">svg</span>(<span class="st">&quot;my_output.svg&quot;</span>, <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">4</span>)</span>
-<span id="cb289-7"><a href="visualizing-data-using-ggplot2.html#cb289-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_plot)</span>
-<span id="cb289-8"><a href="visualizing-data-using-ggplot2.html#cb289-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># save to pdf format</span>
+<span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span><span class="op">(</span><span class="st">"my_output.pdf"</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">my_plot</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co"># save to svg format</span>
+<span class="fu"><a href="https://rdrr.io/r/grDevices/cairo.html">svg</a></span><span class="op">(</span><span class="st">"my_output.svg"</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">my_plot</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>or use the function <code>ggsave</code></p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="visualizing-data-using-ggplot2.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save current graph</span></span>
-<span id="cb290-2"><a href="visualizing-data-using-ggplot2.html#cb290-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;my_output.pdf&quot;</span>)</span>
-<span id="cb290-3"><a href="visualizing-data-using-ggplot2.html#cb290-3" aria-hidden="true" tabindex="-1"></a><span class="co"># save a graph stored in ggplot object</span></span>
-<span id="cb290-4"><a href="visualizing-data-using-ggplot2.html#cb290-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> my_plot, <span class="at">filename =</span> <span class="st">&quot;my_output.svg&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># save current graph</span>
+<span class="fu">ggsave</span><span class="op">(</span><span class="st">"my_output.pdf"</span><span class="op">)</span>
+<span class="co"># save a graph stored in ggplot object</span>
+<span class="fu">ggsave</span><span class="op">(</span>plot <span class="op">=</span> <span class="va">my_plot</span>, filename <span class="op">=</span> <span class="st">"my_output.svg"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="multiple-layers" class="section level2" number="2.15">
-<h2><span class="header-section-number">2.15</span> Multiple layers</h2>
+<h2>
+<span class="header-section-number">2.15</span> Multiple layers<a class="anchor" aria-label="anchor" href="#multiple-layers"><i class="fas fa-link"></i></a>
+</h2>
 <p>You can overlay different plots. To do so, however, they must share some of the aesthetic mappings.
 The simplest case is that in which you have only one dataset:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="visualizing-data-using-ggplot2.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dt) <span class="sc">+</span> </span>
-<span id="cb291-2"><a href="visualizing-data-using-ggplot2.html#cb291-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> state, <span class="at">x =</span> cases), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb291-3"><a href="visualizing-data-using-ggplot2.html#cb291-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> state, <span class="at">x =</span> deaths), <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb291-4"><a href="visualizing-data-using-ggplot2.html#cb291-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> </span>
-<span id="cb291-5"><a href="visualizing-data-using-ggplot2.html#cb291-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;cases (black), deaths (red)&quot;</span>)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<div class="sourceCode" id="cb291"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">state</span>, x <span class="op">=</span> <span class="va">cases</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">state</span>, x <span class="op">=</span> <span class="va">deaths</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_x_log10</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu">xlab</span><span class="op">(</span><span class="st">"cases (black), deaths (red)"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-108-1.png" width="672"></div>
 </div>
 <div id="try-on-your-own-data" class="section level2" number="2.16">
-<h2><span class="header-section-number">2.16</span> Try on your own data!</h2>
+<h2>
+<span class="header-section-number">2.16</span> Try on your own data!<a class="anchor" aria-label="anchor" href="#try-on-your-own-data"><i class="fas fa-link"></i></a>
+</h2>
 <p>Now that you’re familiar with <code>ggplot2</code>, try producing some meaningful plots for your own data.</p>
 </div>
 <div id="resources-1" class="section level2" number="2.17">
-<h2><span class="header-section-number">2.17</span> Resources</h2>
+<h2>
+<span class="header-section-number">2.17</span> Resources<a class="anchor" aria-label="anchor" href="#resources-1"><i class="fas fa-link"></i></a>
+</h2>
 <ul>
 <li><a href="https://hackr.io/tutorial/r-for-data-science">R for Data Science</a></li>
 <li><a href="https://www.tidyverse.org/">Tidyverse reference website</a></li>
 <li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">Data Visualization Cheat Sheet</a></li>
 </ul>
-
 </div>
 </div>
-            </section>
+  <div class="chapter-nav">
+<div class="prev"><a href="refresher.html"><span class="header-section-number">1</span> Refresher</a></div>
+<div class="next"><a href="fundamentals-of-probability.html"><span class="header-section-number">3</span> Fundamentals of probability</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#visualizing-data-using-ggplot2"><span class="header-section-number">2</span> Visualizing data using ggplot2</a></li>
+<li><a class="nav-link" href="#goal-1"><span class="header-section-number">2.1</span> Goal</a></li>
+<li><a class="nav-link" href="#introduction-to-the-grammar-of-graphics"><span class="header-section-number">2.2</span> Introduction to the Grammar of Graphics</a></li>
+<li><a class="nav-link" href="#basic-ggplot2"><span class="header-section-number">2.3</span> Basic ggplot2</a></li>
+<li><a class="nav-link" href="#building-a-well-formed-graph"><span class="header-section-number">2.4</span> Building a well-formed graph</a></li>
+<li><a class="nav-link" href="#scatterplots"><span class="header-section-number">2.5</span> Scatterplots</a></li>
+<li><a class="nav-link" href="#histograms-density-and-boxplots"><span class="header-section-number">2.6</span> Histograms, density and boxplots</a></li>
+<li><a class="nav-link" href="#scales"><span class="header-section-number">2.7</span> Scales</a></li>
+<li><a class="nav-link" href="#list-of-aesthetic-mappings"><span class="header-section-number">2.8</span> List of aesthetic mappings</a></li>
+<li><a class="nav-link" href="#list-of-geometries"><span class="header-section-number">2.9</span> List of geometries</a></li>
+<li><a class="nav-link" href="#list-of-scales"><span class="header-section-number">2.10</span> List of scales</a></li>
+<li><a class="nav-link" href="#themes"><span class="header-section-number">2.11</span> Themes</a></li>
+<li><a class="nav-link" href="#faceting"><span class="header-section-number">2.12</span> Faceting</a></li>
+<li><a class="nav-link" href="#setting-features"><span class="header-section-number">2.13</span> Setting features</a></li>
+<li><a class="nav-link" href="#saving-graphs"><span class="header-section-number">2.14</span> Saving graphs</a></li>
+<li><a class="nav-link" href="#multiple-layers"><span class="header-section-number">2.15</span> Multiple layers</a></li>
+<li><a class="nav-link" href="#try-on-your-own-data"><span class="header-section-number">2.16</span> Try on your own data!</a></li>
+<li><a class="nav-link" href="#resources-1"><span class="header-section-number">2.17</span> Resources</a></li>
+</ul>
 
-          </div>
-        </div>
-      </div>
-<a href="refresher.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="fundamentals-of-probability.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-09-24.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -892,7 +515,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>
