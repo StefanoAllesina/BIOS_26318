@@ -144,10 +144,14 @@ L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-186-1.png" width="672"></div>
 <p>It’s probably not surprising that the maximum of the likelihood function occurs at <span class="math inline">\(p=0.4\)</span>, that is the observed fraction of heads! Using the magic of derivatives, we can show that for a data set with <span class="math inline">\(k\)</span> success out of <span class="math inline">\(n\)</span> trials, the maximum likelihood value of <span class="math inline">\(p\)</span> is <span class="math inline">\(\hat p = k/n\)</span>:</p>
 <p><span class="math display">\[ 
-L(p  \ \vert \ n, k) = {n \choose k} p^k (1-p)^{n-k} \\
-L'(p | n, k ) = {n \choose k}\left [ kp^{k-1}(1-p)^{n-k} - (n-k) (1-p)^{n-k-1}p^k \right] ={n \choose k} p^{k-1} (1-p)^{n-k-1} \left [ k(1-p) - (n-k)p \right] = 0 \\
-k(1-p) = (n-k)p \\
-\hat p = k/n
+\begin{aligned}
+L(p  \ \vert \ n, k) &amp;= {n \choose k} p^k (1-p)^{n-k} \\ \hline
+L'(p | n, k ) &amp;= {n \choose k}\left [ kp^{k-1}(1-p)^{n-k} - (n-k) (1-p)^{n-k-1}p^k \right] \\
+&amp;={n \choose k} p^{k-1} (1-p)^{n-k-1} \left [ k(1-p) - (n-k)p \right] = 0 \\
+\hline
+k(1-p) &amp;= (n-k)p \\
+\hat p &amp;= k/n
+\end{aligned}
 \]</span></p>
 </div>
 <div id="continuous-probability-distributions" class="section level3" number="7.1.4">
@@ -166,12 +170,12 @@ L(\theta \ \vert \ x_j) = \lim_{h \to 0^+} \frac{1}{h} \int_{x_j}^{x_j + h} f(x 
 <h2>
 <span class="header-section-number">7.2</span> Bayesian thinking<a class="anchor" aria-label="anchor" href="#bayesian-thinking"><i class="fas fa-link"></i></a>
 </h2>
-<p>We will formalize the process of incorporation of prior knowledge into probabilistic inference by going back to the notion of conditional probability introduced in week 2. First, if you multiply both sides of the definition by <span class="math inline">\(P(B)\)</span>, then we obtain the probability of the intersection of events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:
-<span class="math display">\[P(A \cap B) = P(A \ \vert \ B) P(B); \;  P(A \cap B) = P(B \ \vert \ A) P(A) \]</span>
-Second, we can partition a sample space into two complementary sets, <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar A\)</span>, and then the set of <span class="math inline">\(B\)</span> can be partitioned into two parts, that intersect with <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar A\)</span>, respectively, so that the probability of <span class="math inline">\(B\)</span> is
-<span class="math display">\[P(B) = P(A \cap B) + P( \bar A\cap B)\]</span></p>
-<p>The two formulas together lead to a very important result called the <em>law of total probability</em>:
-<span class="math display">\[
+<p>We will formalize the process of incorporation of prior knowledge into probabilistic inference by going back to the notion of conditional probability introduced in week 2. First, if you multiply both sides of the definition by <span class="math inline">\(P(B)\)</span>, then we obtain the probability of the intersection of events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
+<p><span class="math display">\[P(A \cap B) = P(A \ \vert \ B) P(B); \;  P(A \cap B) = P(B \ \vert \ A) P(A) \]</span></p>
+<p>Second, we can partition a sample space into two complementary sets, <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar A\)</span>, and then the set of <span class="math inline">\(B\)</span> can be partitioned into two parts, that intersect with <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar A\)</span>, respectively, so that the probability of <span class="math inline">\(B\)</span> is</p>
+<p><span class="math display">\[P(B) = P(A \cap B) + P( \bar A\cap B)\]</span></p>
+<p>The two formulas together lead to a very important result called the <em>law of total probability</em>:</p>
+<p><span class="math display">\[
 P(B) =  P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P(\bar A)
 \]</span></p>
 <p>It may not be clear at first glance why this is useful: after all, we replaced something simple (<span class="math inline">\(P(B)\)</span>) with something much more complex on the right hand side. You will see how this formula enables us to calculate quantities that are not otherwise accessible.</p>
@@ -189,6 +193,9 @@ P(B) =  P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P(\bar A)
 P(A \ \vert \ B) = \frac{P(B \ \vert \ A)P(A)}{P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P( \bar A)}
 \]</span></p>
 <p>Bayes’ formula gives us the probability of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> from probabilities of <span class="math inline">\(B\)</span> given <span class="math inline">\(A\)</span> and given <span class="math inline">\(-A\)</span>, and the prior (baseline) probability of <span class="math inline">\(P(A)\)</span>. This is enormously useful when it is easy to calculate the conditionals one way and not the other. Among its many applications, it computes the effect of a test result with given sensitivity and specificity (conditional probabilities) on the probability of the hypothesis being true.</p>
+<center>
+<img src="https://imgs.xkcd.com/comics/modified_bayes_theorem.png">
+</center>
 </div>
 <div id="positive-predictive-value" class="section level3" number="7.2.2">
 <h3>
@@ -204,10 +211,10 @@ P(A \ \vert \ B) = \frac{P(B \ \vert \ A)P(A)}{P(B \ \vert \ A) P(A) + P(B \ \ve
 <p><span class="math display">\[ = \frac{0.99 \times 0.98}{0.99 \times 0.98 + 0.01 \times 0.02} =  0.9998\]</span>
 This is again because this disease is quite rare in this population, so a negative test result is almost guaranteed to be correct. In another population, where disease is more prevalent, this may not be the case.</p>
 <div class="figure">
-<img src="images/prob_tree_tikz1.png" alt=""><p class="caption">Bayesian hypothesis testing tree with prior probability 0.1</p>
+<img src="images/prob_tree_tikz1.png" style="width:50.0%" alt=""><p class="caption">Bayesian hypothesis testing tree with prior probability 0.1</p>
 </div>
 <div class="figure">
-<img src="images/prob_tree_tikz2.png" alt=""><p class="caption">Bayesian hypothesis testing tree with prior probability 0.01</p>
+<img src="images/prob_tree_tikz2.png" style="width:50.0%" alt=""><p class="caption">Bayesian hypothesis testing tree with prior probability 0.01</p>
 </div>
 <p><strong>Exercise:</strong> Simulate medical testing by rolling dice for a rare disease (1/6 prevalence) and a common disease (1/2 prevalence), with both sensitivity and specificity of 5/6. Compare the positive predictive values for the two cases.</p>
 </div>
@@ -215,6 +222,9 @@ This is again because this disease is quite rare in this population, so a negati
 <h3>
 <span class="header-section-number">7.2.3</span> prosecutor’s fallacy<a class="anchor" aria-label="anchor" href="#prosecutors-fallacy"><i class="fas fa-link"></i></a>
 </h3>
+<center>
+<img src="https://imgs.xkcd.com/comics/frequentists_vs_bayesians.png">
+</center>
 <p>The basic principle of Bayesian thinking is that one cannot interpret the reliability of a result, e.g. a hypothesis test, without factoring in the prior probability of it being true. This seems like a commonsensical concept, but it is often neglected when such results are interpreted in various contexts, which can lead to perilous mistakes.</p>
 <p>Here is a scenario called “the prosecutor’s fallacy.” Suppose that a defendant is accused of a crime, and physical evidence collected at the crime scene matches this person (e.g. a fingerprint or a DNA sample), but no other evidence exists to connect the defendant to the crime. The prosecutor calls an expert witness to testify that fewer than one out of a million randomly chosen people would match this sample. Therefore, she argues, there is overwhelming probability that the defendant is guilty and less than 1 in a million chance they are innocent.</p>
 <p>Do you spot the problem with the argument?</p>
@@ -276,7 +286,12 @@ and our maximum likelihood estimate is <span class="math inline">\(\hat{p} = k /
 <p>Now we choose a prior. For convenience, we choose a Beta distribution, <span class="math inline">\(P(p) = \text{Beta}(\alpha, \beta) = \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)}\)</span>, where <span class="math inline">\(B(\alpha, \beta)\)</span> is the Beta function, <span class="math inline">\(B(\alpha, \beta) = \int_0^1 t^{\alpha -1} (1-t)^{\beta - 1} dt\)</span>.</p>
 <p>Therefore:</p>
 <p><span class="math display">\[
-P(p \ \ \vert \ \ m,n) \propto L(p \ \ \vert \ \ m,n) P(p) = \left(\binom{n}{m} p^m (1-p)^{n-m} \right) \left( \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)} \right) \propto p^{m+\alpha -1} (1-p)^{n-m + \beta -1} \propto \text{Beta}(m + \alpha, \beta + m - n)
+\begin{aligned}
+P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
+&amp;= \left(\binom{n}{m} p^m (1-p)^{n-m} \right) \left( \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)} \right)\\
+&amp; \propto p^{m+\alpha -1} (1-p)^{n-m + \beta -1} \\
+&amp; \propto \text{Beta}(m + \alpha, \beta + m - n)
+\end{aligned}
 \]</span></p>
 <p>We can explore the effect of choosing a prior on the posterior. Suppose that in the past we have seen probabilities close to 50%. Then we could choose a prior <span class="math inline">\(\text{Beta}(10,10)\)</span> (this is what is called a “strong” or “informative” prior). Let’s see what happens to the posterior:</p>
 <div class="sourceCode" id="cb469"><pre class="downlit sourceCode r">
@@ -367,7 +382,7 @@ P(p \ \ \vert \ \ m,n) \propto L(p \ \ \vert \ \ m,n) P(p) = \left(\binom{n}{m} 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-09-24.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

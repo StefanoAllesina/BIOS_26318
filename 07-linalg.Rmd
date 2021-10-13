@@ -336,7 +336,7 @@ This shows that when the vector $c \vec v$ is multiplied by the matrix $A$, it r
 used to define a direction in a real space.
 
 ![Illustration of the geometry of a matrix $A$ multiplying its eigenvector $v$, resulting in a vector in the same direction
-$\lambda v$](../images/Eigenvalue_equation.png)
+$\lambda v$](images/Eigenvalue_equation.png)
 
 
 To summarize, eigenvalues and eigenvectors of a matrix are a set of numbers and a set of vectors (up to scalar multiple) that describe the action of the matrix as a multiplicative operator on vectors. "Well-behaved" square $n \times n$ matrices have $n$ distinct eigenvalues and $n$ eigenvectors pointing in distinct directions. In a deep sense, the collection of eigenvectors and eigenvalues defines a matrix $A$, which is why an older name for them is characteristic vectors and values.
