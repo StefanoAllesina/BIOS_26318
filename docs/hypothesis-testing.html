@@ -128,7 +128,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <img src="https://imgs.xkcd.com/comics/p_values.png">
 </center>
 <p>For example, consider samples of size <span class="math inline">\(n\)</span> taken from two normal distributions (with unobserved means <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_2\)</span>). We can generate the data:</p>
-<div class="sourceCode" id="cb442"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb437"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">generate_samples</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">mu1</span>, <span class="va">mu2</span><span class="op">)</span><span class="op">{</span>
   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>sample1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, mean <span class="op">=</span> <span class="va">mu1</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
                sample2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, mean <span class="op">=</span> <span class="va">mu2</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
@@ -136,7 +136,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 
 <span class="va">my_sample</span> <span class="op">&lt;-</span> <span class="fu">generate_samples</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">1</span>, <span class="fl">1.01</span><span class="op">)</span></code></pre></div>
 <p>and use a Student’s t-test to probe whether the means differ:</p>
-<div class="sourceCode" id="cb443"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb438"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># two-tailed (diff in means = 0)</span>
 <span class="co"># Student's (assumes equal variances)</span>
 <span class="co"># (for Welch's t-test, var.equal = FALSE)</span>
@@ -147,13 +147,13 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##  Two Sample t-test
 ## 
 ## data:  my_sample$sample1 and my_sample$sample2
-## t = 2.031, df = 1998, p-value = 0.04239
+## t = 0.86555, df = 1998, p-value = 0.3868
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.003071596 0.175560406
+##  -0.04872592  0.12571483
 ## sample estimates:
 ## mean of x mean of y 
-## 1.0712909 0.9819749</code></pre>
+## 1.0352219 0.9967274</code></pre>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
 </div>
 <div id="multiple-comparisons" class="section level2" number="6.4">
@@ -162,7 +162,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 </h2>
 <p>What if we were to produce several samples? E.g., measure difference between males and females reflectance in birds at several locations? Suppose that in fact the reflectance is the same for male and female (<span class="math inline">\(\mu_1 = \mu_2 = 1\)</span>), that for each location we capture and measure 10 males and 10 females, and that we repeat this across 2500 locations.</p>
 <p>First, let’s write a little function that returns the p-values for the t-test</p>
-<div class="sourceCode" id="cb445"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb440"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">get_p_value_t_test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">my_sample</span><span class="op">)</span><span class="op">{</span>
   <span class="va">test_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">my_sample</span><span class="op">$</span><span class="va">sample1</span>, 
                          <span class="va">my_sample</span><span class="op">$</span><span class="va">sample2</span>, 
@@ -170,15 +170,15 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">test_results</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p>and now simulate the data:</p>
-<div class="sourceCode" id="cb446"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb441"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pvalues</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2500</span>, 
                      expr <span class="op">=</span> <span class="fu">get_p_value_t_test</span><span class="op">(</span><span class="fu">generate_samples</span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
-<div class="sourceCode" id="cb447"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb442"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pvalues</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 145</code></pre>
+<pre><code>## [1] 142</code></pre>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
-<div class="sourceCode" id="cb449"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb444"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">pvalues</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-175-1.png" width="672"></div>
 <p>This means that when you are performing multiple tests, some will turn out to find “significant” differences even when there are none. Again, this is better summarized by xkcd:</p>
@@ -200,7 +200,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <p>The funniest example of this problem is the fMRI of the <a href="http://prefrontal.org/files/posters/Bennett-Salmon-2009.pdf">dead salmon</a>: a dead salmon “was shown a series of photographs depicting human individuals in social situations with a specified emotional valence. The salmon was asked to determine what emotion the individual in the photo must have been experiencing.” The researchers showed that if multiple comparisons were not accounted for, one would detect a cluster of active voxels in the brain, with a cluster-level significance of p = 0.001.</p>
 <p>The widespread use of GWAS and other techniques that are trying to find a needle in a haystack led to the development of many interesting techniques. <a href="http://lybird300.github.io/2015/10/19/multiple-test-correction.html">Here</a> an interesting account.</p>
 <p>Adjusting p-values in <code>R</code>:</p>
-<div class="sourceCode" id="cb450"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb445"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">original_pvalues</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.07</span>, <span class="fl">0.1</span>, <span class="fl">0.44</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html">p.adjust</a></span><span class="op">(</span><span class="va">original_pvalues</span>, method <span class="op">=</span> <span class="st">"bonferroni"</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.04 0.28 0.40 1.00</code></pre>
@@ -243,7 +243,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 </h2>
 <p>We are going to try our hand at p-hacking, to show how easy it is to get fooled when you have a sufficiently large and complex data set. The file <code>data/medals.csv</code> contains the total number of medals won at the Olympic games (Summer or Winter) by country, sport and gender. We have a simple, and reasonable (?) hypothesis: because the amount of money available to Olympic teams is finite, whenever a country invests in the male team, this will be at the detriment of the female team. To test this hypothesis, we measure whether the number of medals won by a national female team in a year is negatively correlated with the number of medals won by the male team.</p>
 <p>Let’s read the data, and take a peak:</p>
-<div class="sourceCode" id="cb452"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb447"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/medals.csv"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -255,9 +255,9 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##   F = col_double(),
 ##   M = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb454"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb449"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dt</span></code></pre></div>
-<pre><code>## # A tibble: 6,915 x 5
+<pre><code>## # A tibble: 6,915 × 5
 ##    NOC    Year Sport         F     M
 ##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
 ##  1 AFG    2008 Taekwondo     0     1
@@ -272,11 +272,11 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ## 10 ALG    2000 Boxing        0     1
 ## # … with 6,905 more rows</code></pre>
 <p>First, let’s see whether our hypothesis works for the whole data:</p>
-<div class="sourceCode" id="cb456"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb451"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="cn">F</span>, <span class="va">dt</span><span class="op">$</span><span class="va">M</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.1651691</code></pre>
 <p>The correlation is positive: more medals for the men tend to correspond to more medals for the women. This correlation is not very strong, but is it “significant?” We can run a correlation test:</p>
-<div class="sourceCode" id="cb458"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb453"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="cn">F</span>, <span class="va">dt</span><span class="op">$</span><span class="va">M</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson's product-moment correlation
@@ -290,7 +290,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##       cor 
 ## 0.1651691</code></pre>
 <p>Indeed! The confidence intervals are far from 0: the correlation is definitely positive. Should we give up? Of course not! Just as for the jelly beans, we can p-hack our way to glory by subsetting the data. We are going to test each discipline independently, and see whether we can get a robustly negative correlation for any discipline. Because we are serious scientists, we are going to consider only disciplines for which we have at least 50 data points, to avoid results that are due to small sample sizes. Let’s write a code:</p>
-<div class="sourceCode" id="cb460"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb455"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">Sport</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>sample_size <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
 <span class="va">correlations</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">sample_size</span> <span class="op">&gt;=</span> <span class="fl">50</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -299,10 +299,10 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
             pvalue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.test.html">cor.test</a></span><span class="op">(</span><span class="va">`M`</span>, <span class="va">`F`</span><span class="op">)</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> </code></pre></div>
 <p>Now let’s see whether there are highly significant negative correlations:</p>
-<div class="sourceCode" id="cb461"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb456"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_results</span> <span class="op">&lt;-</span> <span class="va">correlations</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">pvalue</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, <span class="va">cor</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span>
 <span class="va">my_results</span></code></pre></div>
-<pre><code>## # A tibble: 9 x 3
+<pre><code>## # A tibble: 9 × 3
 ##   Sport                cor   pvalue
 ##   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 Basketball        -0.579 7.86e- 8
@@ -315,7 +315,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ## 8 Water Polo        -0.688 3.41e-14
 ## 9 Weightlifting     -0.138 2.33e- 2</code></pre>
 <p>Let’s plot our results to convince ourselves that they are strong:</p>
-<div class="sourceCode" id="cb463"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb458"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">dt</span> <span class="op">%&gt;%</span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">my_results</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">`M`</span>, y <span class="op">=</span> <span class="va">`F`</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
@@ -323,7 +323,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">Sport</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-183-1.png" width="672"></div>
 <p>That’s it! Should we rush to publish our results? Not quite: we have p-hacked our way to some highly significant results, but we did not correct for the number of tests we’ve made, and what we would do is to selectively reporting our strong results. In fact, we can do something very simple to convince ourselves that our results do not make much sense: just run the code again, but reporting significant positive correlations…</p>
-<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb459"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_results</span> <span class="op">&lt;-</span> <span class="va">correlations</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">pvalue</span> <span class="op">&lt;</span> <span class="fl">0.05</span>, <span class="va">cor</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">dt</span> <span class="op">%&gt;%</span> <span class="fu">inner_join</span><span class="op">(</span><span class="va">my_results</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">`M`</span>, y <span class="op">=</span> <span class="va">`F`</span><span class="op">)</span> <span class="op">+</span> 
@@ -371,7 +371,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-13.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
