@@ -8,6 +8,7 @@ library(tidyverse)
 library(fable)
 library(feasts)
 library(forecast)
+library(fpp2)
 ```
 
 > Prediction is difficult, especially about the future.
@@ -190,7 +191,7 @@ birthstimeseries %>%  stl(t.window=13, s.window="periodic", robust=TRUE) %>%
 
 The following data set contains the number of visitors (visitor nights) on a quarterly basis for five regions of New South Wales, Australia:
 
-```{r}
+```{r, eval=TRUE}
 autoplot(visnights[,1:5]) +
   ylab("Number of visitor nights each quarter (millions)")
 ```
@@ -203,7 +204,7 @@ $$
 
 In a data set with multiple variables it can be handy to examine the cross-correlations between all pairs between them. Here's a convenient function to both calculate and visualize it for multiple variables, in this case the hotel visitor nights for the 5 different regions of NSW. The plot below show the scatter plots of all the pairs of time series against each other, along with the respective correlation coefficients:
 
-```{r}
+```{r, eval = TRUE}
 head(visnights)
 GGally::ggpairs(as.data.frame(visnights[,1:5]))
 

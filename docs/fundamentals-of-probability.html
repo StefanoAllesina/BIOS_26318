@@ -81,7 +81,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></code></pre></div>
-<pre><code>## tbl_df [344 × 8] (S3: tbl_df/tbl/data.frame)
+<pre><code>## tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
 ##  $ species          : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ island           : Factor w/ 3 levels "Biscoe","Dream",..: 3 3 3 3 3 3 3 3 3 3 ...
 ##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
@@ -146,17 +146,15 @@
 <p>The following code chunk uses <code>dplyr</code> functions that we will learn in the next chapter to calculate the mean and median values of these variables aggregated by species:</p>
 <div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">summarise</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   species    mean
 ##   &lt;fct&gt;     &lt;dbl&gt;
 ## 1 Adelie    3706.
 ## 2 Chinstrap 3733.
 ## 3 Gentoo    5092.</code></pre>
-<div class="sourceCode" id="cb301"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span>  <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">summarise</span><span class="op">(</span>median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   species   median
 ##   &lt;fct&gt;      &lt;dbl&gt;
 ## 1 Adelie      3700
@@ -176,32 +174,29 @@
 <p>Variances have squared units so they are not directly comparable to the values of the random variable. Taking the square root of the variance converts it into the same units and is called the standard deviation of the distribution:
 <span class="math display">\[ \sigma_X = \sqrt{\text{Var}(X)}\]</span>
 <strong>Example:</strong> Let’s go back to the penguins data set and calculate the measures of spread for the variable body mass for different penguin species</p>
-<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span>, y<span class="op">=</span><span class="va">body_mass_g</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing non-finite values (stat_boxplot).</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-113-1.png" width="672"></div>
-<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">summarise</span><span class="op">(</span>var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   species       var
 ##   &lt;fct&gt;       &lt;dbl&gt;
 ## 1 Adelie    210332.
 ## 2 Chinstrap 147713.
 ## 3 Gentoo    251478.</code></pre>
-<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">summarise</span><span class="op">(</span>first_quart <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">body_mass_g</span>,<span class="fl">0.25</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   species   first_quart
 ##   &lt;fct&gt;           &lt;dbl&gt;
 ## 1 Adelie          3362.
 ## 2 Chinstrap       3488.
 ## 3 Gentoo          4700</code></pre>
-<div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">summarise</span><span class="op">(</span>third_quart <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">body_mass_g</span>,<span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   species   third_quart
 ##   &lt;fct&gt;           &lt;dbl&gt;
 ## 1 Adelie           4000
@@ -251,7 +246,7 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 <p>First, means are highly sensitive to outliers, or points that are very different from other values. They can skew the mean value, even pulling it completely away from the bulk of the values, in which case the mean ceases to be a measure of a “typical” value.</p>
 <p>Second, there can be funny business with combining means of different <em>subsets</em> of data. Normally, you might expect if you have group A and group B, and each group has two subgroups divided by another variable (e.g. we are comparing the GPAs of students in school A and school B, and we split up the students in each school by gender), then if the means of each subgroup of A and larger than the means of the same subgroup of B (e.g. the GPA of girls and boys in school A are higher than those of their counterparts in school B), then the same relationship should be true for the combined mean of group A and group B (that is, the overall GPA in school A is higher than school B). That is not necessarily true!</p>
 <p>This apparent contradiction is called Simpson’s paradox. It can be illustrated in the data set of all the passengers and crew on the doomed ocean liner Titanic. The data set is found in the library <code>stablelearner</code> and is loaded by the chunk below:</p>
-<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb310"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stablelearner</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span></code></pre></div>
@@ -268,10 +263,10 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 ##  $ parch   : Ord.factor w/ 10 levels "0"&lt;"1"&lt;"2"&lt;"3"&lt;..: 1 3 2 2 1 1 1 1 1 1 ...
 ##  $ survived: Factor w/ 2 levels "no","yes": 1 1 1 2 2 2 1 2 2 2 ...</code></pre>
 <p>The chunk below calculated the survival probability of passengers of all classes compared to the crew (of all types:</p>
-<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">titanic</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span>Passenger <span class="op">=</span> <span class="va">class</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'1st'</span>, <span class="st">'2nd'</span>, <span class="st">'3rd'</span><span class="op">)</span>, <span class="va">survived</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">summarise</span><span class="op">(</span>num <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>fraction <span class="op">=</span> <span class="va">num</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">num</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<pre><code>## `summarise()` regrouping output by 'Passenger' (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 4 x 4
+<pre><code>## `summarise()` has grouped output by 'Passenger'. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 4 × 4
 ## # Groups:   Passenger [2]
 ##   Passenger survived   num fraction
 ##   &lt;lgl&gt;     &lt;fct&gt;    &lt;int&gt;    &lt;dbl&gt;
@@ -329,7 +324,7 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-13.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

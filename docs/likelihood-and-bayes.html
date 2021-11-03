@@ -95,7 +95,7 @@ P(k ; n , p) =  {n \choose k} p^k (1-p)^{n-k}
 L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 0.5^4 (0.5)^{6}
 \]</span></p>
 <p>To calculate this precisely, it is easiest to use the R function dbinom():</p>
-<div class="sourceCode" id="cb465"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb460"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">10</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.2050781</code></pre>
 <p>So the likelihood of this data set being produced by a fair coin is about 20.5%.</p>
@@ -127,7 +127,7 @@ L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 
 <p><span class="math display">\[L(\theta \ \vert \ D) = P(X = D \ \vert \ \theta)\]</span></p>
 <p>Finding the m.l.e. of <span class="math inline">\(\theta\)</span> simply means finding the value(s) maximizing the probability of obtaining the given data under the model. In cases when this likelihood function has a simple algebraic form, we can find the maximum value using the classic method of taking its derivative and setting it to zero.</p>
 <p><strong>Example.</strong> Let’s go back to the binomial example. Based on the data set of 4 heads out of 10 coin tosses, what is the maximum likelihood estimate of the probability of a head <span class="math inline">\(p\)</span>? The range of values of <span class="math inline">\(p\)</span> is between 0 and 1, and since we have a functional expression for <span class="math inline">\(P(k=4 ; n=10, p)\)</span> (see above) we can plot it using the dbinom() function:</p>
-<div class="sourceCode" id="cb467"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb462"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">10</span>
 <span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">4</span>
@@ -270,7 +270,7 @@ L(p \ \vert \ k, n) = \binom{n}{k}p^k (1-p)^{n-k}
 \]</span>
 and our maximum likelihood estimate is <span class="math inline">\(\hat{p} = k /n\)</span>. This allows for estimation of the total population size to be <span class="math inline">\(P = n_2/\hat p\)</span>, where <span class="math inline">\(n_2\)</span> is the total number of individuals captured in the second experiment. There are more sophisticated estimators, but this one is reasonable for large enough populations.</p>
 <p>Let us plot the likelihood as a function of <span class="math inline">\(p\)</span> for the case in which <span class="math inline">\(n = 100\)</span> and <span class="math inline">\(k = 33\)</span></p>
-<div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb463"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span>
 <span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">33</span>
@@ -294,7 +294,7 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
 \end{aligned}
 \]</span></p>
 <p>We can explore the effect of choosing a prior on the posterior. Suppose that in the past we have seen probabilities close to 50%. Then we could choose a prior <span class="math inline">\(\text{Beta}(10,10)\)</span> (this is what is called a “strong” or “informative” prior). Let’s see what happens to the posterior:</p>
-<div class="sourceCode" id="cb469"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># a strong prior</span>
 <span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">10</span>
 <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">10</span>
@@ -304,7 +304,7 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
   <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">posterior_function</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-190-1.png" width="672"></div>
 <p>You can see that the posterior “mediates” between the prior and the likelihood curve. When we use a weak prior, then our posterior will be closer to the likelihood function:</p>
-<div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb465"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># a weak prior</span>
 <span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>
 <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>
@@ -382,7 +382,7 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-13.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

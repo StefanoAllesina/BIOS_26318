@@ -80,7 +80,7 @@
 <p>As biologists living in the XXI century, we are often faced with tons of data, possibly replicated over several organisms, treatments, or locations. We would like to streamline and automate our analysis as much as possible, writing scripts that are easy to read, fast to run, and easy to debug. Base <code>R</code> can get the job done, but often the code contains complicated operations, and a lot of <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> signs and brackets.</p>
 <p>We’re going to learn about the packages <code>dplyr</code> and <code>tidyr</code>, which are part of <code>tidyverse</code> and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base <code>R</code> commands, are very compact, and can be concatenated into “pipelines.”</p>
 <p>To start, we need to import the libraries:</p>
-<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># this loads both dplyr and tidyr, along with other packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span> <span class="co"># a nice data set to play with</span></code></pre></div>
 <p>We are going to use the data set <code>penguins</code> from the package <code>palmerpenguins</code>, which we have already seen last week.</p>
@@ -90,11 +90,11 @@
 <span class="header-section-number">4.3</span> A new data type, <code>tibble</code><a class="anchor" aria-label="anchor" href="#a-new-data-type-tibble"><i class="fas fa-link"></i></a>
 </h2>
 <p>This is now a :</p>
-<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb316"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "tbl_df"     "tbl"        "data.frame"</code></pre>
 <p><code>dplyr</code> ships with a new data type, called a <code>tibble</code>. To convert a <code>data.frame</code> into a tibble, use <code>as_tibble</code>:</p>
-<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load a data frame</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"trees"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span>
@@ -118,9 +118,9 @@
 <span class="header-section-number">4.4</span> Selecting rows and columns<a class="anchor" aria-label="anchor" href="#selecting-rows-and-columns"><i class="fas fa-link"></i></a>
 </h2>
 <p>There are many ways to subset the data, either by row (subsetting the <em>observations</em>), or by column (subsetting the <em>variables</em>). For example, let’s select only the rows with observations from the island <code>Torgersen</code>:</p>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">penguins</span>, <span class="va">island</span> <span class="op">==</span> <span class="st">"Torgersen"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 52 x 8
+<pre><code>## # A tibble: 52 × 8
 ##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
 ##    &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 ##  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -140,9 +140,9 @@
 <code><a href="https://rdrr.io/r/stats/filter.html">filter(penguins,  bill_length_mm &gt; 40,  bill_depth_mm &gt; 20, sex == male)</a></code></p>
 </blockquote>
 <p>We can also select particular variables (columns) using the function <code>select(tbl, cols to select)</code>. For example, select <code>species</code> and <code>island</code>:</p>
-<div class="sourceCode" id="cb326"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">penguins</span>, <span class="va">species</span>, <span class="va">island</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 2
+<pre><code>## # A tibble: 344 × 2
 ##    species island   
 ##    &lt;fct&gt;   &lt;fct&gt;    
 ##  1 Adelie  Torgersen
@@ -157,9 +157,9 @@
 ## 10 Adelie  Torgersen
 ## # … with 334 more rows</code></pre>
 <p>How many <code>species</code> are represented in the data set? We can use the function <code>distinct(tbl, cols to select)</code> to retain only the rows that differ from each other:</p>
-<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">distinct</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">penguins</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
+<pre><code>## # A tibble: 3 × 1
 ##   species  
 ##   &lt;fct&gt;    
 ## 1 Adelie   
@@ -195,11 +195,11 @@
 <span class="header-section-number">4.5</span> Creating pipelines using <code>%&gt;%</code><a class="anchor" aria-label="anchor" href="#creating-pipelines-using"><i class="fas fa-link"></i></a>
 </h2>
 <p>We’ve been calling nested functions, such as <code>distinct(select(penguins, species))</code>. If you have to add another layer or two, the code would become unreadable. <code>dplyr</code> allows you to “un-nest” these functions and create a “pipeline” in which you concatenate commands separated by a special operator, <code><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></code>. For example:</p>
-<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> <span class="co"># take a data table</span>
   <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># select a column</span>
   <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span> <span class="co"># remove duplicates</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
+<pre><code>## # A tibble: 3 × 1
 ##   species  
 ##   &lt;fct&gt;    
 ## 1 Adelie   
@@ -213,30 +213,30 @@
 <span class="header-section-number">4.6</span> Producing summaries<a class="anchor" aria-label="anchor" href="#producing-summaries"><i class="fas fa-link"></i></a>
 </h2>
 <p>Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shed by the infected mice. We can do this using <code>summarise</code> (you can use British or American spelling):</p>
-<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">summarise</span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
+<pre><code>## # A tibble: 1 × 1
 ##     avg
 ##   &lt;dbl&gt;
 ## 1 4202.</code></pre>
-<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># alternatively, drop_na(body_mass_g) removes all the observations for which</span>
 <span class="co"># body_mass_g is NA</span>
 <span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">drop_na</span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">summarise</span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 1
+<pre><code>## # A tibble: 1 × 1
 ##     avg
 ##   &lt;dbl&gt;
 ## 1 4202.</code></pre>
 <p>where we used <code>na.rm = TRUE</code> to ignore missing values. This command returns a <code>tbl</code> object with just the average egg count. You can combine multiple statistics (use <code>first</code>, <code>last</code>, <code>min</code>, <code>max</code>, <code>n</code> [count the number of rows], <code>n_distinct</code> [count the number of distinct rows], <code>mean</code>, <code>median</code>, <code>var</code>, <code>sd</code>, etc.):</p>
-<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">summarise</span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, 
             sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, 
             median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 3
+<pre><code>## # A tibble: 1 × 3
 ##     avg    sd median
 ##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 ## 1 4202.  802.   4050</code></pre>
@@ -246,13 +246,13 @@
 <span class="header-section-number">4.7</span> Summaries by group<a class="anchor" aria-label="anchor" href="#summaries-by-group"><i class="fas fa-link"></i></a>
 </h2>
 <p>One of the most useful features of <code>dplyr</code> is the ability to produce statistics for the data once subsetted by <em>groups</em>. For example, we would like to compute the average body mass by species and sex:</p>
-<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">sex</span>, <span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">summarise</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` regrouping output by 'sex' (override with `.groups` argument)</code></pre>
-<pre><code>## # A tibble: 6 x 3
+<pre><code>## `summarise()` has grouped output by 'sex'. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 6 × 3
 ## # Groups:   sex [2]
 ##   sex    species    mean
 ##   &lt;fct&gt;  &lt;fct&gt;     &lt;dbl&gt;
@@ -272,10 +272,10 @@
 <span class="header-section-number">4.8</span> Ordering the data<a class="anchor" aria-label="anchor" href="#ordering-the-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>To order the data according to one or more variables, use <code>arrange()</code>:</p>
-<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">arrange</span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span> <span class="co"># ascending</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 8
+<pre><code>## # A tibble: 344 × 8
 ##    species   island    bill_length_mm bill_depth_mm flipper_length_… body_mass_g
 ##    &lt;fct&gt;     &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;
 ##  1 Chinstrap Dream               46.9          16.6              192        2700
@@ -289,10 +289,10 @@
 ##  9 Adelie    Dream               37.5          18.9              179        2975
 ## 10 Adelie    Dream               37            16.9              185        3000
 ## # … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="co"># descending</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 8
+<pre><code>## # A tibble: 344 × 8
 ##    species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
 ##    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 ##  1 Gentoo  Biscoe           49.2          15.2               221        6300
@@ -312,10 +312,10 @@
 <span class="header-section-number">4.9</span> Renaming columns<a class="anchor" aria-label="anchor" href="#renaming-columns"><i class="fas fa-link"></i></a>
 </h2>
 <p>To rename one or more columns, use <code>rename()</code>:</p>
-<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">rename</span><span class="op">(</span>bm <span class="op">=</span> <span class="va">body_mass_g</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 8
+<pre><code>## # A tibble: 344 × 8
 ##    species island    bill_length_mm bill_depth_mm flipper_length_mm    bm sex   
 ##    &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt; &lt;int&gt; &lt;fct&gt; 
 ##  1 Adelie  Torgersen           39.1          18.7               181  3750 male  
@@ -335,11 +335,11 @@
 <span class="header-section-number">4.10</span> Adding new variables using mutate<a class="anchor" aria-label="anchor" href="#adding-new-variables-using-mutate"><i class="fas fa-link"></i></a>
 </h2>
 <p>If you want to add one or more new columns, with the content being a function of other columns, use the function <code>mutate</code>. For example, we are going to add a new column showing the z-score for the body mass of each individual:</p>
-<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>zscore_bm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">body_mass_g</span>, <span class="va">zscore_bm</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 344 x 4
+<pre><code>## # A tibble: 344 × 4
 ##    species sex    body_mass_g zscore_bm[,1]
 ##    &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
 ##  1 Adelie  male          3750       -0.563 
@@ -354,7 +354,7 @@
 ## 10 Adelie  &lt;NA&gt;          4250        0.0602
 ## # … with 334 more rows</code></pre>
 <p>We can pipe the results to <code>ggplot</code> for plotting!</p>
-<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>zscore_bm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">body_mass_g</span>, <span class="va">zscore_bm</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -364,14 +364,14 @@
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-130-1.png" width="672"></div>
 <p>You can use the function <code>transmute()</code> to create a new column and drop the original columns.</p>
 <p>Most importantly, you can use <code>mutate</code> and <code>transmute</code> on grouped data. For example, let’s recompute the z-score of the <code>body_mass_g</code> once the data is grouped by species and sex:</p>
-<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span>, <span class="va">body_mass_g</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">species</span>, <span class="va">sex</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">mutate</span><span class="op">(</span>zscore_bm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">arrange</span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 333 x 4
+<pre><code>## # A tibble: 333 × 4
 ## # Groups:   species, sex [6]
 ##    species   sex    body_mass_g zscore_bm[,1]
 ##    &lt;fct&gt;     &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
@@ -398,14 +398,14 @@
 <li>Each type of observational unit forms a table</li>
 </ul>
 <p>This is often called <em>narrow table</em> format. Any other form of data (e.g., <em>wide table</em> format) is considered <em>messy</em>. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package <code>tidyr</code> allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:</p>
-<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguin_bm</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op">%&gt;%</span> 
   <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">sex</span>, <span class="va">species</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">summarise</span><span class="op">(</span>body_mass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="co"># remove groups after calculation</span>
 
 <span class="va">penguin_bm</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 3
+<pre><code>## # A tibble: 6 × 3
 ##   sex    species   body_mass
 ##   &lt;fct&gt;  &lt;fct&gt;         &lt;dbl&gt;
 ## 1 female Adelie        3369.
@@ -420,20 +420,20 @@
 <span class="header-section-number">4.12</span> From narrow to wide<a class="anchor" aria-label="anchor" href="#from-narrow-to-wide"><i class="fas fa-link"></i></a>
 </h2>
 <p>Our data is in tidy form. For a paper, we want to show the difference between males and females in a table:</p>
-<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguin_bm</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">sex</span>, values_from <span class="op">=</span> <span class="va">body_mass</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 3
+<pre><code>## # A tibble: 3 × 3
 ##   species   female  male
 ##   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Adelie     3369. 4043.
 ## 2 Chinstrap  3527. 3939.
 ## 3 Gentoo     4680. 5485.</code></pre>
 <p>where we have created new column names using the values found in <code>sex</code> (hence, <code>names_from</code>), and filled each cell with the corresponding value found in <code>body_mass</code> (hence, <code>values_from</code>). Similarly, if we want to show the data with species as column names, and sex as rows, we can use:</p>
-<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguin_bm</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">species</span>, values_from <span class="op">=</span> <span class="va">body_mass</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 4
+<pre><code>## # A tibble: 2 × 4
 ##   sex    Adelie Chinstrap Gentoo
 ##   &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
 ## 1 female  3369.     3527.  4680.
@@ -448,7 +448,7 @@
 <p><em>Tree-ring analysis for sustainable harvest of Millettia stuhlmannii in Mozambique</em>, I.A.D.Remane M.D.Therrell, <strong>South African Journal of Botany</strong> Volume 125, September 2019, Pages 120-125</p>
 </blockquote>
 <p>You can read a tab-separated file from:</p>
-<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span><span class="st">"data/annual_increment.txt"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">Age</span>, <span class="fu">contains</span><span class="op">(</span><span class="st">"CAT"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -475,17 +475,17 @@
 ##   X55 = col_logical()
 ## )
 ## ℹ Use `spec()` for the full column specifications.</code></pre>
-<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># selecting only age and samples</span></code></pre></div>
 <p>Each column besides <code>YEAR</code> represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns <code>tree</code> and <code>diameter</code>:</p>
-<div class="sourceCode" id="cb362"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">%&gt;%</span> 
   <span class="fu">pivot_longer</span><span class="op">(</span><span class="op">-</span><span class="va">Age</span>, names_to <span class="op">=</span> <span class="st">"tree"</span>, values_to <span class="op">=</span> <span class="st">"diameter"</span><span class="op">)</span></code></pre></div>
 <p>and then remove the NAs:</p>
-<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">diameter</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now it is easy to plot the growth trajectory of each tree (as in Fig. 3 of the original paper):</p>
-<div class="sourceCode" id="cb364"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dt</span> <span class="op">%&gt;%</span> 
   <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Age</span>, y <span class="op">=</span> <span class="va">diameter</span><span class="op">)</span> <span class="op">+</span> 
@@ -498,18 +498,18 @@
 <h2>
 <span class="header-section-number">4.14</span> Separate: split a column into two or more<a class="anchor" aria-label="anchor" href="#separate-split-a-column-into-two-or-more"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb366"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Allesina, Stefano"</span>, <span class="st">"Kondrashov, Dmitry"</span>, <span class="st">"Smith, Julia"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">test</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 1
+<pre><code>## # A tibble: 3 × 1
 ##   name              
 ##   &lt;chr&gt;             
 ## 1 Allesina, Stefano 
 ## 2 Kondrashov, Dmitry
 ## 3 Smith, Julia</code></pre>
-<div class="sourceCode" id="cb368"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">test</span> <span class="op">%&gt;%</span> <span class="fu">separate</span><span class="op">(</span><span class="va">name</span>, into <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"last_name"</span>, <span class="st">"first_name"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">", "</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   last_name  first_name
 ##   &lt;chr&gt;      &lt;chr&gt;     
 ## 1 Allesina   Stefano   
@@ -521,10 +521,10 @@
 <h2>
 <span class="header-section-number">4.15</span> Separate rows: from one row to many<a class="anchor" aria-label="anchor" href="#separate-rows-from-one-row-to-many"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, records <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a;b;c"</span>, <span class="st">"c;d"</span>, <span class="st">"a;e"</span>, <span class="st">"f"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">test</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 2
+<pre><code>## # A tibble: 4 × 2
 ##      id records
 ##   &lt;dbl&gt; &lt;chr&gt;  
 ## 1     1 a;b;c  
@@ -532,9 +532,9 @@
 ## 3     3 a;e    
 ## 4     4 f</code></pre>
 <p>To make it into tidy form, only one record per row:</p>
-<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">test</span> <span class="op">%&gt;%</span> <span class="fu">separate_rows</span><span class="op">(</span><span class="va">records</span>, sep <span class="op">=</span> <span class="st">";"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 8 x 2
+<pre><code>## # A tibble: 8 × 2
 ##      id records
 ##   &lt;dbl&gt; &lt;chr&gt;  
 ## 1     1 a      
@@ -559,7 +559,7 @@
 <li>Save to the data folder in your working folder.</li>
 </ol>
 <p>If you don’t want to go through all this, you can use the downloaded file called <code>Ursus_GBIF.csv</code> that should be in the data folder for this week. The following command loads and displays the contents of the tibble:</p>
-<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># you will need ggmap!</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap">ggmap</a></span><span class="op">)</span>
 <span class="va">Ursus_data</span> <span class="op">&lt;-</span> <span class="fu">read_tsv</span><span class="op">(</span><span class="st">"data/Ursus_GBIF.csv"</span><span class="op">)</span>
@@ -617,15 +617,15 @@
 ## $ mediaType                        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
 ## $ issue                            &lt;chr&gt; NA, NA, NA, NA, "TAXON_MATCH_HIGHERRA…</code></pre>
 <p>You see there are 50 variables in the data set, so it may be useful to remove the ones we don’t need. For this exercise, our objective is to plot the occurrences of this species on the world map, so we need two variables for certain: <code>decimalLatitude</code> and <code>decimalLongitude</code>, as well as the <code>BasisofRecord</code> for additional information. Use your <code>tidyverse</code> skills to create a new tibble with only those variables. In addition, remove duplicate records from the tibble.</p>
-<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># your code goes here!</span></code></pre></div>
 <p>Now we can plot this data set on the world map, using the useful package maps. To plot, use the <code>ggplot()</code> syntax with the following addition:</p>
-<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mapWorld</span> <span class="op">&lt;-</span> <span class="fu">borders</span><span class="op">(</span><span class="st">"world"</span>, colour<span class="op">=</span><span class="st">"gray50"</span>, fill<span class="op">=</span><span class="st">"gray50"</span><span class="op">)</span> <span class="co"># create a layer of borders</span>
 <span class="co"># now you can call </span>
 <span class="co"># ggplot() + mapWorld + ...</span></code></pre></div>
 <p>Note the warning message generated by <code>ggplot</code>. Then consider the map with the locations of the brown bear specimens. Do any of them seem strange to you? What may be the explanation behind these strange data point? Now filter out the points that you identified as suspicious and print out their BasisofRecord. Does this suggest an explanation for the strangeness?</p>
-<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># your code goes here!</span></code></pre></div>
 </div>
 <div id="resources-2" class="section level2" number="4.17">
@@ -684,7 +684,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-13.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-27.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
