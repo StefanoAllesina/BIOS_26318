@@ -147,13 +147,13 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##  Two Sample t-test
 ## 
 ## data:  my_sample$sample1 and my_sample$sample2
-## t = 0.86555, df = 1998, p-value = 0.3868
+## t = -0.015357, df = 1998, p-value = 0.9877
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.04872592  0.12571483
+##  -0.08826233  0.08689077
 ## sample estimates:
 ## mean of x mean of y 
-## 1.0352219 0.9967274</code></pre>
+##  1.002607  1.003292</code></pre>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
 </div>
 <div id="multiple-comparisons" class="section level2" number="6.4">
@@ -176,7 +176,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
 <div class="sourceCode" id="cb442"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pvalues</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 142</code></pre>
+<pre><code>## [1] 114</code></pre>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
 <div class="sourceCode" id="cb444"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">pvalues</span><span class="op">)</span></code></pre></div>
@@ -371,7 +371,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-27.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-11-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
