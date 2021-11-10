@@ -209,11 +209,14 @@ bayesian-approaches-to-model-selection
 marginal-likelihoods
 bayes-factors
 bayes-factors-in-practice
+using-tidymodels-for-modeling-and-cross-validation
+prediction-and-cross-validation
 other-approaches
 minimum-description-length
 cross-validation
 exercise-do-shorter-titles-lead-to-more-citations
 two-models
+references-and-further-reading-1
 principal-component-analysis
 input
 singular-value-decomposition

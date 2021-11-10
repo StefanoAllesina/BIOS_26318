@@ -374,6 +374,7 @@ These ratios measure how many times more probable the model is compared to that 
 There is an excellent suite of packages called `tidymodels` that offers very beautiful and streamlined tools for building models, training them, and evaluating their results. We will use the Palmer penguins data as an application, with the aim of building a predictive model for the bill length of penguins. Let us first examine the data graphically to see the relationship between body mass and bill length:
 
 ```{r}
+library(palmerpenguins)
 data("penguins")
 penguins %>% ggplot(aes( x= body_mass_g, y= bill_length_mm)) +
   geom_point() +
@@ -404,6 +405,7 @@ lm_mod <-
 Next, we clean the data and split it into the training and testing sets, and create a *recipe* that specifies the data set and the response variable that we want to model. The other variables are left as the predictors, but we can take them out of consideration by *changing the role* of those variables to "ID". In this recipe, the only predictor (explanatory) variable in the data set is body_mass_g.
 
 ```{r}
+data("penguins")
 pen_clean <- penguins %>% filter(!is.na(bill_length_mm), !is.na(sex), !is.na(species))
 # Fix the random numbers by setting the seed  for reproducibility
 set.seed(314)
@@ -416,7 +418,8 @@ test_data  <- testing(data_split)
 
 pen_recipe <- 
   recipe(bill_length_mm ~ ., data = train_data) %>% 
-  update_role(sex, island, year, species, bill_depth_mm, flipper_length_mm, new_role = "ID") 
+  #update_role(sex, island, year, species, bill_depth_mm, flipper_length_mm, new_role = "ID")
+  update_role(sex, island, species, bill_depth_mm, flipper_length_mm, new_role = "ID") 
 ```
 
 
@@ -450,7 +453,8 @@ Let us now modify the recipe to include the species and save the fitting results
 ```{r}
 pen_recipe2 <- 
   recipe(bill_length_mm ~ ., data = train_data) %>% 
-  update_role(sex, island, year, bill_depth_mm, flipper_length_mm, new_role = "ID") 
+  #update_role(sex, island, year, bill_depth_mm, flipper_length_mm, new_role = "ID")
+  update_role(sex, island, bill_depth_mm, flipper_length_mm, new_role = "ID") 
 
 # create workflow
 pen_wflow2 <- 
@@ -475,7 +479,8 @@ Now let us see if we can further improve the model quality by incorporating sex 
 ```{r}
 pen_recipe3 <- 
   recipe(bill_length_mm ~ ., data = train_data) %>% 
-  update_role(island, year, bill_depth_mm, flipper_length_mm, new_role = "ID") 
+  #update_role(island, year, bill_depth_mm, flipper_length_mm, new_role = "ID")
+  update_role(island,  bill_depth_mm, flipper_length_mm, new_role = "ID") 
 
 # create workflow
 pen_wflow3 <- 

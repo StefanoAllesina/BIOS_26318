@@ -74,7 +74,7 @@
 <li>Use clustering validation methods</li>
 <li>Apply different methods to larger data sets</li>
 </ul>
-<div class="sourceCode" id="cb800"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb839"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify">ggfortify</a></span><span class="op">)</span> 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/rpkgs/factoextra">factoextra</a></span><span class="op">)</span> 
@@ -96,7 +96,7 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb801"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb840"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#set.seed(20)</span>
 <span class="va">iris.scaled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span>, <span class="op">-</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
 <span class="va">iris_km</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">iris.scaled</span>, <span class="fl">3</span><span class="op">)</span>
@@ -124,17 +124,17 @@
 ## 
 ## [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
 ## [6] "betweenss"    "size"         "iter"         "ifault"</code></pre>
-<div class="sourceCode" id="cb803"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb842"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">iris_km</span><span class="op">$</span><span class="va">cluster</span>, <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></code></pre></div>
 <pre><code>##    
 ##     setosa versicolor virginica
 ##   1      0         39        14
 ##   2     50          0         0
 ##   3      0         11        36</code></pre>
-<div class="sourceCode" id="cb805"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb844"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">iris.scaled</span>, cluster <span class="op">=</span> <span class="va">iris_km</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>,
 ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <span class="op">=</span> <span class="st">"point"</span>, stand <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"jco"</span>, ggtheme <span class="op">=</span> <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-346-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-357-1.png" width="672"></div>
 <div id="assumptions-of-k-means-algorithm" class="section level3" number="15.1.1">
 <h3>
 <span class="header-section-number">15.1.1</span> Assumptions of K-means algorithm<a class="anchor" aria-label="anchor" href="#assumptions-of-k-means-algorithm"><i class="fas fa-link"></i></a>
@@ -144,7 +144,7 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <li>Clusters are roughly spherical</li>
 <li>Clusters are of similar size</li>
 </ul>
-<div class="sourceCode" id="cb806"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb845"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Generate random data which will be first cluster</span>
 <span class="va">clust1</span> <span class="op">&lt;-</span> <span class="fu">data_frame</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">200</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Generate the second cluster which will ‘surround’ the first cluster</span>
@@ -156,8 +156,8 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <span class="va">dataset_cir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">clust1</span>, <span class="va">clust2</span><span class="op">)</span>
 <span class="co">#see the plot</span>
 <span class="va">dataset_cir</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-347-1.png" width="672"></div>
-<div class="sourceCode" id="cb807"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-358-1.png" width="672"></div>
+<div class="sourceCode" id="cb846"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Fit the k-means model</span>
 <span class="va">k_clust_spher1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">dataset_cir</span>, centers<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
 <span class="co">#Plot the data and clusters</span>
@@ -167,8 +167,8 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
              geom <span class="op">=</span> <span class="st">"point"</span>, stand <span class="op">=</span> <span class="cn">FALSE</span>, 
              palette <span class="op">=</span> <span class="st">"jco"</span>, 
              ggtheme <span class="op">=</span> <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-348-1.png" width="672"></div>
-<div class="sourceCode" id="cb808"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-359-1.png" width="672"></div>
+<div class="sourceCode" id="cb847"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Make the first cluster with 1000 random values</span>
 <span class="va">clust1</span> <span class="op">&lt;-</span> <span class="fu">data_frame</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>, 
                      y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span>
@@ -178,8 +178,8 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <span class="co">#Combine the data</span>
 <span class="va">dataset_uneven</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">clust1</span>,<span class="va">clust2</span><span class="op">)</span>
 <span class="va">dataset_uneven</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-349-1.png" width="672"></div>
-<div class="sourceCode" id="cb809"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-360-1.png" width="672"></div>
+<div class="sourceCode" id="cb848"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">k_clust_spher3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">dataset_uneven</span>, centers<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dataset_uneven</span>, 
                   cluster <span class="op">=</span> <span class="va">k_clust_spher3</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>,
@@ -188,14 +188,14 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
              stand <span class="op">=</span> <span class="cn">FALSE</span>, 
              palette <span class="op">=</span> <span class="st">"jco"</span>, 
              ggtheme <span class="op">=</span> <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-350-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-361-1.png" width="672"></div>
 </div>
 <div id="exercise-pca-sommelier-1" class="section level3" number="15.1.2">
 <h3>
 <span class="header-section-number">15.1.2</span> Exercise: PCA sommelier<a class="anchor" aria-label="anchor" href="#exercise-pca-sommelier-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>The file <code>Wine.csv</code> contains several measures made on 178 wines from Piedmont, produced using three different grapes (column <code>Grape</code>, with 1 = Barolo, 2 = Grignolino, 3 = Barbera). Use the 13 measured variables (i.e., all but <code>Grape</code>) to perform a PCA, and use k-means to cluster the data in PC space. Can you recover the right classification of grapes?</p>
-<div class="sourceCode" id="cb810"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb849"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">wine</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/Wine.csv"</span><span class="op">)</span>
 <span class="co"># make into a matrix for PCA</span>
 <span class="va">mat</span> <span class="op">&lt;-</span> <span class="va">wine</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Grape</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
@@ -206,16 +206,16 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <span class="fu">ggplot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">wine</span>, <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">pca</span><span class="op">$</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">PC1</span>, y <span class="op">=</span> <span class="va">PC2</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Grape</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-351-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-362-1.png" width="672"></div>
 <p>Now let’s apply k-means to divide the data into three clusters</p>
-<div class="sourceCode" id="cb811"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb850"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">pca</span><span class="op">$</span><span class="va">x</span>, centers <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">wine</span> <span class="op">%&gt;%</span> <span class="fu">add_column</span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">cl</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Grape</span>, y <span class="op">=</span> <span class="va">cluster</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Grape</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">geom_jitter</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-352-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-363-1.png" width="672"></div>
 <p>You can see that we correctly classify all the wines for grapes 1 and 3, while some of the ones from grape 2 are misclassified.</p>
-<div class="sourceCode" id="cb812"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb851"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># find convex hull for each cluster</span>
 <span class="co"># i.e. minimal convex polygon containing all points</span>
 <span class="va">hull</span> <span class="op">&lt;-</span> <span class="va">pca</span><span class="op">$</span><span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -228,15 +228,15 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">hull</span> <span class="op">%&gt;%</span> <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">PC1</span>, y <span class="op">=</span> <span class="va">PC2</span>, group <span class="op">=</span> <span class="va">cluster</span>, fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_polygon</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
   
 <span class="fu">show</span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-353-1.png" width="672"></div>
-<div class="sourceCode" id="cb813"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-364-1.png" width="672"></div>
+<div class="sourceCode" id="cb852"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># now add the points</span>
 <span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">pca</span><span class="op">$</span><span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
          <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">PC1</span>, <span class="va">PC2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
          <span class="fu">add_column</span><span class="op">(</span>Grape <span class="op">=</span> <span class="va">wine</span><span class="op">$</span><span class="va">Grape</span>, cluster <span class="op">=</span> <span class="va">cl</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>, 
   <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">PC1</span>, y <span class="op">=</span> <span class="va">PC2</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Grape</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Grape</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-353-2.png" width="672"></div>
-<div class="sourceCode" id="cb814"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-364-2.png" width="672"></div>
+<div class="sourceCode" id="cb853"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cl</span><span class="op">$</span><span class="va">cluster</span>, <span class="va">wine</span><span class="op">$</span><span class="va">Grape</span><span class="op">)</span></code></pre></div>
 <pre><code>##    
 ##      1  2  3
@@ -262,43 +262,43 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <li><p>Centroid Method: In centroid method, the distance between two clusters is the distance between the two mean vectors of the clusters.<br></p></li>
 <li><p>Ward’s Method: This method does not directly define a measure of distance between two points or clusters. It is an ANOVA based approach. One-way univariate ANOVAs are done for each variable with groups defined by the clusters at that stage of the process. At each stage, two clusters merge that provide the smallest increase in the combined error sum of squares.</p></li>
 </ol>
-<div class="sourceCode" id="cb816"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb855"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use hcut() which compute hclust and cut the tree</span>
 <span class="va">cir_hc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/hcut.html">hcut</a></span><span class="op">(</span><span class="va">dataset_cir</span>, k <span class="op">=</span> <span class="fl">2</span>, hc_method <span class="op">=</span> <span class="st">"single"</span><span class="op">)</span>
 <span class="co"># Visualize dendrogram</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_dend.html">fviz_dend</a></span><span class="op">(</span><span class="va">cir_hc</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span>, rect <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-354-1.png" width="672"></div>
-<div class="sourceCode" id="cb817"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-365-1.png" width="672"></div>
+<div class="sourceCode" id="cb856"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualize cluster</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="va">cir_hc</span>, ellipse.type <span class="op">=</span> <span class="st">"convex"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-354-2.png" width="672"></div>
-<div class="sourceCode" id="cb818"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-365-2.png" width="672"></div>
+<div class="sourceCode" id="cb857"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use hcut() which compute hclust and cut the tree</span>
 <span class="va">uneven_hc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/hcut.html">hcut</a></span><span class="op">(</span><span class="va">dataset_uneven</span>, k <span class="op">=</span> <span class="fl">2</span>, hc_method <span class="op">=</span> <span class="st">"single"</span><span class="op">)</span>
 <span class="co"># Visualize dendrogram</span>
 <span class="co">#fviz_dend(uneven_hc, show_labels = FALSE, rect = TRUE)</span>
 <span class="co"># Visualize cluster</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="va">uneven_hc</span>, ellipse.type <span class="op">=</span> <span class="st">"convex"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-355-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-366-1.png" width="672"></div>
 </div>
 <div id="cluster-the-irises-using-hierarchical-methods" class="section level3" number="15.2.2">
 <h3>
 <span class="header-section-number">15.2.2</span> Cluster the irises using hierarchical methods<a class="anchor" aria-label="anchor" href="#cluster-the-irises-using-hierarchical-methods"><i class="fas fa-link"></i></a>
 </h3>
 <p>Try different methods and see which one generates the best results</p>
-<div class="sourceCode" id="cb819"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb858"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Hierarchical clustering</span>
 <span class="co"># ++++++++++++++++++++++++</span>
 <span class="co"># Use hcut() which compute hclust and cut the tree</span>
 <span class="va">iris_hc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/hcut.html">hcut</a></span><span class="op">(</span><span class="va">iris.scaled</span>, k <span class="op">=</span> <span class="fl">3</span>, hc_method <span class="op">=</span> <span class="st">"single"</span><span class="op">)</span>
 <span class="co"># Visualize dendrogram</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_dend.html">fviz_dend</a></span><span class="op">(</span><span class="va">iris_hc</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span>, rect <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-356-1.png" width="672"></div>
-<div class="sourceCode" id="cb820"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-367-1.png" width="672"></div>
+<div class="sourceCode" id="cb859"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualize cluster</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="va">iris_hc</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-356-2.png" width="672"></div>
-<div class="sourceCode" id="cb821"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-367-2.png" width="672"></div>
+<div class="sourceCode" id="cb860"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">iris_hc</span><span class="op">$</span><span class="va">cluster</span>, <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></code></pre></div>
 <pre><code>##    
 ##     setosa versicolor virginica
@@ -326,19 +326,19 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
 \]</span>
 This quantifies the “clustering tendency” of the data set.</p>
-<div class="sourceCode" id="cb823"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb862"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check Cluster Tendency--Hopkins Statistic</span>
 <span class="fu"><a href="https://rdrr.io/pkg/clustertend/man/hopkins.html">hopkins</a></span><span class="op">(</span><span class="va">iris.scaled</span>, n <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="co"># n should be about 20% of the data</span></code></pre></div>
 <pre><code>## $H
 ## [1] 0.1657609</code></pre>
-<div class="sourceCode" id="cb825"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb864"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># run a couple times to sample repeatedly</span></code></pre></div>
 <p>If H is below 0.5 reject the null hypothesis, which is that the data are generated by a Poisson point process (uniformly distributed.)</p>
-<div class="sourceCode" id="cb826"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb865"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visual Assessment of Cluster Tendency</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/dist.html">fviz_dist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/dist.html">dist</a></span><span class="op">(</span><span class="va">iris.scaled</span><span class="op">)</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Iris Data"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure">
-<img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-359-1.png" width="672">
+<img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-370-1.png" width="672">
 - Red is high similarity (low dissimilarity)
 - Blue is low similarity (high dissimilarity)</div>
 </div>
@@ -346,32 +346,32 @@ This quantifies the “clustering tendency” of the data set.</p>
 <h3>
 <span class="header-section-number">15.3.2</span> Elbow method<a class="anchor" aria-label="anchor" href="#elbow-method"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb827"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb866"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Elbow method</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">iris.scaled</span>, <span class="va">kmeans</span>, method <span class="op">=</span> <span class="st">"wss"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">2</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">+</span>
 <span class="fu">labs</span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Elbow method for K-means"</span><span class="op">)</span></code></pre></div>
-<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-360-1.png" width="672">
+<p><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-371-1.png" width="672">
 ### Silhouette Plot
 Measures how similar an object <span class="math inline">\(i\)</span> is to the other objects in its same cluster versus the objects outside of its cluster; <span class="math inline">\(S_i\)</span> values range from -1 to 1. Close to 1 means very similar to objects in its own group and dissimilar to others</p>
-<div class="sourceCode" id="cb828"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb867"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Silhouette method</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">iris.scaled</span>, <span class="va">kmeans</span>, method <span class="op">=</span> <span class="st">"silhouette"</span><span class="op">)</span><span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Silhouette method for k-means"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-361-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-372-1.png" width="672"></div>
 </div>
 <div id="lazy-way-use-all-the-methods" class="section level3" number="15.3.3">
 <h3>
 <span class="header-section-number">15.3.3</span> Lazy way: use all the methods!<a class="anchor" aria-label="anchor" href="#lazy-way-use-all-the-methods"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb829"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb868"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/NbClust/man/NbClust.html">NbClust</a></span><span class="op">(</span><span class="va">iris.scaled</span>, distance <span class="op">=</span> <span class="st">"euclidean"</span>, min.nc <span class="op">=</span> <span class="fl">2</span>,
         max.nc <span class="op">=</span> <span class="fl">10</span>, method <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-362-1.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-1.png" width="672"></div>
 <pre><code>## *** : The Hubert index is a graphical method of determining the number of clusters.
 ##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
 ##                 significant increase of the value of the measure i.e the significant peak in Hubert
 ##                 index second differences plot. 
 ## </code></pre>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-362-2.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-2.png" width="672"></div>
 <pre><code>## *** : The D index is a graphical method of determining the number of clusters. 
 ##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
 ##                 second differences plot) that corresponds to a significant increase of the value of
@@ -391,7 +391,7 @@ Measures how similar an object <span class="math inline">\(i\)</span> is to the 
 ##  
 ##  
 ## *******************************************************************</code></pre>
-<div class="sourceCode" id="cb832"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb871"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></code></pre></div>
 <pre><code>## Among all indices: 
 ## ===================
@@ -405,7 +405,7 @@ Measures how similar an object <span class="math inline">\(i\)</span> is to the 
 ## Conclusion
 ## =========================
 ## * According to the majority rule, the best number of clusters is  2 .</code></pre>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-362-3.png" width="672"></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-373-3.png" width="672"></div>
 </div>
 <div id="validation" class="section level3" number="15.3.4">
 <h3>
@@ -416,7 +416,7 @@ Measures how similar an object <span class="math inline">\(i\)</span> is to the 
 J = \frac{ \vert A \cap B \vert }{\vert A \cup B \vert}
 \]</span>
 The vertical lines indicate the number of points (cardinality) in the set.</p>
-<div class="sourceCode" id="cb834"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb873"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">3</span>
 <span class="va">cboot.hclust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/fpc/man/clusterboot.html">clusterboot</a></span><span class="op">(</span><span class="va">iris.scaled</span>, clustermethod<span class="op">=</span><span class="va">kmeansCBI</span>, k<span class="op">=</span> <span class="va">k</span><span class="op">)</span></code></pre></div>
 <pre><code>## boot 1 
@@ -519,7 +519,7 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## boot 98 
 ## boot 99 
 ## boot 100</code></pre>
-<div class="sourceCode" id="cb836"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb875"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">cboot.hclust</span><span class="op">)</span></code></pre></div>
 <pre><code>## * Cluster stability assessment *
 ## Cluster method:  kmeans 
@@ -536,7 +536,7 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## [1]  1  5 12
 ## recovered:
 ## [1] 83 75 79</code></pre>
-<div class="sourceCode" id="cb838"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb877"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#cboot.hclust &lt;- clusterboot(bcdata, clustermethod=hclustCBI,</span>
        <span class="co">#                    method="single", k=2)</span></code></pre></div>
 </div>
@@ -545,7 +545,7 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 <h2>
 <span class="header-section-number">15.4</span> Application to breast cancer data<a class="anchor" aria-label="anchor" href="#application-to-breast-cancer-data"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb839"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb878"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Import Breast Cancer Data Set</span>
 <span class="va">fulldata</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/Wisconsin_Breast_Cancers.csv"</span><span class="op">)</span>
 <span class="va">bcdata</span> <span class="op">&lt;-</span> <span class="va">fulldata</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>
@@ -563,11 +563,11 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## # … with 6 more variables: Single_Epithelial_Cell_Size &lt;dbl&gt;,
 ## #   Bare_Nuclei &lt;dbl&gt;, Bland_Chromatin &lt;dbl&gt;, Normal_Nucleoli &lt;dbl&gt;,
 ## #   Mitoses &lt;dbl&gt;, Class &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb841"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb880"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visually Inspect Data (PCA)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_pca.html">fviz_pca_ind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">bcdata</span><span class="op">)</span>, title <span class="op">=</span> <span class="st">"PCA - Breast Cancer data"</span>, geom <span class="op">=</span> <span class="st">"point"</span>, ggtheme <span class="op">=</span> <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-365-1.png" width="672"></div>
-<div class="sourceCode" id="cb842"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-376-1.png" width="672"></div>
+<div class="sourceCode" id="cb881"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bc_km</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">bcdata</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>
 <span class="va">bc_km</span></code></pre></div>
 <pre><code>## K-means clustering with 2 clusters of sizes 453, 231
@@ -612,30 +612,30 @@ The vertical lines indicate the number of points (cardinality) in the set.</p>
 ## 
 ## [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
 ## [6] "betweenss"    "size"         "iter"         "ifault"</code></pre>
-<div class="sourceCode" id="cb844"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb883"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">bc_km</span><span class="op">$</span><span class="va">cluster</span>, <span class="va">fulldata</span><span class="op">$</span><span class="va">Class</span><span class="op">)</span></code></pre></div>
 <pre><code>##    
 ##       2   4
 ##   1 434  19
 ##   2  10 221</code></pre>
-<div class="sourceCode" id="cb846"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb885"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#irisCluster$cluster &lt;- as.factor(irisCluster$cluster)</span>
 <span class="co">#ggplot(iris, aes(Petal.Length, Petal.Width, color = iris$cluster)) + geom_point()</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">bcdata</span>, cluster <span class="op">=</span> <span class="va">bc_km</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>,
 ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <span class="op">=</span> <span class="st">"point"</span>, stand <span class="op">=</span> <span class="cn">FALSE</span>, palette <span class="op">=</span> <span class="st">"jco"</span>, ggtheme <span class="op">=</span> <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-366-1.png" width="672"></div>
-<div class="sourceCode" id="cb847"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-377-1.png" width="672"></div>
+<div class="sourceCode" id="cb886"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Use hcut() which compute hclust and cut the tree</span>
 <span class="va">bc_hc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/hcut.html">hcut</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">bcdata</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">2</span>, hc_method <span class="op">=</span> <span class="st">"ward"</span><span class="op">)</span>
 <span class="co"># Visualize dendrogram</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_dend.html">fviz_dend</a></span><span class="op">(</span><span class="va">bc_hc</span>, show_labels <span class="op">=</span> <span class="cn">FALSE</span>, rect <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-367-1.png" width="672"></div>
-<div class="sourceCode" id="cb848"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-378-1.png" width="672"></div>
+<div class="sourceCode" id="cb887"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualize cluster</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_cluster.html">fviz_cluster</a></span><span class="op">(</span><span class="va">bc_hc</span>, ellipse.type <span class="op">=</span> <span class="st">"convex"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-367-2.png" width="672"></div>
-<div class="sourceCode" id="cb849"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-378-2.png" width="672"></div>
+<div class="sourceCode" id="cb888"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">bc_hc</span><span class="op">$</span><span class="va">cluster</span>, <span class="va">fulldata</span><span class="op">$</span><span class="va">Class</span><span class="op">)</span></code></pre></div>
 <pre><code>##    
 ##       2   4
@@ -700,7 +700,7 @@ ellipse.type <span class="op">=</span> <span class="st">"norm"</span>, geom <spa
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-10-27.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-11-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
