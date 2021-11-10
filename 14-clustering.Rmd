@@ -37,7 +37,8 @@ Let us apply the k-means algorithm to our well-studied penguin data set. In the 
 #set.seed(20)
 glimpse(penguins)
 pen_data <- penguins %>% drop_na() 
-pen_train <- pen_data  %>% dplyr::select(-species,-island, -sex, -year) # remove species (the true labels)
+#pen_train <- pen_data  %>% dplyr::select(-species,-island, -sex, -year) # remove species (the true labels)
+pen_train <- pen_data  %>% dplyr::select(-species,-island, -sex) # remove species (the true labels)
 pen_km <- kmeans(pen_train, 3) #k-means with 3 clusters
 pen_km
 table(pen_km$cluster, pen_data$species)
@@ -52,7 +53,8 @@ However, the four measurements have very different variances, so we try scaling 
 
 ```{r, warning=FALSE, message=FALSE}
 pen_data <- penguins %>% drop_na()
-pen_scaled <- scale(pen_data %>% dplyr::select(-species, -island, -sex, -year) )
+#pen_scaled <- scale(pen_data %>% dplyr::select(-species, -island, -sex, -year) )
+pen_scaled <- scale(pen_data %>% dplyr::select(-species, -island, -sex) )
 pen_km <- kmeans(pen_scaled, 3)
 pen_km
 table(pen_km$cluster, pen_data$species)
