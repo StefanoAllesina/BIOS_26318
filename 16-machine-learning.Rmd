@@ -18,8 +18,9 @@ library(vip)
 
 ## Introduction
 
-The classification problem is a very common one, for example, how 
+The classification problem is a very common one in practice, and we have already seen the use of GLMs to systematically predict binary response variables. We have also used clustering to perform *unsupervised* learning, where we do not have any information about correct labels for data points. We now turn to *supervised* classification problems and introduce two different approaches: a Bayesian one and a tree-based one.
 
+## Naive Bayes classifier
 
 Suppose that we wish to classify an observation into one of K classes, which means there is a response variable Y can take on K different values, or labels. Let $π_k$ be the *prior probability* that a randomly chosen observation comes from the k-th class. Let $f_k(X) =Pr(X|Y = k)$ be the density function of X for an observation that comes from the k-th class. 
 
@@ -36,7 +37,7 @@ Let us use the penguin data as an example, where we want to classify the observa
 The difficult part in the above example is estimating the distributions $f_k(X)$, which is especially challenging for joint distributions of multiple variables. One method, called Linear Discriminant Analysis, assumes the distributions have the same covariance matrices for all classes and only differ in their mean values. Another, called Quadratic Discriminant Analysis, assumes different covariance matrices for different classes. 
 
 
-## Naive Bayes classifier
+
 
 The Naive Bayes classifier instead assumes that within each class the explanatory variables $X_i$ are independent, and thus
 
