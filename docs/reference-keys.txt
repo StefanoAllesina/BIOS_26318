@@ -256,3 +256,15 @@ jukes-cantor-model
 other-models
 maximum-likelihood
 bayesian-methods
+machine-learning-methods-for-classification
+introduction-2
+naive-bayes-classifier
+penguin-data
+breast-cancer-data
+decision-trees
+penguin-data-1
+breast-cancer-data-1
+random-forests
+penguin-data-2
+cancer-data
+references-2
