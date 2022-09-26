@@ -89,8 +89,8 @@ The graph shows that, naturally, the vast majority of cases was reported in Cook
 ggplot(data = dti) + 
   aes(x = reorder(county, cases), y = cases) + # order labels according to cases
   geom_col() +
-  xlab("Number of COVID cases reported") + # x label
-  ylab("Illinois County") + # y label
+  ylab("Number of COVID cases reported") + # x label
+  xlab("Illinois County") + # y label
   scale_y_log10() + # transform the counts to logs
   coord_flip()+
   ggtitle(dti$date[1]) # main title (use current date)
@@ -139,7 +139,8 @@ To plot the histogram side by side, use
 ```{r, warning=FALSE}
 ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
   aes(x = deaths / cases, fill = state) + # fill the bar colors by state
-  geom_histogram(position = "dodge", bins = 30)
+  geom_histogram(position = "dodge", bins = 30)+ 
+  xlim(c(0,0.03))
 ```
 
 Similarly, we can approximate the histogram using a density plot, which interpolates the bin height to create a smooth distribution:
@@ -147,14 +148,14 @@ Similarly, we can approximate the histogram using a density plot, which interpol
 ```{r, warning=FALSE}
 ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
   aes(x = deaths / cases, fill = state) + # fill by state
-  geom_density()
+  geom_density() + xlim(c(0,0.03))
 ```
 
 To see the graph better, let's make the coloring semi-transparent:
 ```{r, warning=FALSE}
 ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
   aes(x = deaths / cases, fill = state) + # fill by state
-  geom_density(alpha = 0.5)
+  geom_density(alpha = 0.5) + xlim(c(0, 0.03))
 ```
 
 Showing a similar distribution for the death rate in the two states.  For this type of comparison, the ideal graph to show is maybe a box-plot or a violin plot:
@@ -162,7 +163,7 @@ Showing a similar distribution for the death rate in the two states.  For this t
 ```{r, warning=FALSE}
 ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
   aes(x = state, y = deaths / cases, fill = state) + # we need both x and y
-  geom_boxplot()
+  geom_boxplot() + ylim(c(0, 0.03))
 ```
 
 A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent "outliers". To show the full distribution, you can use a violin plot:
@@ -170,7 +171,7 @@ A boxplot shows the median (horizontal bar) as well as the inter-quartile range 
 ```{r, warning=FALSE}
 ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
   aes(x = state, y = deaths / cases, fill = state) + # we need both x and y
-  geom_violin(draw_quantiles = 0.5)
+  geom_violin(draw_quantiles = 0.5) + ylim(c(0, 0.03))
 ```
 
 Note that when we're producing "similar" plots (e.g., histogram vs. density, box vs. violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!

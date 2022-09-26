@@ -4,20 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lecture 14 Principal Component Analysis | Fundamentals of Biological Data Analysis</title>
+<title>Lecture 12 Principal Component Analysis | Fundamentals of Biological Data Analysis</title>
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina">
 <meta name="description" content="Goal Introduce Principal Component Analysis (PCA), one of the most popular techniques to perform “dimensionality reduction” of complex data sets. If we see the data as points in a high-dimensional...">
-<meta name="generator" content="bookdown 0.24.1 with bs4_book()">
-<meta property="og:title" content="Lecture 14 Principal Component Analysis | Fundamentals of Biological Data Analysis">
+<meta name="generator" content="bookdown 0.29 with bs4_book()">
+<meta property="og:title" content="Lecture 12 Principal Component Analysis | Fundamentals of Biological Data Analysis">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Goal Introduce Principal Component Analysis (PCA), one of the most popular techniques to perform “dimensionality reduction” of complex data sets. If we see the data as points in a high-dimensional...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lecture 14 Principal Component Analysis | Fundamentals of Biological Data Analysis">
+<meta name="twitter:title" content="Lecture 12 Principal Component Analysis | Fundamentals of Biological Data Analysis">
 <meta name="twitter:description" content="Goal Introduce Principal Component Analysis (PCA), one of the most popular techniques to perform “dimensionality reduction” of complex data sets. If we see the data as points in a high-dimensional...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0.9000/transition.js"></script><script src="libs/bs3compat-0.3.0.9000/tabs.js"></script><script src="libs/bs3compat-0.3.0.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,13 +53,13 @@
 <li><a class="" href="review-of-linear-algebra.html"><span class="header-section-number">8</span> Review of linear algebra</a></li>
 <li><a class="" href="linear-models.html"><span class="header-section-number">9</span> Linear models</a></li>
 <li><a class="" href="anova.html"><span class="header-section-number">10</span> ANOVA</a></li>
-<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">11</span> Time series: modeling and forecasting</a></li>
-<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">12</span> Generalized linear models</a></li>
-<li><a class="" href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></li>
-<li><a class="active" href="principal-component-analysis.html"><span class="header-section-number">14</span> Principal Component Analysis</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">15</span> Clustering</a></li>
+<li><a class="" href="model-selection.html"><span class="header-section-number">11</span> Model Selection</a></li>
+<li><a class="active" href="principal-component-analysis.html"><span class="header-section-number">12</span> Principal Component Analysis</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">13</span> Clustering</a></li>
+<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">14</span> Generalized linear models</a></li>
+<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
-<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">17</span> Machine learning methods for classification</a></li>
+<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
 </ul>
 
         <div class="book-extra">
@@ -64,51 +67,47 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="principal-component-analysis" class="section level1" number="14">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="principal-component-analysis" class="section level1" number="12">
 <h1>
-<span class="header-section-number">Lecture 14</span> Principal Component Analysis<a class="anchor" aria-label="anchor" href="#principal-component-analysis"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lecture 12</span> Principal Component Analysis<a class="anchor" aria-label="anchor" href="#principal-component-analysis"><i class="fas fa-link"></i></a>
 </h1>
 <p><strong>Goal</strong></p>
 <p>Introduce Principal Component Analysis (PCA), one of the most popular techniques to perform “dimensionality reduction” of complex data sets. If we see the data as points in a high-dimensional space, we can project the data onto a new set of coordinates such that the first coordinate captures the largest share of the variance in the data, the second coordinates captures the largest share of the remaining variance and so on. In this way, we can project large-dimensional data sets onto low-dimensional spaces and lose the least information about the data.</p>
-<div class="sourceCode" id="cb810"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap">ggmap</a></span><span class="op">)</span> <span class="co"># for ggimage</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify">ggfortify</a></span><span class="op">)</span> <span class="co"># for autoplot</span></code></pre></div>
-<div id="input" class="section level2" number="14.1">
+<div class="sourceCode" id="cb734"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap">ggmap</a></span><span class="op">)</span> <span class="co"># for ggimage</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify">ggfortify</a></span><span class="op">)</span> <span class="co"># for autoplot</span></span></code></pre></div>
+<div id="input" class="section level2" number="12.1">
 <h2>
-<span class="header-section-number">14.1</span> Input<a class="anchor" aria-label="anchor" href="#input"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.1</span> Input<a class="anchor" aria-label="anchor" href="#input"><i class="fas fa-link"></i></a>
 </h2>
-<p>We have collected the <span class="math inline">\(n \times m\)</span> data matrix <span class="math inline">\(X\)</span> (typically, with <span class="math inline">\(n \gg m\)</span>), in which the rows are samples and the columns are <span class="math inline">\(m\)</span> measures on the samples. Each row of this matrix defines a point in the Euclidean space <span class="math inline">\(\mathbb R^m\)</span>, i.e., each point in this space is a potential sample. Naturally, samples with similar measurements are “close” in this space, and samples that are very different are “far.” However, <span class="math inline">\(m\)</span> can be quite large, and therefore we cannot easily visualize the position of the points. One way to think of PCA is as the best projection of the points in a <span class="math inline">\(r\)</span>-dimensional space (with <span class="math inline">\(r \leq m\)</span>), for visualization and clustering.</p>
+<p>We have collected the <span class="math inline">\(n \times m\)</span> data matrix <span class="math inline">\(X\)</span> (typically, with <span class="math inline">\(n \gg m\)</span>), in which the rows are samples and the columns are <span class="math inline">\(m\)</span> measures on the samples. Each row of this matrix defines a point in the Euclidean space <span class="math inline">\(\mathbb R^m\)</span>, i.e., each point in this space is a potential sample. Naturally, samples with similar measurements are “close” in this space, and samples that are very different are “far”. However, <span class="math inline">\(m\)</span> can be quite large, and therefore we cannot easily visualize the position of the points. One way to think of PCA is as the best projection of the points in a <span class="math inline">\(r\)</span>-dimensional space (with <span class="math inline">\(r \leq m\)</span>), for visualization and clustering.</p>
 <p>For example, take the iris data set:</p>
-<div class="sourceCode" id="cb811"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span>
-<span class="va">ir</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Species</span><span class="op">)</span>
-<span class="va">sp</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">ir</span>, col <span class="op">=</span> <span class="va">sp</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-341-1.png" width="672"></div>
+<div class="sourceCode" id="cb735"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"iris"</span><span class="op">)</span></span>
+<span><span class="va">ir</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Species</span><span class="op">)</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">ir</span>, col <span class="op">=</span> <span class="va">sp</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-300-1.png" width="672"></div>
 <p>We can separate the clusters better by finding the best projection in 2D:</p>
-<div class="sourceCode" id="cb812"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">ir</span>, center <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, 
-         data <span class="op">=</span> <span class="va">iris</span>, 
-         colour <span class="op">=</span> <span class="st">"Species"</span>,
-         scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">coord_equal</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning: `select_()` was deprecated in dplyr 0.7.0.
-## Please use `select()` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-342-1.png" width="672"></div>
+<div class="sourceCode" id="cb736"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">ir</span>, center <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>         data <span class="op">=</span> <span class="va">iris</span>, </span>
+<span>         colour <span class="op">=</span> <span class="st">"Species"</span>,</span>
+<span>         scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-301-1.png" width="672"></div>
 </div>
-<div id="singular-value-decomposition" class="section level2" number="14.2">
+<div id="singular-value-decomposition" class="section level2" number="12.2">
 <h2>
-<span class="header-section-number">14.2</span> Singular Value Decomposition<a class="anchor" aria-label="anchor" href="#singular-value-decomposition"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.2</span> Singular Value Decomposition<a class="anchor" aria-label="anchor" href="#singular-value-decomposition"><i class="fas fa-link"></i></a>
 </h2>
 <p>At the hearth of PCA is a particular matrix decomposition (or factorization): we represent the matrix <span class="math inline">\(X\)</span> as a product of other matrices (or, equivalently, a sum of matrices). In particular, SVD is defined by the equation:</p>
 <p><span class="math display">\[
 X = U \Sigma V^T
 \]</span></p>
 <p><span class="math inline">\(X\)</span> is a <span class="math inline">\(n \times m\)</span> matrix, <span class="math inline">\(U\)</span> is an <span class="math inline">\(n \times n\)</span> <strong>orthogonal</strong>, <strong>unitary</strong> matrix and <span class="math inline">\(V\)</span> is an <span class="math inline">\(m \times m\)</span> orthogonal, unitary matrix, and <span class="math inline">\(\Sigma\)</span> is a <span class="math inline">\(m \times n\)</span> rectangular, diagonal matrix with non-negative values on the diagonal. If <span class="math inline">\(V\)</span> is a (real) unitary matrix, then <span class="math inline">\(VV^T = I_m\)</span> (the <span class="math inline">\(m \times m\)</span> identity matrix), and if <span class="math inline">\(U\)</span> is also unitary, then <span class="math inline">\(UU^T = I_n\)</span>. Another way to put this is <span class="math inline">\(U^{-1} = U^T\)</span>.</p>
-<p>(Note: this defines the “full” SVD of <span class="math inline">\(A\)</span>; equivalently, one can perform a “thin,” or “reduced” SVD by having <span class="math inline">\(U\)</span> of dimension <span class="math inline">\(n \times p\)</span>, and <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(V\)</span> of dimension <span class="math inline">\(p \times p\)</span>, where <span class="math inline">\(p \leq m\)</span> is the rank of <span class="math inline">\(A\)</span>—by default <code>R</code> returns a “thin” SVD; read the details <a href="http://www.seas.ucla.edu/~vandenbe/133B/lectures/svd.pdf">here</a>).</p>
+<p>(Note: this defines the “full” SVD of <span class="math inline">\(A\)</span>; equivalently, one can perform a “thin”, or “reduced” SVD by having <span class="math inline">\(U\)</span> of dimension <span class="math inline">\(n \times p\)</span>, and <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(V\)</span> of dimension <span class="math inline">\(p \times p\)</span>, where <span class="math inline">\(p \leq m\)</span> is the rank of <span class="math inline">\(A\)</span>—by default <code>R</code> returns a “thin” SVD; read the details <a href="http://www.seas.ucla.edu/~vandenbe/133B/lectures/svd.pdf">here</a>).</p>
 <p>The values on the diagonal of <span class="math inline">\(\Sigma\)</span> are the <strong>singular values</strong> of <span class="math inline">\(X\)</span>, i.e., the nonzero eigenvalues of <span class="math inline">\(XX^T\)</span> (or <span class="math inline">\(X^T X\)</span>). In this context, the matrix <span class="math inline">\(U\)</span> contains the <strong>left singular vectors</strong> of <span class="math inline">\(X\)</span> and <span class="math inline">\(V\)</span> its <strong>right singular vectors</strong>. Let’s rearrange the rows/cols of <span class="math inline">\(\Sigma\)</span>, <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> such that we have the singular values in decreasing order: <span class="math inline">\(\text{diag}(\Sigma) = (\sigma_1, \sigma_2, \ldots, \sigma_m)\)</span>.</p>
 <p>Through SVD, the matrix <span class="math inline">\(X\)</span> can be seen as a sum of <span class="math inline">\(m\)</span> matrices:</p>
 <p><span class="math display">\[
@@ -116,60 +115,60 @@ X = \sum_{i = 1}^m U_i \Sigma_{ii} V_i^T = X_1 + X_2 + X_3 + \ldots
 \]</span></p>
 <p>Where <span class="math inline">\(U_i\)</span> is the <span class="math inline">\(i\)</span>th column of <span class="math inline">\(U\)</span>. Most importantly, you can prove that at each step (<span class="math inline">\(r\)</span>), you are computing the <strong>“best” approximation of <span class="math inline">\(X\)</span> as a sum of <span class="math inline">\(r\)</span> rank-1 matrices</strong>. I.e., for each <span class="math inline">\(r\)</span> we have that <span class="math inline">\(\| X - (X_1 + X_2 + \ldots + X_r) \|\)</span> is as small as possible (Eckart–Young–Mirsky theorem).</p>
 <p>Let’s look at a concrete example. A monochromatic image can be represented as a matrix where the entries are pixels taking values in (for example, using 8 bits) <span class="math inline">\(0, 1, \ldots, 255\)</span>:</p>
-<div class="sourceCode" id="cb814"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">stefano</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/stefano.txt"</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># invert y axis and transpose for visualization</span>
-<span class="va">stefano</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span><span class="op">:</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
-<span class="co"># rescale values to suppress warning from ggimage</span>
-<span class="va">stefano</span> <span class="op">&lt;-</span> <span class="va">stefano</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-343-1.png" width="672"></div>
+<div class="sourceCode" id="cb737"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stefano</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/stefano.txt"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># invert y axis and transpose for visualization</span></span>
+<span><span class="va">stefano</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span><span class="op">:</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co"># rescale values to suppress warning from ggimage</span></span>
+<span><span class="va">stefano</span> <span class="op">&lt;-</span> <span class="va">stefano</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-302-1.png" width="672"></div>
 <p>Now let’s perform SVD, and show that indeed we have factorized the image:</p>
-<div class="sourceCode" id="cb815"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">s_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span>
-<span class="va">U</span> <span class="op">&lt;-</span> <span class="va">s_svd</span><span class="op">$</span><span class="va">u</span>
-<span class="va">V</span> <span class="op">&lt;-</span> <span class="va">s_svd</span><span class="op">$</span><span class="va">v</span>
-<span class="va">Sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">s_svd</span><span class="op">$</span><span class="va">d</span><span class="op">)</span>
-<span class="co"># this should be equal to the original matrix</span>
-<span class="va">stefano_2</span> <span class="op">&lt;-</span> <span class="va">U</span> <span class="op">%*%</span> <span class="va">Sigma</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span>
-<span class="co"># let's plot the difference</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">stefano</span> <span class="op">-</span> <span class="va">stefano_2</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-344-1.png" width="672"></div>
+<div class="sourceCode" id="cb738"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span></span>
+<span><span class="va">U</span> <span class="op">&lt;-</span> <span class="va">s_svd</span><span class="op">$</span><span class="va">u</span></span>
+<span><span class="va">V</span> <span class="op">&lt;-</span> <span class="va">s_svd</span><span class="op">$</span><span class="va">v</span></span>
+<span><span class="va">Sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">s_svd</span><span class="op">$</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="co"># this should be equal to the original matrix</span></span>
+<span><span class="va">stefano_2</span> <span class="op">&lt;-</span> <span class="va">U</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">Sigma</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">V</span><span class="op">)</span></span>
+<span><span class="co"># let's plot the difference</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">stefano</span> <span class="op">-</span> <span class="va">stefano_2</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-303-1.png" width="672"></div>
 <p>Now we can visualize the approximation we’re making when we take only the first few singular values. We’re going to plot <span class="math inline">\(X_k\)</span> (on the left), and <span class="math inline">\(\sum_{i=1}^k X_i\)</span> (on the right). Even with only a few iterations (7, out of 255) we obtain a recognizable image:</p>
-<div class="sourceCode" id="cb816"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">7</span>
-<span class="va">Xdec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span>, <span class="va">r</span><span class="op">)</span><span class="op">)</span>
-<span class="va">Xsum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span>, <span class="va">r</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># store the first matrix</span>
-<span class="va">Xdec</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">U</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">V</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">Sigma</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>
-<span class="co"># the first term in the sum is the matrix itself</span>
-<span class="va">Xsum</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Xdec</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span>
-<span class="co"># store the other rank one matrices, along with the partial sum</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">r</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">Xdec</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">U</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">V</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">Sigma</span><span class="op">[</span><span class="va">i</span>,<span class="va">i</span><span class="op">]</span>
-  <span class="va">Xsum</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Xsum</span><span class="op">[</span>,,<span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">Xdec</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span>
-<span class="op">}</span>
-<span class="co"># now plot all matrices and their sum</span>
-<span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">r</span><span class="op">)</span><span class="op">{</span>
-  <span class="va">plots</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="va">Xdec</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span><span class="op">)</span>
-  <span class="va">plots</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="va">Xsum</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">plots</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-345-1.png" width="672"></div>
+<div class="sourceCode" id="cb739"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">7</span></span>
+<span><span class="va">Xdec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span>, <span class="va">r</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Xsum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">stefano</span><span class="op">)</span>, <span class="va">r</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># store the first matrix</span></span>
+<span><span class="va">Xdec</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">U</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">V</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">Sigma</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co"># the first term in the sum is the matrix itself</span></span>
+<span><span class="va">Xsum</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Xdec</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co"># store the other rank one matrices, along with the partial sum</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">r</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">Xdec</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">U</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">V</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">Sigma</span><span class="op">[</span><span class="va">i</span>,<span class="va">i</span><span class="op">]</span></span>
+<span>  <span class="va">Xsum</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Xsum</span><span class="op">[</span>,,<span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">Xdec</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co"># now plot all matrices and their sum</span></span>
+<span><span class="va">plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">r</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">plots</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="va">Xdec</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">plots</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">plots</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="va">Xsum</span><span class="op">[</span>,,<span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>grobs <span class="op">=</span> <span class="va">plots</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-304-1.png" width="672"></div>
 </div>
-<div id="svd-and-pca" class="section level2" number="14.3">
+<div id="svd-and-pca" class="section level2" number="12.3">
 <h2>
-<span class="header-section-number">14.3</span> SVD and PCA<a class="anchor" aria-label="anchor" href="#svd-and-pca"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.3</span> SVD and PCA<a class="anchor" aria-label="anchor" href="#svd-and-pca"><i class="fas fa-link"></i></a>
 </h2>
 <p>Let’s go back to our data matrix <span class="math inline">\(X\)</span>, and its representation as <span class="math inline">\(n\)</span> points (the samples) in <span class="math inline">\(m\)</span> dimensions (the measurements). For the moment, consider the case in which <strong>each column of <span class="math inline">\(X\)</span> sums to zero</strong> (i.e., for each measurement, we have removed the mean—this is called “centering”). We would like to represent the data as best as possible in few dimensions, such that a) the axes are orthogonal; b) the axes are aligned with the principal sources of variation in the data. More precisely, PCA is an <strong>orthogonal linear transformation</strong> that transforms the data to a <strong>new coordinate system</strong> such that the direction of greatest variance of the data is aligned with the first coordinate, the second greatest with the second coordinate, and so on.</p>
 <p>For example, let’s take the <code>Petal.Lenght</code> and <code>Petal.Width</code> in <code>iris</code>:</p>
-<div class="sourceCode" id="cb817"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">Petal.Length</span>, <span class="va">Petal.Width</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># remove mean</span>
-<span class="va">colors</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">X</span>, col <span class="op">=</span> <span class="va">colors</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-346-1.png" width="672"></div>
+<div class="sourceCode" id="cb740"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Petal.Length</span>, <span class="va">Petal.Width</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># remove mean</span></span>
+<span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">X</span>, col <span class="op">=</span> <span class="va">colors</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-305-1.png" width="672"></div>
 <p>You can see that now the points are centered at (0,0).</p>
 <p>In practice, we want to produce a new “data matrix” <span class="math inline">\(Y\)</span>:</p>
 <p><span class="math display">\[
@@ -192,22 +191,22 @@ Y_{i} = X W_i
 \]</span></p>
 <p>Therefore, the first column of <span class="math inline">\(Y\)</span> is given by the projection of the data on the first eigenvector of <span class="math inline">\(S\)</span>. The variance captured by this first axis is given by the largest eigenvalue of <span class="math inline">\(S\)</span>. To find the other columns of <span class="math inline">\(Y\)</span>, you can subtract from <span class="math inline">\(X\)</span> the matrix <span class="math inline">\(Y_1 W_1^T\)</span> and repeat.</p>
 <p>Note that the first axis captures <span class="math inline">\(\lambda_1 / \sum_{i = 1}^m \lambda_i\)</span> of the total variance in <span class="math inline">\(X\)</span>. This is typically reported in PCA as the “loadings” of the various components.</p>
-<div class="sourceCode" id="cb818"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># build sample covariance matrix</span>
-<span class="va">S</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">%*%</span> <span class="va">X</span>
-<span class="co"># compute eigenvalues and eigenvectors</span>
-<span class="va">eS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">S</span>, symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co"># W is the matrix of eigenvectors</span>
-<span class="va">W</span> <span class="op">&lt;-</span> <span class="va">eS</span><span class="op">$</span><span class="va">vectors</span>
-<span class="co"># check </span>
-<span class="va">Y</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op">%*%</span> <span class="va">W</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">Y</span>, col <span class="op">=</span> <span class="va">colors</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-347-1.png" width="672"></div>
-<div class="sourceCode" id="cb819"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">eS</span><span class="op">$</span><span class="va">values</span></code></pre></div>
+<div class="sourceCode" id="cb741"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># build sample covariance matrix</span></span>
+<span><span class="va">S</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">X</span></span>
+<span><span class="co"># compute eigenvalues and eigenvectors</span></span>
+<span><span class="va">eS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">S</span>, symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># W is the matrix of eigenvectors</span></span>
+<span><span class="va">W</span> <span class="op">&lt;-</span> <span class="va">eS</span><span class="op">$</span><span class="va">vectors</span></span>
+<span><span class="co"># check </span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">W</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Y</span>, col <span class="op">=</span> <span class="va">colors</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-306-1.png" width="672"></div>
+<div class="sourceCode" id="cb742"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eS</span><span class="op">$</span><span class="va">values</span></span></code></pre></div>
 <pre><code>## [1] 3.66123805 0.03604607</code></pre>
-<div class="sourceCode" id="cb821"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">Y</span>, <span class="fl">2</span>, <span class="va">var</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb744"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">Y</span>, <span class="fl">2</span>, <span class="va">var</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3.66123805 0.03604607</code></pre>
 <p>Therefore, PCA amounts to simply taking the eigenvectors of <span class="math inline">\(S\)</span> ordered by the corresponding eigenvalues. We can use the SVD to accomplish this task efficiently:</p>
 <p><span class="math display">\[
@@ -225,25 +224,22 @@ X = U \Sigma V^T
 Y = X W = U \Sigma V^T V = U\Sigma
 \]</span></p>
 <p>Therefore, we can perform PCA efficiently by decomposing <span class="math inline">\(X\)</span> using SVD.</p>
-<div id="pca-in-rfrom-scratch" class="section level3" number="14.3.1">
+<div id="pca-in-rfrom-scratch" class="section level3" number="12.3.1">
 <h3>
-<span class="header-section-number">14.3.1</span> PCA in R—from scratch<a class="anchor" aria-label="anchor" href="#pca-in-rfrom-scratch"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.3.1</span> PCA in R—from scratch<a class="anchor" aria-label="anchor" href="#pca-in-rfrom-scratch"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb823"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/handwritten_digits.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">arrange</span><span class="op">(</span><span class="va">id</span>, <span class="va">x</span>, <span class="va">y</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
+<div class="sourceCode" id="cb746"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/handwritten_digits.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 123392 Columns: 6
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   id = col_double(),
-##   label = col_double(),
-##   pixel = col_double(),
-##   value = col_double(),
-##   x = col_double(),
-##   y = col_double()
-## )</code></pre>
-<div class="sourceCode" id="cb825"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></code></pre></div>
+## Delimiter: ","
+## dbl (6): id, label, pixel, value, x, y
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb748"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##      id label pixel value     x     y
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -253,61 +249,61 @@ Y = X W = U \Sigma V^T V = U\Sigma
 ## 4     1     0    48     0     1     4
 ## 5     1     0    64     0     1     5
 ## 6     1     0    80     0     1     6</code></pre>
-<div class="sourceCode" id="cb827"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># make into a data matrix with pixels as cols</span>
-<span class="va">dt_wide</span> <span class="op">&lt;-</span> <span class="fu">pivot_wider</span><span class="op">(</span><span class="va">dt</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">x</span>, <span class="op">-</span><span class="va">y</span><span class="op">)</span>, 
-                       names_from <span class="op">=</span> <span class="va">pixel</span>, 
-                       values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span>
-<span class="va">X</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dt_wide</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span>, <span class="op">-</span><span class="va">label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># make col means = 0</span>
-<span class="va">Xs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co"># compute SVD</span>
-<span class="va">X_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">Xs</span><span class="op">)</span>
-<span class="co"># Y = US is the transformed data</span>
-<span class="va">Y</span> <span class="op">&lt;-</span> <span class="va">X_svd</span><span class="op">$</span><span class="va">u</span> <span class="op">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">d</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb828"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">PCA_1</span> <span class="op">&lt;-</span> <span class="va">dt_wide</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">label</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">mutate</span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">add_column</span><span class="op">(</span>PC1 <span class="op">=</span> <span class="va">Y</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, PC2 <span class="op">=</span> <span class="va">Y</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span>
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">PCA_1</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">PC1</span>, y <span class="op">=</span> <span class="va">PC2</span>, label <span class="op">=</span> <span class="va">id</span>, group <span class="op">=</span> <span class="va">label</span>, colour <span class="op">=</span> <span class="va">label</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_text</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-351-1.png" width="672"></div>
+<div class="sourceCode" id="cb750"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># make into a data matrix with pixels as cols</span></span>
+<span><span class="va">dt_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">x</span>, <span class="op">-</span><span class="va">y</span><span class="op">)</span>, </span>
+<span>                       names_from <span class="op">=</span> <span class="va">pixel</span>, </span>
+<span>                       values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dt_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span>, <span class="op">-</span><span class="va">label</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># make col means = 0</span></span>
+<span><span class="va">Xs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">X</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># compute SVD</span></span>
+<span><span class="va">X_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">Xs</span><span class="op">)</span></span>
+<span><span class="co"># Y = US is the transformed data</span></span>
+<span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="va">X_svd</span><span class="op">$</span><span class="va">u</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">X_svd</span><span class="op">$</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb751"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">PCA_1</span> <span class="op">&lt;-</span> <span class="va">dt_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">label</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span>PC1 <span class="op">=</span> <span class="va">Y</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, PC2 <span class="op">=</span> <span class="va">Y</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">PCA_1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">PC1</span>, y <span class="op">=</span> <span class="va">PC2</span>, label <span class="op">=</span> <span class="va">id</span>, group <span class="op">=</span> <span class="va">label</span>, colour <span class="op">=</span> <span class="va">label</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-310-1.png" width="672"></div>
 <p>Pretty good! Let’s see some of the poorly classified points:</p>
-<div class="sourceCode" id="cb829"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This should be a 0</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">122</span>,<span class="op">]</span>, <span class="fl">16</span>, <span class="fl">16</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, fullpage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-352-1.png" width="672"></div>
-<div class="sourceCode" id="cb830"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This should be a 1</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">141</span>,<span class="op">]</span>, <span class="fl">16</span>, <span class="fl">16</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, fullpage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-352-2.png" width="672"></div>
-<div class="sourceCode" id="cb831"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># This should be a 5</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">322</span>,<span class="op">]</span>, <span class="fl">16</span>, <span class="fl">16</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, fullpage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-352-3.png" width="672"></div>
+<div class="sourceCode" id="cb752"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This should be a 0</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">122</span>,<span class="op">]</span>, <span class="fl">16</span>, <span class="fl">16</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, fullpage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-311-1.png" width="672"></div>
+<div class="sourceCode" id="cb753"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This should be a 1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">141</span>,<span class="op">]</span>, <span class="fl">16</span>, <span class="fl">16</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, fullpage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-311-2.png" width="672"></div>
+<div class="sourceCode" id="cb754"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This should be a 5</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggimage.html">ggimage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">322</span>,<span class="op">]</span>, <span class="fl">16</span>, <span class="fl">16</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, fullpage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-311-3.png" width="672"></div>
 <p>You can also scale the variables turning the sample covariance matrix <span class="math inline">\(S\)</span> into a correlation matrix (this is useful when the variance of different measurements varies substantially).</p>
 </div>
-<div id="pca-in-r-the-easy-way" class="section level3" number="14.3.2">
+<div id="pca-in-r-the-easy-way" class="section level3" number="12.3.2">
 <h3>
-<span class="header-section-number">14.3.2</span> PCA in R — the easy way<a class="anchor" aria-label="anchor" href="#pca-in-r-the-easy-way"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.3.2</span> PCA in R — the easy way<a class="anchor" aria-label="anchor" href="#pca-in-r-the-easy-way"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb832"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify">ggfortify</a></span><span class="op">)</span>
-<span class="co"># for prcomp, you need only numeric data</span>
-<span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dt_wide</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span>, <span class="op">-</span><span class="va">label</span><span class="op">)</span>
-<span class="va">PCA_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">PCA_3</span>, 
-         data <span class="op">=</span> <span class="va">dt_wide</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span>, 
-         colour <span class="op">=</span> <span class="st">"label"</span>,
-         frame <span class="op">=</span> <span class="cn">TRUE</span>, frame.type <span class="op">=</span> <span class="st">'norm'</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-353-1.png" width="672"></div>
+<div class="sourceCode" id="cb755"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify">ggfortify</a></span><span class="op">)</span></span>
+<span><span class="co"># for prcomp, you need only numeric data</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">dt_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span>, <span class="op">-</span><span class="va">label</span><span class="op">)</span></span>
+<span><span class="va">PCA_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">PCA_3</span>, </span>
+<span>         data <span class="op">=</span> <span class="va">dt_wide</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">label</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>         colour <span class="op">=</span> <span class="st">"label"</span>,</span>
+<span>         frame <span class="op">=</span> <span class="cn">TRUE</span>, frame.type <span class="op">=</span> <span class="st">'norm'</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-312-1.png" width="672"></div>
 </div>
 </div>
-<div id="multidimensional-scaling" class="section level2" number="14.4">
+<div id="multidimensional-scaling" class="section level2" number="12.4">
 <h2>
-<span class="header-section-number">14.4</span> Multidimensional scaling<a class="anchor" aria-label="anchor" href="#multidimensional-scaling"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.4</span> Multidimensional scaling<a class="anchor" aria-label="anchor" href="#multidimensional-scaling"><i class="fas fa-link"></i></a>
 </h2>
 <p>The input is the matrix of dissimilarities <span class="math inline">\(D\)</span>, potentially representing distances <span class="math inline">\(d_{ij} = d(x_i, x_j)\)</span>. A distance function is “metric” if:</p>
 <ul>
@@ -321,16 +317,16 @@ Y = X W = U \Sigma V^T V = U\Sigma
 <span class="math inline">\(d(x_i, x_k) \leq d(x_i, x_j) + d(x_j, x_k)\)</span> (triangle inequality)</li>
 </ul>
 <p>Given a set of dissimilarities, we can therefore ask whether they are distances, and particularly whether they represent Euclidean distances.</p>
-<div id="goal-of-mds" class="section level3" number="14.4.1">
+<div id="goal-of-mds" class="section level3" number="12.4.1">
 <h3>
-<span class="header-section-number">14.4.1</span> Goal of MDS<a class="anchor" aria-label="anchor" href="#goal-of-mds"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.4.1</span> Goal of MDS<a class="anchor" aria-label="anchor" href="#goal-of-mds"><i class="fas fa-link"></i></a>
 </h3>
 <p>Given the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(D\)</span>, find a set of coordinates <span class="math inline">\(x_i, \ldots x_n \in \mathbb R^p\)</span>, such that <span class="math inline">\(d_{ij} \approx \lVert x_i - x_j \rVert_2\)</span> (as close as possible). The operator <span class="math inline">\(\lVert \cdot \rVert_2\)</span> is the Euclidean norm, measuring Euclidean distance.</p>
 <p>As such, if we can find a perfect solution, then the dissimilarities can be mapped into Euclidean distances in a <span class="math inline">\(k\)</span>-dimensional space.</p>
 </div>
-<div id="classic-mds" class="section level3" number="14.4.2">
+<div id="classic-mds" class="section level3" number="12.4.2">
 <h3>
-<span class="header-section-number">14.4.2</span> Classic MDS<a class="anchor" aria-label="anchor" href="#classic-mds"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.4.2</span> Classic MDS<a class="anchor" aria-label="anchor" href="#classic-mds"><i class="fas fa-link"></i></a>
 </h3>
 <p>Suppose that the elements of <span class="math inline">\(D\)</span> measure Euclidean distances between <span class="math inline">\(n\)</span> points, each of which has <span class="math inline">\(k\)</span> coordinates:</p>
 <p><span class="math display">\[
@@ -353,11 +349,11 @@ And the matrix <span class="math inline">\(B = X X^t\)</span>, whose coefficient
 \]</span></p>
 <p>Now we compute:</p>
 <p><span class="math display">\[
-\sum_i d_{ij}^2 = \sum_i (B_{ii} + B_{jj} - 2 B_{ij}) = \sum_i B_{ii} + \sum_i B_{jj} - 2 \sum_i B_{ij} = \text{Tr}(B) + n B_{jj} 
+\sum_i d_{ij}^2 = \sum_i (B_{ii} + B_{jj} - 2 B_{ij}) = \sum_i B_{ii} + \sum_i B_{jj} - 2 \sum_i B_{ij} = \text{Tr}(B) + n B_{jj}
 \]</span></p>
 <p>Similarly (distances are symmetric):</p>
 <p><span class="math display">\[
-\sum_j d_{ij}^2 = \text{Tr}(B) + n B_{ii} 
+\sum_j d_{ij}^2 = \text{Tr}(B) + n B_{ii}
 \]</span></p>
 <p>And, finally:</p>
 <p><span class="math display">\[
@@ -372,7 +368,7 @@ B_{ii} = \frac{\sum_j d_{ij}^2}{n} - \frac{\sum_i \sum_j d_{ij}^2 }{2 n^2}
 B_{jj} = \frac{\sum_i d_{ij}^2}{n} - \frac{\sum_i \sum_j d_{ij}^2 }{2 n^2}
 \]</span></p>
 <p>Therefore:</p>
-<p><span class="math display">\[ 
+<p><span class="math display">\[
 B_{ij} = -\frac{1}{2}(d_{ij}^2 - B_{ii} - B_{jj}) = -\frac{1}{2}\left(d_{ij}^2 - \frac{\sum_i d_{ij}^2}{n} - \frac{\sum_j d_{ij}^2}{n}  + \frac{\sum_i \sum_j d_{ij}^2 }{n^2} \right)
 \]</span></p>
 <p>With some algebra, one can show that this is equivalent to:</p>
@@ -384,26 +380,27 @@ B = X X^t = Q \Lambda Q^t
 <p>(where <span class="math inline">\(Q\)</span> is the matrix of eigenvectors of <span class="math inline">\(B\)</span>, and <span class="math inline">\(\Lambda\)</span> a diagonal matrix of the eigenvalues of <span class="math inline">\(B\)</span>). Therefore:</p>
 <p><span class="math display">\[ X = Q \Lambda^{\frac{1}{2}}\]</span></p>
 <p>For example, let’s look at the driving distance in <em>km</em> between cities in the US:</p>
-<div class="sourceCode" id="cb833"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># read distances US</span>
-<span class="va">usa</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/dist_US.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
+<div class="sourceCode" id="cb756"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># read distances US</span></span>
+<span><span class="va">usa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/dist_US.csv"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 265356 Columns: 3
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   from = col_character(),
-##   to = col_character(),
-##   dist = col_double()
-## )</code></pre>
-<div class="sourceCode" id="cb835"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># make into a matrix of distances</span>
-<span class="va">M</span> <span class="op">&lt;-</span> <span class="va">usa</span> <span class="op">%&gt;%</span> <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">to</span>, values_from <span class="op">=</span> <span class="va">`dist`</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">from</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">M</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span> 
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>
-<span class="co"># make symmetric</span>
-<span class="va">M</span> <span class="op">&lt;-</span> <span class="va">M</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>
-<span class="va">M</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></code></pre></div>
+## Delimiter: ","
+## chr (2): from, to
+## dbl (1): dist
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb758"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># make into a matrix of distances</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="va">usa</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">to</span>, values_from <span class="op">=</span> <span class="va">`dist`</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">from</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">M</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
+<span><span class="co"># make symmetric</span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="va">M</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
+<span><span class="va">M</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                                        Abilene, TX, United States
 ## Abilene, TX, United States                                   0.00
 ## Ahwatukee Foothills, AZ, United States                    1487.19
@@ -411,34 +408,34 @@ B = X X^t = Q \Lambda Q^t
 ## Abilene, TX, United States                                            1487.19
 ## Ahwatukee Foothills, AZ, United States                                   0.00</code></pre>
 <p>And perform classic MDS using two dimensions:</p>
-<div class="sourceCode" id="cb837"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mds_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cmdscale.html">cmdscale</a></span><span class="op">(</span><span class="va">M</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># k is the dimension of the embedding</span>
-<span class="va">mds_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, 
-                  x <span class="op">=</span> <span class="va">mds_fit</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">mds_fit</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span>
-<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">mds_fit</span> <span class="op">%&gt;%</span> 
-  <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">mds_fit</span><span class="op">$</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">show</span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-355-1.png" width="672"></div>
-<div class="sourceCode" id="cb838"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># highlight some major cities</span>
-<span class="va">hh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">122</span>, <span class="fl">175</span>, <span class="fl">177</span>, <span class="fl">373</span>, <span class="fl">408</span>, <span class="fl">445</span>, <span class="fl">572</span>, <span class="fl">596</span>, <span class="fl">691</span><span class="op">)</span>
-<span class="va">mds_highlight</span> <span class="op">&lt;-</span> <span class="va">mds_fit</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="va">hh</span><span class="op">)</span>
-<span class="fu">show</span><span class="op">(</span><span class="va">pl</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">mds_highlight</span>, <span class="fu">aes</span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">[</span><span class="va">hh</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-355-2.png" width="672"></div>
+<div class="sourceCode" id="cb760"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mds_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cmdscale.html">cmdscale</a></span><span class="op">(</span><span class="va">M</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># k is the dimension of the embedding</span></span>
+<span><span class="va">mds_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, </span>
+<span>                  x <span class="op">=</span> <span class="va">mds_fit</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">mds_fit</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">mds_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">mds_fit</span><span class="op">$</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-314-1.png" width="672"></div>
+<div class="sourceCode" id="cb761"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># highlight some major cities</span></span>
+<span><span class="va">hh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">122</span>, <span class="fl">175</span>, <span class="fl">177</span>, <span class="fl">373</span>, <span class="fl">408</span>, <span class="fl">445</span>, <span class="fl">572</span>, <span class="fl">596</span>, <span class="fl">691</span><span class="op">)</span></span>
+<span><span class="va">mds_highlight</span> <span class="op">&lt;-</span> <span class="va">mds_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="va">hh</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data  <span class="op">=</span> <span class="va">mds_highlight</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">[</span><span class="va">hh</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-314-2.png" width="672"></div>
 </div>
 </div>
-<div id="readings-1" class="section level2" number="14.5">
+<div id="readings-1" class="section level2" number="12.5">
 <h2>
-<span class="header-section-number">14.5</span> Readings<a class="anchor" aria-label="anchor" href="#readings-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.5</span> Readings<a class="anchor" aria-label="anchor" href="#readings-1"><i class="fas fa-link"></i></a>
 </h2>
 <p>SVD is the most important decomposition, but several interesting variations have been proposed for data science. Read this <a href="http://www.columbia.edu/~jwp2128/Teaching/E4903/papers/nmf_nature.pdf">very cool paper</a> on face recognition using Non-negative Matrix Factorization.</p>
-<div id="exercise-pca-sommelier" class="section level3" number="14.5.1">
+<div id="exercise-pca-sommelier" class="section level3" number="12.5.1">
 <h3>
-<span class="header-section-number">14.5.1</span> Exercise: PCA sommelier<a class="anchor" aria-label="anchor" href="#exercise-pca-sommelier"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.5.1</span> Exercise: PCA sommelier<a class="anchor" aria-label="anchor" href="#exercise-pca-sommelier"><i class="fas fa-link"></i></a>
 </h3>
 <p>The file <code>Wine.csv</code> contains several measures made on 178 wines from Piedmont, produced using three different grapes (column <code>Grape</code>, with 1 = Barolo, 2 = Grignolino, 3 = Barbera). Use the 13 measured variables (i.e., all but <code>Grape</code>) to perform a PCA. First, do it “the hard way” using SVD, and then, calling the <code>prcomp</code> function. Can you recover the right classification of grapes?</p>
 
@@ -446,28 +443,28 @@ B = X X^t = Q \Lambda Q^t
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></div>
-<div class="next"><a href="clustering.html"><span class="header-section-number">15</span> Clustering</a></div>
+<div class="prev"><a href="model-selection.html"><span class="header-section-number">11</span> Model Selection</a></div>
+<div class="next"><a href="clustering.html"><span class="header-section-number">13</span> Clustering</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#principal-component-analysis"><span class="header-section-number">14</span> Principal Component Analysis</a></li>
-<li><a class="nav-link" href="#input"><span class="header-section-number">14.1</span> Input</a></li>
-<li><a class="nav-link" href="#singular-value-decomposition"><span class="header-section-number">14.2</span> Singular Value Decomposition</a></li>
+<li><a class="nav-link" href="#principal-component-analysis"><span class="header-section-number">12</span> Principal Component Analysis</a></li>
+<li><a class="nav-link" href="#input"><span class="header-section-number">12.1</span> Input</a></li>
+<li><a class="nav-link" href="#singular-value-decomposition"><span class="header-section-number">12.2</span> Singular Value Decomposition</a></li>
 <li>
-<a class="nav-link" href="#svd-and-pca"><span class="header-section-number">14.3</span> SVD and PCA</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#pca-in-rfrom-scratch"><span class="header-section-number">14.3.1</span> PCA in R—from scratch</a></li>
-<li><a class="nav-link" href="#pca-in-r-the-easy-way"><span class="header-section-number">14.3.2</span> PCA in R — the easy way</a></li>
+<a class="nav-link" href="#svd-and-pca"><span class="header-section-number">12.3</span> SVD and PCA</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#pca-in-rfrom-scratch"><span class="header-section-number">12.3.1</span> PCA in R—from scratch</a></li>
+<li><a class="nav-link" href="#pca-in-r-the-easy-way"><span class="header-section-number">12.3.2</span> PCA in R — the easy way</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#multidimensional-scaling"><span class="header-section-number">14.4</span> Multidimensional scaling</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#goal-of-mds"><span class="header-section-number">14.4.1</span> Goal of MDS</a></li>
-<li><a class="nav-link" href="#classic-mds"><span class="header-section-number">14.4.2</span> Classic MDS</a></li>
+<a class="nav-link" href="#multidimensional-scaling"><span class="header-section-number">12.4</span> Multidimensional scaling</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#goal-of-mds"><span class="header-section-number">12.4.1</span> Goal of MDS</a></li>
+<li><a class="nav-link" href="#classic-mds"><span class="header-section-number">12.4.2</span> Classic MDS</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#readings-1"><span class="header-section-number">14.5</span> Readings</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-pca-sommelier"><span class="header-section-number">14.5.1</span> Exercise: PCA sommelier</a></li></ul>
+<a class="nav-link" href="#readings-1"><span class="header-section-number">12.5</span> Readings</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#exercise-pca-sommelier"><span class="header-section-number">12.5.1</span> Exercise: PCA sommelier</a></li></ul>
 </li>
 </ul>
 
@@ -485,7 +482,7 @@ B = X X^t = Q \Lambda Q^t
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-11-18.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -498,7 +495,7 @@ B = X X^t = Q \Lambda Q^t
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
