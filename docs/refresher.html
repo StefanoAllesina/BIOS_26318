@@ -976,27 +976,27 @@ and run a script to confirm your intuition.</p>
 <p>To perform randomization, or any simulation, we typically need to draw random numbers. <code>R</code> has functions to sample random numbers from very many different statistical distributions. For example:</p>
 <div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="co"># sample 5 numbers from the uniform distribution between 0 and 1</span></span></code></pre></div>
-<pre><code>## [1] 0.28906222 0.16575193 0.94907872 0.59507308 0.01079547</code></pre>
+<pre><code>## [1] 0.4669427 0.6138969 0.3253898 0.1371946 0.2737760</code></pre>
 <div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">5</span>, min <span class="op">=</span> <span class="fl">1</span>, max <span class="op">=</span> <span class="fl">9</span><span class="op">)</span> <span class="co"># set the limits of the uniform distribution</span></span></code></pre></div>
-<pre><code>## [1] 7.587589 7.866954 2.817504 2.226143 6.905018</code></pre>
+<pre><code>## [1] 4.102789 7.508214 5.753264 8.532641 1.480883</code></pre>
 <div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="co"># three values from standard normal</span></span></code></pre></div>
-<pre><code>## [1]  1.9691503  1.3336412 -0.1557662</code></pre>
+<pre><code>## [1]  0.9667556 -1.7101193 -0.9143072</code></pre>
 <div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">3</span>, mean <span class="op">=</span> <span class="fl">5</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># specify mean and standard deviation</span></span></code></pre></div>
-<pre><code>## [1]  9.026505 12.814881  2.331343</code></pre>
+<pre><code>## [1] 6.290000 4.152489 8.474584</code></pre>
 <p>To sample from a set of values, use <code>sample</code>:</p>
 <div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">v</span>, <span class="fl">2</span><span class="op">)</span> <span class="co"># without replacement</span></span></code></pre></div>
-<pre><code>## [1] "c" "a"</code></pre>
+<pre><code>## [1] "d" "a"</code></pre>
 <div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">v</span>, <span class="fl">6</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># with replacement</span></span></code></pre></div>
-<pre><code>## [1] "b" "d" "d" "d" "d" "c"</code></pre>
+<pre><code>## [1] "c" "a" "a" "b" "c" "d"</code></pre>
 <div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="co"># simply shuffle the elements</span></span></code></pre></div>
-<pre><code>## [1] "a" "c" "d" "b"</code></pre>
+<pre><code>## [1] "a" "b" "c" "d"</code></pre>
 </div>
 <div id="writing-functions" class="section level2" number="1.13">
 <h2>
@@ -1059,7 +1059,7 @@ and run a script to confirm your intuition.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu">order_two_numbers</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 0.4903198 0.3222048</code></pre>
+<pre><code>## [1] 0.6199413 0.3911725</code></pre>
 </div>
 <div id="organizing-and-running-code" class="section level2" number="1.14">
 <h2>
@@ -1322,7 +1322,7 @@ print("hello world!")
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

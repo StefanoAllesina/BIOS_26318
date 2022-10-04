@@ -84,7 +84,7 @@
 <p>The goal of model selection is to provide you with a disciplined way to choose among competing models. While there is no consensus on a single technique to perform model selection (we will examine some of the alternative paradigms below), all techniques are inspired by Occam’s razor: given models of similar explanatory power, choose the simplest.</p>
 <p>But what does “simplest” mean? Measuring a model’s “complexity” is far from trivial, hence the different schools of thought. Some approaches simply count the number of free parameters, and penalize models with more parameters; others take into account how much each parameter should be “fine-tuned” to fit the data; other approaches are based on entirely different premises.</p>
 <p>But why should you choose the simplest model? First, simpler models are easier to analyze, so that for example you could make analytical headway into the mechanics of the process you want to model; simpler models are also considered more beautiful. Second, you want to avoid <em>over-fitting</em>: each biological data set—however carefully crafted—is noisy, and you want to fit the signal, not the noise. If you include too much flexibility in your model, you will get what looks like an excellent fit for the specific data set, but you will be unable to fit other data sets to which your model should also apply.</p>
-<div class="sourceCode" id="cb609"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb610"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># our friend </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://richarddmorey.github.io/BayesFactor/">BayesFactor</a></span><span class="op">)</span> <span class="co"># Bayesian model selection</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span>  <span class="co"># for the parsnip package, along with the rest of tidymodels</span></span>
@@ -172,7 +172,7 @@ Showing that by minimizing the sum of squares, we are maximizing the likelihood.
 </h4>
 <p><em>Nested</em> means that model <span class="math inline">\(\mathcal M_1\)</span> has parameters <span class="math inline">\(\theta_1\)</span>, and model <span class="math inline">\(\mathcal M_2\)</span> has parameters <span class="math inline">\(\theta_2\)</span>, such that <span class="math inline">\(\theta_1 \in \theta_2\)</span> — by setting some of the parameters of <span class="math inline">\(\mathcal M_2\)</span> to particular values, we recover <span class="math inline">\(\mathcal M_1\)</span>.</p>
 <p>For example, suppose we want to model the height of trees. We measure the response variable (height of tree <span class="math inline">\(i\)</span>, <span class="math inline">\(h_i\)</span>) as well as the girth (<span class="math inline">\(g_i\)</span>). We actually have a data set that ships with <code>R</code> that contains exactly this type of data:</p>
-<div class="sourceCode" id="cb610"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb611"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##   Girth Height Volume
@@ -183,10 +183,10 @@ Showing that by minimizing the sum of squares, we are maximizing the likelihood.
 ## 5  10.7     81   18.8
 ## 6  10.8     83   19.7</code></pre>
 <p>The <code>Height</code> of these cherry trees is measured in feet; the <code>Girth</code> is the diameter in inches, and the <code>Volume</code> is the measuring the amount of timber in cubic feet. Let’s add a <code>Radius</code> measured in feet:</p>
-<div class="sourceCode" id="cb612"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb613"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> <span class="op">(</span>Radius <span class="op">=</span> <span class="va">Girth</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span> <span class="co"># diameter to radius; inches to feet</span></span></code></pre></div>
 <p>Let’s look at the distribution of three heights:</p>
-<div class="sourceCode" id="cb613"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb614"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-261-1.png" width="672"></div>
 <p>A possible simple model is one that says that all tree heights have heights taken from a Gaussian distribution with a given mean. In the context of linear regression, we can write the model <span class="math inline">\(\mathcal M_0\)</span>:</p>
@@ -195,24 +195,24 @@ h_i = \theta_0 + \epsilon_i
 \]</span>
 where we assume that the errors <span class="math inline">\(\epsilon_i \overset{\text{iid}}{\sim} \mathcal N(0, \sigma^2)\)</span>. Now fit the model, obtaining <span class="math inline">\(\hat{\theta_0}\)</span>, and compute the maximum log-likelihood <span class="math inline">\(\mathcal L_0(\hat{\theta_0}, \hat{\sigma}^2 \vert h)\)</span>.</p>
 <p>In <code>R</code>, we would call:</p>
-<div class="sourceCode" id="cb614"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb615"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trees</span>, <span class="va">Height</span> <span class="op">~</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># only intercept</span></span>
 <span><span class="co"># the m.l.e. of theta_0</span></span>
 <span><span class="va">theta0_M0</span> <span class="op">&lt;-</span> <span class="va">M0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">theta0_M0</span></span></code></pre></div>
 <pre><code>## (Intercept) 
 ##          76</code></pre>
-<div class="sourceCode" id="cb616"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb617"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># log likelihood</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M0</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 'log Lik.' -100.8873 (df=2)</code></pre>
 <p>Now let’s plot the height of the trees vs. their radius:</p>
-<div class="sourceCode" id="cb618"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb619"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Radius</span>, y <span class="op">=</span> <span class="va">Height</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-263-1.png" width="672"></div>
 <p>And compute their correlation:</p>
-<div class="sourceCode" id="cb619"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb620"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">trees</span><span class="op">$</span><span class="va">Radius</span>, <span class="va">trees</span><span class="op">$</span><span class="va">Height</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.5192801</code></pre>
 <p>Given the positive correlation between radius and height, we can build a more complex model in which the height also depends on radius (<span class="math inline">\(\mathcal M_1\)</span>):</p>
@@ -221,7 +221,7 @@ h_i = \theta_0 + \theta_1 r_i + \epsilon_i
 \]</span>
 as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the parameters (note that <span class="math inline">\(\hat{\theta_0}\)</span> for model <span class="math inline">\(\mathcal M_0\)</span> will in general be different from <span class="math inline">\(\hat{\theta_0}\)</span> for model <span class="math inline">\(\mathcal M_1\)</span>), and compute <span class="math inline">\(\mathcal L_1(\hat{\theta_0},\hat{\theta_1},\hat{\sigma}^2 \vert h)\)</span>. These two models are nested, because when setting <span class="math inline">\(\theta_1 = 0\)</span> we recover <span class="math inline">\(\mathcal M_0\)</span>.</p>
 <p>In <code>R</code>:</p>
-<div class="sourceCode" id="cb621"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb622"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trees</span>, <span class="va">Height</span> <span class="op">~</span> <span class="va">Radius</span><span class="op">)</span> <span class="co"># intercept and slope</span></span>
 <span><span class="va">theta0_M1</span> <span class="op">&lt;-</span> <span class="va">M1</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">theta1_M1</span> <span class="op">&lt;-</span> <span class="va">M1</span><span class="op">$</span><span class="va">coefficients</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
@@ -229,37 +229,37 @@ as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the paramete
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">theta0_M1</span>, <span class="va">theta0_M1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## (Intercept) (Intercept) 
 ##    62.03131    62.03131</code></pre>
-<div class="sourceCode" id="cb623"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb624"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the log likelihood should improve</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 'log Lik.' -96.01663 (df=3)</code></pre>
 <p>Which model should we use? You can see that adding an extra parameter improved the likelihood somewhat.</p>
 <p>Enter the likelihood-ratio test. We want to know whether it’s worth using the more complex model, and to do this we need to calculate a likelihood-ratio statistics. We’re helped by <em>Wilks’ theorem</em>: as the sample size <span class="math inline">\(n \to \infty\)</span>, the test statistics <span class="math inline">\(2 \log(L_1 / L_0)\)</span> is asymptotically <span class="math inline">\(\chi^2\)</span> distributed with degrees of freedom equal to the difference in the number of parameters between <span class="math inline">\(\mathcal M_1\)</span> and <span class="math inline">\(\mathcal M_0\)</span>.</p>
 <p>While there are many caveats [^1] this method is commonly used in practice.</p>
-<div class="sourceCode" id="cb625"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb626"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 2 * log-likelihood ratio</span></span>
 <span><span class="va">lrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"2 log(L1 / L0)"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "2 log(L1 / L0)"</code></pre>
-<div class="sourceCode" id="cb627"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb628"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">lrt</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 9.74125</code></pre>
-<div class="sourceCode" id="cb629"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb630"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># difference in parameters</span></span>
 <span><span class="va">df0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">M0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span></span>
 <span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">M1</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span></span>
 <span><span class="va">k</span> <span class="op">&lt;-</span> <span class="va">df1</span> <span class="op">-</span> <span class="va">df0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Number of extra parameters"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "Number of extra parameters"</code></pre>
-<div class="sourceCode" id="cb631"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb632"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb633"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb634"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate (approximate) p-value</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq</a></span><span class="op">(</span><span class="va">lrt</span>, <span class="va">k</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"p-value using Chi^2 with"</span>, <span class="va">k</span>, <span class="st">"degrees of freedom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "p-value using Chi^2 with 1 degrees of freedom"</code></pre>
-<div class="sourceCode" id="cb635"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb636"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">res</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.0018</code></pre>
 <p>In this case, the likelihood-ratio test would favor the use of the more complex model.</p>
@@ -275,59 +275,59 @@ as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the paramete
 <span class="header-section-number">11.5.0.2</span> Adding more models<a class="anchor" aria-label="anchor" href="#adding-more-models"><i class="fas fa-link"></i></a>
 </h4>
 <p>The data also contains a column with the volume. Let’s take a look:</p>
-<div class="sourceCode" id="cb637"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb638"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Volume</span>, y <span class="op">=</span> <span class="va">Height</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-267-1.png" width="672"></div>
 <p>And look at the correlation</p>
-<div class="sourceCode" id="cb638"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb639"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">trees</span><span class="op">$</span><span class="va">Volume</span>, <span class="va">trees</span><span class="op">$</span><span class="va">Height</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.5982497</code></pre>
 <p>We can build another model:</p>
-<div class="sourceCode" id="cb640"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb641"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">trees</span>, <span class="va">Height</span> <span class="op">~</span> <span class="va">Volume</span><span class="op">)</span> <span class="co"># intercept and slope</span></span></code></pre></div>
 <p>Compute the log likelihood:</p>
-<div class="sourceCode" id="cb641"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb642"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 'log Lik.' -94.02052 (df=3)</code></pre>
 <p>and test whether that’s better than the (nested) model 0:</p>
-<div class="sourceCode" id="cb643"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb644"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 2 * log-likelihood ratio</span></span>
 <span><span class="va">lrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M2</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"2 log(L2 / L0)"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "2 log(L2 / L0)"</code></pre>
-<div class="sourceCode" id="cb645"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb646"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">lrt</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 13.73348</code></pre>
-<div class="sourceCode" id="cb647"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb648"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># difference in parameters</span></span>
 <span><span class="va">df0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">M0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span></span>
 <span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">M2</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span></span>
 <span><span class="va">k</span> <span class="op">&lt;-</span> <span class="va">df1</span> <span class="op">-</span> <span class="va">df0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"Number of extra parameters"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "Number of extra parameters"</code></pre>
-<div class="sourceCode" id="cb649"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb650"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">k</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb651"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb652"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate (approximate) p-value</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq</a></span><span class="op">(</span><span class="va">lrt</span>, <span class="va">k</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"p-value using Chi^2 with"</span>, <span class="va">k</span>, <span class="st">"degrees of freedom"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "p-value using Chi^2 with 1 degrees of freedom"</code></pre>
-<div class="sourceCode" id="cb653"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb654"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">res</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2e-04</code></pre>
 <p>Also in this case, the likelihood-ratio test would favor the use of the more complex model. But how can we contrast the two more complex models <span class="math inline">\(\mathcal M_1\)</span> and <span class="math inline">\(\mathcal M_2\)</span>? They are not nested!</p>
 <p>In fact, we can even concoct another model that uses a mix of radius and volume. If we assume that trees are cylinders, then we have <span class="math inline">\(V = \pi r^2 h\)</span>, and as such <span class="math inline">\(h = V / (\pi r^2)\)</span>. We can test whether this is a good approximation by creating a new variable:</p>
-<div class="sourceCode" id="cb655"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Guess <span class="op">=</span> <span class="va">Radius</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb656"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Guess <span class="op">=</span> <span class="va">Radius</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb657"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trees</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Guess</span>, y <span class="op">=</span> <span class="va">Height</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-273-1.png" width="672"></div>
-<div class="sourceCode" id="cb657"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb658"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">trees</span><span class="op">$</span><span class="va">Guess</span>, <span class="va">trees</span><span class="op">$</span><span class="va">Height</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.5084267</code></pre>
 <p>Pretty good! Let’s add it to our list of models:</p>
-<div class="sourceCode" id="cb659"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb660"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Height</span> <span class="op">~</span> <span class="va">Guess</span>, data <span class="op">=</span> <span class="va">trees</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">M3</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 'log Lik.' -96.25156 (df=3)</code></pre>
@@ -341,16 +341,16 @@ as for model <span class="math inline">\(\mathcal M_0\)</span>, fit the paramete
 <p>In the early 1970s, Hirotugu Akaike proposed “an information criterion” (AIC, now known as Akaike’s Information Criterion), based, as the name implies, on information theory. Basically, AIC is measuring (asymptotically) the information loss when using the model in lieu of the actual data. Philosophically, it is rooted in the idea that there is a “true model” that generated the data, and that several possible models can serve as its approximation. Practically, it is very easy to compute:</p>
 <p><span class="math display">\[AIC = -2 \mathcal L(\theta \vert D) + 2 k\]</span></p>
 <p>where <span class="math inline">\(k\)</span> is the number of free parameters (e.g., 3 for the simplest linear regression [intercept, slope, variance of the residuals]). In <code>R</code>, many models provide a way to access their AIC score:</p>
-<div class="sourceCode" id="cb661"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb662"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">M0</span><span class="op">)</span> <span class="co"># only intercept</span></span></code></pre></div>
 <pre><code>## [1] 205.7745</code></pre>
-<div class="sourceCode" id="cb663"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb664"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">M1</span><span class="op">)</span> <span class="co"># use radius</span></span></code></pre></div>
 <pre><code>## [1] 198.0333</code></pre>
-<div class="sourceCode" id="cb665"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb666"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">M2</span><span class="op">)</span> <span class="co"># use volume</span></span></code></pre></div>
 <pre><code>## [1] 194.041</code></pre>
-<div class="sourceCode" id="cb667"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb668"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">M3</span><span class="op">)</span> <span class="co"># use cylinder</span></span></code></pre></div>
 <pre><code>## [1] 198.5031</code></pre>
 <p>You can see that AIC favors the cylinder model over the others. Typically, a difference of about 2 is considered “significant”, though of course this really depends on the size of the data, the values of AIC, etc.</p>
@@ -412,7 +412,7 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 </h3>
 <p>In practice, Bayes Factors can be estimated from MCMC. While we’re not going to get into this here, we can use a package that a) automatically sets the priors for all the variables (close to the philosophy known as “Objective Bayes”); b) performs the calculation of the Bayes Factors for us.</p>
 <p>Let’s build very many models. Load the data:</p>
-<div class="sourceCode" id="cb669"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb670"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##   Girth Height Volume
@@ -422,11 +422,11 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 ## 4  10.5     72   16.4
 ## 5  10.7     81   18.8
 ## 6  10.8     83   19.7</code></pre>
-<div class="sourceCode" id="cb671"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb672"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trees</span><span class="op">$</span><span class="va">Radius</span> <span class="op">&lt;-</span> <span class="va">trees</span><span class="op">$</span><span class="va">Girth</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">trees</span><span class="op">$</span><span class="va">Guess</span> <span class="op">&lt;-</span> <span class="va">trees</span><span class="op">$</span><span class="va">Volume</span> <span class="op">/</span> <span class="va">trees</span><span class="op">$</span><span class="va">Radius</span><span class="op">^</span><span class="fl">2</span></span></code></pre></div>
 <p>And build the models:</p>
-<div class="sourceCode" id="cb672"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb673"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lm_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Height</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trees</span><span class="op">)</span> <span class="co"># . means use all cols besides Height</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_all</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -450,11 +450,11 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 ## Residual standard error: 4.023 on 27 degrees of freedom
 ## Multiple R-squared:  0.6413, Adjusted R-squared:  0.6014 
 ## F-statistic: 16.09 on 3 and 27 DF,  p-value: 3.391e-06</code></pre>
-<div class="sourceCode" id="cb674"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb675"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/logLik.html">logLik</a></span><span class="op">(</span><span class="va">lm_all</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 'log Lik.' -84.99667 (df=5)</code></pre>
 <p>Perform selection among all models nested into <code>lm_all</code>:</p>
-<div class="sourceCode" id="cb676"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb677"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bf_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BayesFactor/man/regressionBF.html">regressionBF</a></span><span class="op">(</span><span class="va">Height</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trees</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">bf_analysis</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-279-1.png" width="672"></div>
@@ -472,7 +472,7 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <span class="header-section-number">11.9</span> Using tidymodels for modeling and cross-validation<a class="anchor" aria-label="anchor" href="#using-tidymodels-for-modeling-and-cross-validation"><i class="fas fa-link"></i></a>
 </h2>
 <p>There is an excellent suite of packages called <code>tidymodels</code> that offers very beautiful and streamlined tools for building models, training them, and evaluating their results. We will use the Palmer penguins data as an application, with the aim of building a predictive model for the bill length of penguins. Let us first examine the data graphically to see the relationship between body mass and bill length:</p>
-<div class="sourceCode" id="cb677"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb678"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span> x<span class="op">=</span> <span class="va">body_mass_g</span>, y<span class="op">=</span> <span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -485,7 +485,7 @@ P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} 
 <div class="inline-figure">
 <img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-280-1.png" width="672">
 There is clearly a relationship, but would it help to add species and sex as variables? Let us see:</div>
-<div class="sourceCode" id="cb681"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb682"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span> x<span class="op">=</span> <span class="va">body_mass_g</span>, y<span class="op">=</span> <span class="va">bill_length_mm</span>, color <span class="op">=</span> <span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -495,12 +495,12 @@ There is clearly a relationship, but would it help to add species and sex as var
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-281-1.png" width="672"></div>
 <p>It certainly appears that including sex and species will result in a better fit. Let us try to compare the models we build using the syntax of <code>tidymodels</code>.</p>
 <p>First, we need to create the model that we will use in the pipeline. This is created like this:</p>
-<div class="sourceCode" id="cb683"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb684"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lm_mod</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we clean the data and split it into the training and testing sets, and create a <em>recipe</em> that specifies the data set and the response variable that we want to model. The other variables are left as the predictors, but we can take them out of consideration by <em>changing the role</em> of those variables to “ID”. In this recipe, the only predictor (explanatory) variable in the data set is body_mass_g.</p>
-<div class="sourceCode" id="cb684"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb685"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">pen_clean</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">bill_length_mm</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Fix the random numbers by setting the seed  for reproducibility</span></span>
@@ -517,7 +517,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span>  <span class="co">#update_role(sex, island, year, species, bill_depth_mm, flipper_length_mm, new_role = "ID")</span></span>
 <span>  <span class="fu">update_role</span><span class="op">(</span><span class="va">sex</span>, <span class="va">island</span>, <span class="va">species</span>, <span class="va">bill_depth_mm</span>, <span class="va">flipper_length_mm</span>, new_role <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> </span></code></pre></div>
 <p>We can now combine the recipe for the data and the model to create a <em>workflow</em> for training the data with a model, and then use it to create a fit:</p>
-<div class="sourceCode" id="cb685"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb686"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create workflow</span></span>
 <span><span class="va">pen_wflow</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -528,7 +528,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span>  <span class="va">pen_wflow</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">fit</span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_data</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, we can extract all sorts of information, such as best-fit parameters, errors, p-values, and likelihoods generated by the fit:</p>
-<div class="sourceCode" id="cb686"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb687"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="va">pen_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">extract_fit_parsnip</span><span class="op">(</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">fit1</span><span class="op">)</span></span></code></pre></div>
@@ -537,7 +537,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept) 26.9      1.52          17.8 4.71e-46
 ## 2 body_mass_g  0.00406  0.000351      11.6 5.41e-25</code></pre>
-<div class="sourceCode" id="cb688"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb689"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">fit1</span><span class="op">)</span> <span class="co"># </span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 12
 ##   r.squared adj.r.squa…¹ sigma stati…²  p.value    df logLik   AIC   BIC devia…³
@@ -547,7 +547,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## #   variable names ¹​adj.r.squared, ²​statistic, ³​deviance</code></pre>
 <p>The <code>tidy</code> and <code>glance</code> functions return different summaries of information; the first one information about fitted parameters, the second the R-squared and likelihood of the model.</p>
 <p>Let us now modify the recipe to include the species and save the fitting results to a different object fit2:</p>
-<div class="sourceCode" id="cb690"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb691"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pen_recipe2</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">train_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#update_role(sex, island, year, bill_depth_mm, flipper_length_mm, new_role = "ID")</span></span>
@@ -573,7 +573,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## 2 speciesChinstrap 10.0      0.412        24.3  3.64e-67
 ## 3 speciesGentoo     3.51     0.572         6.13 3.44e- 9
 ## 4 body_mass_g       0.00371  0.000331     11.2  8.05e-24</code></pre>
-<div class="sourceCode" id="cb692"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb693"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span> </span></code></pre></div>
 <pre><code>## # A tibble: 1 × 12
 ##   r.squared adj.r.squa…¹ sigma stati…²  p.value    df logLik   AIC   BIC devia…³
@@ -583,7 +583,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## #   variable names ¹​adj.r.squared, ²​statistic, ³​deviance</code></pre>
 <p>The R-squared as well as the log likelihood have improved substantially and the AIC is lower.</p>
 <p>Now let us see if we can further improve the model quality by incorporating sex as another explanatory variable:</p>
-<div class="sourceCode" id="cb694"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb695"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pen_recipe3</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">train_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co">#update_role(island, year, bill_depth_mm, flipper_length_mm, new_role = "ID")</span></span>
@@ -610,7 +610,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## 3 speciesGentoo     6.28     0.683         9.19 1.76e-17
 ## 4 body_mass_g       0.00176  0.000432      4.08 6.15e- 5
 ## 5 sexmale           2.57     0.400         6.43 6.68e-10</code></pre>
-<div class="sourceCode" id="cb696"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb697"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">fit3</span><span class="op">)</span> </span></code></pre></div>
 <pre><code>## # A tibble: 1 × 12
 ##   r.squared adj.r.squa…¹ sigma stati…²  p.value    df logLik   AIC   BIC devia…³
@@ -624,7 +624,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span class="header-section-number">11.9.1</span> Prediction and cross-validation<a class="anchor" aria-label="anchor" href="#prediction-and-cross-validation"><i class="fas fa-link"></i></a>
 </h3>
 <p>Now let us the three trained models to predict the values of bill length in the test data that we set aside:</p>
-<div class="sourceCode" id="cb698"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb699"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bill_fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit1</span>, <span class="va">test_data</span><span class="op">)</span></span>
 <span><span class="va">bill_fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit2</span>, <span class="va">test_data</span><span class="op">)</span></span>
 <span><span class="va">bill_fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit3</span>, <span class="va">test_data</span><span class="op">)</span></span>
@@ -641,11 +641,11 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## $ body_mass_g       &lt;int&gt; 3250, 3450, 3625, 3200, 3800, 3200, 3150, 3250, 3900…
 ## $ sex               &lt;fct&gt; female, female, female, female, female, female, fema…
 ## $ .pred             &lt;dbl&gt; 40.13685, 40.94866, 41.65899, 39.93390, 42.36932, 39…</code></pre>
-<div class="sourceCode" id="cb700"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb701"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">prediction1</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">.pred</span>, y<span class="op">=</span><span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-288-1.png" width="672"></div>
-<div class="sourceCode" id="cb702"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb703"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">metrics</span><span class="op">(</span><span class="va">prediction1</span>, truth <span class="op">=</span> <span class="va">bill_length_mm</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   .metric .estimator .estimate
@@ -653,7 +653,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## 1 rmse    standard       4.43 
 ## 2 rsq     standard       0.329
 ## 3 mae     standard       3.57</code></pre>
-<div class="sourceCode" id="cb704"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb705"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bill_fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit2</span>, <span class="va">test_data</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">prediction2</span><span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit2</span>, <span class="va">test_data</span><span class="op">)</span></span>
@@ -668,11 +668,11 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## $ body_mass_g       &lt;int&gt; 3250, 3450, 3625, 3200, 3800, 3200, 3150, 3250, 3900…
 ## $ sex               &lt;fct&gt; female, female, female, female, female, female, fema…
 ## $ .pred             &lt;dbl&gt; 37.20539, 37.94811, 38.59798, 37.01972, 39.24785, 37…</code></pre>
-<div class="sourceCode" id="cb706"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb707"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">prediction2</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">.pred</span>, y<span class="op">=</span><span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-289-1.png" width="672"></div>
-<div class="sourceCode" id="cb708"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb709"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">metrics</span><span class="op">(</span><span class="va">prediction2</span>, truth <span class="op">=</span> <span class="va">bill_length_mm</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   .metric .estimator .estimate
@@ -680,7 +680,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## 1 rmse    standard       2.46 
 ## 2 rsq     standard       0.793
 ## 3 mae     standard       2.08</code></pre>
-<div class="sourceCode" id="cb710"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb711"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bill_fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit3</span>, <span class="va">test_data</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">prediction3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit3</span>, <span class="va">test_data</span><span class="op">)</span></span>
@@ -695,11 +695,11 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## $ body_mass_g       &lt;int&gt; 3250, 3450, 3625, 3200, 3800, 3200, 3150, 3250, 3900…
 ## $ sex               &lt;fct&gt; female, female, female, female, female, female, fema…
 ## $ .pred             &lt;dbl&gt; 36.72639, 37.07855, 37.38670, 36.63834, 37.69484, 36…</code></pre>
-<div class="sourceCode" id="cb712"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb713"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">prediction3</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">.pred</span>, y<span class="op">=</span><span class="va">bill_length_mm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = 'loess' and formula 'y ~ x'</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-290-1.png" width="672"></div>
-<div class="sourceCode" id="cb714"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb715"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">metrics</span><span class="op">(</span><span class="va">prediction3</span>, truth <span class="op">=</span> <span class="va">bill_length_mm</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   .metric .estimator .estimate
@@ -735,7 +735,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <blockquote>
 <p>Letchford A, Moat HS, Preis T (2015) <a href="https://doi.org/10.1098/rsos.150266">The advantage of short paper titles</a>. Royal Society Open Science 2(8): 150266.</p>
 </blockquote>
-<div class="sourceCode" id="cb716"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb717"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># original URL</span></span>
 <span><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.hg3j0</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/LMP2015.csv"</span><span class="op">)</span></span></code></pre></div>
@@ -748,7 +748,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>The data set reports information on the top 20000 articles for each year from 2007 to 2013. The Author’s claim is that shorter titles lead to more citations:</p>
-<div class="sourceCode" id="cb718"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb719"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>correlation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">title_length</span>, <span class="va">cites</span>, method <span class="op">=</span> <span class="st">"kendall"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -769,12 +769,12 @@ There is clearly a relationship, but would it help to add species and sex as var
 <li>The journals cover a wide array of disciplines. The title length could reflect different publishing cultures.</li>
 <li>Most importantly, different journals have different requirements for title lengths. For example, Nature requires titles to be less than 90 characters:</li>
 </ul>
-<div class="sourceCode" id="cb720"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb721"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">journal</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Nature"</span>, <span class="st">"Science"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">journal</span>, y <span class="op">=</span> <span class="va">title_length</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-293-1.png" width="672"></div>
 <p>But then, is the effect the Authors are reporting only due to the fact that high-profile journals mandate short titles? Let’s see whether their claims hold water when considering specific journals:</p>
-<div class="sourceCode" id="cb721"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb722"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># only consider journals with more than 1000 papers in the data set</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">journal</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -796,7 +796,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-294-1.png" width="672"></div>
 <p>It seems that in several medical journals (NEJM, Circulation, J Clin Oncology) longer titles fare better than shorter ones. In Nature and PNAS we see a negative correlation, while Science gives no clear trend.</p>
 <p>Let’s look at the mean and standard deviation of citations by journal/year</p>
-<div class="sourceCode" id="cb723"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb724"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">journal</span>, <span class="va">year</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -807,7 +807,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <pre><code>## `summarise()` has grouped output by 'journal'. You can override using the
 ## `.groups` argument.</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-295-1.png" width="672"></div>
-<div class="sourceCode" id="cb725"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb726"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">journal</span>, <span class="va">year</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -829,7 +829,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <p>Model2: the length of titles influences citations</p>
 <p><span class="math inline">\(\log(\text{cits} + 1) \sim \text{journal}:\text{year} + \text{title-length}\)</span></p>
 <p>We are going to fit the model using 90% of the data; we are going to use the remaining data for cross-validation.</p>
-<div class="sourceCode" id="cb727"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb728"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>logcit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># sample 10% of the data</span></span>
@@ -838,18 +838,18 @@ There is clearly a relationship, but would it help to add species and sex as var
 <pre><code>## Joining, by = c("year", "journal", "title_length", "cites", "num_papers",
 ## "logcit")</code></pre>
 <p>Now fit the models:</p>
-<div class="sourceCode" id="cb729"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb730"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">logcit</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">*</span><span class="va">journal</span>, data <span class="op">=</span> <span class="va">data_fit</span><span class="op">)</span></span>
 <span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">logcit</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">*</span><span class="va">journal</span> <span class="op">+</span> <span class="va">title_length</span>, data <span class="op">=</span> <span class="va">data_fit</span><span class="op">)</span></span></code></pre></div>
 <p>Now let’s try to predict out-of-fit the data that we haven’t used:</p>
-<div class="sourceCode" id="cb730"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb731"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M1_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">M1</span>, newdata <span class="op">=</span> <span class="va">data_test</span><span class="op">)</span></span>
 <span><span class="va">SSQ_M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">data_test</span><span class="op">$</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">-</span> <span class="va">M1_predictions</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">M2_predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">M2</span>, newdata <span class="op">=</span> <span class="va">data_test</span><span class="op">)</span></span>
 <span><span class="va">SSQ_M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">data_test</span><span class="op">$</span><span class="va">cites</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">-</span> <span class="va">M2_predictions</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">SSQ_M1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2465.712</code></pre>
-<div class="sourceCode" id="cb732"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb733"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">SSQ_M2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 2465.96</code></pre>
 <p>We do not gain anything by including the information on titles.</p>
@@ -927,7 +927,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

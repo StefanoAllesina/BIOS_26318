@@ -73,7 +73,7 @@
 </h1>
 <p>Learn how to perform linear regression, how to make sure that the assumptions of the model are not violated, and how to interpret the results.</p>
 <p>Note that we need a new library:</p>
-<div class="sourceCode" id="cb496"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb497"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yeukyul/lindia">lindia</a></span><span class="op">)</span> <span class="co"># regression diagnostic in ggplot2</span></span></code></pre></div>
 <div id="regression-toward-the-mean" class="section level2" number="9.1">
@@ -83,28 +83,28 @@
 <p>Francis Galton (Darwin’s half-cousin) was a biologist interested in evolution, and one of the main proponents of eugenics (he coined the term himself). To advance his research program, he set out to measure several features in human populations, and started trying to explain the variation he observed, incidentally becoming one of the founding fathers of modern statistics.</p>
 <p>In his “Regression towards mediocrity in hereditary stature” he showed an interesting pattern: children of tall parents tended to be shorter than their parents, while children of short parents tended to be taller than their parents. He called this phenomenon “regression toward mediocrity” (now called regression toward [to] the mean).</p>
 <p>We’re going to explore this phenomenon using Karl Pearson’s (another founding father of statistics) data from 1903, recording the height of fathers and sons:</p>
-<div class="sourceCode" id="cb497"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb498"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">heights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_tsv</a></span><span class="op">(</span><span class="st">"http://www.randomservices.org/random/data/Pearson.txt"</span><span class="op">)</span></span>
 <span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">heights</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Father</span>, y <span class="op">=</span> <span class="va">Son</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_equal</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">pl</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-206-1.png" width="672"></div>
 <p>Let’s add the 1:1 line for comparison:</p>
-<div class="sourceCode" id="cb498"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb499"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-207-1.png" width="672"></div>
 <p>You can see that the sons tend to be taller than their fathers. Let’s see of how much:</p>
-<div class="sourceCode" id="cb499"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb500"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">heights</span><span class="op">$</span><span class="va">Father</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 67.68683</code></pre>
-<div class="sourceCode" id="cb501"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb502"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">heights</span><span class="op">$</span><span class="va">Son</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 68.68423</code></pre>
-<div class="sourceCode" id="cb503"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb504"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># difference</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">heights</span><span class="op">$</span><span class="va">Son</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">heights</span><span class="op">$</span><span class="va">Father</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.9974026</code></pre>
 <p>So let’s add a line with an intercept of 1:</p>
-<div class="sourceCode" id="cb505"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb506"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">1</span>, linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span>
 <span><span class="va">pl</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-209-1.png" width="672"></div>
@@ -157,7 +157,7 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 \hat{\mathbf{\beta}} = \left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T \mathbf{Y}
 \]</span></p>
 <p>Where the matrix <span class="math inline">\(\left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T\)</span> is known as the (left) Moore-Penrose pseudo-inverse of <span class="math inline">\(\mathbf{X}\)</span>. Let’s try to do this in <code>R</code> (the “hard” way):</p>
-<div class="sourceCode" id="cb506"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb507"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">heights</span><span class="op">$</span><span class="va">Father</span><span class="op">)</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">heights</span><span class="op">$</span><span class="va">Son</span><span class="op">)</span></span>
 <span><span class="va">best_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">Y</span></span>
@@ -166,7 +166,7 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 ## [1,] 33.8928005
 ## [2,]  0.5140059</code></pre>
 <p>We find that the best fitting line has an intercept of about 34 inches, and a slope of 0.51. Of course, <code>R</code> can do this calculation for you with just one command:</p>
-<div class="sourceCode" id="cb508"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb509"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">best_beta_easy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Son</span> <span class="op">~</span> <span class="va">Father</span>, data <span class="op">=</span> <span class="va">heights</span><span class="op">)</span></span>
 <span><span class="va">best_beta_easy</span></span></code></pre></div>
 <pre><code>## 
@@ -177,7 +177,7 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 ## (Intercept)       Father  
 ##      33.893        0.514</code></pre>
 <p>But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:</p>
-<div class="sourceCode" id="cb510"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb511"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="co"># lm stands for linear model</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-212-1.png" width="672"></div>
 </div>
@@ -194,17 +194,17 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 \sigma = \sqrt{\frac{\sum_i \hat{\epsilon_i}^2}{n -  p}}
 \]</span></p>
 <p>where <span class="math inline">\(n\)</span> is the number of data points, and <span class="math inline">\(p\)</span> is the number of parameters in <span class="math inline">\(\mathbf{\beta}\)</span> (2 in this case); this measures the number of <strong>degrees of freedom</strong>. Let’s try to compute it:</p>
-<div class="sourceCode" id="cb511"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb512"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">degrees_of_freedom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span></span>
 <span><span class="va">degrees_of_freedom</span></span></code></pre></div>
 <pre><code>## [1] 1076</code></pre>
-<div class="sourceCode" id="cb513"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb514"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">epsilon_hat</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">best_beta</span> <span class="op">-</span> <span class="va">Y</span></span>
 <span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">epsilon_hat</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="va">degrees_of_freedom</span><span class="op">)</span></span>
 <span><span class="va">sigma</span></span></code></pre></div>
 <pre><code>## [1] 2.438134</code></pre>
 <p>In <code>R</code>, you will find this reported as the <code>Residual standard error</code> when you call <code>summary</code> on your model:</p>
-<div class="sourceCode" id="cb515"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb516"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">best_beta_easy</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -229,12 +229,12 @@ y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
 R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 \]</span></p>
 <p>where <span class="math inline">\(\bar{y}\)</span> is the mean of <span class="math inline">\(y_i\)</span>. If the regression has an intercept, then the <span class="math inline">\(R^2\)</span> can vary between 0 and 1, with values close to 1 indicating a good fit to the data. Again, let’s compute it the hard way and then the easy way:</p>
-<div class="sourceCode" id="cb517"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb518"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y_bar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span></span>
 <span><span class="va">R_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">best_beta</span> <span class="op">-</span> <span class="va">y_bar</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">Y</span> <span class="op">-</span> <span class="va">y_bar</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">R_2</span></span></code></pre></div>
 <pre><code>## [1] 0.251164</code></pre>
-<div class="sourceCode" id="cb519"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb520"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># look for Multiple R-squared:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">best_beta_easy</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -294,7 +294,7 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <p>Piwowar HA, Day RS, Fridsma DB (2007) <a href="https://doi.org/10.1371/journal.pone.0000308">Sharing detailed research data is associated with increased citation rate</a>. PLoS ONE 2(3): e308.</p>
 </blockquote>
 <p>The authors set out to demonstrate that sharing data accompanying papers tends to increase the number of citations received by the paper.</p>
-<div class="sourceCode" id="cb521"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb522"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># original URL </span></span>
 <span><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/Piwowar_2011.csv"</span><span class="op">)</span> </span>
@@ -304,7 +304,7 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <span>                      SHARE <span class="op">=</span> <span class="va">`Is the microarray data publicly available`</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">NCIT</span>, <span class="va">IF</span>, <span class="va">SHARE</span><span class="op">)</span></span></code></pre></div>
 <p>First, let’s run a model in which the logarithm of the number of citations + 1 is regressed against the “Impact Factor” of the journal (which is a measure of “prestige” based on the average number of citations per paper received):</p>
-<div class="sourceCode" id="cb522"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb523"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">NCIT</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">IF</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">my_model</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -326,7 +326,7 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 ## Multiple R-squared:  0.5844, Adjusted R-squared:  0.5794 
 ## F-statistic: 116.7 on 1 and 83 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>You can see that the higher the impact factor, the higher the number of citations received (unsurprisingly!). Now let’s add another variable, detailing whether publicly available data accompany the paper:</p>
-<div class="sourceCode" id="cb524"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb525"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">NCIT</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">IF</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="va">SHARE</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">my_model2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -355,16 +355,16 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <span class="header-section-number">9.4</span> A regression gone wild<a class="anchor" aria-label="anchor" href="#a-regression-gone-wild"><i class="fas fa-link"></i></a>
 </h2>
 <p>Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in <em>Nature</em> (no less!) by Tatem <em>et al</em>. You can find the study <a href="https://www.nature.com/articles/431525a">here</a>. Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:</p>
-<div class="sourceCode" id="cb526"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb527"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">olympics</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/100m_dash.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>Then, they fitted a linear regression through the points, for both men and women. So far, so good:</p>
-<div class="sourceCode" id="cb527"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb528"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">olympics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">1899</span>, <span class="va">Year</span> <span class="op">&lt;</span> <span class="fl">2005</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Year</span>, y <span class="op">=</span> <span class="va">Result</span>, colour <span class="op">=</span> <span class="va">Gender</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-221-1.png" width="672"></div>
 <p>The fit is quite good:</p>
-<div class="sourceCode" id="cb528"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb529"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Result</span> <span class="op">~</span> <span class="va">Year</span><span class="op">*</span><span class="va">Gender</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">olympics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">1899</span>, <span class="va">Year</span> <span class="op">&lt;</span> <span class="fl">2005</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -389,7 +389,7 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 ## Multiple R-squared:  0.9304, Adjusted R-squared:  0.9244 
 ## F-statistic: 155.9 on 3 and 35 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>An <span class="math inline">\(R^2\)</span> of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward:</p>
-<div class="sourceCode" id="cb530"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb531"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">olympics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">1899</span>, <span class="va">Year</span> <span class="op">&lt;</span> <span class="fl">2005</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Year</span>, y <span class="op">=</span> <span class="va">Result</span>, colour <span class="op">=</span> <span class="va">Gender</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, fullrange <span class="op">=</span> <span class="cn">TRUE</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -398,14 +398,14 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <p>You can see that the lines are touching in sometimes before 2200! Then women will overrun men.</p>
 <p>There are a number of things that are wrong with this result. First, by the same logic, computers will soon go faster than the speed of light, the number of people on planet Earth will be in the hundreds of billions, and the price of sequencing will drop so much that we will be paid instead of paying to get our samples sequenced…</p>
 <p>Second, if we extend backwards, rather than forward, we would find that Roman women would take more than a minute to run 100m (possibly, because of the uncomfortable tunics and sandals…).</p>
-<div class="sourceCode" id="cb531"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb532"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">olympics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">1899</span>, <span class="va">Year</span> <span class="op">&lt;</span> <span class="fl">2005</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Year</span>, y <span class="op">=</span> <span class="va">Result</span>, colour <span class="op">=</span> <span class="va">Gender</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, fullrange <span class="op">=</span> <span class="cn">TRUE</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2000</span>, <span class="fl">2200</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">75</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-224-1.png" width="672"></div>
 <p>As Neil Bohr allegedly said (but this is disputed), “Prediction is very difficult, especially about the future”. The fact is that any non-linear curve looks quite linear if we are only considering a small range of values on the x-axis. To prove this point, let’s add the data from 2004 to today:</p>
-<div class="sourceCode" id="cb532"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb533"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">olympics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">&gt;</span> <span class="fl">1899</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Year</span>, y <span class="op">=</span> <span class="va">Result</span>, colour <span class="op">=</span> <span class="va">Gender</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, fullrange <span class="op">=</span> <span class="cn">TRUE</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -468,10 +468,10 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.5.3</span> Regression diagnostics<a class="anchor" aria-label="anchor" href="#regression-diagnostics"><i class="fas fa-link"></i></a>
 </h3>
 <p>Now that we know the mechanics of linear regression, we turn to diagnostics: how can we make sure that the model fits the data “well”? We start by analyzing a data set assembled by Anscombe (<em>The American Statistician</em>, 1973)</p>
-<div class="sourceCode" id="cb533"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb534"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/Anscombe_1973.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>The file comprised four data sets. We perform a linear regression using each data set separately:</p>
-<div class="sourceCode" id="cb534"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb535"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_1"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -480,7 +480,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Coefficients:
 ## (Intercept)            X  
 ##      3.0001       0.5001</code></pre>
-<div class="sourceCode" id="cb536"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb537"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -489,7 +489,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Coefficients:
 ## (Intercept)            X  
 ##       3.001        0.500</code></pre>
-<div class="sourceCode" id="cb538"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb539"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_3"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -498,7 +498,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Coefficients:
 ## (Intercept)            X  
 ##      3.0025       0.4997</code></pre>
-<div class="sourceCode" id="cb540"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb541"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_4"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -508,7 +508,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## (Intercept)            X  
 ##      3.0017       0.4999</code></pre>
 <p>As you can see, each data set is best fit by the same line, with intercept 3 and slope <span class="math inline">\(\frac{1}{2}\)</span>. Plotting the data, however, shows that the situation is more complicated:</p>
-<div class="sourceCode" id="cb542"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb543"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">X</span>, y <span class="op">=</span> <span class="va">Y</span>, colour <span class="op">=</span> <span class="va">Data_set</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Data_set</span><span class="op">)</span></span></code></pre></div>
@@ -520,21 +520,21 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.5.4</span> Plotting the residuals<a class="anchor" aria-label="anchor" href="#plotting-the-residuals"><i class="fas fa-link"></i></a>
 </h3>
 <p>The first thing you want to do is to plot the residuals as a function of the fitted values. This plot should make it apparent whether the data was linear or not. The package <code>lindia</code> (linear regression diagnostics) makes it easy to produce this type of plot using <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb543"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb544"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resfitted.html">gg_resfitted</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-229-1.png" width="672"></div>
 <p>What you are looking for is an approximately flat line, meaning that the residuals are approximately normally distributed with mean zero for each fitted value. This is not the case in the other data sets:</p>
-<div class="sourceCode" id="cb544"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb545"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resfitted.html">gg_resfitted</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-230-1.png" width="672"></div>
-<div class="sourceCode" id="cb545"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb546"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resfitted.html">gg_resfitted</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_3"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-230-2.png" width="672"></div>
-<div class="sourceCode" id="cb546"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb547"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resfitted.html">gg_resfitted</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>                  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_4"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span><span class="op">)</span></span></code></pre></div>
@@ -545,16 +545,16 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.5.5</span> Q-Q Plot<a class="anchor" aria-label="anchor" href="#q-q-plot"><i class="fas fa-link"></i></a>
 </h3>
 <p>We can take this further, and test whether the residuals follow a normal distribution. In particular, we can estimate the density of the residuals, and plot it against the density of a normal distribution:</p>
-<div class="sourceCode" id="cb547"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb548"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_qqplot.html">gg_qqplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-231-1.png" width="672"></div>
-<div class="sourceCode" id="cb548"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb549"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_qqplot.html">gg_qqplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-231-2.png" width="672"></div>
-<div class="sourceCode" id="cb549"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb550"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_qqplot.html">gg_qqplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_3"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-231-3.png" width="672"></div>
-<div class="sourceCode" id="cb550"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb551"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_qqplot.html">gg_qqplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_4"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-231-4.png" width="672"></div>
 <p>Here, you are looking for a good match to the 1:1 line; outliers will be found far from the line (e.g., case 3).</p>
@@ -564,16 +564,16 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.5.6</span> Cook’s distance<a class="anchor" aria-label="anchor" href="#cooks-distance"><i class="fas fa-link"></i></a>
 </h3>
 <p>Another way to detect outliers is to compute the Cook’s distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point.</p>
-<div class="sourceCode" id="cb551"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb552"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_cooksd.html">gg_cooksd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-232-1.png" width="672"></div>
-<div class="sourceCode" id="cb552"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb553"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_cooksd.html">gg_cooksd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-232-2.png" width="672"></div>
-<div class="sourceCode" id="cb553"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb554"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_cooksd.html">gg_cooksd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_3"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-232-3.png" width="672"></div>
-<div class="sourceCode" id="cb554"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb555"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_cooksd.html">gg_cooksd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_4"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-232-4.png" width="672"></div>
 </div>
@@ -582,16 +582,16 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.5.7</span> Leverage<a class="anchor" aria-label="anchor" href="#leverage"><i class="fas fa-link"></i></a>
 </h3>
 <p>Points that strongly influence the regression are said to have much “leverage”:</p>
-<div class="sourceCode" id="cb555"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb556"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resleverage.html">gg_resleverage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-233-1.png" width="672"></div>
-<div class="sourceCode" id="cb556"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb557"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resleverage.html">gg_resleverage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-233-2.png" width="672"></div>
-<div class="sourceCode" id="cb557"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb558"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resleverage.html">gg_resleverage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_3"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-233-3.png" width="672"></div>
-<div class="sourceCode" id="cb558"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb559"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_resleverage.html">gg_resleverage</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_4"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-233-4.png" width="672"></div>
 </div>
@@ -600,7 +600,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.5.8</span> Running all diagnostics<a class="anchor" aria-label="anchor" href="#running-all-diagnostics"><i class="fas fa-link"></i></a>
 </h3>
 <p>These are but a few of the diagnostics available. To run all diagnostics on a given model, call</p>
-<div class="sourceCode" id="cb559"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb560"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_diagnose.html">gg_diagnose</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Data_set</span> <span class="op">==</span> <span class="st">"Data_2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-234-1.png" width="672"></div>
 </div>
@@ -610,7 +610,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <span class="header-section-number">9.6</span> Transforming the data<a class="anchor" aria-label="anchor" href="#transforming-the-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>Often, one needs to transform the data before running a linear regression, in order to fulfill the assumptions. We’re going to look at the salary of professors at the University of California to show how this is done.</p>
-<div class="sourceCode" id="cb560"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb561"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># read the data</span></span>
 <span><span class="co"># Original URL</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv"</span>, </span>
@@ -638,15 +638,15 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## 10 KHALED A.S.      ABDEL-GHAFFAR PROF-AY-B/E/E   Davis         120100.
 ## # … with 4,905 more rows</code></pre>
 <p>The distribution of salaries is very skewed — it looks like a log-normal distribution:</p>
-<div class="sourceCode" id="cb562"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb563"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">pay</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-236-1.png" width="672"></div>
 <p>If we set consider the log of pay, we get closer to a normal:</p>
-<div class="sourceCode" id="cb563"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb564"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">pay</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-237-1.png" width="672"></div>
 <p>We can try to explain the pay as a combination of title and location:</p>
-<div class="sourceCode" id="cb564"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb565"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unscaled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">pay</span> <span class="op">~</span> <span class="va">title</span> <span class="op">+</span> <span class="va">loc</span>, data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">unscaled</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -683,12 +683,12 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Residual standard error: 40970 on 4897 degrees of freedom
 ## Multiple R-squared:  0.5058, Adjusted R-squared:  0.504 
 ## F-statistic: 294.8 on 17 and 4897 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb566"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb567"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_diagnose.html">gg_diagnose</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">pay</span> <span class="op">~</span> <span class="va">title</span> <span class="op">+</span> <span class="va">loc</span>, data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-238-1.png" width="672"></div>
 <p>To note: Berkeley has been taken as the baseline location. Similarly, <code>ASSOC-PROF AY</code> has been taken as the baseline title.</p>
 <p>The Q-Q plot shows that this is a terrible model! Now let’s try with the transformed data:</p>
-<div class="sourceCode" id="cb567"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb568"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scaled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">pay</span><span class="op">)</span> <span class="op">~</span> <span class="va">title</span> <span class="op">+</span> <span class="va">loc</span>, data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">scaled</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
@@ -725,7 +725,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 ## Residual standard error: 0.4168 on 4897 degrees of freedom
 ## Multiple R-squared:  0.5372, Adjusted R-squared:  0.5356 
 ## F-statistic: 334.3 on 17 and 4897 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb569"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb570"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lindia/man/gg_diagnose.html">gg_diagnose</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="va">pay</span><span class="op">)</span> <span class="op">~</span> <span class="va">title</span> <span class="op">+</span> <span class="va">loc</span>, data <span class="op">=</span> <span class="va">dt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-239-1.png" width="672"></div>
 <p>Much better! Remember to inspect your explanatory and response variables. Ideally, you want the response to be normally distributed. Sometimes one or many covariates can have a nonlinear relationship with the response variable, and you should transform them prior to analysis.</p>
@@ -778,7 +778,7 @@ challenges raised for both time-keeping and the teaching of basic statistics.
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

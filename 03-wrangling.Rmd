@@ -1,7 +1,7 @@
 # Data wrangling
 
 ## Goal
-Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of `dplyr`, `tidyr`, and the "pipeline" operator `%>%`. Effortlessly produce statistics for grouped data. Massage data into "tidy" form.
+Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of `dplyr`, `tidyr`, and the "pipe" operator `%>%`. Effortlessly produce statistics for grouped data. Massage data into "tidy" form.
 
 ## What is data wrangling?
 
@@ -16,22 +16,21 @@ library(tidyverse) # this loads both dplyr and tidyr, along with other packages
 library(palmerpenguins) # a nice data set to play with
 ```
 
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
+```{r, warning=FALSE, message=FALSE}
 # make sure function select is the right one...
 select <- dplyr::select
 ```
-
 
 We are going to use the data set `penguins` from the package `palmerpenguins`, which we have already seen last week.
 
 ## A new data type, `tibble`
 
-This is now a :
+The data is stored in a "tibble":
 ```{r}
 class(penguins)
 ```
 
-`dplyr` ships with a new data type, called a `tibble`. To convert a `data.frame` into a tibble, use `as_tibble`:
+In fact, `dplyr` ships with a new data type, called a `tibble`. To convert a `data.frame` into a tibble, use `as_tibble`:
 
 ```{r, eval=FALSE}
 # load a data frame
@@ -82,10 +81,10 @@ distinct(select(penguins, species))
 
 Showing that there are three species, once we removed the duplicates. There are many other ways to subset observations:
 
-- `sample_n(tbl, howmany, replace = TRUE)` sample `howmany` rows at random (with replacement)
-- `sample_frac(tbl, proportion, replace = FALSE)` sample a certain proportion (e.g. `0.2` for 20%) of rows at random without replacement
+- `slice_sample(tbl, howmany, replace = TRUE)` sample `howmany` rows at random (with replacement)
+- `sample_sample(tbl, proportion, replace = FALSE)` sample a certain proportion (e.g. `0.2` for 20%) of rows at random without replacement
 - `slice(tbl, 5:20)` extract the rows `5` to `20`
-- ``top_n(penguins, 10, body_mass_g)`` extract the first `10` rows, once ordered by `body_mass_g`
+- ``slice_max(penguins, 10, body_mass_g)`` extract the first `10` rows, once ordered by `body_mass_g`
 
 More ways to select columns:
 
@@ -109,7 +108,7 @@ Another advantage of pipelines is that they help with name completion. In fact, 
 
 ## Producing summaries
 
-Sometimes we need to calculate statistics on certain columns. For example, calculate the average number of eggs shed by the infected mice. We can do this using `summarise` (you can use British or American spelling):
+Sometimes we need to calculate statistics on certain columns. For example, calculate the average body mass of the penguins. We can do this using `summarise` (you can use British or American spelling):
 
 ```{r}
 penguins %>% 
@@ -121,7 +120,7 @@ penguins %>%
   summarise(avg = mean(body_mass_g, na.rm = TRUE))
 ```
 
-where we used `na.rm = TRUE` to ignore missing values. This command returns a `tbl` object with just the average egg count. You can combine multiple statistics (use `first`, `last`, `min`, `max`, `n` [count the number of rows], `n_distinct` [count the number of distinct rows], `mean`, `median`, `var`, `sd`, etc.):
+where we used `na.rm = TRUE` to ignore missing values. This command returns a `tbl` object with just the average body mass. You can combine multiple statistics (use `first`, `last`, `min`, `max`, `n` [count the number of rows], `n_distinct` [count the number of distinct rows], `mean`, `median`, `var`, `sd`, etc.):
 
 ```{r}
 penguins %>% 
@@ -175,6 +174,7 @@ penguins %>%
 ```
 
 We can pipe the results to `ggplot` for plotting!
+
 ```{r}
 penguins %>% 
   mutate(zscore_bm = scale(body_mass_g)) %>% 
@@ -268,11 +268,10 @@ dt %>%
   geom_smooth(method = "loess") # while the smoothing function considers all trees
 ```
 
-
 ## Separate: split a column into two or more
 
 ```{r}
-test <- tibble(name = c("Allesina, Stefano", "Kondrashov, Dmitry", "Smith, Julia"))
+test <- tibble(name = c("Allesina, Stefano", "Kondrashov, Dmitry", "Mir, Amatullah"))
 test
 ```
 

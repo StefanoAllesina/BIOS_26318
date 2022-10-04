@@ -103,7 +103,7 @@ Although it looks more complicated, we can compute each distribution function se
 <h3>
 <span class="header-section-number">15.2.1</span> Penguin data<a class="anchor" aria-label="anchor" href="#penguin-data"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb838"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb839"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"penguins"</span><span class="op">)</span></span>
 <span><span class="va">pen_clean</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Fix the random numbers by setting the seed  for reproducibility</span></span>
@@ -114,7 +114,7 @@ Although it looks more complicated, we can compute each distribution function se
 <span><span class="co"># Create data frames for the two sets:</span></span>
 <span><span class="va">pen_train</span> <span class="op">&lt;-</span> <span class="fu">training</span><span class="op">(</span><span class="va">pen_split</span><span class="op">)</span></span>
 <span><span class="va">pen_test</span>  <span class="op">&lt;-</span> <span class="fu">testing</span><span class="op">(</span><span class="va">pen_split</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb839"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb840"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nb_spec</span> <span class="op">&lt;-</span> <span class="fu">naive_Bayes</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"naivebayes"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -134,7 +134,7 @@ Although it looks more complicated, we can compute each distribution function se
 <span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">pen_recipe</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_nb</span> <span class="op">&lt;-</span> <span class="va">pen_workflow_nb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">fit</span><span class="op">(</span><span class="va">pen_train</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb840"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb841"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_nb</span>, new_data <span class="op">=</span> <span class="va">pen_test</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">conf_mat</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">species</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
@@ -143,7 +143,7 @@ Although it looks more complicated, we can compute each distribution function se
 ##   Adelie        28         1      0
 ##   Chinstrap      2        18      0
 ##   Gentoo         0         0     35</code></pre>
-<div class="sourceCode" id="cb842"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb843"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/pkg/stablelearner/man/accuracy.html">accuracy</a></span><span class="op">(</span>truth <span class="op">=</span> <span class="va">species</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric  .estimator .estimate
@@ -154,7 +154,7 @@ Although it looks more complicated, we can compute each distribution function se
 <h3>
 <span class="header-section-number">15.2.2</span> Breast cancer data<a class="anchor" aria-label="anchor" href="#breast-cancer-data"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb844"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb845"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"breastcancer"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">breastcancer</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 699
@@ -169,7 +169,7 @@ Although it looks more complicated, we can compute each distribution function se
 ## $ `Normal Nucleoli`             &lt;int&gt; 1, 2, 1, 7, 1, 7, 1, 1, 1, 1, 1, 1, 4, 1…
 ## $ Mitoses                       &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1…
 ## $ Class                         &lt;fct&gt; benign, benign, benign, benign, benign, …</code></pre>
-<div class="sourceCode" id="cb846"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb847"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cancer_clean</span> <span class="op">&lt;-</span> <span class="va">breastcancer</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Fix the random numbers by setting the seed  for reproducibility</span></span>
 <span><span class="co">#set.seed(314)</span></span>
@@ -179,7 +179,7 @@ Although it looks more complicated, we can compute each distribution function se
 <span><span class="co"># Create data frames for the two sets:</span></span>
 <span><span class="va">can_train</span> <span class="op">&lt;-</span> <span class="fu">training</span><span class="op">(</span><span class="va">can_split</span><span class="op">)</span></span>
 <span><span class="va">can_test</span>  <span class="op">&lt;-</span> <span class="fu">testing</span><span class="op">(</span><span class="va">can_split</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb847"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb848"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nb_spec</span> <span class="op">&lt;-</span> <span class="fu">naive_Bayes</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"naivebayes"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -196,7 +196,7 @@ Although it looks more complicated, we can compute each distribution function se
 <span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">can_recipe</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">can_fit_nb</span> <span class="op">&lt;-</span> <span class="va">can_workflow_nb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">fit</span><span class="op">(</span><span class="va">can_train</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb848"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb849"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">can_fit_nb</span>, new_data <span class="op">=</span> <span class="va">can_test</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">conf_mat</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Class</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
@@ -204,7 +204,7 @@ Although it looks more complicated, we can compute each distribution function se
 ## Prediction  benign malignant
 ##   benign       204         3
 ##   malignant     10       125</code></pre>
-<div class="sourceCode" id="cb850"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb851"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/pkg/stablelearner/man/accuracy.html">accuracy</a></span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Class</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric  .estimator .estimate
@@ -237,11 +237,11 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <h3>
 <span class="header-section-number">15.3.1</span> Penguin data<a class="anchor" aria-label="anchor" href="#penguin-data-1"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb852"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb853"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree_spec</span> <span class="op">&lt;-</span> <span class="fu">decision_tree</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"rpart"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb853"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb854"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pen_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">pen_train</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">update_role</span><span class="op">(</span><span class="va">island</span>,  new_role <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span>
@@ -251,7 +251,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">pen_recipe</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_tree</span> <span class="op">&lt;-</span> <span class="va">pen_workflow_tree</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">fit</span><span class="op">(</span><span class="va">pen_train</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb854"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb855"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_tree</span>, new_data <span class="op">=</span> <span class="va">pen_test</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">conf_mat</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">species</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
@@ -260,13 +260,13 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 ##   Adelie        27         1      0
 ##   Chinstrap      3        16      0
 ##   Gentoo         0         2     35</code></pre>
-<div class="sourceCode" id="cb856"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb857"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/pkg/stablelearner/man/accuracy.html">accuracy</a></span><span class="op">(</span>truth <span class="op">=</span> <span class="va">species</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 ## 1 accuracy multiclass     0.929</code></pre>
-<div class="sourceCode" id="cb858"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb859"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_tree</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">extract_fit_engine</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">rpart.plot</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -276,7 +276,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <h3>
 <span class="header-section-number">15.3.2</span> Breast cancer data<a class="anchor" aria-label="anchor" href="#breast-cancer-data-1"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb859"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb860"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">can_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">can_train</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">update_role</span><span class="op">(</span><span class="va">`Uniformity of Cell Shape`</span>,  <span class="va">`Uniformity of Cell Size`</span>, <span class="va">`Bland Chromatin`</span>, new_role <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span>
@@ -287,7 +287,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">can_recipe</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_tree</span> <span class="op">&lt;-</span> <span class="va">can_workflow_tree</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">fit</span><span class="op">(</span><span class="va">can_train</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb860"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb861"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_tree</span>, new_data <span class="op">=</span> <span class="va">can_test</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">conf_mat</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Class</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
@@ -295,13 +295,13 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 ## Prediction  benign malignant
 ##   benign       198         8
 ##   malignant     16       120</code></pre>
-<div class="sourceCode" id="cb862"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb863"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/pkg/stablelearner/man/accuracy.html">accuracy</a></span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Class</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 ## 1 accuracy binary         0.930</code></pre>
-<div class="sourceCode" id="cb864"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb865"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_tree</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">extract_fit_engine</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">rpart.plot</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -319,11 +319,11 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <h3>
 <span class="header-section-number">15.4.1</span> Penguin data<a class="anchor" aria-label="anchor" href="#penguin-data-2"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb865"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb866"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf_spec</span> <span class="op">&lt;-</span> <span class="fu">rand_forest</span><span class="op">(</span>mtry <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"ranger"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb866"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb867"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">pen_clean</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">update_role</span><span class="op">(</span><span class="va">island</span>,  new_role <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span>
@@ -333,7 +333,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">pen_recipe</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fit_rf</span> <span class="op">&lt;-</span> <span class="va">pen_workflow_rf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">fit</span><span class="op">(</span><span class="va">pen_clean</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb867"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb868"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_rf</span>, new_data <span class="op">=</span> <span class="va">pen_clean</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">conf_mat</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">species</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
@@ -342,14 +342,14 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 ##   Adelie       144         1      0
 ##   Chinstrap      2        67      0
 ##   Gentoo         0         0    119</code></pre>
-<div class="sourceCode" id="cb869"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb870"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/pkg/stablelearner/man/accuracy.html">accuracy</a></span><span class="op">(</span>truth <span class="op">=</span> <span class="va">species</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 ## 1 accuracy multiclass     0.991</code></pre>
 <p>Importance measures of different variables:</p>
-<div class="sourceCode" id="cb871"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb872"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">last_rf</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rand_forest</span><span class="op">(</span>mtry <span class="op">=</span> <span class="fl">4</span>, trees <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"ranger"</span>,  importance <span class="op">=</span> <span class="st">"impurity"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -364,7 +364,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <span><span class="va">last_rf_fit</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">last_workflow</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">last_fit</span><span class="op">(</span><span class="va">pen_split</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb872"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb873"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">last_rf_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">collect_metrics</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 2 × 4
@@ -372,7 +372,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
 ## 1 accuracy multiclass     0.964 Preprocessor1_Model1
 ## 2 roc_auc  hand_till      0.998 Preprocessor1_Model1</code></pre>
-<div class="sourceCode" id="cb874"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb875"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">last_rf_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="st">".workflow"</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>   </span>
 <span>  <span class="fu">pull_workflow_fit</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -383,11 +383,11 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <h3>
 <span class="header-section-number">15.4.2</span> Cancer data<a class="anchor" aria-label="anchor" href="#cancer-data"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb875"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb876"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf_spec</span> <span class="op">&lt;-</span> <span class="fu">rand_forest</span><span class="op">(</span>mtry <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"ranger"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb876"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb877"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">can_rf_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">cancer_clean</span><span class="op">)</span> </span>
 <span></span>
@@ -397,7 +397,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <span></span>
 <span><span class="va">fit_rf</span> <span class="op">&lt;-</span> <span class="va">can_workflow_rf</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">cancer_clean</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb877"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb878"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_rf</span>, new_data <span class="op">=</span> <span class="va">can_test</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">conf_mat</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Class</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
@@ -405,14 +405,14 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 ## Prediction  benign malignant
 ##   benign       210         1
 ##   malignant      4       127</code></pre>
-<div class="sourceCode" id="cb879"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb880"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compare_pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/pkg/stablelearner/man/accuracy.html">accuracy</a></span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Class</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 ## 1 accuracy binary         0.985</code></pre>
 <p>Importance measures of different variables:</p>
-<div class="sourceCode" id="cb881"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb882"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">last_rf</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">rand_forest</span><span class="op">(</span>mtry <span class="op">=</span> <span class="fl">4</span>, trees <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"ranger"</span>,  importance <span class="op">=</span> <span class="st">"impurity"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -427,7 +427,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <span><span class="va">last_rf_fit</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">last_workflow</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">last_fit</span><span class="op">(</span><span class="va">can_split</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb882"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb883"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">last_rf_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">collect_metrics</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## # A tibble: 2 × 4
@@ -435,7 +435,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
 ## 1 accuracy binary         0.956 Preprocessor1_Model1
 ## 2 roc_auc  binary         0.992 Preprocessor1_Model1</code></pre>
-<div class="sourceCode" id="cb884"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb885"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">last_rf_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="st">".workflow"</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>   </span>
 <span>  <span class="fu">pull_workflow_fit</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -500,7 +500,7 @@ Notice that both measures are smallest when <span class="math inline">\(p_k\)</s
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

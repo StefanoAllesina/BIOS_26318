@@ -71,7 +71,7 @@
 <h1>
 <span class="header-section-number">Lecture 17</span> Time series: modeling and forecasting<a class="anchor" aria-label="anchor" href="#time-series-modeling-and-forecasting"><i class="fas fa-link"></i></a>
 </h1>
-<div class="sourceCode" id="cb918"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb919"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibbledata.tidyverts.org/">tsibbledata</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span></span>
@@ -100,7 +100,7 @@
 <span class="header-section-number">17.2</span> Time series format and plotting<a class="anchor" aria-label="anchor" href="#time-series-format-and-plotting"><i class="fas fa-link"></i></a>
 </h2>
 <p>A time series is a special data set where each observation has an associated time measurement. There is a special R structure for storing and operating on time series, called <code>ts</code>, as illustrated here:</p>
-<div class="sourceCode" id="cb919"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb920"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">births</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scan.html">scan</a></span><span class="op">(</span><span class="st">"http://robjhyndman.com/tsdldata/data/nybirths.dat"</span><span class="op">)</span></span>
 <span><span class="va">birthstimeseries</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">births</span>, frequency <span class="op">=</span> <span class="fl">12</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1946</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">birthstimeseries</span></span></code></pre></div>
@@ -136,7 +136,7 @@
 ## 1959 26.992 27.897</code></pre>
 <p>This reads in a data set recording the number of births per month in New York City, from 1946 to 1958 (in thousands of births?) To create the time series, we had to give the function the <code>frequency</code>, or the number of time points in a year, and the starting value as a vector assigned to <code>start = c(1946, 1)</code>, the first element is the year and the second the month.</p>
 <p>There are several other specialized data structures for handling time series. We will use one from a new set of R packages called <code>tidyverts</code> that is called a <code>tsibble</code>. <a href="https://tsibble.tidyverts.org/" class="uri">https://tsibble.tidyverts.org/</a> The <code>tsibbledata</code> package contains several time series data sets and we will load two below: <code>olympic_running</code>, containing the Olympic winning times in different running events, and <code>pelt</code>, containing the classic data of the number of Lynx and Hare pelts sold in Canada in the 19th and early 20th centuries:</p>
-<div class="sourceCode" id="cb921"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb922"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"olympic_running"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">olympic_running</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 312
@@ -146,7 +146,7 @@
 ## $ Length &lt;int&gt; 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100…
 ## $ Sex    &lt;chr&gt; "men", "men", "men", "men", "men", "men", "men", "men", "men", …
 ## $ Time   &lt;dbl&gt; 12.00, 11.00, 11.00, 10.80, 10.80, NA, 10.80, 10.60, 10.80, 10.…</code></pre>
-<div class="sourceCode" id="cb923"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb924"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"pelt"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 91
@@ -160,19 +160,19 @@
 <span class="header-section-number">17.2.1</span> Visualizing the data<a class="anchor" aria-label="anchor" href="#visualizing-the-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>The most straightforward way of visualizing time series is using a time plot, which can be created using <code>autoplot</code>:</p>
-<div class="sourceCode" id="cb925"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb926"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">birthstimeseries</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Number of births in NYC"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Births (thousands)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span></span></code></pre></div>
 <p><code>autoplot</code> works best with timeseries objects, so to use it with a tsibble you can convert it to a ts first, like this:</p>
-<div class="sourceCode" id="cb926"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb927"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/ts.html">as.ts</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Lynx and hare pelts"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of pelts"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span></span></code></pre></div>
 <p>One can also use <code>ggplot</code> directly, for example to plot a faceted graph of the olympic times for different years:</p>
-<div class="sourceCode" id="cb927"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb928"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">olympic_running</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="va">as_tibble</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">Year</span>, y <span class="op">=</span> <span class="va">Time</span>, colour <span class="op">=</span> <span class="va">Sex</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -210,7 +210,7 @@ X_t = T_t \times S_t \times R_t
 T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 \]</span></p>
 <p>Here <span class="math inline">\(m\)</span> is called the <em>order</em> of the moving average and is defined as <span class="math inline">\(m = 2k+1\)</span>. There is a useful function <code><a href="https://pkg.robjhyndman.com/forecast/reference/ma.html">ma()</a></code> that calculates these averages and allows them to be plotted.</p>
-<div class="sourceCode" id="cb928"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb929"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">6</span></span>
 <span><span class="va">s_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"MA-"</span>, <span class="va">m</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">birthstimeseries</span>, series <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -218,7 +218,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Time (Year)"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"number of births (thousands)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"NYC births time series"</span><span class="op">)</span> </span></code></pre></div>
 <p><strong>Exercise:</strong> Change the moving average window and see if you can make seasonality (periodicity) vanish!</p>
-<div class="sourceCode" id="cb929"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb930"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">Lynx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">as.ts</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">$</span><span class="va">Lynx</span><span class="op">)</span></span>
 <span><span class="va">s_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"MA-"</span>, <span class="va">m</span><span class="op">)</span></span>
@@ -226,7 +226,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/ma.html">ma</a></span><span class="op">(</span><span class="va">Lynx</span>, <span class="va">m</span><span class="op">)</span>, series <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"number of pelts"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Lynx time series"</span><span class="op">)</span> </span></code></pre></div>
-<div class="sourceCode" id="cb930"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb931"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">Hare</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">as.ts</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">$</span><span class="va">Hare</span><span class="op">)</span></span>
 <span><span class="va">s_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"MA-"</span>, <span class="va">m</span><span class="op">)</span></span>
@@ -248,7 +248,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <li>To estimate the seasonal component for each season, average the detrended values for that season. For example, with monthly data, the seasonal component for March is the average of all the detrended March values in the data. These seasonal component values are then adjusted to ensure that they add to zero. The seasonal component is obtained by stringing together these monthly values, and then replicating the sequence for each year of data. This gives <span class="math inline">\(\hat S_t\)</span>.</li>
 <li>The remainder component is calculated by subtracting the estimated seasonal and trend-cycle components: $ R_t = X_t - T_t - S_t$</li>
 </ol>
-<div class="sourceCode" id="cb931"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb932"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">birthstimeseries</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">"additive"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Classic additive decomposition</span></span>
@@ -266,7 +266,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <li>The smoothness of the trend-cycle can also be controlled by the user.</li>
 <li>It can be robust to outliers (i.e., the user can specify a robust decomposition), so that occasional unusual observations will not affect the estimates of the trend-cycle and seasonal components. They will, however, affect the remainder component.</li>
 </ul>
-<div class="sourceCode" id="cb932"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb933"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">birthstimeseries</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://rdrr.io/r/stats/stl.html">stl</a></span><span class="op">(</span>t.window<span class="op">=</span><span class="fl">13</span>, s.window<span class="op">=</span><span class="st">"periodic"</span>, robust<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Exercise:</strong> Apply the two decomposition methods to the pelt time series data.</p>
@@ -281,7 +281,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <span class="header-section-number">17.4.1</span> Visualizing correlation between different variables<a class="anchor" aria-label="anchor" href="#visualizing-correlation-between-different-variables"><i class="fas fa-link"></i></a>
 </h3>
 <p>The following data set contains the number of visitors (visitor nights) on a quarterly basis for five regions of New South Wales, Australia:</p>
-<div class="sourceCode" id="cb933"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb934"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">visnights</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of visitor nights each quarter (millions)"</span><span class="op">)</span></span></code></pre></div>
 <p>One simple question is whether different variables are related to each other. One simple way is to calculate the Pearson correlation between different time series, called the <em>cross-correlation</em> (where <span class="math inline">\(\bar X\)</span> stands for the mean of X and <span class="math inline">\(\text{Var}(X)\)</span> stands for the variance of <span class="math inline">\(X\)</span>):</p>
@@ -289,15 +289,15 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 \text{Cor}(X,Y) = \frac{\sum_t (\bar X - X_t)(\bar Y - Y_t)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}
 \]</span></p>
 <p>In a data set with multiple variables it can be handy to examine the cross-correlations between all pairs between them. Here’s a convenient function to both calculate and visualize it for multiple variables, in this case the hotel visitor nights for the 5 different regions of NSW. The plot below show the scatter plots of all the pairs of time series against each other, along with the respective correlation coefficients:</p>
-<div class="sourceCode" id="cb934"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb935"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">visnights</span><span class="op">)</span></span>
 <span><span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">visnights</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>However, sometimes the straightforward correlation may miss or underestimate a relationship that is obviously there, but with a delay. Here is the Lynx and Hare variables from the pelts data set correlated with each other:</p>
-<div class="sourceCode" id="cb935"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb936"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">)</span></span>
 <span><span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>The correlation coefficient is about 0.3, but it appears that the relationship should be stronger than that from the plots. The function <code>CCF</code> from <code>feasts</code> package calculates correlations for a pair of variables that are shifted against each other (lagged) and here is the resulting plot:</p>
-<div class="sourceCode" id="cb936"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb937"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pelt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">CCF</a></span><span class="op">(</span><span class="va">Lynx</span>, <span class="va">Hare</span>, lag_max <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -308,7 +308,7 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 <span class="header-section-number">17.4.2</span> Autocorrelation<a class="anchor" aria-label="anchor" href="#autocorrelation"><i class="fas fa-link"></i></a>
 </h3>
 <p>Just as we saw for cross-correlations, a time series can be correlated against itself shifted in time by some set amount, also called <em>lagged</em>. We can plot the lagged correlations for different visitor</p>
-<div class="sourceCode" id="cb937"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb938"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">visnights</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">visnights_smaller</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span><span class="op">(</span><span class="va">visnights</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, start<span class="op">=</span><span class="fl">2000</span>, end <span class="op">=</span> <span class="fl">2010</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/gglagplot.html">gglagplot</a></span><span class="op">(</span><span class="va">visnights_smaller</span><span class="op">)</span> </span></code></pre></div>
@@ -318,13 +318,13 @@ T_t =  \frac{1}{m} \sum_{i=-k}^k X_{t+i}
 r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 \]</span></p>
 <p>The autocorrelation can be calculated and plotted for our example of the visitation nights in New South Wales:</p>
-<div class="sourceCode" id="cb938"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/autoplot.acf.html">ggAcf</a></span><span class="op">(</span><span class="va">visnights_smaller</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb939"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/autoplot.acf.html">ggAcf</a></span><span class="op">(</span><span class="va">visnights_smaller</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb940"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/gglagplot.html">gglagplot</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">$</span><span class="va">Lynx</span>, lags <span class="op">=</span><span class="fl">12</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Lag plots for the Lynx pelt data"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/gglagplot.html">gglagplot</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">$</span><span class="va">Hare</span>, lags <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Lag plots for the Hare pelt data"</span><span class="op">)</span></span></code></pre></div>
 <p>In both cases, the lag plots are closest to the diagonal identity line for lag of 9 or 10. This should be reflected in the autocorrelation plot:</p>
-<div class="sourceCode" id="cb940"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb941"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/autoplot.acf.html">ggAcf</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">$</span><span class="va">Lynx</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Autocorrelation for the Lynx pelt data"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/autoplot.acf.html">ggAcf</a></span><span class="op">(</span><span class="va">pelt</span><span class="op">$</span><span class="va">Hare</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Autocorrelation for the Hare pelt data"</span><span class="op">)</span></span></code></pre></div>
 <p>Notice the periodicity in the autocorrelation, which indicated periodicity in the time series.</p>
@@ -336,12 +336,12 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 <span class="header-section-number">17.4.3</span> The perennial warning: beware of spurious correlations!<a class="anchor" aria-label="anchor" href="#the-perennial-warning-beware-of-spurious-correlations"><i class="fas fa-link"></i></a>
 </h3>
 <p>These two data sets, on Australian air passengers and rice production in Guinea, have a very strong positive correlation:</p>
-<div class="sourceCode" id="cb941"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb942"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aussies</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span><span class="op">(</span><span class="va">ausair</span>, end<span class="op">=</span><span class="fl">2011</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tslm.html">tslm</a></span><span class="op">(</span><span class="va">aussies</span> <span class="op">~</span> <span class="va">guinearice</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
 <p>However, notice that the residuals indicate a strong trend, which violates the assumptions of linear regression.</p>
-<div class="sourceCode" id="cb942"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb943"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/checkresiduals.html">checkresiduals</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
 <p>There are a number of fun examples of spurious time series correlations in reference [5].</p>
 </div>
@@ -355,7 +355,7 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 <span class="header-section-number">17.5.1</span> Forecasting using smoothing methods<a class="anchor" aria-label="anchor" href="#forecasting-using-smoothing-methods"><i class="fas fa-link"></i></a>
 </h3>
 <p>The package <code>fable</code> is part of the <code>tidyverts</code> bundle and can be used to easily produce forecasts using several standard methods, such as ASNAIVE (Seasonal Naive), ETS (exponential smoothing), and ARIMA (AutoRegressive Integrated Moving Average). The code below compares all three forecast models for the births in NYC data:</p>
-<div class="sourceCode" id="cb943"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb944"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">birthstimeseries</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
 <span>    ets <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/box_cox.html">box_cox</a></span><span class="op">(</span><span class="va">birthstimeseries</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -370,11 +370,11 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 <span class="header-section-number">17.5.2</span> Forecasting using linear regression<a class="anchor" aria-label="anchor" href="#forecasting-using-linear-regression"><i class="fas fa-link"></i></a>
 </h3>
 <p>Let us analyze the data set of US quarterly economic data, specifically, the percent change in consumption, income, production, savings, and unemployment.</p>
-<div class="sourceCode" id="cb944"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb945"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">uschange</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">uschange</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Consumption"</span>,<span class="st">"Income"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"% change"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb945"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb946"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">uschange</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">Income</span>, y<span class="op">=</span><span class="va">Consumption</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -382,25 +382,25 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Income (quarterly % change)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"lm"</span>, se<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb946"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb947"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">uschange</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">GGally</span><span class="fu">::</span><span class="fu"><a href="https://ggobi.github.io/ggally/reference/ggpairs.html">ggpairs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Let us use four variables as predictors of consumption to calculate a multiple linear regression model using the function tslm():</p>
-<div class="sourceCode" id="cb947"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb948"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit.consMR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tslm.html">tslm</a></span><span class="op">(</span></span>
 <span>  <span class="va">Consumption</span> <span class="op">~</span> <span class="va">Income</span> <span class="op">+</span> <span class="va">Production</span> <span class="op">+</span> <span class="va">Unemployment</span> <span class="op">+</span> <span class="va">Savings</span>,</span>
 <span>  data<span class="op">=</span><span class="va">uschange</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit.consMR</span><span class="op">)</span></span></code></pre></div>
 <p>We can produce a plot of the predicted values together with the observed data on consumption:</p>
-<div class="sourceCode" id="cb948"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb949"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">uschange</span><span class="op">[</span>,<span class="st">'Consumption'</span><span class="op">]</span>, series<span class="op">=</span><span class="st">"Data"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/fitted.values.html">fitted</a></span><span class="op">(</span><span class="va">fit.consMR</span><span class="op">)</span>, series<span class="op">=</span><span class="st">"Fitted"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Percent change in US consumption expenditure"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>colour<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">" "</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>It is useful to check the residuals of the regression model:</p>
-<div class="sourceCode" id="cb949"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb950"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/checkresiduals.html">checkresiduals</a></span><span class="op">(</span><span class="va">fit.consMR</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="forecasting-based-on-regression-models" class="section level3" number="17.5.3">
@@ -409,7 +409,7 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 </h3>
 <p>One can distinguish between true forecasting, termed <em>ex-ante</em> (from before) prediction, in which we truly try to predict the unknown future, and <em>ex-post</em> forecasts, in which the true values both of the predictors and the response variable are known. The latter is still useful for validating models and for comparing different methods.</p>
 <p>The package <code>forecast</code> contains tools to make calculating predicted values in time series simple. One can use the model to forecast the values in the future, based on different <em>scenarios</em>. For example, we may want to investigate the prediction for an economic upturn and a downturn:</p>
-<div class="sourceCode" id="cb950"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb951"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit.consBest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/tslm.html">tslm</a></span><span class="op">(</span></span>
 <span>  <span class="va">Consumption</span> <span class="op">~</span> <span class="va">Income</span> <span class="op">+</span> <span class="va">Savings</span> <span class="op">+</span> <span class="va">Unemployment</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">uschange</span><span class="op">)</span></span>
@@ -425,7 +425,7 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 <span>    Savings <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="va">h</span><span class="op">)</span>,</span>
 <span>    Unemployment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">h</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">fcast.down</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span><span class="va">fit.consBest</span>, newdata <span class="op">=</span> <span class="va">newdata</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb951"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb952"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">uschange</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"% change in US consumption"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">fcast.up</span>, PI <span class="op">=</span> <span class="cn">TRUE</span>, series <span class="op">=</span> <span class="st">"increase"</span><span class="op">)</span>  <span class="op">+</span></span>
@@ -497,7 +497,7 @@ r(k) = \frac{\sum_{t=k}^T (\bar X - X_t)(\bar X - X_{t-k})}{\text{Var}(X)}
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

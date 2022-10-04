@@ -77,7 +77,7 @@
 </h2>
 <p>Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand.</p>
 <p>Let’s load some packages:</p>
-<div class="sourceCode" id="cb811"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb812"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># our friend the tidyverse</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span> <span class="co"># negative binom regression</span></span></code></pre></div>
 </div>
@@ -138,7 +138,7 @@ P(Y_i = y_i | \pi_i) = \pi_i^{y_i} (1 - \pi_i)^{1 - y_i}
 \pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}} = 1 - \frac{1}{1 + e^{\beta_0 + \beta_1 x_i}}
 \]</span></p>
 <p>Clearly, when <span class="math inline">\(\beta_0 + \beta_1 x_i = 0\)</span>, the probability <span class="math inline">\(\pi_i = 1/2\)</span>, while the probability tends to 1 when <span class="math inline">\((\beta_0 + \beta_1 x_i) \to \infty\)</span> and to zero when <span class="math inline">\((\beta_0 + \beta_1 x_i) \to -\infty\)</span>. :</p>
-<div class="sourceCode" id="cb812"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb813"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># some random data</span></span>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">beta_0</span> <span class="op">&lt;-</span> <span class="fl">0.35</span></span>
@@ -169,7 +169,7 @@ Clearly, you could alternatively use the cumulative distribution function of any
 <span class="header-section-number">14.3.2</span> A simple example<a class="anchor" aria-label="anchor" href="#a-simple-example"><i class="fas fa-link"></i></a>
 </h3>
 <p>We want to know whether being in first, second and third class, as well as gender (women and women first!) influenced the probability of survival in the Titanic disaster. We start with a null model (all passengers have the same probability of survival):</p>
-<div class="sourceCode" id="cb813"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb814"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paulhendricks/titanic">titanic</a></span><span class="op">)</span></span>
 <span><span class="co"># model 0: probability of survival in general</span></span>
 <span><span class="co"># regress against an intercept</span></span>
@@ -198,17 +198,17 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## AIC: 1188.7
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<div class="sourceCode" id="cb815"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb816"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># the best fitting (alpha) intercept should lead to </span></span>
 <span><span class="co"># e^alpha / (1 + e^alpha) = mean(Survived)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">titanic_train</span><span class="op">$</span><span class="va">Survived</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.3838384</code></pre>
-<div class="sourceCode" id="cb817"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb818"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">model0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">model0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## (Intercept) 
 ##   0.3838384</code></pre>
 <p>Now let’s include gender:</p>
-<div class="sourceCode" id="cb819"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb820"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="va">Sex</span>, <span class="co"># one sex as baseline, the other modifies intercept</span></span>
 <span>              data <span class="op">=</span> <span class="va">titanic_train</span>,</span>
 <span>              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
@@ -236,17 +236,17 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>What is the best-fitting probability of survival for male/female?</p>
-<div class="sourceCode" id="cb821"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb822"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span></span>
 <span><span class="co"># prob women</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.7420382</code></pre>
-<div class="sourceCode" id="cb823"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb824"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prob men</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.1889081</code></pre>
 <p>Now let’s see whether we can explain better the data using the class:</p>
-<div class="sourceCode" id="cb825"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb826"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="va">Sex</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Pclass</span><span class="op">)</span>, <span class="co"># combine Sex and Pclass</span></span>
 <span>              data <span class="op">=</span> <span class="va">titanic_train</span>,</span>
 <span>              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
@@ -277,13 +277,13 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>A woman in first class would have survival probability:</p>
-<div class="sourceCode" id="cb827"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb828"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="va">model2</span><span class="op">$</span><span class="va">coefficients</span></span>
 <span><span class="co"># prob women first class</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.9086385</code></pre>
 <p>While a man in third class:</p>
-<div class="sourceCode" id="cb829"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb830"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.09532814</code></pre>
 <p>Consider the alternative models <code>Survived ~ Sex * factor(Pclass)</code>, <code>Survived ~ Sex + Pclass</code>, <code>Survived ~ Sex * Pclass</code>, <code>Survived ~ Sex:factor(Pclass)</code>, <code>Survived ~ Sex:Pclass</code>. Explain what each model is doing in English.</p>
@@ -293,7 +293,7 @@ Clearly, you could alternatively use the cumulative distribution function of any
 <span class="header-section-number">14.3.3</span> Exercise in class: College admissions<a class="anchor" aria-label="anchor" href="#exercise-in-class-college-admissions"><i class="fas fa-link"></i></a>
 </h3>
 <p>With slight abuse of notation, you can fit probabilities using the logistic regression (the only problem is that you don’t know how many values contributed to the calculations of the probabilities—i.e., sample sizes). Read in the file <code>admission_rates.csv</code>, containing data on admissions to several universities. Your goal is to find a good prediction (or a good combination of predictors) for the <code>Admission_rate</code>. You can use <code>State</code>, <code>Ownership</code> (public/private), <code>Citytype</code> (town, suburb, city), <code>SAT</code> (typical SAT score of admits), <code>AvgCost</code> (tuition). Fit the models using:</p>
-<div class="sourceCode" id="cb831"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb832"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/admission_rates.csv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 195 Columns: 7
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -303,7 +303,7 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb833"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb834"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># example</span></span>
 <span><span class="va">logit_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Admission_rate</span> <span class="op">~</span> <span class="va">AvgCost</span>, data <span class="op">=</span> <span class="va">dt</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
@@ -312,14 +312,14 @@ Clearly, you could alternatively use the cumulative distribution function of any
 <li>Plot fitted vs. observed admission rates, when using different combinations of predictors.</li>
 </ul>
 <p>For the example above:</p>
-<div class="sourceCode" id="cb835"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb836"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="va">Admission_rate</span>, <span class="va">logit_1</span><span class="op">$</span><span class="va">fitted.values</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-344-1.png" width="672"></div>
 <ul>
 <li>Score the models using <code>AIC</code>: which is the single best predictor of acceptance rate? (Note: as we will see later this week, the lower the AIC, the better).</li>
 </ul>
-<div class="sourceCode" id="cb836"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb837"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">logit_1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 220.7783</code></pre>
 <ul>
@@ -496,7 +496,7 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-09-26.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
