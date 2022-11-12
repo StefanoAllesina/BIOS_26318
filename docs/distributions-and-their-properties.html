@@ -60,6 +60,7 @@
 <li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
 <li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -298,11 +299,11 @@ The calculation for two continuous random variables is analogous, only with inte
 <span><span class="va">unif.sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">low</span>, <span class="va">high</span><span class="op">)</span> <span class="co"># generate sample</span></span>
 <span><span class="va">unif.exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">unif.sample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The expected value of uniform distribution is"</span>, <span class="va">unif.exp</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "The expected value of uniform distribution is 5.06540985442465"</code></pre>
+<pre><code>## [1] "The expected value of uniform distribution is 5.10913122939644"</code></pre>
 <div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">unif.var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">unif.sample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The variance of uniform distribution is"</span>, <span class="va">unif.var</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "The variance of uniform distribution is 8.30620526940778"</code></pre>
+<pre><code>## [1] "The variance of uniform distribution is 8.12466452654567"</code></pre>
 <p><em>Exercise:</em> experiment with the width of the interval to see how it affects the expectation and variance.</p>
 </div>
 <div id="exponential" class="section level3" number="5.4.2">
@@ -325,11 +326,11 @@ The calculation for two continuous random variables is analogous, only with inte
 <span><span class="va">exp.sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html">rexp</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">r</span><span class="op">)</span> <span class="co"># generate sample</span></span>
 <span><span class="va">exp.exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">exp.sample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The expected value of exponential distribution is"</span>, <span class="va">exp.exp</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "The expected value of exponential distribution is 2.01850378726749"</code></pre>
+<pre><code>## [1] "The expected value of exponential distribution is 2.02780744259236"</code></pre>
 <div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp.var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">exp.sample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The variance of exponential distribution is"</span>, <span class="va">exp.var</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "The variance of exponential distribution is 3.83941422118433"</code></pre>
+<pre><code>## [1] "The variance of exponential distribution is 4.51886492404401"</code></pre>
 <p><em>Exercise:</em> What is the relationship between the rate and the expectation and variance?</p>
 </div>
 <div id="normal-distribution" class="section level3" number="5.4.3">
@@ -360,11 +361,11 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span><span class="va">norm.sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">mu</span>, <span class="va">sigma</span><span class="op">)</span> <span class="co"># generate sample</span></span>
 <span><span class="va">norm.exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">norm.sample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The expected value of normal distribution is"</span>, <span class="va">norm.exp</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "The expected value of normal distribution is 5.00768941373441"</code></pre>
+<pre><code>## [1] "The expected value of normal distribution is 5.00705642394151"</code></pre>
 <div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">norm.var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">norm.sample</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"The variance of normal distribution is"</span>, <span class="va">norm.var</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "The variance of normal distribution is 0.237997327122373"</code></pre>
+<pre><code>## [1] "The variance of normal distribution is 0.232062304899855"</code></pre>
 </div>
 </div>
 <div id="application-of-normal-distribution-confidence-intervals" class="section level2" number="5.5">
@@ -407,10 +408,10 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span><span class="va">left</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span> <span class="op">+</span> <span class="va">s</span> <span class="op">*</span> <span class="va">z</span></span>
 <span><span class="va">right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample</span><span class="op">)</span> <span class="op">-</span> <span class="va">s</span> <span class="op">*</span> <span class="va">z</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">right</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 0.5843578</code></pre>
+<pre><code>## [1] 0.5518802</code></pre>
 <div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">left</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 0.4666318</code></pre>
+<pre><code>## [1] 0.4393196</code></pre>
 <p><em>Exercise:</em> Modify that script to report whether the confidence interval captures the true mean. Use a loop structure (as in the script above) to generate 1000 sample means and report how many of them are within the theoretical confidence interval. Does this match the fraction you expect from the significance level? Try different significance levels and sample sizes and report what you discover.</p>
 </div>
 <div id="identifying-type-of-distribution-in-real-data" class="section level2" number="5.6">
@@ -456,8 +457,8 @@ where <span class="math inline">\(N(0,1)\)</span> stands for the normal distribu
 <span><span class="co"># note the slight discrepancies</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">my_normal</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##       mean          sd    
-##   3.03809459   1.48753761 
-##  (0.06652470) (0.04704007)</code></pre>
+##   2.97771046   1.55781268 
+##  (0.06966750) (0.04926236)</code></pre>
 <div class="sourceCode" id="cb431"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">test_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html">stat_qq</a></span><span class="op">(</span>distribution <span class="op">=</span> <span class="va">qnorm</span>, dparams <span class="op">=</span> <span class="va">my_normal</span><span class="op">$</span><span class="va">estimate</span><span class="op">)</span> <span class="op">+</span></span>
@@ -549,7 +550,7 @@ Now let us assess the “normality” of the flipper length data separated by se
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

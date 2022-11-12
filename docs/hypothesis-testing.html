@@ -60,6 +60,7 @@
 <li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
 <li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -151,13 +152,13 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 ##  Two Sample t-test
 ## 
 ## data:  my_sample$sample1 and my_sample$sample2
-## t = -0.79067, df = 1998, p-value = 0.4292
+## t = -0.86754, df = 1998, p-value = 0.3858
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.12263487  0.05216271
+##  -0.12491967  0.04829588
 ## sample estimates:
 ## mean of x mean of y 
-## 0.9952948 1.0305309</code></pre>
+## 0.9980085 1.0363204</code></pre>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
 </div>
 <div id="multiple-comparisons" class="section level2" number="6.4">
@@ -180,7 +181,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <p>How many times do we detect a “significant difference in reflectance” when setting <span class="math inline">\(\alpha = 0.05\)</span> (even though we know that males and females are sampled from the same distribution)?</p>
 <div class="sourceCode" id="cb443"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pvalues</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 111</code></pre>
+<pre><code>## [1] 128</code></pre>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>
 <div class="sourceCode" id="cb445"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">pvalues</span><span class="op">)</span></span></code></pre></div>
@@ -251,7 +252,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/medals.csv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 6915 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────
 ## Delimiter: ","
 ## chr (2): NOC, Sport
 ## dbl (3): Year, F, M
@@ -374,7 +375,7 @@ The notation TP, FP, etc. represents the frequency or count of true positives, f
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

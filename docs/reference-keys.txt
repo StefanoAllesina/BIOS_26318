@@ -268,3 +268,15 @@ forecasting-using-smoothing-methods
 forecasting-using-linear-regression
 forecasting-based-on-regression-models
 references-and-further-reading-1
+monte-carlo-methods
+idea
+history
+bootstrapping
+example-1
+example-2
+hypothesis-testing-using-monte-carlo
+example-penguin-breeding-pairs
+randomizing-binary-tables-bipartite-networks
+randomizing-the-network-checkerboard-swapping
+randomizing-the-network-curveball
+example-darwins-finches

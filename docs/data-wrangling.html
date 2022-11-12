@@ -60,6 +60,7 @@
 <li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
 <li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -259,7 +260,9 @@
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">species</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">body_mass_g</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by 'sex'. You can override using the `.groups`
+<pre><code>## `summarise()` has grouped
+## output by 'sex'. You can
+## override using the `.groups`
 ## argument.</code></pre>
 <pre><code>## # A tibble: 6 × 3
 ## # Groups:   sex [2]
@@ -465,11 +468,19 @@
 <pre><code>## New names:
 ## Rows: 172 Columns: 55
 ## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: "\t" dbl
-## (37): Age, CAT01, CAT03, CAT04A, CAT05B, CAT06, CAT07, CAT08A, CAT09C, C... lgl
-## (18): ...38, ...39, ...40, ...41, ...42, ...43, ...44, ...45, ...46, ......
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ────── Delimiter: "\t" dbl
+## (37): Age, CAT01, CAT03,
+## CAT04A, CAT05B, CAT06, CAT07,
+## CAT08A, CAT09C, C... lgl
+## (18): ...38, ...39, ...40,
+## ...41, ...42, ...43, ...44,
+## ...45, ...46, ......
+## ℹ Use `spec()` to retrieve
+## the full column specification
+## for this data. ℹ Specify the
+## column types or set
+## `show_col_types = FALSE` to
+## quiet this message.
 ## • `Mean` -&gt; `Mean...32`
 ## • `Mean` -&gt; `Mean...35`
 ## • `` -&gt; `...37`
@@ -700,7 +711,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

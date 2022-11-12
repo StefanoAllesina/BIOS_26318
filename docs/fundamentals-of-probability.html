@@ -60,6 +60,7 @@
 <li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
 <li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -269,7 +270,9 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 <p>The chunk below calculated the survival probability of passengers of all classes compared to the crew (of all types:</p>
 <div class="sourceCode" id="cb312"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">titanic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span>Passenger <span class="op">=</span> <span class="va">class</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'1st'</span>, <span class="st">'2nd'</span>, <span class="st">'3rd'</span><span class="op">)</span>, <span class="va">survived</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>num <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>fraction <span class="op">=</span> <span class="va">num</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">num</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by 'Passenger'. You can override using the
+<pre><code>## `summarise()` has grouped
+## output by 'Passenger'. You
+## can override using the
 ## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 4 × 4
 ## # Groups:   Passenger [2]
@@ -329,7 +332,7 @@ P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

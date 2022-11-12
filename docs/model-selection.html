@@ -60,6 +60,7 @@
 <li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
 <li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -740,7 +741,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span><span class="co"># https://datadryad.org/stash/dataset/doi:10.5061/dryad.hg3j0</span></span>
 <span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/LMP2015.csv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 140000 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────
 ## Delimiter: ","
 ## chr (1): journal
 ## dbl (3): year, title_length, cites
@@ -791,8 +792,10 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, colour <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># rotate labels x axis</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by 'year'. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped
+## output by 'year'. You can
+## override using the `.groups`
+## argument.</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-294-1.png" width="672"></div>
 <p>It seems that in several medical journals (NEJM, Circulation, J Clin Oncology) longer titles fare better than shorter ones. In Nature and PNAS we see a negative correlation, while Science gives no clear trend.</p>
 <p>Let’s look at the mean and standard deviation of citations by journal/year</p>
@@ -804,8 +807,10 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">mean</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">journal</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by 'journal'. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped
+## output by 'journal'. You can
+## override using the `.groups`
+## argument.</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-295-1.png" width="672"></div>
 <div class="sourceCode" id="cb726"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -815,8 +820,10 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">sd</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">journal</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by 'journal'. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped
+## output by 'journal'. You can
+## override using the `.groups`
+## argument.</code></pre>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-295-2.png" width="672"></div>
 </div>
 <div id="two-models" class="section level4" number="11.10.2.2">
@@ -835,7 +842,9 @@ There is clearly a relationship, but would it help to add species and sex as var
 <span><span class="co"># sample 10% of the data</span></span>
 <span><span class="va">data_test</span> <span class="op">&lt;-</span> <span class="va">dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_frac</a></span><span class="op">(</span><span class="fl">0.3</span><span class="op">)</span></span>
 <span><span class="va">data_fit</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">anti_join</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">data_test</span><span class="op">)</span> <span class="co"># get all those not in data_test</span></span></code></pre></div>
-<pre><code>## Joining, by = c("year", "journal", "title_length", "cites", "num_papers",
+<pre><code>## Joining, by = c("year",
+## "journal", "title_length",
+## "cites", "num_papers",
 ## "logcit")</code></pre>
 <p>Now fit the models:</p>
 <div class="sourceCode" id="cb730"><pre class="downlit sourceCode r">
@@ -927,7 +936,7 @@ There is clearly a relationship, but would it help to add species and sex as var
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

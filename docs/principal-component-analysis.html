@@ -60,6 +60,7 @@
 <li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
 <li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -232,7 +233,7 @@ Y = X W = U \Sigma V^T V = U\Sigma
 <code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/handwritten_digits.csv"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 123392 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────
 ## Delimiter: ","
 ## dbl (6): id, label, pixel, value, x, y
 ## 
@@ -384,7 +385,7 @@ B = X X^t = Q \Lambda Q^t
 <code class="sourceCode R"><span><span class="co"># read distances US</span></span>
 <span><span class="va">usa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/dist_US.csv"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Rows: 265356 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────
 ## Delimiter: ","
 ## chr (2): from, to
 ## dbl (1): dist
@@ -482,7 +483,7 @@ B = X X^t = Q \Lambda Q^t
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-10-04.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
