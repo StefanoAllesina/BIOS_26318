@@ -7,17 +7,20 @@
 <title>Lecture 7 Likelihood and Bayes | Fundamentals of Biological Data Analysis</title>
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina">
 <meta name="description" content="understand the difference between likelihood and probability maximum likelihood estimation calculate positive predictive value of a hypothesis test interpret the results of Bayesian inference  7.1...">
-<meta name="generator" content="bookdown 0.24.1 with bs4_book()">
+<meta name="generator" content="bookdown 0.29 with bs4_book()">
 <meta property="og:title" content="Lecture 7 Likelihood and Bayes | Fundamentals of Biological Data Analysis">
 <meta property="og:type" content="book">
 <meta property="og:description" content="understand the difference between likelihood and probability maximum likelihood estimation calculate positive predictive value of a hypothesis test interpret the results of Bayesian inference  7.1...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lecture 7 Likelihood and Bayes | Fundamentals of Biological Data Analysis">
 <meta name="twitter:description" content="understand the difference between likelihood and probability maximum likelihood estimation calculate positive predictive value of a hypothesis test interpret the results of Bayesian inference  7.1...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0.9000/transition.js"></script><script src="libs/bs3compat-0.3.0.9000/tabs.js"></script><script src="libs/bs3compat-0.3.0.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,13 +53,14 @@
 <li><a class="" href="review-of-linear-algebra.html"><span class="header-section-number">8</span> Review of linear algebra</a></li>
 <li><a class="" href="linear-models.html"><span class="header-section-number">9</span> Linear models</a></li>
 <li><a class="" href="anova.html"><span class="header-section-number">10</span> ANOVA</a></li>
-<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">11</span> Time series: modeling and forecasting</a></li>
-<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">12</span> Generalized linear models</a></li>
-<li><a class="" href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></li>
-<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">14</span> Principal Component Analysis</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">15</span> Clustering</a></li>
+<li><a class="" href="model-selection.html"><span class="header-section-number">11</span> Model Selection</a></li>
+<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">12</span> Principal Component Analysis</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">13</span> Clustering</a></li>
+<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">14</span> Generalized linear models</a></li>
+<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
-<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">17</span> Machine learning methods for classification</a></li>
+<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -83,12 +87,12 @@
 <span class="header-section-number">7.1.1</span> likelihood vs. probability<a class="anchor" aria-label="anchor" href="#likelihood-vs.-probability"><i class="fas fa-link"></i></a>
 </h3>
 <p>In everyday English, probability and likelihood are synonymous. In probability and statistics, however, the two are distinct, although related, concepts. The definition of likelihood is based on the notion of conditional probability that we defined in week 2, applied to a data set and a particular probability model <span class="math inline">\(M\)</span>:</p>
-<p><span class="math display">\[ 
+<p><span class="math display">\[
 L(M \ \ \vert \ \ D) = P(D \ \ \vert \ \ M)
 \]</span></p>
 <p>The model is based on a set of assumptions that allow us to calculate probabilities of outcomes of a random experiment, typically a random variable with a well-defined probability distribution function.</p>
 <p><strong>Example.</strong> <span class="math inline">\(M\)</span> may represent the binomial random variable, based on the assumptions that the data are strings of <span class="math inline">\(n\)</span> independent binary outcomes with a set probability <span class="math inline">\(p\)</span> of “success.” We then have the following formula for the probability of obtaining <span class="math inline">\(k\)</span> successes:</p>
-<p><span class="math display">\[ 
+<p><span class="math display">\[
 P(k ; n , p) =  {n \choose k} p^k (1-p)^{n-k}
 \]</span></p>
 <p>Suppose we think we have a fair coin and we flip it ten times and obtain 4 heads and 6 tails. Then the likelihood of our model (a binomial random variable with <span class="math inline">\(p=0.5\)</span> with <span class="math inline">\(n=10\)</span>) based on our data (<span class="math inline">\(k=4\)</span>) is:</p>
@@ -96,8 +100,8 @@ P(k ; n , p) =  {n \choose k} p^k (1-p)^{n-k}
 L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 0.5^4 (0.5)^{6}
 \]</span></p>
 <p>To calculate this precisely, it is easiest to use the R function dbinom():</p>
-<div class="sourceCode" id="cb460"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">10</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">10</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.2050781</code></pre>
 <p>So the likelihood of this data set being produced by a fair coin is about 20.5%.</p>
 <p>This certainly looks like a probability — in fact we calculated it from a probability distribution function, so why do we call it a likelihood? There are two fundamental differences between the two, one mostly abstract, the other more grounded.</p>
@@ -128,23 +132,23 @@ L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 
 <p><span class="math display">\[L(\theta \ \vert \ D) = P(X = D \ \vert \ \theta)\]</span></p>
 <p>Finding the m.l.e. of <span class="math inline">\(\theta\)</span> simply means finding the value(s) maximizing the probability of obtaining the given data under the model. In cases when this likelihood function has a simple algebraic form, we can find the maximum value using the classic method of taking its derivative and setting it to zero.</p>
 <p><strong>Example.</strong> Let’s go back to the binomial example. Based on the data set of 4 heads out of 10 coin tosses, what is the maximum likelihood estimate of the probability of a head <span class="math inline">\(p\)</span>? The range of values of <span class="math inline">\(p\)</span> is between 0 and 1, and since we have a functional expression for <span class="math inline">\(P(k=4 ; n=10, p)\)</span> (see above) we can plot it using the dbinom() function:</p>
-<div class="sourceCode" id="cb462"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">10</span>
-<span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">4</span>
-<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-<span class="va">like_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">lik</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">k</span>, <span class="va">n</span>, <span class="va">p</span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">lik</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">like_fun</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">xlab</span><span class="op">(</span><span class="st">'probability of success (p)'</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">'likelihood'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0.4</span>, linetype<span class="op">=</span><span class="st">'dotted'</span>, color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span>
-<span class="fu">show</span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">like_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">lik</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">dbinom</a></span><span class="op">(</span><span class="va">k</span>, <span class="va">n</span>, <span class="va">p</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">lik</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">like_fun</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">'probability of success (p)'</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">'likelihood'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0.4</span>, linetype<span class="op">=</span><span class="st">'dotted'</span>, color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-186-1.png" width="672"></div>
 <p>It’s probably not surprising that the maximum of the likelihood function occurs at <span class="math inline">\(p=0.4\)</span>, that is the observed fraction of heads! Using the magic of derivatives, we can show that for a data set with <span class="math inline">\(k\)</span> success out of <span class="math inline">\(n\)</span> trials, the maximum likelihood value of <span class="math inline">\(p\)</span> is <span class="math inline">\(\hat p = k/n\)</span>:</p>
-<p><span class="math display">\[ 
+<p><span class="math display">\[
 \begin{aligned}
 L(p  \ \vert \ n, k) &amp;= {n \choose k} p^k (1-p)^{n-k} \\ \hline
 L'(p | n, k ) &amp;= {n \choose k}\left [ kp^{k-1}(1-p)^{n-k} - (n-k) (1-p)^{n-k-1}p^k \right] \\
@@ -227,7 +231,7 @@ This is again because this disease is quite rare in this population, so a negati
 <img src="https://imgs.xkcd.com/comics/frequentists_vs_bayesians.png">
 </center>
 <p>The basic principle of Bayesian thinking is that one cannot interpret the reliability of a result, e.g. a hypothesis test, without factoring in the prior probability of it being true. This seems like a commonsensical concept, but it is often neglected when such results are interpreted in various contexts, which can lead to perilous mistakes.</p>
-<p>Here is a scenario called “the prosecutor’s fallacy.” Suppose that a defendant is accused of a crime, and physical evidence collected at the crime scene matches this person (e.g. a fingerprint or a DNA sample), but no other evidence exists to connect the defendant to the crime. The prosecutor calls an expert witness to testify that fewer than one out of a million randomly chosen people would match this sample. Therefore, she argues, there is overwhelming probability that the defendant is guilty and less than 1 in a million chance they are innocent.</p>
+<p>Here is a scenario called “the prosecutor’s fallacy”. Suppose that a defendant is accused of a crime, and physical evidence collected at the crime scene matches this person (e.g. a fingerprint or a DNA sample), but no other evidence exists to connect the defendant to the crime. The prosecutor calls an expert witness to testify that fewer than one out of a million randomly chosen people would match this sample. Therefore, she argues, there is overwhelming probability that the defendant is guilty and less than 1 in a million chance they are innocent.</p>
 <p>Do you spot the problem with the argument?</p>
 <p>It’s the same fallacy as we saw in the medical testing scenario, or that is portrayed in the xkcd cartoon above. The prosecutor is conflating the probability of a match (positive result) given that the person is innocent, and the probability of the person being innocent, given the match. The probability of the former is one in a million, but we want to know the latter! And the latter depends on the prior probability of the person committing the crime, which should have been investigated by the detectives: did the defendant have a conflict with the victim or have they never met? did he have opportunity to commit the crime, or was he in a different city at the time? Without this information, it is impossible to decide whether it’s more likely that the DNA/fingerprint match is a false positive (in a country of 300 million, you can find 300 false matches if everyone is in the database!) or a true positive.</p>
 </div>
@@ -271,18 +275,18 @@ L(p \ \vert \ k, n) = \binom{n}{k}p^k (1-p)^{n-k}
 \]</span>
 and our maximum likelihood estimate is <span class="math inline">\(\hat{p} = k /n\)</span>. This allows for estimation of the total population size to be <span class="math inline">\(P = n_2/\hat p\)</span>, where <span class="math inline">\(n_2\)</span> is the total number of individuals captured in the second experiment. There are more sophisticated estimators, but this one is reasonable for large enough populations.</p>
 <p>Let us plot the likelihood as a function of <span class="math inline">\(p\)</span> for the case in which <span class="math inline">\(n = 100\)</span> and <span class="math inline">\(k = 33\)</span></p>
-<div class="sourceCode" id="cb463"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span>
-<span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">33</span>
-<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-<span class="va">likelihood_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">lik</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">choose</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">m</span><span class="op">)</span> <span class="op">*</span> <span class="va">p</span><span class="op">^</span><span class="va">m</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">p</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="va">m</span><span class="op">)</span>
-  <span class="co"># divide by the evidence to make into density function</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">lik</span> <span class="op">*</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">likelihood_function</span><span class="op">)</span>
-<span class="fu">show</span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fl">33</span></span>
+<span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">likelihood_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">lik</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html">choose</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">m</span><span class="op">)</span> <span class="op">*</span> <span class="va">p</span><span class="op">^</span><span class="va">m</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">p</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="va">m</span><span class="op">)</span></span>
+<span>  <span class="co"># divide by the evidence to make into density function</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">lik</span> <span class="op">*</span> <span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">likelihood_function</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/methods/show.html">show</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-189-1.png" width="672"></div>
 <p>Now we choose a prior. For convenience, we choose a Beta distribution, <span class="math inline">\(P(p) = \text{Beta}(\alpha, \beta) = \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)}\)</span>, where <span class="math inline">\(B(\alpha, \beta)\)</span> is the Beta function, <span class="math inline">\(B(\alpha, \beta) = \int_0^1 t^{\alpha -1} (1-t)^{\beta - 1} dt\)</span>.</p>
 <p>Therefore:</p>
@@ -295,22 +299,22 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
 \end{aligned}
 \]</span></p>
 <p>We can explore the effect of choosing a prior on the posterior. Suppose that in the past we have seen probabilities close to 50%. Then we could choose a prior <span class="math inline">\(\text{Beta}(10,10)\)</span> (this is what is called a “strong” or “informative” prior). Let’s see what happens to the posterior:</p>
-<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># a strong prior</span>
-<span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">10</span>
-<span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">10</span>
-<span class="va">prior_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span>
-<span class="va">posterior_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">alpha</span> <span class="op">+</span> <span class="va">m</span>, <span class="va">beta</span> <span class="op">+</span> <span class="va">n</span> <span class="op">-</span> <span class="va">m</span><span class="op">)</span>
-<span class="va">pl</span> <span class="op">+</span> <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">prior_function</span>, colour <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">posterior_function</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># a strong prior</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">prior_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span></span>
+<span><span class="va">posterior_function</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">alpha</span> <span class="op">+</span> <span class="va">m</span>, <span class="va">beta</span> <span class="op">+</span> <span class="va">n</span> <span class="op">-</span> <span class="va">m</span><span class="op">)</span></span>
+<span><span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">prior_function</span>, colour <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">posterior_function</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-190-1.png" width="672"></div>
 <p>You can see that the posterior “mediates” between the prior and the likelihood curve. When we use a weak prior, then our posterior will be closer to the likelihood function:</p>
-<div class="sourceCode" id="cb465"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># a weak prior</span>
-<span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>
-<span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span>
-<span class="va">pl</span> <span class="op">+</span> <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">prior_function</span>, colour <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">stat_function</span><span class="op">(</span>fun <span class="op">=</span> <span class="va">posterior_function</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># a weak prior</span></span>
+<span><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="fl">2</span></span>
+<span><span class="va">pl</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">prior_function</span>, colour <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">posterior_function</span>, colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-191-1.png" width="672"></div>
 <p>The fact that the posterior depends on the prior is the most controversial aspect of Bayesian inference. Different schools of thought treat this feature differently (e.g., “Subjective Bayes” interprets priors as beliefs before seeing the data; “Empirical Bayes” relies on previous experiments or on the data themselves to derive the prior; “Objective Bayes” tries to derive the least-informative prior given the data). In practice, the larger the data, the cleaner the signal, the lesser the influence of the prior on the resulting posterior.</p>
 </div>
@@ -383,7 +387,7 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-11-18.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -396,7 +400,7 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

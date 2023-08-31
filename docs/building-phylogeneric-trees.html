@@ -6,18 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Lecture 16 Building phylogeneric trees | Fundamentals of Biological Data Analysis</title>
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina">
-<meta name="description" content="Let’s import some libraries: library(ape) # most important library for phylogeny ## ## Attaching package: 'ape' ## The following object is masked from 'package:rsample': ## ##   complement...">
-<meta name="generator" content="bookdown 0.24.1 with bs4_book()">
+<meta name="description" content="Let’s import some libraries: library(ape) # most important library for phylogeny library(phangorn) # tree reconstruction  16.1 Introduction  Darwin’s tree Since Darwin’s “I think…” biologists have...">
+<meta name="generator" content="bookdown 0.29 with bs4_book()">
 <meta property="og:title" content="Lecture 16 Building phylogeneric trees | Fundamentals of Biological Data Analysis">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Let’s import some libraries: library(ape) # most important library for phylogeny ## ## Attaching package: 'ape' ## The following object is masked from 'package:rsample': ## ##   complement...">
+<meta property="og:description" content="Let’s import some libraries: library(ape) # most important library for phylogeny library(phangorn) # tree reconstruction  16.1 Introduction  Darwin’s tree Since Darwin’s “I think…” biologists have...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lecture 16 Building phylogeneric trees | Fundamentals of Biological Data Analysis">
-<meta name="twitter:description" content="Let’s import some libraries: library(ape) # most important library for phylogeny ## ## Attaching package: 'ape' ## The following object is masked from 'package:rsample': ## ##   complement...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="twitter:description" content="Let’s import some libraries: library(ape) # most important library for phylogeny library(phangorn) # tree reconstruction  16.1 Introduction  Darwin’s tree Since Darwin’s “I think…” biologists have...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0.9000/transition.js"></script><script src="libs/bs3compat-0.3.0.9000/tabs.js"></script><script src="libs/bs3compat-0.3.0.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,13 +53,14 @@
 <li><a class="" href="review-of-linear-algebra.html"><span class="header-section-number">8</span> Review of linear algebra</a></li>
 <li><a class="" href="linear-models.html"><span class="header-section-number">9</span> Linear models</a></li>
 <li><a class="" href="anova.html"><span class="header-section-number">10</span> ANOVA</a></li>
-<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">11</span> Time series: modeling and forecasting</a></li>
-<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">12</span> Generalized linear models</a></li>
-<li><a class="" href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></li>
-<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">14</span> Principal Component Analysis</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">15</span> Clustering</a></li>
+<li><a class="" href="model-selection.html"><span class="header-section-number">11</span> Model Selection</a></li>
+<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">12</span> Principal Component Analysis</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">13</span> Clustering</a></li>
+<li><a class="" href="generalized-linear-models.html"><span class="header-section-number">14</span> Generalized linear models</a></li>
+<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="active" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
-<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">17</span> Machine learning methods for classification</a></li>
+<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -69,23 +73,12 @@
 <span class="header-section-number">Lecture 16</span> Building phylogeneric trees<a class="anchor" aria-label="anchor" href="#building-phylogeneric-trees"><i class="fas fa-link"></i></a>
 </h1>
 <p>Let’s import some libraries:</p>
-<div class="sourceCode" id="cb892"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span> <span class="co"># most important library for phylogeny</span></code></pre></div>
-<pre><code>## 
-## Attaching package: 'ape'</code></pre>
-<pre><code>## The following object is masked from 'package:rsample':
-## 
-##     complement</code></pre>
-<div class="sourceCode" id="cb895"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KlausVigo/phangorn">phangorn</a></span><span class="op">)</span> <span class="co"># tree reconstruction</span></code></pre></div>
-<pre><code>## 
-## Attaching package: 'phangorn'</code></pre>
-<pre><code>## The following object is masked from 'package:yardstick':
-## 
-##     mcc</code></pre>
-<div id="introduction-1" class="section level2" number="16.1">
+<div class="sourceCode" id="cb886"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ape-package.ird.fr/">ape</a></span><span class="op">)</span> <span class="co"># most important library for phylogeny</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KlausVigo/phangorn">phangorn</a></span><span class="op">)</span> <span class="co"># tree reconstruction</span></span></code></pre></div>
+<div id="introduction-2" class="section level2" number="16.1">
 <h2>
-<span class="header-section-number">16.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">16.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-2"><i class="fas fa-link"></i></a>
 </h2>
 <div class="figure">
 <img src="images/darwin.jpg" alt=""><p class="caption">Darwin’s tree</p>
@@ -174,22 +167,22 @@
 </tr>
 </tbody>
 </table></div>
-<p>we could think of the tree <span class="math inline">\(((1, 2), (3, 4))\)</span> that would be consistent with the changes in position 4 and 8; the changes in position 9, however, would require a further mutation for each branch. We can count the number of changes in the sequences required for each tree, and maximum parsimony can be summarized as “The best tree to infer from data is the one requiring the fewest changes.”</p>
+<p>we could think of the tree <span class="math inline">\(((1, 2), (3, 4))\)</span> that would be consistent with the changes in position 4 and 8; the changes in position 9, however, would require a further mutation for each branch. We can count the number of changes in the sequences required for each tree, and maximum parsimony can be summarized as “The best tree to infer from data is the one requiring the fewest changes”.</p>
 <p>We can propose a tree, and for each edge connecting nodes <span class="math inline">\((u, v)\)</span>, we can count the number of changes required to go from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. We can then sum all the changes (called the <strong>parsimony score</strong>) and choose the tree with the minimum score.</p>
 <div class="figure">
 <img src="images/parsimony.jpg" alt=""><p class="caption">Parsimony</p>
 </div>
-<p>Computing the minimum score for a given tree and sequences for the leaves is called the “small parsimony problem” while computing the minimum parsimony over all trees is the “large parsimony problem.” The small problem can be solved efficiently (e.g., using the <a href="https://media.uaf.edu/media/t/0_tjoxyuwx">Fitch-Hartigan</a> algorithm). The large problem is computationally very difficult.</p>
+<p>Computing the minimum score for a given tree and sequences for the leaves is called the “small parsimony problem” while computing the minimum parsimony over all trees is the “large parsimony problem”. The small problem can be solved efficiently (e.g., using the <a href="https://media.uaf.edu/media/t/0_tjoxyuwx">Fitch-Hartigan</a> algorithm). The large problem is computationally very difficult.</p>
 </div>
 <div id="example-primates" class="section level3" number="16.4.2">
 <h3>
 <span class="header-section-number">16.4.2</span> Example: primates<a class="anchor" aria-label="anchor" href="#example-primates"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb898"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># read alignment primates</span>
-<span class="va">fdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/trees"</span>, package <span class="op">=</span> <span class="st">"phangorn"</span><span class="op">)</span>
-<span class="va">primates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/read.phyDat.html">read.phyDat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">fdir</span>, <span class="st">"primates.dna"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"interleaved"</span><span class="op">)</span>
-<span class="va">primates</span><span class="op">$</span><span class="va">Human</span></code></pre></div>
+<div class="sourceCode" id="cb887"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># read alignment primates</span></span>
+<span><span class="va">fdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/trees"</span>, package <span class="op">=</span> <span class="st">"phangorn"</span><span class="op">)</span></span>
+<span><span class="va">primates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/read.phyDat.html">read.phyDat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">fdir</span>, <span class="st">"primates.dna"</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"interleaved"</span><span class="op">)</span></span>
+<span><span class="va">primates</span><span class="op">$</span><span class="va">Human</span></span></code></pre></div>
 <pre><code>##   [1] 1 2 2 2 2 1 2 4 2 1 2 2 2 1 4 1 2 1 1 1 2 1 1 2 1 2 2 1 2 4 2 4 2 2 2 2 4
 ##  [38] 1 1 4 4 1 2 1 1 4 4 4 1 1 2 2 4 2 2 2 1 2 2 4 4 2 1 3 1 1 2 4 3 1 1 2 3 2
 ##  [75] 2 1 1 4 2 4 2 1 4 1 1 2 2 1 1 2 1 2 1 2 2 2 2 1 4 2 1 1 1 3 2 1 2 2 2 2 4
@@ -197,64 +190,64 @@
 ## [149] 2 4 4 1 2 2 1 2 3 4 2 4 2 2 2 4 2 2 2 4 2 4 2 1 2 1 2 2 4 4 1 2 4 2 1 2 2
 ## [186] 4 4 2 4 2 2 2 1 1 1 2 3 1 2 4 4 2 3 2 1 2 2 1 2 1 1 2 3 2 2 1 2</code></pre>
 <p>Now let’s build a random tree and compute parsimony:</p>
-<div class="sourceCode" id="cb900"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>
-<span class="co"># generate random tree</span>
-<span class="va">my_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">14</span>, rooted <span class="op">=</span> <span class="cn">FALSE</span>, tip.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">primates</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">my_tree</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-379-1.png" width="672"></div>
+<div class="sourceCode" id="cb889"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co"># generate random tree</span></span>
+<span><span class="va">my_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">14</span>, rooted <span class="op">=</span> <span class="cn">FALSE</span>, tip.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">primates</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">my_tree</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-372-1.png" width="672"></div>
 <p>We can compute the parsimony score for the tree:</p>
-<div class="sourceCode" id="cb901"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">my_tree</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb890"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">my_tree</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 944</code></pre>
 <p>Meaning that to recover the observed sequences from the ancestral one, we need to assume 921 changes have occurred. Clearly, this doesn’t seem to be an especially promising tree (for example, Humans and Chimpanzees are quite far, while we know that they should be close). Let’s try with another random tree:</p>
-<div class="sourceCode" id="cb903"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># try with another one</span>
-<span class="va">my_tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">14</span>, rooted <span class="op">=</span> <span class="cn">FALSE</span>, tip.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">primates</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">my_tree2</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-381-1.png" width="672"></div>
-<div class="sourceCode" id="cb904"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">my_tree2</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb892"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># try with another one</span></span>
+<span><span class="va">my_tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ape/man/rtree.html">rtree</a></span><span class="op">(</span><span class="fl">14</span>, rooted <span class="op">=</span> <span class="cn">FALSE</span>, tip.label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">primates</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">my_tree2</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-374-1.png" width="672"></div>
+<div class="sourceCode" id="cb893"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">my_tree2</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 931</code></pre>
 <p>Which is even worse! We can try to “tweak” the structure of the tree to reduce the parsimony score by calling <code>optim.parsimony</code>. For example:</p>
-<div class="sourceCode" id="cb906"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># try to find a good tree</span>
-<span class="va">optim_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">my_tree</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
-<pre><code>## Final p-score 751 after  21 nni operations</code></pre>
-<div class="sourceCode" id="cb908"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">optim_tree</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-382-1.png" width="672"></div>
+<div class="sourceCode" id="cb895"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># try to find a good tree</span></span>
+<span><span class="va">optim_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">my_tree</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Final p-score 746 after  24 nni operations</code></pre>
+<div class="sourceCode" id="cb897"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">optim_tree</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-375-1.png" width="672"></div>
 <p>Trying with the other random tree:</p>
-<div class="sourceCode" id="cb909"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">optim_tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">my_tree2</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
-<pre><code>## Final p-score 746 after  14 nni operations</code></pre>
-<div class="sourceCode" id="cb911"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">optim_tree2</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-383-1.png" width="672"></div>
+<div class="sourceCode" id="cb898"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">optim_tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">my_tree2</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Final p-score 746 after  21 nni operations</code></pre>
+<div class="sourceCode" id="cb900"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">optim_tree2</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-376-1.png" width="672"></div>
 <p>This shows that the starting tree matters. In fact, we do not find especially good solutions even after calling <code>optim.parsimony</code>. Now we are going to try again but with a starting tree based on distances (explained below).</p>
-<div class="sourceCode" id="cb912"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># compute distances</span>
-<span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/dist.hamming.html">dist.ml</a></span><span class="op">(</span><span class="va">primates</span><span class="op">)</span>
-<span class="co"># build tree using distances</span>
-<span class="va">treeNJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/NJ.html">NJ</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span>
-<span class="va">treeUPGMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/upgma.html">upgma</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">treeNJ</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb901"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># compute distances</span></span>
+<span><span class="va">dm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/dist.hamming.html">dist.ml</a></span><span class="op">(</span><span class="va">primates</span><span class="op">)</span></span>
+<span><span class="co"># build tree using distances</span></span>
+<span><span class="va">treeNJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/NJ.html">NJ</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span>
+<span><span class="va">treeUPGMA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/upgma.html">upgma</a></span><span class="op">(</span><span class="va">dm</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">treeNJ</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 746</code></pre>
-<div class="sourceCode" id="cb914"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">optim_tree3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">treeNJ</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb903"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">optim_tree3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">treeNJ</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Final p-score 746 after  0 nni operations</code></pre>
-<div class="sourceCode" id="cb916"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">optim_tree3</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-384-1.png" width="672"></div>
-<div class="sourceCode" id="cb917"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">treeUPGMA</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 869</code></pre>
-<div class="sourceCode" id="cb919"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">optim_tree4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">treeUPGMA</span>, <span class="va">primates</span><span class="op">)</span></code></pre></div>
-<pre><code>## Final p-score 746 after  15 nni operations</code></pre>
-<div class="sourceCode" id="cb921"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">optim_tree4</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-384-2.png" width="672"></div>
+<div class="sourceCode" id="cb905"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">optim_tree3</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-377-1.png" width="672"></div>
+<div class="sourceCode" id="cb906"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">parsimony</a></span><span class="op">(</span><span class="va">treeUPGMA</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] 751</code></pre>
+<div class="sourceCode" id="cb908"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">optim_tree4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/parsimony.html">optim.parsimony</a></span><span class="op">(</span><span class="va">treeUPGMA</span>, <span class="va">primates</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Final p-score 746 after  1 nni operations</code></pre>
+<div class="sourceCode" id="cb910"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">optim_tree4</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-377-2.png" width="672"></div>
 </div>
 <div id="parsimonygate" class="section level3" number="16.4.3">
 <h3>
@@ -268,7 +261,7 @@
 <h2>
 <span class="header-section-number">16.5</span> Distance Methods<a class="anchor" aria-label="anchor" href="#distance-methods"><i class="fas fa-link"></i></a>
 </h2>
-<p>A second class of methods is based on measuring “dissimilarity” (or “distance”) between sequences. The idea is then to preferentially connect with a common ancestors species that are “close.” This is similar to what we’ve done with MDS, and the basic notion of distance is the same. We start by computing a matrix of dissimilarities (or distances), and then use an algorithm to build a tree.</p>
+<p>A second class of methods is based on measuring “dissimilarity” (or “distance”) between sequences. The idea is then to preferentially connect with a common ancestors species that are “close”. This is similar to what we’ve done with MDS, and the basic notion of distance is the same. We start by computing a matrix of dissimilarities (or distances), and then use an algorithm to build a tree.</p>
 <p>A simple method to build a tree given the dissimilarity matrix is called <em>unweighted pair-group method with arithmetic means</em> (<strong>UPGMA</strong>). The idea is very simple: we start by joining the two leaves that have the smallest distance. We then remove the leaves and add a new node that is the average between the two leaves. We then repeat the same operation until we have built the tree.</p>
 <div class="figure">
 <img src="images/upgma.png" alt=""><p class="caption">UPGMA</p>
@@ -279,9 +272,9 @@
 \delta(a, b) + \delta(c, d) \leq \max\{\delta(a, c) + \delta(b, d), \delta(a, d) + \delta(b, c)\}
 \]</span>
 This inequality is used to choose with two leaves to join, and the process is repeated as in UPGMA. Despite being more complex, NJ is often used in practice to produce a good starting tree. Note that NJ builds an unrooted tree.</p>
-<div class="sourceCode" id="cb922"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">treeNJ</span>, type <span class="op">=</span> <span class="st">"unrooted"</span>, lab4ut <span class="op">=</span> <span class="st">"axial"</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-385-1.png" width="672"></div>
+<div class="sourceCode" id="cb911"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">treeNJ</span>, type <span class="op">=</span> <span class="st">"unrooted"</span>, lab4ut <span class="op">=</span> <span class="st">"axial"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-378-1.png" width="672"></div>
 </div>
 <div id="likelihood-based-methods" class="section level2" number="16.6">
 <h2>
@@ -402,7 +395,7 @@ P(t) = \text{diag}(p_0) M(t) = \begin{pmatrix}
 (1- a(t)) / 4  &amp; a(t) / 12 &amp; a(t) / 12 &amp; a(t) / 12 \\
 a(t) / 12 &amp; (1 -a(t)) / 4 &amp;  a(t) / 12 &amp; a(t) / 12 \\
 a(t) / 12 &amp; a(t) / 12 &amp;  (1 -a(t))/4 &amp;  a(t) / 12 \\
-a(t) / 12 &amp; a(t) / 12 &amp;   a(t) / 12 &amp; (1-a(t)) / 4 
+a(t) / 12 &amp; a(t) / 12 &amp;   a(t) / 12 &amp; (1-a(t)) / 4
 \end{pmatrix}
 \]</span></p>
 <p>The likelihood of a given edge length, <span class="math inline">\(t\)</span> would be:</p>
@@ -421,12 +414,14 @@ a(\hat{t}) = \frac{\sum_{j\neq i} n_{ij}}{\sum_{j, i} n_{ij}}
 <p>Using this method, we can find the maximum likelihood estimate for all the branches of a tree. We can then propose a tree, and then compute the product of all likelihoods. Given that there are many possible trees, we need a smart way to explore the space.
 The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a maximum likelihood approach</em>) was the first to allow an efficient search of the space of trees, and the first to propose the method above to find optimal branch lengths.</p>
 <p>Compute using a Jukes-Cantor model:</p>
-<div class="sourceCode" id="cb923"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># compute likelihoods</span>
-<span class="va">test_NJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/pml.html">pml</a></span><span class="op">(</span><span class="va">treeUPGMA</span>, data<span class="op">=</span><span class="va">primates</span>, model <span class="op">=</span> <span class="st">"JC"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">test_NJ</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb912"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># compute likelihoods</span></span>
+<span><span class="va">test_NJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/pml.html">pml</a></span><span class="op">(</span><span class="va">treeUPGMA</span>, data<span class="op">=</span><span class="va">primates</span>, model <span class="op">=</span> <span class="st">"JC"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">test_NJ</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
-##  loglikelihood: -3594.713 
+## model: JC 
+## 
+## loglikelihood: -3079.976 
 ## 
 ## unconstrained loglikelihood: -1230.335 
 ## 
@@ -440,33 +435,28 @@ The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a
 ## Base frequencies:  
 ## 0.25 0.25 0.25 0.25</code></pre>
 <p>Try optimizing by allowing changes in topology:</p>
-<div class="sourceCode" id="cb925"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fitJC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/phangorn/man/pml.html">optim.pml</a></span><span class="op">(</span><span class="va">test_NJ</span>, data<span class="op">=</span><span class="va">primates</span>,
-                    rearrangement <span class="op">=</span> <span class="st">"NNI"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning: I unrooted the tree</code></pre>
-<pre><code>## optimize edge weights:  -3594.713 --&gt; -3246.1 
-## optimize edge weights:  -3246.1 --&gt; -3246.097 
-## optimize topology:  -3246.097 --&gt; -3232.503 
-## optimize topology:  -3232.503 --&gt; -3192.642 
-## optimize topology:  -3192.642 --&gt; -3156.934 
-## 4 
-## optimize edge weights:  -3156.934 --&gt; -3156.934 
-## optimize topology:  -3156.934 --&gt; -3135.999 
-## optimize topology:  -3135.999 --&gt; -3127.961 
-## optimize topology:  -3127.961 --&gt; -3117.217 
-## 4 
-## optimize edge weights:  -3117.217 --&gt; -3117.217 
-## optimize topology:  -3117.217 --&gt; -3114.172 
-## optimize topology:  -3114.172 --&gt; -3114.172 
-## 1 
-## optimize edge weights:  -3114.172 --&gt; -3114.172 
-## optimize topology:  -3114.172 --&gt; -3114.172 
-## 0 
-## optimize edge weights:  -3114.172 --&gt; -3114.172</code></pre>
-<div class="sourceCode" id="cb928"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fitJC</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb914"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fitJC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://klausvigo.github.io/phangorn/reference/pml.html">optim.pml</a></span><span class="op">(</span><span class="va">test_NJ</span>, data<span class="op">=</span><span class="va">primates</span>,</span>
+<span>                    rearrangement <span class="op">=</span> <span class="st">"NNI"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## optimize edge weights:  -3079.976 --&gt; -3070.764 
+## optimize edge weights:  -3070.764 --&gt; -3070.764 
+##  optimize topology:  -3070.764 --&gt; -3068.417 
+##  NNI moves:  1 
+##  optimize topology:  -3068.417 --&gt; -3068.295 
+##  NNI moves:  1 
+##  optimize topology:  -3068.295 --&gt; -3068.295 
+##  NNI moves:  0 
+## NNI moves:  2 
+## optimize edge weights:  -3068.295 --&gt; -3068.295 
+##  optimize topology:  -3068.295 --&gt; -3068.295 
+##  NNI moves:  0 
+## NNI moves:  0</code></pre>
+<div class="sourceCode" id="cb916"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fitJC</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
-##  loglikelihood: -3114.172 
+## model: JC 
+## 
+## loglikelihood: -3068.295 
 ## 
 ## unconstrained loglikelihood: -1230.335 
 ## 
@@ -479,9 +469,9 @@ The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a
 ## 
 ## Base frequencies:  
 ## 0.25 0.25 0.25 0.25</code></pre>
-<div class="sourceCode" id="cb930"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">fitJC</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-387-1.png" width="672"></div>
+<div class="sourceCode" id="cb918"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fitJC</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-380-1.png" width="672"></div>
 </div>
 <div id="bayesian-methods" class="section level3" number="16.6.3">
 <h3>
@@ -493,13 +483,13 @@ The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="clustering.html"><span class="header-section-number">15</span> Clustering</a></div>
-<div class="next"><a href="machine-learning-methods-for-classification.html"><span class="header-section-number">17</span> Machine learning methods for classification</a></div>
+<div class="prev"><a href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></div>
+<div class="next"><a href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#building-phylogeneric-trees"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
-<li><a class="nav-link" href="#introduction-1"><span class="header-section-number">16.1</span> Introduction</a></li>
+<li><a class="nav-link" href="#introduction-2"><span class="header-section-number">16.1</span> Introduction</a></li>
 <li><a class="nav-link" href="#input-1"><span class="header-section-number">16.2</span> Input</a></li>
 <li><a class="nav-link" href="#representing-trees"><span class="header-section-number">16.3</span> Representing trees</a></li>
 <li>
@@ -533,7 +523,7 @@ The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-11-18.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -546,7 +536,7 @@ The algorithm by Felsenstein (1981, <em>Evolutionary trees from DNA sequences: a
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

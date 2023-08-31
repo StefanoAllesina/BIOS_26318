@@ -4,20 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lecture 12 Generalized linear models | Fundamentals of Biological Data Analysis</title>
+<title>Lecture 14 Generalized linear models | Fundamentals of Biological Data Analysis</title>
 <meta name="author" content="Dmitry Kondrashov and Stefano Allesina">
-<meta name="description" content="12.1 Goal Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand. Let’s load some packages: library(tidyverse) # our friend the...">
-<meta name="generator" content="bookdown 0.24.1 with bs4_book()">
-<meta property="og:title" content="Lecture 12 Generalized linear models | Fundamentals of Biological Data Analysis">
+<meta name="description" content="14.1 Goal Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand. Let’s load some packages: library(tidyverse) # our friend the...">
+<meta name="generator" content="bookdown 0.29 with bs4_book()">
+<meta property="og:title" content="Lecture 14 Generalized linear models | Fundamentals of Biological Data Analysis">
 <meta property="og:type" content="book">
-<meta property="og:description" content="12.1 Goal Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand. Let’s load some packages: library(tidyverse) # our friend the...">
+<meta property="og:description" content="14.1 Goal Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand. Let’s load some packages: library(tidyverse) # our friend the...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lecture 12 Generalized linear models | Fundamentals of Biological Data Analysis">
-<meta name="twitter:description" content="12.1 Goal Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand. Let’s load some packages: library(tidyverse) # our friend the...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="twitter:title" content="Lecture 14 Generalized linear models | Fundamentals of Biological Data Analysis">
+<meta name="twitter:description" content="14.1 Goal Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand. Let’s load some packages: library(tidyverse) # our friend the...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0.9000/transition.js"></script><script src="libs/bs3compat-0.3.0.9000/tabs.js"></script><script src="libs/bs3compat-0.3.0.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS -->
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -50,13 +53,14 @@
 <li><a class="" href="review-of-linear-algebra.html"><span class="header-section-number">8</span> Review of linear algebra</a></li>
 <li><a class="" href="linear-models.html"><span class="header-section-number">9</span> Linear models</a></li>
 <li><a class="" href="anova.html"><span class="header-section-number">10</span> ANOVA</a></li>
-<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">11</span> Time series: modeling and forecasting</a></li>
-<li><a class="active" href="generalized-linear-models.html"><span class="header-section-number">12</span> Generalized linear models</a></li>
-<li><a class="" href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></li>
-<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">14</span> Principal Component Analysis</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">15</span> Clustering</a></li>
+<li><a class="" href="model-selection.html"><span class="header-section-number">11</span> Model Selection</a></li>
+<li><a class="" href="principal-component-analysis.html"><span class="header-section-number">12</span> Principal Component Analysis</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">13</span> Clustering</a></li>
+<li><a class="active" href="generalized-linear-models.html"><span class="header-section-number">14</span> Generalized linear models</a></li>
+<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></li>
 <li><a class="" href="building-phylogeneric-trees.html"><span class="header-section-number">16</span> Building phylogeneric trees</a></li>
-<li><a class="" href="machine-learning-methods-for-classification.html"><span class="header-section-number">17</span> Machine learning methods for classification</a></li>
+<li><a class="" href="time-series-modeling-and-forecasting.html"><span class="header-section-number">17</span> Time series: modeling and forecasting</a></li>
+<li><a class="" href="monte-carlo-methods.html"><span class="header-section-number">18</span> Monte Carlo methods</a></li>
 </ul>
 
         <div class="book-extra">
@@ -64,23 +68,23 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="generalized-linear-models" class="section level1" number="12">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="generalized-linear-models" class="section level1" number="14">
 <h1>
-<span class="header-section-number">Lecture 12</span> Generalized linear models<a class="anchor" aria-label="anchor" href="#generalized-linear-models"><i class="fas fa-link"></i></a>
+<span class="header-section-number">Lecture 14</span> Generalized linear models<a class="anchor" aria-label="anchor" href="#generalized-linear-models"><i class="fas fa-link"></i></a>
 </h1>
-<div id="goal-3" class="section level2" number="12.1">
+<div id="goal-4" class="section level2" number="14.1">
 <h2>
-<span class="header-section-number">12.1</span> Goal<a class="anchor" aria-label="anchor" href="#goal-3"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.1</span> Goal<a class="anchor" aria-label="anchor" href="#goal-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand.</p>
 <p>Let’s load some packages:</p>
-<div class="sourceCode" id="cb658"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># our friend the tidyverse</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span> <span class="co"># negative binom regression</span></code></pre></div>
+<div class="sourceCode" id="cb812"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># our friend the tidyverse</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span> <span class="co"># negative binom regression</span></span></code></pre></div>
 </div>
-<div id="introduction" class="section level2" number="12.2">
+<div id="introduction" class="section level2" number="14.2">
 <h2>
-<span class="header-section-number">12.2</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.2</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
 </h2>
 <p>The linear regression we’ve explored during the past weeks attempts to estimate the expected value for <strong>response</strong> (dependent) variable <span class="math inline">\(Y\)</span> given the <strong>predictors</strong> <span class="math inline">\(X\)</span>. It assumes that the response variable changes continuously, and that errors are normally distributed around the mean. In many cases, however:</p>
 <ul>
@@ -94,9 +98,9 @@
 <li>A <strong>link function</strong> linearizes the relationship between the fitted values and the predictors.</li>
 <li>Parameters are estimated through a least squares algorithm.</li>
 </ul>
-<div id="model-structure" class="section level3" number="12.2.1">
+<div id="model-structure" class="section level3" number="14.2.1">
 <h3>
-<span class="header-section-number">12.2.1</span> Model structure<a class="anchor" aria-label="anchor" href="#model-structure"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.2.1</span> Model structure<a class="anchor" aria-label="anchor" href="#model-structure"><i class="fas fa-link"></i></a>
 </h3>
 <p>In practice, we need to determine three parts of the model:</p>
 <ul>
@@ -109,22 +113,22 @@
 </ul>
 </div>
 </div>
-<div id="binary-data" class="section level2" number="12.3">
+<div id="binary-data" class="section level2" number="14.3">
 <h2>
-<span class="header-section-number">12.3</span> Binary data<a class="anchor" aria-label="anchor" href="#binary-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.3</span> Binary data<a class="anchor" aria-label="anchor" href="#binary-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>The most extreme case of departure from normality is when the response variable can assume only values 0 or 1 (no/yes, survived/deceased, lost/won, etc.). A Bernoulli random variable can take values 0 or 1, and therefore provides the <strong>Random component</strong> of the model:</p>
 <p><span class="math display">\[
 P(Y_i = y_i | \pi_i) = \pi_i^{y_i} (1 - \pi_i)^{1 - y_i}
 \]</span></p>
 <p>Saying that the probability <span class="math inline">\(P(Y_i = 1) = \pi_i\)</span>, and <span class="math inline">\(P(Y_i = 0) = 1 - \pi_i\)</span>. Now we want to relate the parameter <span class="math inline">\(\pi_i\)</span> to the <strong>linear predictor</strong> (i.e., choose a link function). This can be accomplished in a number of ways.</p>
-<div id="logistic-regression" class="section level3" number="12.3.1">
+<div id="logistic-regression" class="section level3" number="14.3.1">
 <h3>
-<span class="header-section-number">12.3.1</span> Logistic regression<a class="anchor" aria-label="anchor" href="#logistic-regression"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.3.1</span> Logistic regression<a class="anchor" aria-label="anchor" href="#logistic-regression"><i class="fas fa-link"></i></a>
 </h3>
 <p>The most popular choice is to use the <strong>Logit</strong> function as the <strong>link function</strong>:</p>
 <p><span class="math display">\[
-\text{Logit}(\pi_i) = \beta_0 + \beta_1 x_i 
+\text{Logit}(\pi_i) = \beta_0 + \beta_1 x_i
 \]</span></p>
 <p>where the function can be written as:</p>
 <p><span class="math display">\[
@@ -135,17 +139,17 @@ P(Y_i = y_i | \pi_i) = \pi_i^{y_i} (1 - \pi_i)^{1 - y_i}
 \pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}} = 1 - \frac{1}{1 + e^{\beta_0 + \beta_1 x_i}}
 \]</span></p>
 <p>Clearly, when <span class="math inline">\(\beta_0 + \beta_1 x_i = 0\)</span>, the probability <span class="math inline">\(\pi_i = 1/2\)</span>, while the probability tends to 1 when <span class="math inline">\((\beta_0 + \beta_1 x_i) \to \infty\)</span> and to zero when <span class="math inline">\((\beta_0 + \beta_1 x_i) \to -\infty\)</span>. :</p>
-<div class="sourceCode" id="cb659"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># some random data</span>
-<span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>
-<span class="va">beta_0</span> <span class="op">&lt;-</span> <span class="fl">0.35</span>
-<span class="va">beta_1</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">3.2</span>
-<span class="va">linear_predictor</span> <span class="op">&lt;-</span> <span class="va">beta_0</span> <span class="op">+</span> <span class="va">beta_1</span> <span class="op">*</span> <span class="va">X</span>
-<span class="va">predicted_pi_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">linear_predictor</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">linear_predictor</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>linear_predictor <span class="op">=</span> <span class="va">linear_predictor</span>, probability <span class="op">=</span> <span class="va">predicted_pi_i</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">linear_predictor</span>, y <span class="op">=</span> <span class="va">probability</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-289-1.png" width="672"></div>
+<div class="sourceCode" id="cb813"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># some random data</span></span>
+<span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">beta_0</span> <span class="op">&lt;-</span> <span class="fl">0.35</span></span>
+<span><span class="va">beta_1</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">3.2</span></span>
+<span><span class="va">linear_predictor</span> <span class="op">&lt;-</span> <span class="va">beta_0</span> <span class="op">+</span> <span class="va">beta_1</span> <span class="op">*</span> <span class="va">X</span></span>
+<span><span class="va">predicted_pi_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">linear_predictor</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">linear_predictor</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>linear_predictor <span class="op">=</span> <span class="va">linear_predictor</span>, probability <span class="op">=</span> <span class="va">predicted_pi_i</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">linear_predictor</span>, y <span class="op">=</span> <span class="va">probability</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-336-1.png" width="672"></div>
 <p>As you can see, this is a logistic curve, hence the name. The parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> control the location of the inflection point and the steepness of the curve, allowing you to model binary response variables (and, with a slight abuse of the error structure, proportions or probabilities).</p>
 <p>Other choices of link functions are possible. For example, in economics the <em>probit</em> function is preferred:</p>
 <p><span class="math display">\[
@@ -161,19 +165,19 @@ and <span class="math inline">\(\Phi(\cdot)\)</span> is the cumulative distribut
 \]</span>
 Clearly, you could alternatively use the cumulative distribution function of any distribution that has support on the real line.</p>
 </div>
-<div id="a-simple-example" class="section level3" number="12.3.2">
+<div id="a-simple-example" class="section level3" number="14.3.2">
 <h3>
-<span class="header-section-number">12.3.2</span> A simple example<a class="anchor" aria-label="anchor" href="#a-simple-example"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.3.2</span> A simple example<a class="anchor" aria-label="anchor" href="#a-simple-example"><i class="fas fa-link"></i></a>
 </h3>
 <p>We want to know whether being in first, second and third class, as well as gender (women and women first!) influenced the probability of survival in the Titanic disaster. We start with a null model (all passengers have the same probability of survival):</p>
-<div class="sourceCode" id="cb660"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paulhendricks/titanic">titanic</a></span><span class="op">)</span>
-<span class="co"># model 0: probability of survival in general</span>
-<span class="co"># regress against an intercept</span>
-<span class="va">model0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="fl">1</span>, <span class="co"># only intercept</span>
-              data <span class="op">=</span> <span class="va">titanic_train</span>, 
-              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span> <span class="co"># logistic regression</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model0</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb814"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paulhendricks/titanic">titanic</a></span><span class="op">)</span></span>
+<span><span class="co"># model 0: probability of survival in general</span></span>
+<span><span class="co"># regress against an intercept</span></span>
+<span><span class="va">model0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="fl">1</span>, <span class="co"># only intercept</span></span>
+<span>              data <span class="op">=</span> <span class="va">titanic_train</span>, </span>
+<span>              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span> <span class="co"># logistic regression</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model0</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Survived ~ 1, family = "binomial", data = titanic_train)
@@ -195,21 +199,21 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## AIC: 1188.7
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<div class="sourceCode" id="cb662"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># the best fitting (alpha) intercept should lead to </span>
-<span class="co"># e^alpha / (1 + e^alpha) = mean(Survived)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">titanic_train</span><span class="op">$</span><span class="va">Survived</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb816"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># the best fitting (alpha) intercept should lead to </span></span>
+<span><span class="co"># e^alpha / (1 + e^alpha) = mean(Survived)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">titanic_train</span><span class="op">$</span><span class="va">Survived</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.3838384</code></pre>
-<div class="sourceCode" id="cb664"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">model0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">model0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb818"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">model0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">model0</span><span class="op">$</span><span class="va">coefficients</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## (Intercept) 
 ##   0.3838384</code></pre>
 <p>Now let’s include gender:</p>
-<div class="sourceCode" id="cb666"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="va">Sex</span>, <span class="co"># one sex as baseline, the other modifies intercept</span>
-              data <span class="op">=</span> <span class="va">titanic_train</span>,
-              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb820"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="va">Sex</span>, <span class="co"># one sex as baseline, the other modifies intercept</span></span>
+<span>              data <span class="op">=</span> <span class="va">titanic_train</span>,</span>
+<span>              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Survived ~ Sex, family = "binomial", data = titanic_train)
@@ -233,21 +237,21 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>What is the best-fitting probability of survival for male/female?</p>
-<div class="sourceCode" id="cb668"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span>
-<span class="co"># prob women</span>
-<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb822"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="va">model1</span><span class="op">$</span><span class="va">coefficients</span></span>
+<span><span class="co"># prob women</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.7420382</code></pre>
-<div class="sourceCode" id="cb670"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># prob men</span>
-<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb824"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># prob men</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.1889081</code></pre>
 <p>Now let’s see whether we can explain better the data using the class:</p>
-<div class="sourceCode" id="cb672"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="va">Sex</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Pclass</span><span class="op">)</span>, <span class="co"># combine Sex and Pclass</span>
-              data <span class="op">=</span> <span class="va">titanic_train</span>,
-              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb826"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Survived</span> <span class="op">~</span> <span class="va">Sex</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Pclass</span><span class="op">)</span>, <span class="co"># combine Sex and Pclass</span></span>
+<span>              data <span class="op">=</span> <span class="va">titanic_train</span>,</span>
+<span>              family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Survived ~ Sex + factor(Pclass), family = "binomial", 
@@ -274,66 +278,63 @@ Clearly, you could alternatively use the cumulative distribution function of any
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>A woman in first class would have survival probability:</p>
-<div class="sourceCode" id="cb674"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="va">model2</span><span class="op">$</span><span class="va">coefficients</span>
-<span class="co"># prob women first class</span>
-<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb828"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="va">model2</span><span class="op">$</span><span class="va">coefficients</span></span>
+<span><span class="co"># prob women first class</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.9086385</code></pre>
 <p>While a man in third class:</p>
-<div class="sourceCode" id="cb676"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb830"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">coeffs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">coeffs</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.09532814</code></pre>
 <p>Consider the alternative models <code>Survived ~ Sex * factor(Pclass)</code>, <code>Survived ~ Sex + Pclass</code>, <code>Survived ~ Sex * Pclass</code>, <code>Survived ~ Sex:factor(Pclass)</code>, <code>Survived ~ Sex:Pclass</code>. Explain what each model is doing in English.</p>
 </div>
-<div id="exercise-in-class-college-admissions" class="section level3" number="12.3.3">
+<div id="exercise-in-class-college-admissions" class="section level3" number="14.3.3">
 <h3>
-<span class="header-section-number">12.3.3</span> Exercise in class: College admissions<a class="anchor" aria-label="anchor" href="#exercise-in-class-college-admissions"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.3.3</span> Exercise in class: College admissions<a class="anchor" aria-label="anchor" href="#exercise-in-class-college-admissions"><i class="fas fa-link"></i></a>
 </h3>
 <p>With slight abuse of notation, you can fit probabilities using the logistic regression (the only problem is that you don’t know how many values contributed to the calculations of the probabilities—i.e., sample sizes). Read in the file <code>admission_rates.csv</code>, containing data on admissions to several universities. Your goal is to find a good prediction (or a good combination of predictors) for the <code>Admission_rate</code>. You can use <code>State</code>, <code>Ownership</code> (public/private), <code>Citytype</code> (town, suburb, city), <code>SAT</code> (typical SAT score of admits), <code>AvgCost</code> (tuition). Fit the models using:</p>
-<div class="sourceCode" id="cb678"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/admission_rates.csv"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   Name = col_character(),
-##   State = col_character(),
-##   Ownership = col_character(),
-##   Citytype = col_character(),
-##   SAT = col_double(),
-##   AvgCost = col_double(),
-##   Admission_rate = col_double()
-## )</code></pre>
-<div class="sourceCode" id="cb680"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># example</span>
-<span class="va">logit_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Admission_rate</span> <span class="op">~</span> <span class="va">AvgCost</span>, data <span class="op">=</span> <span class="va">dt</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb832"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/admission_rates.csv"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## Rows: 195 Columns: 7
+## ── Column specification ──────
+## Delimiter: ","
+## chr (4): Name, State, Ownership, Citytype
+## dbl (3): SAT, AvgCost, Admission_rate
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb834"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># example</span></span>
+<span><span class="va">logit_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">Admission_rate</span> <span class="op">~</span> <span class="va">AvgCost</span>, data <span class="op">=</span> <span class="va">dt</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
 <p>(do not worry about the warning <code>non-integer #successes in a binomial glm!</code>).</p>
 <ul>
 <li>Plot fitted vs. observed admission rates, when using different combinations of predictors.</li>
 </ul>
 <p>For the example above:</p>
-<div class="sourceCode" id="cb682"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="va">Admission_rate</span>, <span class="va">logit_1</span><span class="op">$</span><span class="va">fitted.values</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-297-1.png" width="672"></div>
+<div class="sourceCode" id="cb836"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dt</span><span class="op">$</span><span class="va">Admission_rate</span>, <span class="va">logit_1</span><span class="op">$</span><span class="va">fitted.values</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="BIOS_26318_2020_files/figure-html/unnamed-chunk-344-1.png" width="672"></div>
 <ul>
 <li>Score the models using <code>AIC</code>: which is the single best predictor of acceptance rate? (Note: as we will see later this week, the lower the AIC, the better).</li>
 </ul>
-<div class="sourceCode" id="cb683"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">logit_1</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb837"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">logit_1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 220.7783</code></pre>
 <ul>
 <li>Which the best combination of two predictors?</li>
 </ul>
 </div>
 </div>
-<div id="count-data" class="section level2" number="12.4">
+<div id="count-data" class="section level2" number="14.4">
 <h2>
-<span class="header-section-number">12.4</span> Count data<a class="anchor" aria-label="anchor" href="#count-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.4</span> Count data<a class="anchor" aria-label="anchor" href="#count-data"><i class="fas fa-link"></i></a>
 </h2>
-<div id="poisson-regression" class="section level3" number="12.4.1">
+<div id="poisson-regression" class="section level3" number="14.4.1">
 <h3>
-<span class="header-section-number">12.4.1</span> Poisson regression<a class="anchor" aria-label="anchor" href="#poisson-regression"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.4.1</span> Poisson regression<a class="anchor" aria-label="anchor" href="#poisson-regression"><i class="fas fa-link"></i></a>
 </h3>
 <p>Suppose your response variables are non-negative integers. For example, we are counting the number of eggs females lay as a function of their age, body size, etc. A possible model for this case is to think of the response variable as being sampled from a Poisson distribution:</p>
 <p><span class="math display">\[
@@ -345,9 +346,9 @@ Y_i \sim \text{Pois}(\lambda_i)
 \]</span></p>
 <p>In this case, our <em>link function</em> is the logarithm, transforming the relationship between the fitted values and the predictors into a linear regression.</p>
 </div>
-<div id="exercise-in-class-number-of-genomes" class="section level3" number="12.4.2">
+<div id="exercise-in-class-number-of-genomes" class="section level3" number="14.4.2">
 <h3>
-<span class="header-section-number">12.4.2</span> Exercise in class: Number of genomes<a class="anchor" aria-label="anchor" href="#exercise-in-class-number-of-genomes"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.4.2</span> Exercise in class: Number of genomes<a class="anchor" aria-label="anchor" href="#exercise-in-class-number-of-genomes"><i class="fas fa-link"></i></a>
 </h3>
 <p>The file <code>data/genomes.csv</code> contains the year in which the genome of a given animal was published. The file <code>sequence_cost.csv</code> the estimated cost per sequencing a Mb in a given year.</p>
 <ul>
@@ -362,9 +363,9 @@ Y_i \sim \text{Pois}(\lambda_i)
 <li>For each model, plot the observed <code>n</code> vs its predicted value, and compute AIC. Is the fit superior when we use <code>Year</code> or <code>Dollars_per_Mb</code>?</li>
 </ul>
 </div>
-<div id="underdispersed-and-overdispersed-data" class="section level3" number="12.4.3">
+<div id="underdispersed-and-overdispersed-data" class="section level3" number="14.4.3">
 <h3>
-<span class="header-section-number">12.4.3</span> Underdispersed and Overdispersed data<a class="anchor" aria-label="anchor" href="#underdispersed-and-overdispersed-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.4.3</span> Underdispersed and Overdispersed data<a class="anchor" aria-label="anchor" href="#underdispersed-and-overdispersed-data"><i class="fas fa-link"></i></a>
 </h3>
 <p>The main feature of the Poisson distribution is that the mean and the variance are both equal to <span class="math inline">\(\lambda\)</span>. You might remember (Taylor expansion) that:</p>
 <p><span class="math display">\[
@@ -399,9 +400,9 @@ and</p>
 \]</span>
 Where <span class="math inline">\(\phi\)</span> controls the dispersion of the data. A value <span class="math inline">\(\phi &gt; 1\)</span> signals over-dispersion, while (the very rare case of) <span class="math inline">\(\phi &lt; 1\)</span> under-dispersion. The Poisson regression is appropriate only when <span class="math inline">\(\phi \approx 1\)</span>. A simple way to test for dispersion in to fit a <code>quasipoisson</code> model, which returns a dispersion parameter (anything larger than 1 means over-dispersion).</p>
 </div>
-<div id="exercise-in-class-number-of-genomes-1" class="section level3" number="12.4.4">
+<div id="exercise-in-class-number-of-genomes-1" class="section level3" number="14.4.4">
 <h3>
-<span class="header-section-number">12.4.4</span> Exercise in class: Number of genomes<a class="anchor" aria-label="anchor" href="#exercise-in-class-number-of-genomes-1"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.4.4</span> Exercise in class: Number of genomes<a class="anchor" aria-label="anchor" href="#exercise-in-class-number-of-genomes-1"><i class="fas fa-link"></i></a>
 </h3>
 <ul>
 <li>For the models above, change the family to <code>quasipoisson</code> to check the dispersion (e.g., <code>qpois_1 &lt;- glm(n ~ 1, data = num_genomes, family = "quasipoisson")</code>).</li>
@@ -409,9 +410,9 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 <li>If the data are over-dispersed, fit them again using <code>glm.nb</code> (a negative binomial regression model provided by the package <code>MASS</code>).</li>
 </ul>
 </div>
-<div id="separate-distribution-for-the-zeros" class="section level3" number="12.4.5">
+<div id="separate-distribution-for-the-zeros" class="section level3" number="14.4.5">
 <h3>
-<span class="header-section-number">12.4.5</span> Separate distribution for the zeros<a class="anchor" aria-label="anchor" href="#separate-distribution-for-the-zeros"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.4.5</span> Separate distribution for the zeros<a class="anchor" aria-label="anchor" href="#separate-distribution-for-the-zeros"><i class="fas fa-link"></i></a>
 </h3>
 <p>In several biologically-relevant cases, we have an excess of zeros. For example, you might have animals, that, if they reach the age of 1, will go on to a live a number of years—say well-described by a Poisson distribution. However, mortality immediately after birth is high. In such cases, you can use zero-inflated or zero-hurdle models.</p>
 <p>In zero-inflated models, you can think of having a conditional branching: with probability <span class="math inline">\(p_z\)</span> your count is zero; if not (prob. <span class="math inline">\(1-p_z\)</span>) it is sampled from a given distribution. As such a count of zero can stem from two different processes: either because you got a zero at the first step, or because you have sampled a zero from the distribution.</p>
@@ -419,9 +420,9 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 <p>Zero-inflated and zero-hurdle models are examples of <a href="https://en.wikipedia.org/wiki/Mixture_model"><strong>mixture models</strong></a>.</p>
 </div>
 </div>
-<div id="other-glms" class="section level2" number="12.5">
+<div id="other-glms" class="section level2" number="14.5">
 <h2>
-<span class="header-section-number">12.5</span> Other GLMs<a class="anchor" aria-label="anchor" href="#other-glms"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.5</span> Other GLMs<a class="anchor" aria-label="anchor" href="#other-glms"><i class="fas fa-link"></i></a>
 </h2>
 <p>Historically, GLMs have been defined for the canonical families:</p>
 <ul>
@@ -439,9 +440,9 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 </ul>
 <p>and many others. Fitting the models can be done using Maximum Likelihoods, or in a Bayesian framework (typically, through MCMC).</p>
 </div>
-<div id="readings-and-homework" class="section level2" number="12.6">
+<div id="readings-and-homework" class="section level2" number="14.6">
 <h2>
-<span class="header-section-number">12.6</span> Readings and homework<a class="anchor" aria-label="anchor" href="#readings-and-homework"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.6</span> Readings and homework<a class="anchor" aria-label="anchor" href="#readings-and-homework"><i class="fas fa-link"></i></a>
 </h2>
 <ul>
 <li>There are two useful swirls in the course <code>Regression Models</code>: <code>Binary Outcomes</code> and <code>Count Outcomes</code>
@@ -452,34 +453,34 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="time-series-modeling-and-forecasting.html"><span class="header-section-number">11</span> Time series: modeling and forecasting</a></div>
-<div class="next"><a href="model-selection.html"><span class="header-section-number">13</span> Model Selection</a></div>
+<div class="prev"><a href="clustering.html"><span class="header-section-number">13</span> Clustering</a></div>
+<div class="next"><a href="machine-learning-methods-for-classification.html"><span class="header-section-number">15</span> Machine learning methods for classification</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#generalized-linear-models"><span class="header-section-number">12</span> Generalized linear models</a></li>
-<li><a class="nav-link" href="#goal-3"><span class="header-section-number">12.1</span> Goal</a></li>
+<li><a class="nav-link" href="#generalized-linear-models"><span class="header-section-number">14</span> Generalized linear models</a></li>
+<li><a class="nav-link" href="#goal-4"><span class="header-section-number">14.1</span> Goal</a></li>
 <li>
-<a class="nav-link" href="#introduction"><span class="header-section-number">12.2</span> Introduction</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#model-structure"><span class="header-section-number">12.2.1</span> Model structure</a></li></ul>
+<a class="nav-link" href="#introduction"><span class="header-section-number">14.2</span> Introduction</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#model-structure"><span class="header-section-number">14.2.1</span> Model structure</a></li></ul>
 </li>
 <li>
-<a class="nav-link" href="#binary-data"><span class="header-section-number">12.3</span> Binary data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#logistic-regression"><span class="header-section-number">12.3.1</span> Logistic regression</a></li>
-<li><a class="nav-link" href="#a-simple-example"><span class="header-section-number">12.3.2</span> A simple example</a></li>
-<li><a class="nav-link" href="#exercise-in-class-college-admissions"><span class="header-section-number">12.3.3</span> Exercise in class: College admissions</a></li>
+<a class="nav-link" href="#binary-data"><span class="header-section-number">14.3</span> Binary data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#logistic-regression"><span class="header-section-number">14.3.1</span> Logistic regression</a></li>
+<li><a class="nav-link" href="#a-simple-example"><span class="header-section-number">14.3.2</span> A simple example</a></li>
+<li><a class="nav-link" href="#exercise-in-class-college-admissions"><span class="header-section-number">14.3.3</span> Exercise in class: College admissions</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#count-data"><span class="header-section-number">12.4</span> Count data</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#poisson-regression"><span class="header-section-number">12.4.1</span> Poisson regression</a></li>
-<li><a class="nav-link" href="#exercise-in-class-number-of-genomes"><span class="header-section-number">12.4.2</span> Exercise in class: Number of genomes</a></li>
-<li><a class="nav-link" href="#underdispersed-and-overdispersed-data"><span class="header-section-number">12.4.3</span> Underdispersed and Overdispersed data</a></li>
-<li><a class="nav-link" href="#exercise-in-class-number-of-genomes-1"><span class="header-section-number">12.4.4</span> Exercise in class: Number of genomes</a></li>
-<li><a class="nav-link" href="#separate-distribution-for-the-zeros"><span class="header-section-number">12.4.5</span> Separate distribution for the zeros</a></li>
+<a class="nav-link" href="#count-data"><span class="header-section-number">14.4</span> Count data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#poisson-regression"><span class="header-section-number">14.4.1</span> Poisson regression</a></li>
+<li><a class="nav-link" href="#exercise-in-class-number-of-genomes"><span class="header-section-number">14.4.2</span> Exercise in class: Number of genomes</a></li>
+<li><a class="nav-link" href="#underdispersed-and-overdispersed-data"><span class="header-section-number">14.4.3</span> Underdispersed and Overdispersed data</a></li>
+<li><a class="nav-link" href="#exercise-in-class-number-of-genomes-1"><span class="header-section-number">14.4.4</span> Exercise in class: Number of genomes</a></li>
+<li><a class="nav-link" href="#separate-distribution-for-the-zeros"><span class="header-section-number">14.4.5</span> Separate distribution for the zeros</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#other-glms"><span class="header-section-number">12.5</span> Other GLMs</a></li>
-<li><a class="nav-link" href="#readings-and-homework"><span class="header-section-number">12.6</span> Readings and homework</a></li>
+<li><a class="nav-link" href="#other-glms"><span class="header-section-number">14.5</span> Other GLMs</a></li>
+<li><a class="nav-link" href="#readings-and-homework"><span class="header-section-number">14.6</span> Readings and homework</a></li>
 </ul>
 
       <div class="book-extra">
@@ -496,7 +497,7 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2021-11-18.</p>
+    <p>"<strong>Fundamentals of Biological Data Analysis</strong>" was written by Dmitry Kondrashov and Stefano Allesina. It was last built on 2022-11-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -509,7 +510,7 @@ Where <span class="math inline">\(\phi\)</span> controls the dispersion of the d
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

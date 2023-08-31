@@ -85,7 +85,7 @@ For example, the following data contains measurements of weights of individuals 
 ```{r, error=FALSE, message=FALSE}
 library(tidyverse)
 # Original URL: "https://www.sheffield.ac.uk/polopoly_fs/1.570199!/file/stcp-Rdataset-Diet.csv"
-diet <- read_csv("https://tinyurl.com/ydzya2no") 
+diet <- read_csv("data/Diet.csv") 
 diet <- diet %>% mutate(weight.loss = pre.weight - weight6weeks) 
 glimpse(diet)
 # make diet into factors
