@@ -1,0 +1,87 @@
+# Organization of the class {.unnumbered}
+
+## Learning goals {.unnumbered}
+
+-   `R` tools for visualizing and analyzing data
+    -   exploration of `tidyverse`
+    -   `dplyr`, `tidyr` and `readr` for data wrangling and organization
+    -   `ggplot2` for visualization
+    -   specific packages and functions for statistical analysis
+-   Theory to perform statistical inference
+    -   assumptions of different methods
+    -   hypothesis testing
+    -   estimation of parameters
+    -   model building and selection
+-   Avoiding common errors
+    -   when (not) to use a statistical method
+    -   sneaky paradoxes
+    -   phantom effects
+-   Work on your own data
+    -   analyze data
+    -   produce graphics
+    -   write up a report
+    -   present to class
+
+## Approach {.unnumbered}
+
+-   Mix of theory and practice
+-   Apply what you're learning to your own data
+
+## Materials {.unnumbered}
+
+#### Week 0 {.unnumbered}
+
+-   `R` refresher \@ref(refresher)
+
+#### Week 1 {.unnumbered}
+
+-   Using `ggplot2` to produce publication-ready figures
+-   Review of probability
+
+#### Week 2 {.unnumbered}
+
+-   Data wrangling in `tidyverse`
+-   Probability distributions
+
+#### Week 3 {.unnumbered}
+
+-   Hypothesis testing
+-   Likelihood
+
+#### Week 4 {.unnumbered}
+
+-   Linear algebra refresher
+-   Linear models
+
+#### Week 5 {.unnumbered}
+
+-   Analysis of variance
+-   Model selection
+
+#### Week 6 {.unnumbered}
+
+-   Principal Component Analysis
+-   Multidimensional Scaling and Clustering
+
+#### Week 7 {.unnumbered}
+
+-   Generalized Linear Models
+-   Machine Learning and cross validation
+
+#### Week 8 {.unnumbered}
+
+-   Phylogenetic reconstruction (?)
+-   Modeling time-series data (?)
+
+#### Week 9 {.unnumbered}
+
+Thanksgiving break
+
+#### Week 10 {.unnumbered}
+
+-   Student presentations 1
+-   Student presentations 2
+
+## Acknowledgements {.unnumbered}
+
+Zach Miller for TAing the first iteration of the class, and for contributing materials and comments; Julia Smith for TAing the second iteration; Cassie Manrique for TAing the third iteration; Amatullah Mir for this year. Development of the class was partially supported by the Burroughs Wellcome Fund through the program ["Quantitative and statistical thinking in the life sciences"](https://www.bwfund.org/grant-programs/institutional-programs/quantitative-and-statistical-thinking-life-sciences/grant) (Stefano Allesina, PI).
