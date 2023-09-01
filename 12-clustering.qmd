@@ -2,10 +2,10 @@
 
 **Goals**
 
-  * Learn about partitional clustering
-  * Learn about hierarchical clustering
-  * Use clustering validation methods
-  * Apply different methods to larger data sets
+-   Learn about partitional clustering
+-   Learn about hierarchical clustering
+-   Use clustering validation methods
+-   Apply different methods to larger data sets
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse) 
@@ -16,20 +16,19 @@ library(fpc)
 library(clustertend)
 library(palmerpenguins)
 ```
+
 The goal of clustering is to classify data points into groups (clusters) by without giving the algorithm any knowledge of the correct classification. This type of approach is called *unsupervised learning* and it is appropriate when the "truth" for your data classification is unavailable or difficult to obtain.
 
 If the truth is unknown, we need a way of deciding which data points belong together. One common set of approaches relies on a measure of closeness, or distance between points. Of those, the classic K-means approach is the most straightforward.
 
-
 ## K-means algorithm
 
- * divide data into K clusters
- * calculate centroids for each
- * go through each data point until nothing changes
-   + calculate distance to each centroid
-   + assign to nearest centroid
-   + recalculate centroids for the two affected clusters
-
+-   divide data into K clusters
+-   calculate centroids for each
+-   go through each data point until nothing changes
+    -   calculate distance to each centroid
+    -   assign to nearest centroid
+    -   recalculate centroids for the two affected clusters
 
 Let us apply the k-means algorithm to our well-studied penguin data set. In the script below, we remove the NAs, and select out the categorical variables, as they are not directly useful for the distance-based algorithm, leaving the four numeric variables to define similarity between individuals. The question is, will they cluster penguins according to species?t
 
@@ -47,7 +46,7 @@ fviz_cluster(list(data = pen_train, cluster = pen_km$cluster),
 ellipse.type = "norm", geom = "point", stand = FALSE, palette = "jco", ggtheme = theme_classic())
 ```
 
-The plot is produced by performing PCA to reduce the number of variables from 4 to 2, helping present the data points in the way that optimizes their visual separation. Notice that the clusters are not well separated, and when compared with the actual classification given by `species`, they do not do well. 
+The plot is produced by performing PCA to reduce the number of variables from 4 to 2, helping present the data points in the way that optimizes their visual separation. Notice that the clusters are not well separated, and when compared with the actual classification given by `species`, they do not do well.
 
 However, the four measurements have very different variances, so we try scaling them to make them all have equal variance of one:
 
@@ -65,13 +64,11 @@ ellipse.type = "norm", geom = "point", stand = FALSE, palette = "jco", ggtheme =
 
 Now we get much better separation, as well as much better prediction quality. However, if you run the above code several times, you will see different results, because k-means starts with a random selection of centroids. In cases like this, where there is not very obvious clusters, it may converge to different classifications. Here, for some trials we see very good prediction quality for all three species, but other times two of the species are commingled.
 
-
 ### Assumptions of K-means algorithm
 
-  * There is a meaningful distance measure
-  * Clusters are roughly spherical
-  * Clusters are of similar size
-
+-   There is a meaningful distance measure
+-   Clusters are roughly spherical
+-   Clusters are of similar size
 
 ```{r, warning=FALSE, message=FALSE}
 # Generate random data which will be first cluster
@@ -110,6 +107,7 @@ clust2 <- data_frame(x=c(5,5.1,5.2,5.3,5.4),
 dataset_uneven <- rbind(clust1,clust2)
 dataset_uneven %>% ggplot() + aes(x = x, y = y) + geom_point()
 ```
+
 ```{r, warning=FALSE, message=FALSE}
 k_clust_spher3 <- kmeans(dataset_uneven, centers=2)
 fviz_cluster(list(data = dataset_uneven, 
@@ -121,24 +119,23 @@ fviz_cluster(list(data = dataset_uneven,
              ggtheme = theme_classic())
 ```
 
-
 ## Hierarchical clustering
 
-Hierarchical clustering is  different approach from k-means, although it is also based on a notion of distance. The goal is to create a tree, akin to phylogeny, based on proximity of different points to each other, and then to divide it into groups by *cutting* the tree a certain depth from the root.
+Hierarchical clustering is different approach from k-means, although it is also based on a notion of distance. The goal is to create a tree, akin to phylogeny, based on proximity of different points to each other, and then to divide it into groups by *cutting* the tree a certain depth from the root.
 
 ### Agglomerative clustering
 
 Start with single data points as "clusters," then iteratively combine the closest pair of clusters. The closeness may be defined in the following ways:
 
- 1. Single Linkage: In single linkage, we define the distance between two clusters as the minimum distance between any single data point in the first cluster and any single data point in the second cluster. 
+1.  Single Linkage: In single linkage, we define the distance between two clusters as the minimum distance between any single data point in the first cluster and any single data point in the second cluster.
 
- 2. Complete Linkage: In complete linkage, we define the distance between two clusters to be the maximum distance between any single data point in the first cluster and any single data point in the second cluster.
+2.  Complete Linkage: In complete linkage, we define the distance between two clusters to be the maximum distance between any single data point in the first cluster and any single data point in the second cluster.
 
- 3. Average Linkage: In average linkage, we define the distance between two clusters to be the average distance between data points in the first cluster and data points in the second cluster. 
+3.  Average Linkage: In average linkage, we define the distance between two clusters to be the average distance between data points in the first cluster and data points in the second cluster.
 
-4. Centroid Method: In centroid method, the distance between two clusters is the distance between the two mean vectors of the clusters.
+4.  Centroid Method: In centroid method, the distance between two clusters is the distance between the two mean vectors of the clusters.
 
-5. Ward’s Method: This method does not directly define a measure of distance between two points or clusters. It is an ANOVA based approach. One-way univariate ANOVAs are done for each variable with groups defined by the clusters at that stage of the process.  At each stage, two clusters merge that provide the smallest increase in the combined error sum of squares. 
+5.  Ward's Method: This method does not directly define a measure of distance between two points or clusters. It is an ANOVA based approach. One-way univariate ANOVAs are done for each variable with groups defined by the clusters at that stage of the process. At each stage, two clusters merge that provide the smallest increase in the combined error sum of squares.
 
 ```{r, warning=FALSE, message=FALSE}
 # Use hcut() which compute hclust and cut the tree
@@ -159,6 +156,7 @@ fviz_cluster(uneven_hc, ellipse.type = "convex")
 ```
 
 ### Clustering penguin data using hierarchical methods
+
 Try different methods and see which one generates the best results
 
 ```{r, warning=FALSE, message=FALSE}
@@ -172,17 +170,16 @@ fviz_dend(pen_hc)
 fviz_cluster(pen_hc)
 table(pen_hc$cluster, pen_data$species)
 ```
-**Exercise** Try using different clustering methods!
 
+**Exercise** Try using different clustering methods!
 
 ## Clustering analysis and validation
 
 ### Hopkins statistic
-Comparing the mean nearest-neighbor distance between uniformly generated sample points and mean nearest-neighbor distance within the data set. 
-$$
+
+Comparing the mean nearest-neighbor distance between uniformly generated sample points and mean nearest-neighbor distance within the data set. $$
 H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
-$$
-This quantifies the "clustering tendency" of the data set.
+$$ This quantifies the "clustering tendency" of the data set.
 
 ```{r, warning=FALSE, message=FALSE}
 # Check Cluster Tendency--Hopkins Statistic
@@ -196,8 +193,9 @@ If H is below 0.5 reject the null hypothesis, which is that the data are generat
 # Visual Assessment of Cluster Tendency
 fviz_dist(dist(pen_scaled), show_labels = FALSE)+ labs(title = "Scaled penguin data")
 ```
-- Red is high similarity (low dissimilarity)
-- Blue is low similarity (high dissimilarity)
+
+-   Red is high similarity (low dissimilarity)
+-   Blue is low similarity (high dissimilarity)
 
 ### Elbow method
 
@@ -208,6 +206,7 @@ labs(subtitle = "Elbow method for K-means of the scaled penguin data")
 ```
 
 ### Silhouette Plot
+
 Measures how similar an object $i$ is to the other objects in its same cluster versus the objects outside of its cluster; $S_i$ values range from -1 to 1. Close to 1 means very similar to objects in its own group and dissimilar to others
 
 ```{r, warning=FALSE, message=FALSE}
@@ -230,8 +229,7 @@ One common approach to validating clustering is to use the approach called boots
 
 $$
 J = \frac{ \vert A \cap B \vert }{\vert A \cup B \vert}
-$$
-The vertical lines indicate the number of points (cardinality) in the set.
+$$ The vertical lines indicate the number of points (cardinality) in the set.
 
 ```{r, warning=FALSE, message=FALSE}
 k <- 3
@@ -244,7 +242,7 @@ print(cboot.hclust)
 
 ## Application to breast cancer data
 
-The following measurements are based on biopsy data on patients with suspected breast cancer (see [5]). It contains several measurements of cell characteristics, as well as the classification of each biopsy into malignant or benign (2 or 4).  Let us see if using clustering
+The following measurements are based on biopsy data on patients with suspected breast cancer (see \[5\]). It contains several measurements of cell characteristics, as well as the classification of each biopsy into malignant or benign (2 or 4). Let us see if using clustering
 
 ```{r, warning=FALSE, message=FALSE}
 # Import Breast Cancer Data Set
@@ -281,8 +279,8 @@ table(bc_hc$cluster, fulldata$Class)
 
 ## References:
 
-1. https://www.r-bloggers.com/exploring-assumptions-of-k-means-clustering-using-r/
-2. https://onlinecourses.science.psu.edu/stat505/node/143/
-3. https://github.com/hhundiwala/hierarchical-clustering
-4. https://www.r-bloggers.com/bootstrap-evaluation-of-clusters/
-5. https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)
+1.  https://www.r-bloggers.com/exploring-assumptions-of-k-means-clustering-using-r/
+2.  https://onlinecourses.science.psu.edu/stat505/node/143/
+3.  https://github.com/hhundiwala/hierarchical-clustering
+4.  https://www.r-bloggers.com/bootstrap-evaluation-of-clusters/
+5.  https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)

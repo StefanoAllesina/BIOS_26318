@@ -12,19 +12,21 @@ After the hypothesis is stated, the data are collected and are used to test the 
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/null_hypothesis.png"
 ```
-<center><img src="`r url`"></center>
+
+<center><img src="`r url`"/></center>
 
 **The fundamental assumption of this process is that the truth value of the hypothesis is set prior to the collection of data.** For example, if one could observe all of the genomes, the frequency of the allele would be known exactly, so this truth exists prior to the hypothesis testing. Because we typically can only observe a sample (and not the entire universe of data), we might end up erroneously rejecting the null hypothesis when it is in fact true, or not rejecting it when it is in fact false. The possible outcomes of a test can be organized in the table:
 
-H0 | True | False
-----|-----|------
-**Reject** | False Positive | True Positive
-**Not Reject** | True Negative | False Negative
+| H0             | True           | False          |
+|----------------|----------------|----------------|
+| **Reject**     | False Positive | True Positive  |
+| **Not Reject** | True Negative  | False Negative |
 
-The values at the top describe the truth status of the hypothesis, while the decisions in the left column are the result of using data to test the hypothesis. Note: the words false and true in describing the test result do not refer to the hypothesis, but to whether the result is correct! For example, if the frequency of the allele were 0.09 but the test for the hypothesis that the frequency is less than 0.1 resulted in rejecting that hypothesis, that would be a false positive result (the null hypothesis is true but the test rejected it.) 
+The values at the top describe the truth status of the hypothesis, while the decisions in the left column are the result of using data to test the hypothesis. Note: the words false and true in describing the test result do not refer to the hypothesis, but to whether the result is correct! For example, if the frequency of the allele were 0.09 but the test for the hypothesis that the frequency is less than 0.1 resulted in rejecting that hypothesis, that would be a false positive result (the null hypothesis is true but the test rejected it.)
 
 ## Types of errors
-As mentioned above, sometimes a hypothesis test makes the wrong decision, which is called an error. There are two different kinds of errors: rejecting a true null hypothesis, called a Type I error, and not rejecting a false null hypothesis, called a Type II error. 
+
+As mentioned above, sometimes a hypothesis test makes the wrong decision, which is called an error. There are two different kinds of errors: rejecting a true null hypothesis, called a Type I error, and not rejecting a false null hypothesis, called a Type II error.
 
 **Example:** In the case above of testing for the same mean: if the samples are taken from distributions with the same mean, but the hypothesis is rejected, this is called a false positive (Type I error). If the samples come from distributions with different means, but the hypothesis is not rejected, this is called a false negative (Type II error.)
 
@@ -32,20 +34,17 @@ As a scientist, would you rather make a Type I error (make an erroneous discover
 
 ## Test parameters and p-values
 
-The **sensitivity** of a test is the probability of obtaining the positive result, given a false hypothesis; and the  **specificity** of a test is the probability of obtaining the negative result, given a true hypothesis. The *Type I error rate* is the probability of obtaining the positive result, given a true hypothesis (complementary to specificity), and the  *Type II error rate* is the probability of obtaining the negative result, given a false hypothesis (complementary to sensitivity). 
+The **sensitivity** of a test is the probability of obtaining the positive result, given a false hypothesis; and the **specificity** of a test is the probability of obtaining the negative result, given a true hypothesis. The *Type I error rate* is the probability of obtaining the positive result, given a true hypothesis (complementary to specificity), and the *Type II error rate* is the probability of obtaining the negative result, given a false hypothesis (complementary to sensitivity).
 
-All four parameters (rates) of a binary test are summarized as follows:
-$$\text{Sen} = \frac{TP}{TP+FN};  \; \text{Spec} = \frac{TN}{TN+FP}$$
-$$\text{FPR} = \frac{FP}{TN+FP};  \; \text{FNR} = \frac{FN}{TP+FN}$$
-The notation TP, FP, etc. represents the frequency or count of true positives, false positives, etc., out of a large number of experiments with known truth status of the hypothesis.
+All four parameters (rates) of a binary test are summarized as follows: $$\text{Sen} = \frac{TP}{TP+FN};  \; \text{Spec} = \frac{TN}{TN+FP}$$ $$\text{FPR} = \frac{FP}{TN+FP};  \; \text{FNR} = \frac{FN}{TP+FN}$$ The notation TP, FP, etc. represents the frequency or count of true positives, false positives, etc., out of a large number of experiments with known truth status of the hypothesis.
 
-Knowledge of sensitivity and specificity determine the Type I and Type II error rates of a test since they are complementary events.  
+Knowledge of sensitivity and specificity determine the Type I and Type II error rates of a test since they are complementary events.
 
-Of course, it is desirable for a test to be both very sensitive (reject false null hypotheses, detect disease, convict guilty defendants) and very specific (not reject true null hypotheses, correctly identify healthy patients, acquit innocent defendants), but no test is perfect, and sometimes it makes the wrong decision. This is where statistical inference comes into play: given some information about these parameters,  a statistician can calculate the error rate in making different decisions.
+Of course, it is desirable for a test to be both very sensitive (reject false null hypotheses, detect disease, convict guilty defendants) and very specific (not reject true null hypotheses, correctly identify healthy patients, acquit innocent defendants), but no test is perfect, and sometimes it makes the wrong decision. This is where statistical inference comes into play: given some information about these parameters, a statistician can calculate the error rate in making different decisions.
 
 The probability that a given data set is produced from the model of the null hypothesis is called the **p-value** of a test. More precisely:
 
-> For a given data set $D$ and a null hypothesis $H_0$, the  *p-value* is the probability of obtaining a result *as far from expectation or farther than the observed data, given the null hypothesis.* 
+> For a given data set $D$ and a null hypothesis $H_0$, the *p-value* is the probability of obtaining a result *as far from expectation or farther than the observed data, given the null hypothesis.*
 
 The p-value is the most used, misused, and even abused quantity in statistics, so please think carefully about its definition. One reason this notion is frequently misused is because it is very tempting to conclude that the p-value is the probability of the null hypothesis being true, based on the data. That is not the case! The definition has the opposite direction of conditionality---we assume that the null hypothesis is true, and based on that calculate the probability of obtaining a pattern as extreme or more extreme than what observed in the data. There is no way (according to classical "frequentist" statistics) of assigning a probability to the truth of a hypothesis, because it is not the result of an experiment.
 
@@ -55,7 +54,8 @@ Typically, one sets a critical threshold bounding the probability of making a Ty
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/p_values.png"
 ```
-<center><img src="`r url`"></center>
+
+<center><img src="`r url`"/></center>
 
 For example, consider samples of size $n$ taken from two normal distributions (with unobserved means $\mu_1$, $\mu_2$). We can generate the data:
 
@@ -83,7 +83,7 @@ t.test(my_sample$sample1,
 
 ## Multiple comparisons
 
-What if we were to produce several samples? E.g., measure difference between males and females reflectance in birds at several locations? Suppose that in fact the reflectance is the same for male and female ($\mu_1 = \mu_2 = 1$), that for each location we capture and measure 10 males and 10 females, and that we repeat this across 2500 locations. 
+What if we were to produce several samples? E.g., measure difference between males and females reflectance in birds at several locations? Suppose that in fact the reflectance is the same for male and female ($\mu_1 = \mu_2 = 1$), that for each location we capture and measure 10 males and 10 females, and that we repeat this across 2500 locations.
 
 First, let's write a little function that returns the p-values for the t-test
 
@@ -103,7 +103,7 @@ pvalues <- replicate(n = 2500,
                      expr = get_p_value_t_test(generate_samples(10, 1, 1)))
 ```
 
-How many times do we detect a "significant difference in reflectance" when setting $\alpha = 0.05$ (even though we know that males and females are sampled from the same distribution)? 
+How many times do we detect a "significant difference in reflectance" when setting $\alpha = 0.05$ (even though we know that males and females are sampled from the same distribution)?
 
 ```{r}
 sum(pvalues < 0.05)
@@ -121,8 +121,8 @@ This means that when you are performing multiple tests, some will turn out to fi
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/significant.png"
 ```
-<center><img src="`r url`"></center>
 
+<center><img src="`r url`"/></center>
 
 **Exercise**: what happens to the distribution of p-values if the means are quite different (e.g., $\mu_1 = 1$, $\mu_2 = 0.9$)?
 
@@ -130,17 +130,18 @@ url <- "https://imgs.xkcd.com/comics/significant.png"
 
 The main approach to deal with the problem of multiple comparisons is to adjust the p-values. For example, in Bonferroni correction one consider as significant test results whose associated p-value is $\leq \alpha / n$, where $n$ is the number of tests performed (equivalently, redefine the p-values as $p' = \min(p n, 1)$. Clearly, this correction becomes overly conservative when the number of tests is large. For example, in biology:
 
-- **Gene expression** In a typical microarray experiment, we contrast the differential expression of tens of thousands of genes in treatment and control tissues. 
+-   **Gene expression** In a typical microarray experiment, we contrast the differential expression of tens of thousands of genes in treatment and control tissues.
 
-- **GWAS** In Genomewide Association Studies we want to find SNPs associated with a given phenotype. It is common to test tens of thousands or even millions of SNPs for significant associations.  
+-   **GWAS** In Genomewide Association Studies we want to find SNPs associated with a given phenotype. It is common to test tens of thousands or even millions of SNPs for significant associations.
 
-- **Identifying binding sites** Identifying candidate binding sites for a transcriptional regulator requires scanning the whole genome, yielding tens of millions of tests. 
+-   **Identifying binding sites** Identifying candidate binding sites for a transcriptional regulator requires scanning the whole genome, yielding tens of millions of tests.
 
 The funniest example of this problem is the fMRI of the [dead salmon](http://prefrontal.org/files/posters/Bennett-Salmon-2009.pdf): a dead salmon "was shown a series of photographs depicting human individuals in social situations with a specified emotional valence. The salmon was asked to determine what emotion the individual in the photo must have been experiencing." The researchers showed that if multiple comparisons were not accounted for, one would detect a cluster of active voxels in the brain, with a cluster-level significance of p = 0.001.
 
 The widespread use of GWAS and other techniques that are trying to find a needle in a haystack led to the development of many interesting techniques. [Here](http://lybird300.github.io/2015/10/19/multiple-test-correction.html) an interesting account.
 
 Adjusting p-values in `R`:
+
 ```{r}
 original_pvalues <- c(0.01, 0.07, 0.1, 0.44)
 p.adjust(original_pvalues, method = "bonferroni")
@@ -153,6 +154,7 @@ p.adjust(original_pvalues, method = "bonferroni")
 We have seen above that setting $\alpha = 0.05$ means that we are going to make false discoveries at this rate. In science, we prefer publishing positive results---negative results are difficult to publish and attract little attention. Suppose that 20 research groups around the world set out to test the same hypothesis, which is false. Then there is a good chance at least one group will reject the null hypothesis, and pursue publication for their "discovery". The tendency to put negative studies in the files drawer and forget about them causes the so called **publication bias** (aka **selective reporting**): by favoring positive results over negative ones, we greatly increase the chance that our conclusions are wrong. Note that these would cause the results of the paper to be largely impossible to reproduce, and the **reproducibility crisis in the sciences** is partially due to selective reporting.
 
 ### P-hacking
+
 One big violation of good experimental design is known as p-value **"fishing"** (or **p-hacking**): repeating the experiment, or increasing the sample size, until the p-value is below the desired threshold, and then stopping the experiment. Using such defective design dramatically lowers the likelihood that the result is a true positive. And of course there is actual fraud, or fudging of data, which contributes to some bogus results.
 
 An insidious cousin of p-hacking was dubbed by Andrew Gelman "**the garden of forking paths**" in this [paper](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf). The issue arises in complex problems with multi-variable noisy datasets (aren't all interesting ones like that?) Essentially, with many choices and degrees of freedom in a problem, it is easy to convince yourself that the choice you made (data cleaning, parameter combinations, etc.) is the correct one because it gives the strongest results. Without a clearly stated hypothesis, experimental design, and data processing details prior to data collection, this enchanted garden can lead even a well-intentioned researcher astray.
@@ -161,12 +163,12 @@ An insidious cousin of p-hacking was dubbed by Andrew Gelman "**the garden of fo
 
 Good readings on these and related issues:
 
-* [Why Most Published Research Findings Are False](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
-* [Decline effect](https://en.wikipedia.org/wiki/Decline_effect)
-* [The truth wears off](https://www.newyorker.com/magazine/2010/12/13/the-truth-wears-off)
-* [The Extent and Consequences of P-Hacking in Science](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002106)
-* [A manifesto for reproducible science](https://www.nature.com/articles/s41562-016-0021)
-* [Spoiled Science](https://www.chronicle.com/article/Spoiled-Science/239529)
+-   [Why Most Published Research Findings Are False](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
+-   [Decline effect](https://en.wikipedia.org/wiki/Decline_effect)
+-   [The truth wears off](https://www.newyorker.com/magazine/2010/12/13/the-truth-wears-off)
+-   [The Extent and Consequences of P-Hacking in Science](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002106)
+-   [A manifesto for reproducible science](https://www.nature.com/articles/s41562-016-0021)
+-   [Spoiled Science](https://www.chronicle.com/article/Spoiled-Science/239529)
 
 ## How to fool yourself with p-hacking (and possibly get fired!)
 
@@ -205,6 +207,7 @@ correlations <- dt %>%
 ```
 
 Now let's see whether there are highly significant negative correlations:
+
 ```{r, warning=FALSE, message=FALSE}
 my_results <- correlations %>% filter(pvalue < 0.05, cor < 0)
 my_results

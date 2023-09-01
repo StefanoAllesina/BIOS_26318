@@ -1,9 +1,11 @@
 # Generalized linear models
 
 ## Goal
+
 Learn about Generalized Linear Models (GLMs), and be able to decide which model is most appropriate for the problem at hand.
 
 Let's load some packages:
+
 ```{r}
 library(tidyverse) # our friend the tidyverse
 library(MASS) # negative binom regression
@@ -13,23 +15,23 @@ library(MASS) # negative binom regression
 
 The linear regression we've explored during the past weeks attempts to estimate the expected value for **response** (dependent) variable $Y$ given the **predictors** $X$. It assumes that the response variable changes continuously, and that errors are normally distributed around the mean. In many cases, however:
 
-- the response variable does not have support in the whole real line (e.g., binary, count, only positive values)
-- the errors are not normally distributed (e.g., the response variable can take only positive values)
-- the variance changes with the mean (heteroscedasticity)
+-   the response variable does not have support in the whole real line (e.g., binary, count, only positive values)
+-   the errors are not normally distributed (e.g., the response variable can take only positive values)
+-   the variance changes with the mean (heteroscedasticity)
 
 In these cases, you can use **Generalized Linear Models** (GLMs) to fit the data. In the simplest form of GLMs,
 
-- The response variable is modeled by a single-parameter distribution from the exponential family (Gaussian, Gamma, Binomial, Poisson, etc.)
-- A **link function** linearizes the relationship between the fitted values and the predictors.
-- Parameters are estimated through a least squares algorithm.
+-   The response variable is modeled by a single-parameter distribution from the exponential family (Gaussian, Gamma, Binomial, Poisson, etc.)
+-   A **link function** linearizes the relationship between the fitted values and the predictors.
+-   Parameters are estimated through a least squares algorithm.
 
 ### Model structure
 
 In practice, we need to determine three parts of the model:
 
-- **Random component** the entries of the response variable ($Y$) are assumed to be independently drawn from a certain distribution (e.g., Binomial)---typically a distribution that can be modeled using a single parameter.
-- **Systematic component** the explanatory variables ($X_1$, $X_2$, $\ldots$) are combined linearly to form a **linear predictor** (e.g., $\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots$). The explanatory variables can be continuous, categorical, or mixed.
-- **Link function** $g(u)$ specifies how the random and systematic components are connected. 
+-   **Random component** the entries of the response variable ($Y$) are assumed to be independently drawn from a certain distribution (e.g., Binomial)---typically a distribution that can be modeled using a single parameter.
+-   **Systematic component** the explanatory variables ($X_1$, $X_2$, $\ldots$) are combined linearly to form a **linear predictor** (e.g., $\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots$). The explanatory variables can be continuous, categorical, or mixed.
+-   **Link function** $g(u)$ specifies how the random and systematic components are connected.
 
 ## Binary data
 
@@ -55,7 +57,7 @@ $$
 \text{Logit}(\pi_i) = \log\left( \frac{\pi_i}{1 - \pi_i} \right) = \log(\pi_i) - \log(1 - \pi_i)
 $$
 
-Practically, this means that 
+Practically, this means that
 
 $$
 \pi_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}} = 1 - \frac{1}{1 + e^{\beta_0 + \beta_1 x_i}}
@@ -87,13 +89,11 @@ where
 
 $$
 \text{Probit}(\pi_i) = \Phi(\pi_i)
-$$
-and $\Phi(\cdot)$ is the cumulative distribution function of the standard normal normal distribution:
+$$ and $\Phi(\cdot)$ is the cumulative distribution function of the standard normal normal distribution:
 
 $$
 \Phi(z) = \frac{1}{\sqrt{2 \pi}}\int_{-\infty}^z e^{\frac{-t^2}{2}} dt
-$$
-Clearly, you could alternatively use the cumulative distribution function of any distribution that has support on the real line.
+$$ Clearly, you could alternatively use the cumulative distribution function of any distribution that has support on the real line.
 
 ### A simple example
 
@@ -150,6 +150,7 @@ as.numeric(1 - 1 / (1 + exp(coeffs[1])))
 ```
 
 While a man in third class:
+
 ```{r}
 as.numeric(1 - 1 / (1 + exp(coeffs[1] + coeffs[2] + coeffs[4])))
 ```
@@ -166,25 +167,27 @@ dt <- read_csv("data/admission_rates.csv")
 logit_1 <- glm(Admission_rate ~ AvgCost, data = dt, family = "binomial")
 ```
 
-(do not worry about the warning `non-integer #successes in a binomial glm!`). 
+(do not worry about the warning `non-integer #successes in a binomial glm!`).
 
-- Plot fitted vs. observed admission rates, when using different combinations of predictors.
+-   Plot fitted vs. observed admission rates, when using different combinations of predictors.
 
 For the example above:
+
 ```{r}
 plot(dt$Admission_rate, logit_1$fitted.values)
 abline(c(0,1))
 ```
 
-- Score the models using `AIC`: which is the single best predictor of acceptance rate? (Note: as we will see later this week, the lower the AIC, the better).
+-   Score the models using `AIC`: which is the single best predictor of acceptance rate? (Note: as we will see later this week, the lower the AIC, the better).
 
 ```{r}
 AIC(logit_1)
 ```
 
-- Which the best combination of two predictors?
+-   Which the best combination of two predictors?
 
 ## Count data
+
 ### Poisson regression
 
 Suppose your response variables are non-negative integers. For example, we are counting the number of eggs females lay as a function of their age, body size, etc. A possible model for this case is to think of the response variable as being sampled from a Poisson distribution:
@@ -199,18 +202,18 @@ $$
 \mathbb E[\lambda_i] = \mathbb E[\log(Y_i|X_i)] = \beta_0 + \beta_1 X_i
 $$
 
-In this case, our *link function* is the logarithm, transforming the relationship between the fitted values and the predictors into a linear regression. 
+In this case, our *link function* is the logarithm, transforming the relationship between the fitted values and the predictors into a linear regression.
 
 ### Exercise in class: Number of genomes
 
-The file `data/genomes.csv` contains the year in which the genome of a given animal was published. The file `sequence_cost.csv` the estimated cost per sequencing a Mb in a given year. 
+The file `data/genomes.csv` contains the year in which the genome of a given animal was published. The file `sequence_cost.csv` the estimated cost per sequencing a Mb in a given year.
 
-- Count the number of genomes published per year (store the value as `n`) and store it in the tibble `num_genomes` along with the values  `Year` and `Dollars_per_Mb` (note: you need to use `inner_join` to pull this off);
-- Fit the number of genomes published in a given year:
-  * using only an intercept (your predictions should match the mean) (Code: `pois_1 <- glm(n ~ 1, data = num_genomes, family = "poisson")`)
-  * using the year as a predictor
-  * using the cost of sequencing as a predictor
-- For each model, plot the observed `n` vs its predicted value, and compute AIC. Is the fit superior when we use `Year` or `Dollars_per_Mb`?
+-   Count the number of genomes published per year (store the value as `n`) and store it in the tibble `num_genomes` along with the values `Year` and `Dollars_per_Mb` (note: you need to use `inner_join` to pull this off);
+-   Fit the number of genomes published in a given year:
+    -   using only an intercept (your predictions should match the mean) (Code: `pois_1 <- glm(n ~ 1, data = num_genomes, family = "poisson")`)
+    -   using the year as a predictor
+    -   using the cost of sequencing as a predictor
+-   For each model, plot the observed `n` vs its predicted value, and compute AIC. Is the fit superior when we use `Year` or `Dollars_per_Mb`?
 
 ### Underdispersed and Overdispersed data
 
@@ -232,7 +235,7 @@ $$
 \end{aligned}
 $$
 
-Similarly, using 
+Similarly, using
 
 $$
 \begin{aligned}
@@ -247,23 +250,21 @@ The fact that the variance equals the mean is a hard constraint, rarely matched 
 
 $$
 \mathbb E[\lambda_i] = \beta_0 + \beta_1 X_i
-$$
-and 
+$$ and
 
 $$
 \mathbb E[\lambda_i^2] - \mathbb E[\lambda_i]^2 = \mathbb V[\lambda_i] = \phi \lambda_i
-$$
-Where $\phi$ controls the dispersion of the data. A value $\phi > 1$ signals over-dispersion, while (the very rare case of) $\phi < 1$ under-dispersion. The Poisson regression is appropriate only when $\phi \approx 1$. A simple way to test for dispersion in to fit a `quasipoisson` model, which returns a dispersion parameter (anything larger than 1 means over-dispersion). 
+$$ Where $\phi$ controls the dispersion of the data. A value $\phi > 1$ signals over-dispersion, while (the very rare case of) $\phi < 1$ under-dispersion. The Poisson regression is appropriate only when $\phi \approx 1$. A simple way to test for dispersion in to fit a `quasipoisson` model, which returns a dispersion parameter (anything larger than 1 means over-dispersion).
 
 ### Exercise in class: Number of genomes
 
-- For the models above, change the family to `quasipoisson` to check the dispersion (e.g., `qpois_1 <- glm(n ~ 1, data = num_genomes, family = "quasipoisson")`).
-- Do you have over-dispersion?
-- If the data are over-dispersed, fit them again using `glm.nb` (a negative binomial regression model provided by the package `MASS`).
+-   For the models above, change the family to `quasipoisson` to check the dispersion (e.g., `qpois_1 <- glm(n ~ 1, data = num_genomes, family = "quasipoisson")`).
+-   Do you have over-dispersion?
+-   If the data are over-dispersed, fit them again using `glm.nb` (a negative binomial regression model provided by the package `MASS`).
 
 ### Separate distribution for the zeros
 
-In several biologically-relevant cases, we have an excess of zeros. For example, you might have animals, that, if they reach the age of 1, will go on to a live a number of years---say well-described by a Poisson distribution. However, mortality immediately after birth is high. In such cases, you can use zero-inflated or zero-hurdle models. 
+In several biologically-relevant cases, we have an excess of zeros. For example, you might have animals, that, if they reach the age of 1, will go on to a live a number of years---say well-described by a Poisson distribution. However, mortality immediately after birth is high. In such cases, you can use zero-inflated or zero-hurdle models.
 
 In zero-inflated models, you can think of having a conditional branching: with probability $p_z$ your count is zero; if not (prob. $1-p_z$) it is sampled from a given distribution. As such a count of zero can stem from two different processes: either because you got a zero at the first step, or because you have sampled a zero from the distribution.
 
@@ -275,22 +276,22 @@ Zero-inflated and zero-hurdle models are examples of [**mixture models**](https:
 
 Historically, GLMs have been defined for the canonical families:
 
-- Gaussian: linear regression
-- Gamma and Inverse Gaussian: Positive, continuous
-- Poisson: count data
-- Negative Binomial: count data (fit an ancillary parameter for over-dispersion)
-- Binary/Binomial (logistic): binary responses; number of successes; probabilities/proportions (with slight abuse).
+-   Gaussian: linear regression
+-   Gamma and Inverse Gaussian: Positive, continuous
+-   Poisson: count data
+-   Negative Binomial: count data (fit an ancillary parameter for over-dispersion)
+-   Binary/Binomial (logistic): binary responses; number of successes; probabilities/proportions (with slight abuse).
 
 However, the same basic idea led to the development of "non-canonical" GLMs:
 
-- Log-normal: Positive, continuous
-- Log-gamma: survival models
-- Probit: binary
+-   Log-normal: Positive, continuous
+-   Log-gamma: survival models
+-   Probit: binary
 
 and many others. Fitting the models can be done using Maximum Likelihoods, or in a Bayesian framework (typically, through MCMC).
 
 ## Readings and homework
-- There are two useful swirls in the course `Regression Models`: `Binary Outcomes` and `Count Outcomes`
-- [An excellent book on GLMs in R](https://link.springer.com/book/10.1007/978-1-4419-0118-7)
-- [Regression Models for Count Data in R](https://cran.r-project.org/web/packages/pscl/vignettes/countreg.pdf)
 
+-   There are two useful swirls in the course `Regression Models`: `Binary Outcomes` and `Count Outcomes`
+-   [An excellent book on GLMs in R](https://link.springer.com/book/10.1007/978-1-4419-0118-7)
+-   [Regression Models for Count Data in R](https://cran.r-project.org/web/packages/pscl/vignettes/countreg.pdf)

@@ -18,6 +18,16 @@ book:
     - 02-probdist.qmd
     - 03-wrangling.qmd
     - 04-distributions.qmd
+    - 05-hypothesis.qmd
+    - 06-likelihood.qmd
+    - 07-linalg.qmd
+    - 08-linearreg.qmd
+    - 09-ANOVA.qmd
+    - 10-model_selection.qmd
+    - 11-SVD_PCA.qmd
+    - 12-clustering.qmd
+    - 13-generalized_linear_models.qmd
+    - 14-machine-learning.qmd
 
 bibliography: book.bib
 biblio-style: apalike

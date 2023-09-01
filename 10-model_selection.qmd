@@ -1,14 +1,14 @@
 # Model Selection
 
-> Cchiù longa è a pinsata cchiù grossa è a minchiata 
+> Cchiù longa è a pinsata cchiù grossa è a minchiata
 >
-> [the longer the thought, the bigger the bullshit] 
-> 
+> \[the longer the thought, the bigger the bullshit\]
+>
 > --- Sicilian proverb
 
 ## Goal
 
-For any data you might want to fit, several competing statistical models seem to do a fairly good job. But which model should you use then? 
+For any data you might want to fit, several competing statistical models seem to do a fairly good job. But which model should you use then?
 
 The goal of model selection is to provide you with a disciplined way to choose among competing models. While there is no consensus on a single technique to perform model selection (we will examine some of the alternative paradigms below), all techniques are inspired by Occam's razor: given models of similar explanatory power, choose the simplest.
 
@@ -29,14 +29,15 @@ library(dotwhisker)  # for visualizing regression results
 
 ## Problems
 
-1. Over-fitting can lead to wrong inference. (The problem is similar to that of spurious correlations).
+1.  Over-fitting can lead to wrong inference. (The problem is similar to that of spurious correlations).
 
-2. Identifiability of parameters. Sometimes it is hard/impossible to find the best value for a set of parameters. For example, when parameters only appear as sums or products in the model. In general, it is difficult to prove that the set of parameters leading to the maximum likelihood is unique.
+2.  Identifiability of parameters. Sometimes it is hard/impossible to find the best value for a set of parameters. For example, when parameters only appear as sums or products in the model. In general, it is difficult to prove that the set of parameters leading to the maximum likelihood is unique.
 
-3. Finding best estimates. For complex models, it might be difficult to find the best estimates for a set of parameters. For example, several areas of the parameter space could yield a good fit, and the good sets of parameters could be separated by areas with poor fit. Then, we might get "stuck" in a sub-optimal region of the parameters space.
+3.  Finding best estimates. For complex models, it might be difficult to find the best estimates for a set of parameters. For example, several areas of the parameter space could yield a good fit, and the good sets of parameters could be separated by areas with poor fit. Then, we might get "stuck" in a sub-optimal region of the parameters space.
 
 ## Approaches based on maximum-likelihoods
-We start by examining methods that are based on maximum likelihoods. For each data set and model, you find the best fitting parameters (those maximizing the likelihood).  The parameters are said to be at their maximum-likelihood estimate. 
+
+We start by examining methods that are based on maximum likelihoods. For each data set and model, you find the best fitting parameters (those maximizing the likelihood). The parameters are said to be at their maximum-likelihood estimate.
 
 ### Likelihood function
 
@@ -54,7 +55,6 @@ $\mathcal L(\theta \vert D) = \log L(\theta \vert D) \to$ the log-likelihood
 
 $L(\hat{\theta} \vert D) \to$ the maximum likelihood
 
-
 ### Discrete probability distributions
 
 The simplest case is that of a probability distribution function that takes discrete values. Then, the likelihood of $\theta$ given the data is simply the probability of obtaining the data when parameterizing the model with parameters $\theta$:
@@ -69,8 +69,7 @@ The definition is more complex for continuous variables (because $P(X = x; \thet
 
 $$
 L(\theta \vert x_j) = \lim_{h \to 0^+} \frac{1}{h} \int_{x_j}^{x_j + h} f(x ; \theta) dx = f(x_j ; \theta)
-$$
-Note that, contrary to probabilities, density values can take values greater than 1. As such, when the dispersion is small, one could end up with values of likelihood greater than 1 (or positive log-likelihoods). In fact, the likelihood function is proportional to but not necessarily equal to the probability of generating the data given the parameters: $L(\theta\vert X) \propto P(X; \theta)$.
+$$ Note that, contrary to probabilities, density values can take values greater than 1. As such, when the dispersion is small, one could end up with values of likelihood greater than 1 (or positive log-likelihoods). In fact, the likelihood function is proportional to but not necessarily equal to the probability of generating the data given the parameters: $L(\theta\vert X) \propto P(X; \theta)$.
 
 In many cases, maximizing the likelihood is equivalent to minimizing the sum of square errors (residuals).
 
@@ -80,19 +79,16 @@ As you remember, we have considered the normal equations:
 
 $$
 Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
-$$
-Where the residuals have variance $\sigma^2$. The likelihood of the parameters is simply the product of the likelihood for each point:
+$$ Where the residuals have variance $\sigma^2$. The likelihood of the parameters is simply the product of the likelihood for each point:
 
 $$
 L(\beta_0, \beta_1, \sigma^2 \vert Y) = \prod_i L(\beta_0, \beta_1, \sigma^2 \vert Y_i) = \prod_i f(Y_i; \beta_0, \beta_1, \sigma^2) = 
 \prod_i \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{(Y_i - (\beta_0 + \beta_1 X_i))^2}{2 \sigma^2}\right)
-$$
-We want to choose the parameters such that they maximize the likelihood. Because the logarithm is monotonic then maximizing the likelihood is equivalent to maximizing the log-likelihood:
+$$ We want to choose the parameters such that they maximize the likelihood. Because the logarithm is monotonic then maximizing the likelihood is equivalent to maximizing the log-likelihood:
 
 $$
 \mathcal L(\beta_0, \beta_1, \sigma^2 \vert Y) = -\log\left(\sqrt{2 \pi \sigma^2}\right) -\frac{1}{{2 \sigma^2}} \sum_i {(Y_i - (\beta_0 + \beta_1 X_i))^2}
-$$
-Showing that by minimizing the sum of squares, we are maximizing the likelihood.
+$$ Showing that by minimizing the sum of squares, we are maximizing the likelihood.
 
 ## Likelihood-ratio tests
 
@@ -118,6 +114,7 @@ trees <- trees %>% mutate (Radius = Girth / (2 * 12)) # diameter to radius; inch
 ```
 
 Let's look at the distribution of three heights:
+
 ```{r}
 trees %>% ggplot(aes(x = Height)) + geom_density()
 ```
@@ -126,8 +123,7 @@ A possible simple model is one that says that all tree heights have heights take
 
 $$
 h_i = \theta_0 + \epsilon_i
-$$
-where we assume that the errors $\epsilon_i \overset{\text{iid}}{\sim} \mathcal N(0, \sigma^2)$. Now fit the model, obtaining $\hat{\theta_0}$, and compute the maximum log-likelihood $\mathcal L_0(\hat{\theta_0}, \hat{\sigma}^2 \vert h)$. 
+$$ where we assume that the errors $\epsilon_i \overset{\text{iid}}{\sim} \mathcal N(0, \sigma^2)$. Now fit the model, obtaining $\hat{\theta_0}$, and compute the maximum log-likelihood $\mathcal L_0(\hat{\theta_0}, \hat{\sigma}^2 \vert h)$.
 
 In `R`, we would call:
 
@@ -157,8 +153,7 @@ Given the positive correlation between radius and height, we can build a more co
 
 $$
 h_i = \theta_0 + \theta_1 r_i + \epsilon_i
-$$
-as for model $\mathcal M_0$, fit the parameters (note that $\hat{\theta_0}$ for model $\mathcal M_0$ will in general be different from $\hat{\theta_0}$ for model $\mathcal M_1$), and compute $\mathcal L_1(\hat{\theta_0},\hat{\theta_1},\hat{\sigma}^2 \vert h)$. These two models are nested, because when setting $\theta_1 = 0$  we recover $\mathcal M_0$.
+$$ as for model $\mathcal M_0$, fit the parameters (note that $\hat{\theta_0}$ for model $\mathcal M_0$ will in general be different from $\hat{\theta_0}$ for model $\mathcal M_1$), and compute $\mathcal L_1(\hat{\theta_0},\hat{\theta_1},\hat{\sigma}^2 \vert h)$. These two models are nested, because when setting $\theta_1 = 0$ we recover $\mathcal M_0$.
 
 In `R`:
 
@@ -176,7 +171,7 @@ Which model should we use? You can see that adding an extra parameter improved t
 
 Enter the likelihood-ratio test. We want to know whether it's worth using the more complex model, and to do this we need to calculate a likelihood-ratio statistics. We're helped by *Wilks' theorem*: as the sample size $n \to \infty$, the test statistics $2 \log(L_1 / L_0)$ is asymptotically $\chi^2$ distributed with degrees of freedom equal to the difference in the number of parameters between $\mathcal M_1$ and $\mathcal M_0$.
 
-While there are many caveats [^1] this method is commonly used in practice.
+While there are many caveats \[\^1\] this method is commonly used in practice.
 
 ```{r}
 # 2 * log-likelihood ratio
@@ -199,27 +194,31 @@ print(round(res, 4))
 
 In this case, the likelihood-ratio test would favor the use of the more complex model.
 
-* **Pros**: Straightforward; well-studied for nested models.
-* **Cons**: Difficult to generalize to more complex cases.
+-   **Pros**: Straightforward; well-studied for nested models.
+-   **Cons**: Difficult to generalize to more complex cases.
 
 #### Adding more models
 
 The data also contains a column with the volume. Let's take a look:
+
 ```{r}
 trees %>% ggplot() + aes(x = Volume, y = Height) + geom_point()
 ```
 
 And look at the correlation
+
 ```{r}
 cor(trees$Volume, trees$Height)
 ```
 
 We can build another model:
+
 ```{r}
 M2 <- lm(data = trees, Height ~ Volume) # intercept and slope
 ```
 
 Compute the log likelihood:
+
 ```{r}
 logLik(M2)
 ```
@@ -270,13 +269,13 @@ logLik(M3)
 
 ## AIC
 
-Of course, in most cases the models that we want to contrast need not to be nested. Then, we can try to penalize models according to the number of free parameters, such that more complex models (those with many free parameters) should be associated with much better likelihoods to be favored. 
+Of course, in most cases the models that we want to contrast need not to be nested. Then, we can try to penalize models according to the number of free parameters, such that more complex models (those with many free parameters) should be associated with much better likelihoods to be favored.
 
 In the early 1970s, Hirotugu Akaike proposed "an information criterion" (AIC, now known as Akaike's Information Criterion), based, as the name implies, on information theory. Basically, AIC is measuring (asymptotically) the information loss when using the model in lieu of the actual data. Philosophically, it is rooted in the idea that there is a "true model" that generated the data, and that several possible models can serve as its approximation. Practically, it is very easy to compute:
 
 $$AIC = -2 \mathcal L(\theta \vert D) + 2 k$$
 
-where $k$ is the number of free parameters (e.g., 3 for the simplest linear regression [intercept, slope, variance of the residuals]). In `R`, many models provide a way to access their AIC score:
+where $k$ is the number of free parameters (e.g., 3 for the simplest linear regression \[intercept, slope, variance of the residuals\]). In `R`, many models provide a way to access their AIC score:
 
 ```{r}
 AIC(M0) # only intercept
@@ -285,17 +284,17 @@ AIC(M2) # use volume
 AIC(M3) # use cylinder
 ```
 
-You can see that AIC favors the cylinder model over the others. Typically, a difference of about 2 is considered "significant", though of course this really depends on the size of the data, the values of AIC, etc. 
+You can see that AIC favors the cylinder model over the others. Typically, a difference of about 2 is considered "significant", though of course this really depends on the size of the data, the values of AIC, etc.
 
-* **Pros**: Easy to calculate; very popular.
-* **Cons**: Sometimes it is difficult to "count" parameters; why should each parameter cost the same, when they have different effects on the likelihood?
+-   **Pros**: Easy to calculate; very popular.
+-   **Cons**: Sometimes it is difficult to "count" parameters; why should each parameter cost the same, when they have different effects on the likelihood?
 
 ## Other information-based criteria
 
 The approach spearheaded by Akaike has been followed by a number of researchers, giving rise to many similar criteria for model selection. Without getting too much into the details, here are a few pointers:
 
-* Bayesian Information Criterion $BIC = -2 \mathcal L(\theta \vert D) + k \log(n)$ where $n$ is the number of data points. Penalizes parameters more strongly when there are much data.
-* Hannan–Quinn information criterion $HQC = -2 \mathcal L(\theta \vert D) + k \log(\log(n))$
+-   Bayesian Information Criterion $BIC = -2 \mathcal L(\theta \vert D) + k \log(n)$ where $n$ is the number of data points. Penalizes parameters more strongly when there are much data.
+-   Hannan--Quinn information criterion $HQC = -2 \mathcal L(\theta \vert D) + k \log(\log(n))$
 
 ## Bayesian approaches to model selection
 
@@ -304,7 +303,7 @@ The approaches we've examined before are based on "point-estimates", i.e., only 
 ### Marginal likelihoods
 
 A very beautiful approach is based on marginal likelihoods, i.e., likelihoods obtained integrating the parameters out. Unfortunately, the calculation becomes difficult to perform by hand for complex models, but it provides a good approach for simple models. In general, we want to assess the "goodness" of a model. Then, using Bayes' rule:
-  
+
 $$
   P(M\vert D) = \frac{P(D\vert M) P(M)}{P(D)}
 $$
@@ -316,27 +315,27 @@ P(D\vert M) = \int P(D\vert M,\theta)P(\theta\vert M) d\theta
 $$
 
 where $P(D\vert M,\theta)$ is the likelihood, and $P(\theta\vert M)$ is a distribution over the parameter values (typically, the priors).
-  
+
 For example, let's compute the marginal likelihood for the case in which we flip a coin $n = a + b$ times, and we obtain $a$ heads and $b$ tails. Call $\theta$ the probability of obtaining a head, and suppose that $P(\theta\vert M)$ is a uniform distribution. Then:
-  
+
 $$
 P(a,b\vert M) = \int_0^1 P(a,b\vert M,\theta) d\theta = \int_0^1 \binom{a+b}{a} \theta^{a} (1-\theta)^{b} d\theta  = \frac{1}{a+b+1} = \frac{1}{n+1}
 $$
-  
+
 Interestingly, the marginal likelihood can be interpreted as the expected likelihood when parameters are sampled from the prior.
-  
+
 ### Bayes factors
-  
+
 Take two models, and assume that initially we have no preference $P(M_1) = P(M_2)$, then:
-  
+
 $$
   \frac{P(M_1\vert D)}{P(M_2\vert D)} = \frac{P(D\vert M_1)P(M_1)}{P(D\vert M_2)P(M_2)} = \frac{P(D\vert M_1)}{P(D\vert M_2)}
 $$
-  
+
 The ratio is called the "Bayes factor" and provides a rigorous way to perform model selection.
-  
+
 ### Bayes factors in practice
-  
+
 In practice, Bayes Factors can be estimated from MCMC. While we're not going to get into this here, we can use a package that a) automatically sets the priors for all the variables (close to the philosophy known as "Objective Bayes"); b) performs the calculation of the Bayes Factors for us.
 
 Let's build very many models. Load the data:
@@ -365,9 +364,8 @@ plot(bf_analysis)
 
 These ratios measure how many times more probable the model is compared to that with only the intercept (assuming initially that all models are equiprobable). Note that the Bayes Factors automatically penalize for overly complex models (triplets/quadruplets are ranked after pairs or even only `Guess`).
 
-* **Pros**: Elegant, straightforward interpretation.
-* **Cons**: Difficult to compute for complex models; requires priors.
-
+-   **Pros**: Elegant, straightforward interpretation.
+-   **Cons**: Difficult to compute for complex models; requires priors.
 
 ## Using tidymodels for modeling and cross-validation
 
@@ -381,6 +379,7 @@ penguins %>% ggplot(aes( x= body_mass_g, y= bill_length_mm)) +
   geom_smooth(method = lm, se = FALSE) +
   scale_color_viridis_d(option = "plasma", end = .7)
 ```
+
 There is clearly a relationship, but would it help to add species and sex as variables? Let us see:
 
 ```{r}
@@ -401,7 +400,6 @@ lm_mod <-
   set_engine("lm")
 ```
 
-
 Next, we clean the data and split it into the training and testing sets, and create a *recipe* that specifies the data set and the response variable that we want to model. The other variables are left as the predictors, but we can take them out of consideration by *changing the role* of those variables to "ID". In this recipe, the only predictor (explanatory) variable in the data set is body_mass_g.
 
 ```{r}
@@ -421,7 +419,6 @@ pen_recipe <-
   #update_role(sex, island, year, species, bill_depth_mm, flipper_length_mm, new_role = "ID")
   update_role(sex, island, species, bill_depth_mm, flipper_length_mm, new_role = "ID") 
 ```
-
 
 We can now combine the recipe for the data and the model to create a *workflow* for training the data with a model, and then use it to create a fit:
 
@@ -446,7 +443,7 @@ tidy(fit1)
 glance(fit1) # 
 ```
 
-The `tidy` and `glance` functions return different summaries of information; the first one information about fitted parameters, the second the R-squared and likelihood of the model. 
+The `tidy` and `glance` functions return different summaries of information; the first one information about fitted parameters, the second the R-squared and likelihood of the model.
 
 Let us now modify the recipe to include the species and save the fitting results to a different object fit2:
 
@@ -471,10 +468,10 @@ fit2 <- pen_fit2 %>%
 tidy(fit2)
 glance(fit2) 
 ```
+
 The R-squared as well as the log likelihood have improved substantially and the AIC is lower.
 
 Now let us see if we can further improve the model quality by incorporating sex as another explanatory variable:
-
 
 ```{r}
 pen_recipe3 <- 
@@ -497,6 +494,7 @@ fit3 <- pen_fit3 %>%
 tidy(fit3)
 glance(fit3) 
 ```
+
 Adding sex further improves the R-squared and log-likelihood, as the AIC drops again.
 
 ### Prediction and cross-validation
@@ -516,7 +514,6 @@ ggplot(prediction1, aes(x=.pred, y=bill_length_mm)) + geom_point() + geom_smooth
 metrics(prediction1, truth = bill_length_mm, estimate = .pred)
 ```
 
-
 ```{r}
 bill_fit2 <- predict(fit2, test_data)
 
@@ -528,7 +525,6 @@ ggplot(prediction2, aes(x=.pred, y=bill_length_mm)) + geom_point() + geom_smooth
 metrics(prediction2, truth = bill_length_mm, estimate = .pred)
 ```
 
-
 ```{r}
 bill_fit3 <- predict(fit3, test_data)
 
@@ -539,30 +535,28 @@ ggplot(prediction3, aes(x=.pred, y=bill_length_mm)) + geom_point() + geom_smooth
 
 metrics(prediction3, truth = bill_length_mm, estimate = .pred)
 ```
+
 The function `metrics` from package `yardstick` returns several related measures of agreement between prediction and the data in the test set. Probably the most common is the root mean squared error, that is the root of the sum of squared differences between predictions and observations. Notice that the rmse drops for each successive variable that we add to the model.
 
-**Exercise** Add one or several more variables to the list of predictors by modifying the recipe, calculate the predictions, and compare their performance (e.g. the rmse on the test data) to the simpler models. 
-
+**Exercise** Add one or several more variables to the list of predictors by modifying the recipe, calculate the predictions, and compare their performance (e.g. the rmse on the test data) to the simpler models.
 
 ## Other approaches
+
 ### Minimum description length
 
-Another completely different way to perform model selection is based on the idea on "Minimum Description Length", where models are seen as a way to "compress" the data, and the model leading to the strongest compression should be favored. While we do not cover it here, you can read about it in [4].
+Another completely different way to perform model selection is based on the idea on "Minimum Description Length", where models are seen as a way to "compress" the data, and the model leading to the strongest compression should be favored. While we do not cover it here, you can read about it in \[4\].
 
 ### Cross validation
 
-One very robust method to perform model selection, often used in machine learning, is cross-validation. The idea is simple: split the data in three parts: a small data set for exploring; a large set for fitting; a small set for testing (for example, 5\%, 75\%, 20\%). You can use the first data set to explore freely and get inspired for a good model. These data are then discarded. You use the largest data set for accurately fitting your model(s). Finally, you validate your model or select over competing models using the last data set. 
+One very robust method to perform model selection, often used in machine learning, is cross-validation. The idea is simple: split the data in three parts: a small data set for exploring; a large set for fitting; a small set for testing (for example, 5%, 75%, 20%). You can use the first data set to explore freely and get inspired for a good model. These data are then discarded. You use the largest data set for accurately fitting your model(s). Finally, you validate your model or select over competing models using the last data set.
 
 Because you haven't used the test data for fitting, this should dramatically reduce the risk of over-fitting. The downside of this is that we're wasting precious data. There are less expensive methods for cross validation, but if you have much data, or data is cheap, then this has the virtue of being fairly robust.
-
-
-
 
 #### Exercise: Do shorter titles lead to more citations?
 
 To test the power of cross-validation, we are going to examine a bold claim by Letchford *et al.*, 2015: that papers with shorter titles attract more citations than those with longer titles. We are going to use their original data:
 
-> Letchford A, Moat HS, Preis T (2015) [The advantage of short paper titles](https://doi.org/10.1098/rsos.150266). Royal Society Open Science 2(8): 150266. 
+> Letchford A, Moat HS, Preis T (2015) [The advantage of short paper titles](https://doi.org/10.1098/rsos.150266). Royal Society Open Science 2(8): 150266.
 
 ```{r}
 # original URL
@@ -571,7 +565,7 @@ dt <- read_csv("data/LMP2015.csv")
 ```
 
 The data set reports information on the top 20000 articles for each year from 2007 to 2013. The Author's claim is that shorter titles lead to more citations:
-  
+
 ```{r}
 dt %>% 
   group_by(year) %>% 
@@ -582,10 +576,10 @@ As you can see, title length is anti-correlated (using rank correlation) with th
 
 There are several problems with this claim:
 
-  - The authors selected papers based on their citations. As such their claim would need to be stated as "among top-cited papers there is a correlation".
-- The journals cover a wide array of disciplines. The title length could reflect different publishing cultures.
-- Most importantly, different journals have different requirements for title lengths. For example, Nature requires titles to be less than 90 characters:
-  
+-   The authors selected papers based on their citations. As such their claim would need to be stated as "among top-cited papers there is a correlation".
+-   The journals cover a wide array of disciplines. The title length could reflect different publishing cultures.
+-   Most importantly, different journals have different requirements for title lengths. For example, Nature requires titles to be less than 90 characters:
+
 ```{r}
 dt%>% filter(journal %in% c("Nature", "Science")) %>% 
   ggplot() + aes(x = journal, y = title_length) + geom_violin()
@@ -638,7 +632,7 @@ dt %>%
 
 Let's consider two competing models.
 
-Model1: each journal year has its mean 
+Model1: each journal year has its mean
 
 $\log(\text{cits} + 1) \sim \text{journal}:\text{year}$
 
@@ -676,15 +670,15 @@ print(SSQ_M2)
 
 We do not gain anything by including the information on titles.
 
-* **Pros**: Easy to use; quite general; asymptotically equivalent to AIC.
-* **Cons**: Sensitive to how the data was split (you can average over multiple partitions); need much data (instability in parameter estimates due to "data loss")
+-   **Pros**: Easy to use; quite general; asymptotically equivalent to AIC.
+-   **Cons**: Sensitive to how the data was split (you can average over multiple partitions); need much data (instability in parameter estimates due to "data loss")
 
 ## References and further reading:
 
-1. Pinheiro, José C.; Bates, Douglas M. (2000), Mixed-Effects Models in S and S-PLUS, Springer-Verlag, pp. 82–93
+1.  Pinheiro, José C.; Bates, Douglas M. (2000), Mixed-Effects Models in S and S-PLUS, Springer-Verlag, pp. 82--93
 
-2. [Tidymodels tutorial](https://www.tidymodels.org/start/)
+2.  [Tidymodels tutorial](https://www.tidymodels.org/start/)
 
-3. [Emil Hvitfeldt, Tidymodels for Introduction to Statistical Learning in R](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html)
+3.  [Emil Hvitfeldt, Tidymodels for Introduction to Statistical Learning in R](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html)
 
-4. [Mark H Hansen and Bin Yu Model Selection and the Principle of Minimum Description Length](https://www.tandfonline.com/doi/abs/10.1198/016214501753168398).
+4.  [Mark H Hansen and Bin Yu Model Selection and the Principle of Minimum Description Length](https://www.tandfonline.com/doi/abs/10.1198/016214501753168398).

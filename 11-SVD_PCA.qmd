@@ -10,7 +10,7 @@ library(ggmap) # for ggimage
 library(ggfortify) # for autoplot
 ```
 
-## Input 
+## Input
 
 We have collected the $n \times m$ data matrix $X$ (typically, with $n \gg m$), in which the rows are samples and the columns are $m$ measures on the samples. Each row of this matrix defines a point in the Euclidean space $\mathbb R^m$, i.e., each point in this space is a potential sample. Naturally, samples with similar measurements are "close" in this space, and samples that are very different are "far". However, $m$ can be quite large, and therefore we cannot easily visualize the position of the points. One way to think of PCA is as the best projection of the points in a $r$-dimensional space (with $r \leq m$), for visualization and clustering.
 
@@ -18,12 +18,13 @@ For example, take the iris data set:
 
 ```{r}
 data("iris")
-ir <- iris %>% select(-Species)
-sp <- iris %>% select(Species)
+ir <- iris %>% dplyr::select(-Species)
+sp <- iris %>% dplyr::select(Species)
 pairs(ir, col = sp$Species)
 ```
 
 We can separate the clusters better by finding the best projection in 2D:
+
 ```{r}
 autoplot(prcomp(ir, center = TRUE), 
          data = iris, 
@@ -40,11 +41,11 @@ $$
 X = U \Sigma V^T
 $$
 
-$X$ is a $n \times m$ matrix, $U$ is an $n \times n$ **orthogonal**, **unitary** matrix and $V$ is an $m \times m$ orthogonal, unitary matrix, and $\Sigma$ is a $m \times n$ rectangular, diagonal matrix with non-negative values on the diagonal. If $V$ is a (real) unitary matrix, then $VV^T = I_m$ (the $m \times m$ identity matrix), and if $U$ is also unitary, then $UU^T = I_n$. Another way to put this is $U^{-1} = U^T$. 
+$X$ is a $n \times m$ matrix, $U$ is an $n \times n$ **orthogonal**, **unitary** matrix and $V$ is an $m \times m$ orthogonal, unitary matrix, and $\Sigma$ is a $m \times n$ rectangular, diagonal matrix with non-negative values on the diagonal. If $V$ is a (real) unitary matrix, then $VV^T = I_m$ (the $m \times m$ identity matrix), and if $U$ is also unitary, then $UU^T = I_n$. Another way to put this is $U^{-1} = U^T$.
 
 (Note: this defines the "full" SVD of $A$; equivalently, one can perform a "thin", or "reduced" SVD by having $U$ of dimension $n \times p$, and $\Sigma$ and $V$ of dimension $p \times p$, where $p \leq m$ is the rank of $A$---by default `R` returns a "thin" SVD; read the details [here](http://www.seas.ucla.edu/~vandenbe/133B/lectures/svd.pdf)).
 
-The values on the diagonal of $\Sigma$ are the **singular values** of $X$, i.e., the nonzero eigenvalues of $XX^T$ (or $X^T X$). In this context, the matrix $U$ contains the **left singular vectors** of $X$ and $V$ its **right singular vectors**. Let's rearrange the rows/cols of $\Sigma$, $U$ and $V$ such that we have the singular values in decreasing order: $\text{diag}(\Sigma) = (\sigma_1, \sigma_2, \ldots, \sigma_m)$. 
+The values on the diagonal of $\Sigma$ are the **singular values** of $X$, i.e., the nonzero eigenvalues of $XX^T$ (or $X^T X$). In this context, the matrix $U$ contains the **left singular vectors** of $X$ and $V$ its **right singular vectors**. Let's rearrange the rows/cols of $\Sigma$, $U$ and $V$ such that we have the singular values in decreasing order: $\text{diag}(\Sigma) = (\sigma_1, \sigma_2, \ldots, \sigma_m)$.
 
 Through SVD, the matrix $X$ can be seen as a sum of $m$ matrices:
 
@@ -52,7 +53,7 @@ $$
 X = \sum_{i = 1}^m U_i \Sigma_{ii} V_i^T = X_1 + X_2 + X_3 + \ldots
 $$
 
-Where $U_i$ is the $i$th column of $U$. Most importantly, you can prove that at each step ($r$), you are computing the **"best" approximation of $X$ as a sum of $r$ rank-1 matrices**. I.e., for each $r$ we have that $\| X - (X_1 + X_2 + \ldots + X_r) \|$ is as small as possible (Eckart–Young–Mirsky theorem).
+Where $U_i$ is the $i$th column of $U$. Most importantly, you can prove that at each step ($r$), you are computing the **"best" approximation of** $X$ as a sum of $r$ rank-1 matrices. I.e., for each $r$ we have that $\| X - (X_1 + X_2 + \ldots + X_r) \|$ is as small as possible (Eckart--Young--Mirsky theorem).
 
 Let's look at a concrete example. A monochromatic image can be represented as a matrix where the entries are pixels taking values in (for example, using 8 bits) $0, 1, \ldots, 255$:
 
@@ -104,12 +105,12 @@ gridExtra::grid.arrange(grobs = plots, ncol = 2)
 
 ## SVD and PCA
 
-Let's go back to our data matrix $X$, and its representation as $n$ points (the samples) in $m$ dimensions (the measurements). For the moment, consider the case in which **each column of $X$ sums to zero** (i.e., for each measurement, we have removed the mean---this is called "centering"). We would like to represent the data as best as possible in few dimensions, such that a) the axes are orthogonal; b) the axes are aligned with the principal sources of variation in the data. More precisely, PCA is an **orthogonal linear transformation** that transforms the data to a **new coordinate system** such that the direction of greatest variance of the data is aligned with the first coordinate, the second greatest with the second coordinate, and so on.
+Let's go back to our data matrix $X$, and its representation as $n$ points (the samples) in $m$ dimensions (the measurements). For the moment, consider the case in which **each column of** $X$ sums to zero (i.e., for each measurement, we have removed the mean---this is called "centering"). We would like to represent the data as best as possible in few dimensions, such that a) the axes are orthogonal; b) the axes are aligned with the principal sources of variation in the data. More precisely, PCA is an **orthogonal linear transformation** that transforms the data to a **new coordinate system** such that the direction of greatest variance of the data is aligned with the first coordinate, the second greatest with the second coordinate, and so on.
 
 For example, let's take the `Petal.Lenght` and `Petal.Width` in `iris`:
 
 ```{r}
-X <- iris %>% select(Petal.Length, Petal.Width) %>% as.matrix()
+X <- iris %>% dplyr::select(Petal.Length, Petal.Width) %>% as.matrix()
 X <- scale(X, center = TRUE, scale = FALSE) # remove mean
 colors <- iris$Species
 plot(X, col = colors)
@@ -131,7 +132,7 @@ $$
 Y_{i} = X W_i
 $$
 
-Where $Y_i$ is the ith column of $Y$ and $W_i$ the ith column on $W$. Let's start with the first column $Y_1$: we want to choose $W_1$ such that the variance of $Y_i$ is maximized. Because the mean of each column of $X$ is zero, then also the mean of $Y_i$ is zero. Thus, the variance is simply $\frac{1}{n-1}\sum_{j =1}^{n}  Y_{ij}^2 =\frac{1}{n-1} \|Y_i\|$. We can write this is matrix form: 
+Where $Y_i$ is the ith column of $Y$ and $W_i$ the ith column on $W$. Let's start with the first column $Y_1$: we want to choose $W_1$ such that the variance of $Y_i$ is maximized. Because the mean of each column of $X$ is zero, then also the mean of $Y_i$ is zero. Thus, the variance is simply $\frac{1}{n-1}\sum_{j =1}^{n} Y_{ij}^2 =\frac{1}{n-1} \|Y_i\|$. We can write this is matrix form:
 
 $$\frac{1}{n-1}\|Y_i\| = \frac{1}{n-1}\|XW_i \| = \frac{1}{n-1} W_i^TX^T X W_i$$
 
@@ -168,7 +169,7 @@ eS$values
 apply(Y, 2, var)
 ```
 
-Therefore, PCA amounts to  simply taking the eigenvectors of $S$ ordered by the corresponding eigenvalues. We can use the SVD to accomplish this task efficiently:
+Therefore, PCA amounts to simply taking the eigenvectors of $S$ ordered by the corresponding eigenvalues. We can use the SVD to accomplish this task efficiently:
 
 $$
 X = U \Sigma V^T
@@ -200,10 +201,10 @@ head(dt)
 
 ```{r}
 # make into a data matrix with pixels as cols
-dt_wide <- pivot_wider(dt %>% select(-x, -y), 
+dt_wide <- pivot_wider(dt %>% dplyr::select(-x, -y), 
                        names_from = pixel, 
                        values_from = value)
-X <- (as.matrix(dt_wide %>% select(-id, -label)))
+X <- (as.matrix(dt_wide %>% dplyr::select(-id, -label)))
 # make col means = 0
 Xs <- scale(X, center = TRUE, scale = FALSE)
 # compute SVD
@@ -212,10 +213,9 @@ X_svd <- svd(Xs)
 Y <- X_svd$u %*% diag(X_svd$d)
 ```
 
-
 ```{r}
 PCA_1 <- dt_wide %>% 
-  select(id, label) %>% 
+  dplyr::select(id, label) %>% 
   mutate(label = as.character(label)) %>% 
   add_column(PC1 = Y[,1], PC2 = Y[,2])
 ggplot(PCA_1) + 
@@ -241,7 +241,7 @@ You can also scale the variables turning the sample covariance matrix $S$ into a
 ```{r}
 library(ggfortify)
 # for prcomp, you need only numeric data
-X <- dt_wide %>% select(-id, -label)
+X <- dt_wide %>% dplyr::select(-id, -label)
 PCA_3 <- prcomp(X)
 autoplot(PCA_3, 
          data = dt_wide %>% mutate(label = as.character(label)), 
@@ -253,16 +253,16 @@ autoplot(PCA_3,
 
 The input is the matrix of dissimilarities $D$, potentially representing distances $d_{ij} = d(x_i, x_j)$. A distance function is "metric" if:
 
-- $d(x_i, x_j) \geq 0$ (non-negativity)
-- $d(x_i, x_j) = 0$ only if $x_i = x_j$ (identity)
-- $d(x_i, x_j) = d(x_j, x_i)$ (symmetry)
-- $d(x_i, x_k) \leq d(x_i, x_j) + d(x_j, x_k)$ (triangle inequality)
+-   $d(x_i, x_j) \geq 0$ (non-negativity)
+-   $d(x_i, x_j) = 0$ only if $x_i = x_j$ (identity)
+-   $d(x_i, x_j) = d(x_j, x_i)$ (symmetry)
+-   $d(x_i, x_k) \leq d(x_i, x_j) + d(x_j, x_k)$ (triangle inequality)
 
 Given a set of dissimilarities, we can therefore ask whether they are distances, and particularly whether they represent Euclidean distances.
 
 ### Goal of MDS
 
-Given the $n \times n$  matrix $D$, find a set of coordinates $x_i, \ldots x_n \in \mathbb R^p$, such that $d_{ij} \approx \lVert x_i - x_j \rVert_2$ (as close as possible). The operator $\lVert \cdot \rVert_2$ is the Euclidean norm, measuring Euclidean distance.
+Given the $n \times n$ matrix $D$, find a set of coordinates $x_i, \ldots x_n \in \mathbb R^p$, such that $d_{ij} \approx \lVert x_i - x_j \rVert_2$ (as close as possible). The operator $\lVert \cdot \rVert_2$ is the Euclidean norm, measuring Euclidean distance.
 
 As such, if we can find a perfect solution, then the dissimilarities can be mapped into Euclidean distances in a $k$-dimensional space.
 
@@ -277,13 +277,11 @@ X = \begin{bmatrix}
     \vdots & \vdots &  \ddots & \vdots \\
     x_{n1} & x_{n2} &  \dots  & x_{nk}
 \end{bmatrix}
-$$
-We consider the centered coordinates:
+$$ We consider the centered coordinates:
 
 $$
 \sum_i x_{ij} = 0
-$$
-And the matrix $B = X X^t$, whose coefficients are $B_{ij} = \sum_k x_{ik} x_{jk}$. We can write the square of the distance between point $i$ and $j$ as:
+$$ And the matrix $B = X X^t$, whose coefficients are $B_{ij} = \sum_k x_{ik} x_{jk}$. We can write the square of the distance between point $i$ and $j$ as:
 
 $$ d_{ij}^2 = \sum_k (x_{ik} - x_{jk})^2  = \sum_k x_{ik}^2 + \sum_k x_{jk}^2 -2 \sum_k x_{ik} x_{jk} = B_{ii} + B_{jj} - 2 B_{ij}$$
 
@@ -331,7 +329,7 @@ $$
 
 With some algebra, one can show that this is equivalent to:
 
-$$B = -\frac{1}{2} C D^{(2)} C$$ 
+$$B = -\frac{1}{2} C D^{(2)} C$$
 
 Where $D^{(2)}$ is the matrix of squared distances, and $C$ is the centering matrix $C = 1 - \frac{1}{n}\mathcal O$ (and $\mathcal O$ is the matrix of all ones). Thus, we can obtain $B$ directly from the distance matrix. Once we've done this, $X$ can be found by taking the eigenvalue decomposition:
 
@@ -339,7 +337,7 @@ $$
 B = X X^t = Q \Lambda Q^t
 $$
 
-(where $Q$ is the matrix of eigenvectors of $B$, and $\Lambda$ a diagonal matrix of the eigenvalues of $B$). Therefore:  
+(where $Q$ is the matrix of eigenvectors of $B$, and $\Lambda$ a diagonal matrix of the eigenvalues of $B$). Therefore:
 
 $$ X = Q \Lambda^{\frac{1}{2}}$$
 
@@ -350,7 +348,7 @@ For example, let's look at the driving distance in *km* between cities in the US
 usa <- read_csv("data/dist_US.csv")
 # make into a matrix of distances
 M <- usa %>% pivot_wider(names_from = to, values_from = `dist`) %>% 
-  select(-from) %>% 
+  dplyr::select(-from) %>% 
   as.matrix()
 M[is.na(M)] <- 0 
 rownames(M) <- colnames(M)
@@ -379,8 +377,6 @@ mds_highlight <- mds_fit %>% slice(hh)
 show(pl + geom_point(data  = mds_highlight, aes(colour = rownames(M)[hh])))
 ```
 
-
-
 ## Readings
 
 SVD is the most important decomposition, but several interesting variations have been proposed for data science. Read this [very cool paper](http://www.columbia.edu/~jwp2128/Teaching/E4903/papers/nmf_nature.pdf) on face recognition using Non-negative Matrix Factorization.
@@ -388,4 +384,3 @@ SVD is the most important decomposition, but several interesting variations have
 ### Exercise: PCA sommelier
 
 The file `Wine.csv` contains several measures made on 178 wines from Piedmont, produced using three different grapes (column `Grape`, with 1 = Barolo, 2 = Grignolino, 3 = Barbera). Use the 13 measured variables (i.e., all but `Grape`) to perform a PCA. First, do it "the hard way" using SVD, and then, calling the `prcomp` function. Can you recover the right classification of grapes?
-

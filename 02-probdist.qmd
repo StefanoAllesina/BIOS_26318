@@ -4,15 +4,15 @@
 
 No observation or measurement in our world is perfectly reproducible, no matter how carefully planned and executed. The level of uncertainly varies, but randomness always finds a way to creep into a data set. Where does the "random" factor come from? From the classical physics perspective, as articulated by Laplace, most natural phenomena are theoretically deterministic for an omniscient being with an unlimited computational power. Quantum mechanical phenomena are (theoretically) truly random, but the randomness is not observable on the scales of biology or social science. The lack of predictability in the data we work with is usually due either to its intrinsic complexity (e.g., bio-molecular systems, prediction of animal behavior), which essentially makes it impossible to know every detail of the system, or to some external source of noise (e.g., measurement error, weather affecting food availability) that is outside of our control.
 
-In probability terminology, a *random experiment* produces *outcomes* and the collection of all outcomes of an experiment is called its *sample space*. 
+In probability terminology, a *random experiment* produces *outcomes* and the collection of all outcomes of an experiment is called its *sample space*.
 
 **Example:** The specifics of the experiment can affect the degree of uncertainty in the outcome; the same measurement may be random or not, depending on context. For example, measuring the height of a person should be deterministic, if one measures the height of the same person within a short amount of time. So unless you're interested in studying the error in [stadiometer](https://www.quickmedical.com/measure/stadiometer.html) results, you probably won't consider this a random experiment. However, measuring the heights of different people is a random experiment, where the source of randomness is primarily due to the selection of people for your study, called *sampling error*, rather than due to the measurement noise of any one person.
 
-The measurement of interest from a random experiment is called a *random variable*. Sometimes the measurement is simply the outcome, but usually it reports some aspect of the outcome and so several outcomes can have the same value of the random variable. The random variable can then be seen as condensing the sample space into a smaller range of values. Random variables can be *numeric* or *categorical*, with the difference that categorical variables cannot be assigned meaningful numbers. For instance, one may report an individual by phenotype (e.g., white or purple flowers), or having a nucleotide A, T, G, C in a particular position, and although one could assign numbers to these categories (e.g., 1, 2, 3, 4) they could not be used in a sensible way---one can compare and do arithmetic with numbers, but A is not less than T and A + T does not equal G. Thus there are different tools for describing and working with numeric and categorical random variables. 
+The measurement of interest from a random experiment is called a *random variable*. Sometimes the measurement is simply the outcome, but usually it reports some aspect of the outcome and so several outcomes can have the same value of the random variable. The random variable can then be seen as condensing the sample space into a smaller range of values. Random variables can be *numeric* or *categorical*, with the difference that categorical variables cannot be assigned meaningful numbers. For instance, one may report an individual by phenotype (e.g., white or purple flowers), or having a nucleotide A, T, G, C in a particular position, and although one could assign numbers to these categories (e.g., 1, 2, 3, 4) they could not be used in a sensible way---one can compare and do arithmetic with numbers, but A is not less than T and A + T does not equal G. Thus there are different tools for describing and working with numeric and categorical random variables.
 
 **Example:** In a DNA sequence a codon triplet represents a specific amino acid, but there is redundancy (several triplets may code for the same amino acid). One may think of a coding DNA sequence as an outcome, but the amino acid (sequence or single one) as a random variable. Extending this framework, one may think of genotype as an outcome, but a phenotype (e.g., eye color) as a random variable---although this is not correct for any phenotype that is not strictly determined by the genotype, because then there are other factors (e.g., environmental or epigenetic) that influence the value of the random variable besides the outcome (genotype).
 
-**Exercise:** The package `palmerpenguins` contains multiple variables measured in populations of three different species of penguins over three years on three different islands. Identify numeric and categorical variables, and specify whether numeric variables are discrete and continuous. 
+**Exercise:** The package `palmerpenguins` contains multiple variables measured in populations of three different species of penguins over three years on three different islands. Identify numeric and categorical variables, and specify whether numeric variables are discrete and continuous.
 
 ```{r}
 library(tidyverse)
@@ -21,23 +21,24 @@ str(penguins)
 ```
 
 ## Probability axioms
-An outcome in sample space can be assigned a *probability* depending on its frequency of occurrence out of many trials, each is a number between 0 and 1. Combinations of outcomes (*events*) can be assigned probabilities by building them out of individual outcomes.  These probabilities have a few rules, called the *axioms of probability*, expressed using set theory notation.
 
-1. The total probability of all outcomes in sample space is 1. $P(\Omega) = 1$
+An outcome in sample space can be assigned a *probability* depending on its frequency of occurrence out of many trials, each is a number between 0 and 1. Combinations of outcomes (*events*) can be assigned probabilities by building them out of individual outcomes. These probabilities have a few rules, called the *axioms of probability*, expressed using set theory notation.
 
-2. The probability of nothing (empty set) is 0. $P(\emptyset) = 0$
+1.  The total probability of all outcomes in sample space is 1. $P(\Omega) = 1$
 
-3. The probability of an event made up of the union of two events is the sum of the two probabilities minus the probability of the overlap (intersection.) $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+2.  The probability of nothing (empty set) is 0. $P(\emptyset) = 0$
 
-**Example:** Let's assign a probability to every possible three-letter codon. There are $4^3 = 64$ codons, so if one assumes that each one has equal probability, then they they all equal $1/64$ (by axiom 1.) The probability of a codon having A as the first letter is 1/4, and so is the probability of A as the second letter. Axiom 3 allows us to calculate the probability of A in either the first or the second letter: 
+3.  The probability of an event made up of the union of two events is the sum of the two probabilities minus the probability of the overlap (intersection.) $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+**Example:** Let's assign a probability to every possible three-letter codon. There are $4^3 = 64$ codons, so if one assumes that each one has equal probability, then they they all equal $1/64$ (by axiom 1.) The probability of a codon having A as the first letter is 1/4, and so is the probability of A as the second letter. Axiom 3 allows us to calculate the probability of A in either the first or the second letter:
 
 $$ P(AXX \cup \ XAX ) =  P(AXX) + P(XAX) - P(AAX) = 1/4 + 1/4 - 1/16 = 7/16$$
 
 ## Probability distributions
-The probability of each value of a random variable can be calculated from the probability of the event that corresponds to each value of the random variable. The collection of the probabilities of all of the values of the random variable is called the *probability distribution function* of the random variable, more formally the *mass function* for a discrete random variable or the *density function* for a continuous random variable. 
 
-For a discrete random variable (let's call it $X$) with a probability mass function $f$, the probability of $X$ taking the value of $a$ can be written either as $f(X=a)$ or $f(a)$, as long as it's clear that $f$ is the probability distribution function of $X$. The one ironclad rule of probability is that all values of the mass function have to add up to 1. To state this mathematically, if all the possible values of $X$ can be written as $a_1, a_2, ...$ (there may be finitely or infinitely many of them, as long as it's a countable infinity), this sum has to be equal to 1:
-$$ \sum_i f(a_i) = 1 $$
+The probability of each value of a random variable can be calculated from the probability of the event that corresponds to each value of the random variable. The collection of the probabilities of all of the values of the random variable is called the *probability distribution function* of the random variable, more formally the *mass function* for a discrete random variable or the *density function* for a continuous random variable.
+
+For a discrete random variable (let's call it $X$) with a probability mass function $f$, the probability of $X$ taking the value of $a$ can be written either as $f(X=a)$ or $f(a)$, as long as it's clear that $f$ is the probability distribution function of $X$. The one ironclad rule of probability is that all values of the mass function have to add up to 1. To state this mathematically, if all the possible values of $X$ can be written as $a_1, a_2, ...$ (there may be finitely or infinitely many of them, as long as it's a countable infinity), this sum has to be equal to 1: $$ \sum_i f(a_i) = 1 $$
 
 A continuous random variable (let's call it $Y$) with a probability density function $g$ is a bit more complicated. The continuous part means that the random variable has uncountably many values, even if the range is finite (for example, there are uncountably many real numbers between 0 and 1). Thus, the probability of any single value must be vanishingly small (zero), otherwise it would be impossible to add up (integrate) all of the values and get a finite result (let alone 1). We can only measure the probability of a range of values of $Y$ and it is defined by the integral of the density function overall that range:
 
@@ -47,9 +48,10 @@ The total probability over the entire range of $Y$ has to be 1, but it's similar
 
 $$ \int_R g(y) dy = 1$$
 
-**Example:**  As codons (DNA triplets) code for amino acids, we can consider the genetic code a random variable on the sample space. Assuming all codons have equal probabilities, the probability of each amino acid is the number of triplets that code for it divided by 64. For example, the probabilities of leucine and arginine are $6/64 = 3/32$, the probability of threonine is $4/64 = 1/16$ and the probabilities of methionine and tryptophan are $1/64$. This defines a probability distribution function of the random variable of the genetic code. Note that the sum of all the probabilities of amino acids has to be 1. Of course there is no inherent reason why each triplet should be equally probable, so a different probability structure on the sample space would result in a different probability distribution (mass) function.
+**Example:** As codons (DNA triplets) code for amino acids, we can consider the genetic code a random variable on the sample space. Assuming all codons have equal probabilities, the probability of each amino acid is the number of triplets that code for it divided by 64. For example, the probabilities of leucine and arginine are $6/64 = 3/32$, the probability of threonine is $4/64 = 1/16$ and the probabilities of methionine and tryptophan are $1/64$. This defines a probability distribution function of the random variable of the genetic code. Note that the sum of all the probabilities of amino acids has to be 1. Of course there is no inherent reason why each triplet should be equally probable, so a different probability structure on the sample space would result in a different probability distribution (mass) function.
 
 ## Measures of center: medians and means
+
 The standard measures described here are applicable only numeric random variables. Some measures of center and spread for categorical variables exist as well.
 
 The *median* of a random variable is the value which is in the middle of the distribution, specifically, that the probability of the random variable being no greater than that value is 0.5.
@@ -58,8 +60,7 @@ The *mean* or *expectation* of a random variable is the center of mass of the pr
 
 $$ E(X) = \sum_i a_i\, f(a_i)$$
 
-And for a density function it is defined using the integral:
-$$ E(Y) =  \int_R y\, g(y) dy $$
+And for a density function it is defined using the integral: $$ E(Y) =  \int_R y\, g(y) dy $$
 
 **Example:** Let us examine the factors (categorical variables) in the penguins data set. They cannot be described using means and medians, but can be plotted by counts in each category as you learned in the introduction to `ggplot2`:
 
@@ -87,7 +88,7 @@ penguins %>% drop_na() %>% group_by(species) %>% summarise(mean = mean(body_mass
 penguins %>% drop_na()  %>% group_by(species) %>% summarise(median = median(body_mass_g))
 ```
 
-Comment on how the descriptive statistics correspond to the box plots. 
+Comment on how the descriptive statistics correspond to the box plots.
 
 ## Measures of spread: quartiles and variances
 
@@ -97,12 +98,9 @@ A more standard measure of the spread of a distribution is the variance, defined
 
 $$\text{Var}(X) = E [X - E(X)]^2 = \sum_i (a_i- E(X))^2 f(a_i)$$
 
-And for a density function it is defined using the integral:
-$$\text{Var}(Y) =  E[ Y - E(Y)]^2 = \int_R (y-E(Y))^2 g(y) dy $$
+And for a density function it is defined using the integral: $$\text{Var}(Y) =  E[ Y - E(Y)]^2 = \int_R (y-E(Y))^2 g(y) dy $$
 
-Variances have squared units so they are not directly comparable to the values of the random variable. Taking the square root of the variance converts it into the same units and is called the standard deviation of the distribution:
-$$ \sigma_X = \sqrt{\text{Var}(X)}$$
-**Example:** Let's go back to the penguins data set and calculate the measures of spread for the variable body mass for different penguin species
+Variances have squared units so they are not directly comparable to the values of the random variable. Taking the square root of the variance converts it into the same units and is called the standard deviation of the distribution: $$ \sigma_X = \sqrt{\text{Var}(X)}$$ **Example:** Let's go back to the penguins data set and calculate the measures of spread for the variable body mass for different penguin species
 
 ```{r}
 ggplot(data = penguins) + aes(x = as.factor(species), y=body_mass_g) + geom_boxplot()
@@ -119,13 +117,13 @@ In scientific practice, we collect data from one or more random variables, calle
 
 Some of the fundamental questions about the population include:
 
-1. What type of distribution is it?
+1.  What type of distribution is it?
 
-2. Estimate the parameters of that distribution.
+2.  Estimate the parameters of that distribution.
 
-3. Test a hypothesis, e.g., whether two samples were drawn from the same distribution.
+3.  Test a hypothesis, e.g., whether two samples were drawn from the same distribution.
 
-4. Describe and test a relationship between two or more variables.
+4.  Describe and test a relationship between two or more variables.
 
 ### Law of large numbers
 
@@ -143,16 +141,15 @@ $$
 P(\overline{X}_n) \to N(\mu, \sigma^2/n)
 $$
 
-where $N(\mu, \sigma^2/n$) stands for the normal distribution with mean $\mu$ and variance $\sigma^2/n$.  One extremely useful consequence of this theorem is that the variance of the sample mean is reciprocally related to the sample size $n$. More precisely, it allows the calculation of *confidence intervals* by using the normal distribution to generate an interval around the observed sample mean in which the  true mean $\mu$ lies with a given likelihood.
+where $N(\mu, \sigma^2/n$) stands for the normal distribution with mean $\mu$ and variance $\sigma^2/n$. One extremely useful consequence of this theorem is that the variance of the sample mean is reciprocally related to the sample size $n$. More precisely, it allows the calculation of *confidence intervals* by using the normal distribution to generate an interval around the observed sample mean in which the true mean $\mu$ lies with a given likelihood.
 
 This is an amazing result because it applies to any distribution, so it allows for the estimation of means for any situation, as long as the condition of independent, identically distributed variables in the sample is satisfied (the identical distributed condition can actually be relaxed). There are other central limit theorems that apply to other situations, including cases where the random variables in the sample are not independent (e.g., Markov models). The bottom line is that an unbiased sample contains a reflection of the true population, but it is always distorted by uncertainty. Larger sample sizes decrease the uncertainty but are more difficult and expensive to obtain.
 
 **Discussion:** Suggest examples of biological data sets which are not made up of independent identically distributed random variables.
 
-
 ## Exploration: misleading means
 
-Means are the most common type of descriptive statistic and are sometimes the only numeric quantity used to compare two data sets, e.g. "the average GPA at school A is 3.5 vs 3.8 at school B". However, means can be misleading measures in multiple ways. 
+Means are the most common type of descriptive statistic and are sometimes the only numeric quantity used to compare two data sets, e.g. "the average GPA at school A is 3.5 vs 3.8 at school B". However, means can be misleading measures in multiple ways.
 
 First, means are highly sensitive to outliers, or points that are very different from other values. They can skew the mean value, even pulling it completely away from the bulk of the values, in which case the mean ceases to be a measure of a "typical" value.
 
@@ -165,16 +162,18 @@ library(stablelearner)
 data(titanic)
 str(titanic)
 ```
+
 The chunk below calculated the survival probability of passengers of all classes compared to the crew (of all types:
 
 ```{r}
 titanic %>% group_by(Passenger = class %in% c('1st', '2nd', '3rd'), survived) %>% summarise(num = n()) %>% mutate(fraction = num/sum(num)) 
 ```
+
 You can see that about 24% of the crew survived and almost 38% of the passengers survived. In this week's assignment you will calculate and explain what happens when you divide the people in each group by gender.
 
 ## References
 
-* [Laplace's views on probability and determinism](https://www.bayesianspectacles.org/laplaces-demon/)
-* [Central Limit Theorem in R](https://medium.com/@ODSC/exploring-the-central-limit-theorem-in-r-e2a2f7091606)
-* [Exploration of the Central Limit Theorem](https://genomicsclass.github.io/book/pages/clt_in_practice.html)
-* [Simpson's paradox](https://medium.com/@nikhilborkar/the-simpsons-paradox-and-where-to-find-them-cfcec6c2d8b3)
+-   [Laplace's views on probability and determinism](https://www.bayesianspectacles.org/laplaces-demon/)
+-   [Central Limit Theorem in R](https://medium.com/@ODSC/exploring-the-central-limit-theorem-in-r-e2a2f7091606)
+-   [Exploration of the Central Limit Theorem](https://genomicsclass.github.io/book/pages/clt_in_practice.html)
+-   [Simpson's paradox](https://medium.com/@nikhilborkar/the-simpsons-paradox-and-where-to-find-them-cfcec6c2d8b3)

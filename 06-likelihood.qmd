@@ -1,9 +1,9 @@
 # Likelihood and Bayes
 
-* understand the difference between likelihood and probability
-* maximum likelihood estimation
-* calculate positive predictive value of a hypothesis test
-* interpret the results of Bayesian inference
+-   understand the difference between likelihood and probability
+-   maximum likelihood estimation
+-   calculate positive predictive value of a hypothesis test
+-   interpret the results of Bayesian inference
 
 ## Likelihood and estimation
 
@@ -15,7 +15,7 @@ $$
 L(M \ \ \vert \ \ D) = P(D \ \ \vert \ \ M)
 $$
 
-The model is based on a set of assumptions that allow us to calculate probabilities of outcomes of a random experiment, typically a random variable with a well-defined probability distribution function. 
+The model is based on a set of assumptions that allow us to calculate probabilities of outcomes of a random experiment, typically a random variable with a well-defined probability distribution function.
 
 **Example.** $M$ may represent the binomial random variable, based on the assumptions that the data are strings of $n$ independent binary outcomes with a set probability $p$ of "success." We then have the following formula for the probability of obtaining $k$ successes:
 
@@ -35,9 +35,9 @@ To calculate this precisely, it is easiest to use the R function dbinom():
 print(dbinom(4,10,0.5))
 ```
 
-So the likelihood of this data set being produced by a fair coin is about 20.5%. 
+So the likelihood of this data set being produced by a fair coin is about 20.5%.
 
-This certainly looks like a probability  --- in fact we calculated it from a probability distribution function, so why do we call it a likelihood? There are two fundamental differences between the two, one mostly abstract, the other more grounded.
+This certainly looks like a probability --- in fact we calculated it from a probability distribution function, so why do we call it a likelihood? There are two fundamental differences between the two, one mostly abstract, the other more grounded.
 
 First, a model (or model parameters) is not a random variable, because it comes from an assumption we made in our heads, not from an outcome of a random process. This may seem to be an abstract, almost philosophical distinction, but how would you go about assigning probabilities to all the models one can come up with? Would they vary from person to person, because one may prefer to use the binomial random variable, and another prefers Poisson? You see how this can get dicey if we think of these in terms of the traditional "frequency of outcomes" framework of probability.
 
@@ -47,10 +47,10 @@ Second, and more quantitatively relevant, is that likelihoods do not satisfy the
 
 One of the most common applications of likelihood is to find the model or model parameters that give the highest likelihood based on the data, and call those the best statistical estimate. Here are the symbols we will use in this discussion:
 
-* $D$: the observed data
-* $\theta$: the free parameter(s) of the statistical model
-* $L(\theta \ \vert \ D)$: the likelihood function, read "the likelihood of $\theta$ given the data"
-* $\hat{\theta}$: the maximum-likelihood estimates (m.l.e.) of the parameters
+-   $D$: the observed data
+-   $\theta$: the free parameter(s) of the statistical model
+-   $L(\theta \ \vert \ D)$: the likelihood function, read "the likelihood of $\theta$ given the data"
+-   $\hat{\theta}$: the maximum-likelihood estimates (m.l.e.) of the parameters
 
 ### discrete probability distributions
 
@@ -91,7 +91,6 @@ k(1-p) &= (n-k)p \\
 \end{aligned}
 $$
 
-
 ### continuous probability distributions
 
 The definition is more complex for continuous variables (because $P(X = x; \theta) = 0$ as there are infinitely many values...). What is commonly done is to use the *density function* $f(x; \theta)$ and considering the probability of obtaining a value $x \in [x_j, x_j + h]$, where $x_j$ is our observed data point, and $h$ is small. Then:
@@ -120,34 +119,30 @@ $$
 P(B) =  P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P(\bar A)
 $$
 
-It may not be clear at first glance why this is useful: after all, we replaced something simple ($P(B)$) with something much more complex on the right hand side. You will see how this formula enables us to calculate quantities that are not otherwise accessible. 
+It may not be clear at first glance why this is useful: after all, we replaced something simple ($P(B)$) with something much more complex on the right hand side. You will see how this formula enables us to calculate quantities that are not otherwise accessible.
 
-**Example:** Suppose we know that the probability of a patient having a disease is 1% (called the prevalence of the disease in a population), and the sensitivity and specificity of the test are both 80%. What is the probability of obtaining a negative test result for a randomly selected patient? Let us call $P(H) = 0.99$ the probability of a healthy patient and $P(D) = 0.01$ the probability of a diseased patient. Then:
-$$ P(Neg) =  P(Neg  \ \vert \  H) P(H) + P(Neg  \ \vert \  D)P(D)  = $$
-$$ = 0.8 \times 0.99 + 0.2 \times 0.01 = 0.794$$
+**Example:** Suppose we know that the probability of a patient having a disease is 1% (called the prevalence of the disease in a population), and the sensitivity and specificity of the test are both 80%. What is the probability of obtaining a negative test result for a randomly selected patient? Let us call $P(H) = 0.99$ the probability of a healthy patient and $P(D) = 0.01$ the probability of a diseased patient. Then: $$ P(Neg) =  P(Neg  \ \vert \  H) P(H) + P(Neg  \ \vert \  D)P(D)  = $$ $$ = 0.8 \times 0.99 + 0.2 \times 0.01 = 0.794$$
 
 ### Bayes' formula
-Take the first formula in this section, which expresses the probability $P(A \cap B)$ in two different ways.  Since the expressions are equal, we can combine them into one equation, and by dividing both sides by $P(B)$, we obtain what's known as *Bayes' formula*:
-$$ P(A \ \vert \ B) = \frac{P(B \ \vert \ A) P(A)}{P(B) }$$
 
-Another version of Bayes' formula  re-writes the denominator using the Law of total probability above:
-$$
+Take the first formula in this section, which expresses the probability $P(A \cap B)$ in two different ways. Since the expressions are equal, we can combine them into one equation, and by dividing both sides by $P(B)$, we obtain what's known as *Bayes' formula*: $$ P(A \ \vert \ B) = \frac{P(B \ \vert \ A) P(A)}{P(B) }$$
+
+Another version of Bayes' formula re-writes the denominator using the Law of total probability above: $$
 P(A \ \vert \ B) = \frac{P(B \ \vert \ A)P(A)}{P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P( \bar A)}
 $$
 
 Bayes' formula gives us the probability of $A$ given $B$ from probabilities of $B$ given $A$ and given $-A$, and the prior (baseline) probability of $P(A)$. This is enormously useful when it is easy to calculate the conditionals one way and not the other. Among its many applications, it computes the effect of a test result with given sensitivity and specificity (conditional probabilities) on the probability of the hypothesis being true.
-
 
 ```{r, echo=FALSE}
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/modified_bayes_theorem.png"
 ```
 
-<center><img src="`r url`"></center>
+<center><img src="`r url`"/></center>
 
 ### positive predictive value
 
-In reality, a doctor doesn't have the true information about the patient's health,  but rather the information from the test and hopefully some information about the population where she is working.  Let us assume we know the rate of false positives $P(Pos \ \vert \ H$) and the rate of false negatives $P(Neg  \ \vert \  D)$, as well as the prevalence of the disease in the whole population $P(D)$. Then we can use Bayes' formula to answer the practical question, if the test result is positive, what is the probability the patient is actually sick? This is called the *positive predictive value* of a test. The deep Bayesian fact is that one cannot make inferences about the health of the patient after the test without some prior knowledge, specifically the prevalence of the disease in the population:
+In reality, a doctor doesn't have the true information about the patient's health, but rather the information from the test and hopefully some information about the population where she is working. Let us assume we know the rate of false positives $P(Pos \ \vert \ H$) and the rate of false negatives $P(Neg \ \vert \  D)$, as well as the prevalence of the disease in the whole population $P(D)$. Then we can use Bayes' formula to answer the practical question, if the test result is positive, what is the probability the patient is actually sick? This is called the *positive predictive value* of a test. The deep Bayesian fact is that one cannot make inferences about the health of the patient after the test without some prior knowledge, specifically the prevalence of the disease in the population:
 
 $$ P(D  \ \vert \  Pos) =  \frac{P(Pos \ \vert \ D)P(D)}{P(Pos \ \vert \ D) P(D) + P(Pos  \ \vert \  H)P(H)}$$
 
@@ -157,28 +152,26 @@ $$ P(D  \ \vert \  Pos)  = \frac{0.99 \times 0.02}{0.99 \times 0.02 + 0.01 \time
 
 This is because the disease is so rare, that even though the test is quite accurate, there are going to be a lot of false positives (about 1/3 of the time) since 98% of the patients are healthy.
 
-We can also calculate the probability of a patient who tests negative of actually being healthy, which is called the  *negative predictive value*. In this example, it is far more definitive:
+We can also calculate the probability of a patient who tests negative of actually being healthy, which is called the *negative predictive value*. In this example, it is far more definitive:
 
 $$ P(H  \ \vert \  Neg)  = \frac{P(Neg \ \vert \ H)P(H)}{P(Neg \ \vert \ H) P(H) + P(Neg  \ \vert \  D)P(D)} = $$
 
-$$ = \frac{0.99 \times 0.98}{0.99 \times 0.98 + 0.01 \times 0.02} =  0.9998$$
-This is again because this disease is quite rare in this population, so a negative test result is almost guaranteed to be correct. In another population, where disease is more prevalent, this may not be the case.
+$$ = \frac{0.99 \times 0.98}{0.99 \times 0.98 + 0.01 \times 0.02} =  0.9998$$ This is again because this disease is quite rare in this population, so a negative test result is almost guaranteed to be correct. In another population, where disease is more prevalent, this may not be the case.
 
-![Bayesian hypothesis testing tree with prior probability 0.1](images/prob_tree_tikz1.png){width=50%}
+![Bayesian hypothesis testing tree with prior probability 0.1](images/prob_tree_tikz1.png){width="50%"}
 
-![Bayesian hypothesis testing tree with prior probability 0.01](images/prob_tree_tikz2.png){width=50%}
+![Bayesian hypothesis testing tree with prior probability 0.01](images/prob_tree_tikz2.png){width="50%"}
 
 **Exercise:** Simulate medical testing by rolling dice for a rare disease (1/6 prevalence) and a common disease (1/2 prevalence), with both sensitivity and specificity of 5/6. Compare the positive predictive values for the two cases.
 
-
-### prosecutor's fallacy 
+### prosecutor's fallacy
 
 ```{r, echo=FALSE}
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/frequentists_vs_bayesians.png"
 ```
 
-<center><img src="`r url`"></center>
+<center><img src="`r url`"/></center>
 
 The basic principle of Bayesian thinking is that one cannot interpret the reliability of a result, e.g. a hypothesis test, without factoring in the prior probability of it being true. This seems like a commonsensical concept, but it is often neglected when such results are interpreted in various contexts, which can lead to perilous mistakes.
 
@@ -186,8 +179,7 @@ Here is a scenario called "the prosecutor's fallacy". Suppose that a defendant i
 
 Do you spot the problem with the argument?
 
-It's the same fallacy as we saw in the medical testing scenario, or that is portrayed in the xkcd cartoon above. The prosecutor is conflating the probability of a match (positive result) given that the person is innocent, and the probability of the person being innocent, given the match. The probability of the former is one in a million, but we want to know the latter! And the latter depends on the prior probability of the person committing the crime, which should have been investigated by the detectives: did the defendant have a conflict with the victim or have they never met? did he have opportunity to commit the crime, or was he in a different city at the time? Without this information, it is impossible to decide whether it's more likely that the  DNA/fingerprint match is a false positive (in a country of 300 million, you can find 300 false matches if everyone is in the database!) or a true positive.
-
+It's the same fallacy as we saw in the medical testing scenario, or that is portrayed in the xkcd cartoon above. The prosecutor is conflating the probability of a match (positive result) given that the person is innocent, and the probability of the person being innocent, given the match. The probability of the former is one in a million, but we want to know the latter! And the latter depends on the prior probability of the person committing the crime, which should have been investigated by the detectives: did the defendant have a conflict with the victim or have they never met? did he have opportunity to commit the crime, or was he in a different city at the time? Without this information, it is impossible to decide whether it's more likely that the DNA/fingerprint match is a false positive (in a country of 300 million, you can find 300 false matches if everyone is in the database!) or a true positive.
 
 ### reproducibility in science
 
@@ -197,23 +189,22 @@ The problem as described by Ioannidis and many others, in a nutshell, is that un
 
 Too often, a hypothesis is tested and if the resultant p-value is less than some arbitrary threshold (very often 0.05, an absurdly high number), then the results are published. However, if one is testing a hypothesis with low prior probability, a positive hypothesis test result is very likely a false positive. Very often, modern biomedical research involves digging through a large amount of information, like an entire human genome, in search for associations between different genes and a phenotype, like a disease. It is a priori unlikely that any specific gene is linked to a given phenotype, because most genes have very specific functions, and are expressed quite selectively, only at specific times or in specific types of cells. However, publishing such studies results in splashy headlines ("Scientists find a gene linked to autism!") and so a lot of false positive results are reported, only to be refuted later, in much less publicized studies.
 
-Ioannidis performed basic calculations of the probability that a published study is true (that is, that a positive reported result is a true positive), and how it is affected by pre-study (prior) probability, number of conducted studies on the same hypothesis, and the level of bias. His prediction is that for fairly typical scenario (e.g. pre-study probability of 10%, ten groups working simultaneously, and a reasonable amount of bias) the probability that a published result is correct is less than 50%. He then followed up with another paper [2] that investigated 49 top-cited medical research publications over a decade, and looked at whether follow-up studies could replicate the results, and found that a very significant fraction of their findings could not be replicated or were found to have weaker effects by subsequent investigations.
+Ioannidis performed basic calculations of the probability that a published study is true (that is, that a positive reported result is a true positive), and how it is affected by pre-study (prior) probability, number of conducted studies on the same hypothesis, and the level of bias. His prediction is that for fairly typical scenario (e.g. pre-study probability of 10%, ten groups working simultaneously, and a reasonable amount of bias) the probability that a published result is correct is less than 50%. He then followed up with another paper \[2\] that investigated 49 top-cited medical research publications over a decade, and looked at whether follow-up studies could replicate the results, and found that a very significant fraction of their findings could not be replicated or were found to have weaker effects by subsequent investigations.
 
 ## Bayesian inference
 
-As an alternative to frequentist and maximum likelihood approaches to modeling biological data, Bayesian statistics has seen an impressive growth in recent years, due to the improved computational power. 
+As an alternative to frequentist and maximum likelihood approaches to modeling biological data, Bayesian statistics has seen an impressive growth in recent years, due to the improved computational power.
 
 At the heart of Bayesian inference is an application of Bayes' theorem: take a model with parameters $\theta$, and some data $D$. Bayes' theorem gives us a disciplined way to "update" our belief in the distribution of $\theta$ once we've seen the data $D$:
 
 $$
 P(\theta \ \vert \ D) = \frac{P(D \ \vert \ \theta) P(\theta)}{P(D)}
-$$
-where:
+$$ where:
 
-- $P(\theta \ \vert \ D)$ is the **posterior distribution** of $\theta$, i.e., our updated belief in the values of $\theta$.
-- $P(D \ \vert \ \theta)$ is the **likelihood function**: $P(DX \ \vert \ \theta) = L(\theta \ \vert \ D)$.
-- $P(\theta)$ is the **prior distribution**, i.e. our belief on the distribution of $\theta$ before seeing the data.
-- $P(D)$ is called the **evidence**: $P(D) = \int P(D \ \vert \ \theta) d \theta$ (in practice, this need not to be calculated).
+-   $P(\theta \ \vert \ D)$ is the **posterior distribution** of $\theta$, i.e., our updated belief in the values of $\theta$.
+-   $P(D \ \vert \ \theta)$ is the **likelihood function**: $P(DX \ \vert \ \theta) = L(\theta \ \vert \ D)$.
+-   $P(\theta)$ is the **prior distribution**, i.e. our belief on the distribution of $\theta$ before seeing the data.
+-   $P(D)$ is called the **evidence**: $P(D) = \int P(D \ \vert \ \theta) d \theta$ (in practice, this need not to be calculated).
 
 ### Example: capture-recapture
 
@@ -221,8 +212,7 @@ There is a well-established method in population ecology of estimating the size 
 
 $$
 L(p \ \vert \ k, n) = \binom{n}{k}p^k (1-p)^{n-k}
-$$
-and our maximum likelihood estimate is $\hat{p} = k /n$. This allows for estimation of the total population size to be $P = n_2/\hat p$, where $n_2$ is the total number of individuals captured in the second experiment. There are more sophisticated estimators, but this one is reasonable for large enough populations.
+$$ and our maximum likelihood estimate is $\hat{p} = k /n$. This allows for estimation of the total population size to be $P = n_2/\hat p$, where $n_2$ is the total number of individuals captured in the second experiment. There are more sophisticated estimators, but this one is reasonable for large enough populations.
 
 Let us plot the likelihood as a function of $p$ for the case in which $n = 100$ and $k = 33$
 
@@ -279,24 +269,22 @@ The fact that the posterior depends on the prior is the most controversial aspec
 
 ### MCMC
 
-The type of calculation performed above is feasible only for very simple models, and for appropriately chosen priors (called "conjugate priors"). For more complex models, we rely on simulations. In particular, one can use Markov-Chain Monte Carlo (MCMC) to sample from the posterior distribution of complex models. Very briefly, one builds a Markov-Chain in which the states represent sets of parameters; parameters are sampled from the prior, and the probability of moving to one state to another is proportional to the difference in their likelihood. When the MC converges, then one obtains the posterior distribution of the parameters. 
+The type of calculation performed above is feasible only for very simple models, and for appropriately chosen priors (called "conjugate priors"). For more complex models, we rely on simulations. In particular, one can use Markov-Chain Monte Carlo (MCMC) to sample from the posterior distribution of complex models. Very briefly, one builds a Markov-Chain in which the states represent sets of parameters; parameters are sampled from the prior, and the probability of moving to one state to another is proportional to the difference in their likelihood. When the MC converges, then one obtains the posterior distribution of the parameters.
 
-
-Bayesian inference is used for many complex problems, including phylogenetic tree building [5].
+Bayesian inference is used for many complex problems, including phylogenetic tree building \[5\].
 
 ## Reading:
 
-1. [Maximum likelihood estimation from scratch](https://www.r-bloggers.com/maximum-likelihood-estimation-from-scratch/)
+1.  [Maximum likelihood estimation from scratch](https://www.r-bloggers.com/maximum-likelihood-estimation-from-scratch/)
 
-2. [Phylogenetic Analysis by Maximum Likelihood](https://academic.oup.com/mbe/article/24/8/1586/1103731)
+2.  [Phylogenetic Analysis by Maximum Likelihood](https://academic.oup.com/mbe/article/24/8/1586/1103731)
 
-3. [Why most published scientific studies are false](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
+3.  [Why most published scientific studies are false](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
 
-4. [Contradicted and Initially Stronger Effects in Highly Cited Clinical Research]( https://jamanetwork.com/journals/jama/fullarticle/201218)
+4.  [Contradicted and Initially Stronger Effects in Highly Cited Clinical Research](https://jamanetwork.com/journals/jama/fullarticle/201218)
 
-5. [MrBayes](http://nbisweden.github.io/MrBayes/)
+5.  [MrBayes](http://nbisweden.github.io/MrBayes/)
 
-6. [Quick and Dirty Tree Building in R](https://www.molecularecologist.com/2016/02/quick-and-dirty-tree-building-in-r/)
+6.  [Quick and Dirty Tree Building in R](https://www.molecularecologist.com/2016/02/quick-and-dirty-tree-building-in-r/)
 
-7. [Mark and Recapture](https://en.wikipedia.org/wiki/Mark_and_recapture)
-
+7.  [Mark and Recapture](https://en.wikipedia.org/wiki/Mark_and_recapture)

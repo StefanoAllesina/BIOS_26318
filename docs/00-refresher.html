@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2022-2023">
+<meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
 
 <title>Fundamentals of Biological Data Analysis - 1&nbsp; Refresher</title>
 <style>
@@ -128,7 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <meta name="twitter:title" content="Fundamentals of Biological Data Analysis - 1&nbsp; Refresher">
-<meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, AY 2022-2023">
+<meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -207,6 +207,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-distributions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions and their properties</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-hypothesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hypothesis testing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-linalg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-ANOVA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">ANOVA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-model_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-SVD_PCA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-generalized_linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalized linear models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-machine-learning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Machine learning methods for classification</span></a>
   </div>
 </li>
     </ul>
@@ -1067,7 +1117,8 @@ $Values
 </div>
 <p>We have created a conditional branching point, so that the value of <code>my_message</code> changes depending on whether <code>x</code> is even (and thus the remainder of the integer division by 2 is 0), or odd. Change the line <code>x &lt;- 4</code> to <code>x &lt;- 131</code> and run it again.</p>
 <blockquote class="blockquote">
-<p><strong>Exercise:</strong> What does this do? ::: {.cell}</p>
+<p><strong>Exercise:</strong> What does this do?</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">36</span></span>
 <span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">20</span>){</span>
 <span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x)</span>
@@ -1079,7 +1130,7 @@ $Values
 <span id="cb189-9"><a href="#cb189-9" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (x <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>){</span>
 <span id="cb189-10"><a href="#cb189-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(x <span class="sc">+</span> <span class="dv">1</span>)</span>
 <span id="cb189-11"><a href="#cb189-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 </blockquote>
 </section>
 <section id="looping" class="level2" data-number="1.9">
@@ -1132,14 +1183,16 @@ $Values
 <span id="cb194-10"><a href="#cb194-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Exercise</strong>: What does this do? Try to guess what each loop does, and then create and run a script to confirm your intuition. ::: {.cell}</p>
+<p><strong>Exercise</strong>: What does this do? Try to guess what each loop does, and then create and run a script to confirm your intuition.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="at">by =</span> <span class="dv">3</span>)</span>
 <span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> z) {</span>
 <span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (k <span class="sc">%%</span> <span class="dv">4</span> <span class="sc">==</span> <span class="dv">0</span>) {</span>
 <span id="cb195-4"><a href="#cb195-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">print</span>(k)</span>
 <span id="cb195-5"><a href="#cb195-5" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb195-6"><a href="#cb195-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: ::: {.cell}</p>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">readline</span>(<span class="at">prompt =</span> <span class="st">"Enter a number: "</span>)</span>
 <span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(z)</span>
 <span id="cb196-3"><a href="#cb196-3" aria-hidden="true" tabindex="-1"></a>isthisspecial <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
@@ -1154,7 +1207,7 @@ $Values
 <span id="cb196-12"><a href="#cb196-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (isthisspecial <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb196-13"><a href="#cb196-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(z)</span>
 <span id="cb196-14"><a href="#cb196-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 </blockquote>
 </section>
 <section id="useful-functions" class="level2" data-number="1.10">
@@ -1169,7 +1222,8 @@ $Values
 <li><code>table(x)</code> build a table of frequencies</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Exercises:</strong> What does this code do? For each snippet of code, first try to guess what will happen. Then, write a script and run it to confirm your intuition. ::: {.cell}</p>
+<p><strong>Exercises:</strong> What does this code do? For each snippet of code, first try to guess what will happen. Then, write a script and run it to confirm your intuition.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">2</span>)</span>
 <span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(v))</span>
 <span id="cb197-3"><a href="#cb197-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> v){</span>
@@ -1180,10 +1234,12 @@ $Values
 <span id="cb197-8"><a href="#cb197-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
 <span id="cb197-9"><a href="#cb197-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb197-10"><a href="#cb197-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: ::: {.cell}</p>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
 <span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x[<span class="fu">which</span>(x <span class="sc">%%</span> <span class="dv">7</span> <span class="sc">==</span> <span class="dv">0</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: ::: {.cell}</p>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a>my_amount <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (my_amount <span class="sc">&gt;</span> <span class="dv">0</span>){</span>
 <span id="cb199-3"><a href="#cb199-3" aria-hidden="true" tabindex="-1"></a>  my_color <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
@@ -1217,7 +1273,7 @@ $Values
 <span id="cb199-31"><a href="#cb199-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"You lost!! Now you have"</span>, my_amount, <span class="st">"gold doubloons"</span>))</span>
 <span id="cb199-32"><a href="#cb199-32" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb199-33"><a href="#cb199-33" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+</div>
 </blockquote>
 </section>
 <section id="packages" class="level2" data-number="1.11">
@@ -1273,19 +1329,19 @@ $Values
 <div class="cell">
 <div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>) <span class="co"># sample 5 numbers from the uniform distribution between 0 and 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.04328596 0.70583856 0.46239435 0.77010885 0.81439038</code></pre>
+<pre><code>[1] 0.356992813 0.883465375 0.005193979 0.443831240 0.734017173</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">9</span>) <span class="co"># set the limits of the uniform distribution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.392944 6.588232 4.845318 7.466675 4.322466</code></pre>
+<pre><code>[1] 1.468445 2.382379 3.621611 5.997105 7.823204</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>) <span class="co"># three values from standard normal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  0.4281076 -0.7945033 -0.3903562</code></pre>
+<pre><code>[1] -0.4763536  0.9637995  0.2728641</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">4</span>) <span class="co"># specify mean and standard deviation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  8.001070  2.868053 12.713042</code></pre>
+<pre><code>[1]  9.3742808 -0.2582718  2.5328108</code></pre>
 </div>
 </div>
 <p>To sample from a set of values, use <code>sample</code>:</p>
@@ -1293,15 +1349,15 @@ $Values
 <div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>)</span>
 <span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(v, <span class="dv">2</span>) <span class="co"># without replacement</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "b" "c"</code></pre>
+<pre><code>[1] "d" "a"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(v, <span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># with replacement</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "d" "b" "d" "a" "d" "c"</code></pre>
+<pre><code>[1] "a" "b" "b" "c" "b" "b"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(v) <span class="co"># simply shuffle the elements</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "c" "d" "a" "b"</code></pre>
+<pre><code>[1] "d" "a" "b" "c"</code></pre>
 </div>
 </div>
 </section>
@@ -1378,7 +1434,7 @@ $Values
 <span id="cb233-5"><a href="#cb233-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb233-6"><a href="#cb233-6" aria-hidden="true" tabindex="-1"></a><span class="fu">order_two_numbers</span>(<span class="fu">runif</span>(<span class="dv">1</span>), <span class="fu">runif</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.65309603 0.06345855</code></pre>
+<pre><code>[1] 0.5950351 0.1813928</code></pre>
 </div>
 </div>
 </section>
@@ -1539,7 +1595,7 @@ expected  6.837398 44.3252 71.8374</code></pre>
 <section id="documenting-the-code-using-knitr" class="level2" data-number="1.15">
 <h2 data-number="1.15" class="anchored" data-anchor-id="documenting-the-code-using-knitr"><span class="header-section-number">1.15</span> Documenting the code using <code>knitr</code></h2>
 <blockquote class="blockquote">
-<p><em>Let us change our traditional attitude to the construction of programs: Instead of imagining that our main task is to instruct a computer what to do, let us concentrate rather on explaining to humans what we want the computer to do. </em></p>
+<p><em>Let us change our traditional attitude to the construction of programs: Instead of imagining that our main task is to instruct a computer what to do, let us concentrate rather on explaining to humans what we want the computer to do.</em></p>
 </blockquote>
 <blockquote class="blockquote">
 <p>Donald E. Knuth, Literate Programming, 1984</p>
@@ -1572,15 +1628,10 @@ You can insert `inline code`
 -----------</code></pre>
 <p>The most important feature of <code>R Markdown</code>, however, is that you can include blocks of code, and they will be interpreted and executed by <code>R</code>. You can therefore combine effectively the code itself with the description of what you are doing.</p>
 <p>For example, including</p>
-<pre><code>::: {.cell}
-
-```{.r .cell-code}
-print("hello world!")  
-```
-:::</code></pre>
+<p><code>{{r, eval=FALSE}}   print("hello world!")</code></p>
 <p>will become</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb251"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb251-1"><a href="#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"hello world!"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb250"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb250-1"><a href="#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"hello world!"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "hello world!"</code></pre>
 </div>

@@ -10,15 +10,17 @@ library(lindia) # regression diagnostic in ggplot2
 ```
 
 ## Regression toward the mean
-Francis Galton (Darwin's half-cousin) was a biologist interested in evolution, and one of the main proponents of eugenics (he coined the term himself). To advance his research program, he set out to measure several features in human populations, and started trying to explain the variation he observed, incidentally becoming one of the founding fathers of modern statistics. 
 
-In his "Regression towards mediocrity in hereditary stature" he showed an interesting pattern: children of tall parents tended to be shorter than their parents, while children of short parents tended to be taller than their parents. He called this phenomenon "regression toward mediocrity" (now called regression toward [to] the mean). 
+Francis Galton (Darwin's half-cousin) was a biologist interested in evolution, and one of the main proponents of eugenics (he coined the term himself). To advance his research program, he set out to measure several features in human populations, and started trying to explain the variation he observed, incidentally becoming one of the founding fathers of modern statistics.
+
+In his "Regression towards mediocrity in hereditary stature" he showed an interesting pattern: children of tall parents tended to be shorter than their parents, while children of short parents tended to be taller than their parents. He called this phenomenon "regression toward mediocrity" (now called regression toward \[to\] the mean).
 
 We're going to explore this phenomenon using Karl Pearson's (another founding father of statistics) data from 1903, recording the height of fathers and sons:
 
 ```{r, warning=FALSE, message=FALSE}
-heights <- read_tsv("http://www.randomservices.org/random/data/Pearson.txt")
-pl <- ggplot(data = heights) + aes(x = Father, y = Son) + geom_point() + coord_equal()
+require(UsingR)
+data("father.son")
+pl <- ggplot(data = father.son) + aes(x = fheight, y = sheight) + geom_point() + coord_equal()
 pl
 ```
 
@@ -31,10 +33,10 @@ pl + geom_abline(slope = 1, intercept = 0, linetype = 2, color = "red")
 You can see that the sons tend to be taller than their fathers. Let's see of how much:
 
 ```{r, warning=FALSE, message=FALSE}
-mean(heights$Father)
-mean(heights$Son)
+mean(father.son$fheight)
+mean(father.son$sheight)
 # difference
-mean(heights$Son) - mean(heights$Father)
+mean(father.son$sheight) - mean(father.son$fheight)
 ```
 
 So let's add a line with an intercept of 1:
@@ -46,13 +48,13 @@ pl
 
 You can see that the line does not divide the cloud of points evenly: even though tall fathers tend to produce tall sons, and short fathers short sons, the sons of short fathers tend to be taller than their fathers (for example, look at the sons of fathers less than 60 inches tall), while the sons of tall fathers tend to be shorter than their fathers (for example, the sons of fathers taller than 75 inches).
 
-This phenomenon is called "regression toward the mean": when you take two measurement on the same sample (or related samples, as here), if a variable is extreme on its first measurement, it will tend to be closer to the average on its second measurement; if it is extreme on its second measurement, it will tend to have been closer to the average on its first. 
+This phenomenon is called "regression toward the mean": when you take two measurement on the same sample (or related samples, as here), if a variable is extreme on its first measurement, it will tend to be closer to the average on its second measurement; if it is extreme on its second measurement, it will tend to have been closer to the average on its first.
 
-> **Regression to the mean: dangers of interpretation** 
+> **Regression to the mean: dangers of interpretation**
 
-- A city sees an unusual growth of crime in a given neighborhood, and they decide to patrol the neighborhood more heavily. The next year, crime rates are close to normal. Was this due to heavy presence of police?
-- A teacher sees that scolding students who've had a very low score in a test makes them perform better in the next test. (But would praising those with unusually high scores lead to slacking off in the next test?)
-- A huge problem in science: effect sizes tend to decrease through time. Problem of selective reporting?
+-   A city sees an unusual growth of crime in a given neighborhood, and they decide to patrol the neighborhood more heavily. The next year, crime rates are close to normal. Was this due to heavy presence of police?
+-   A teacher sees that scolding students who've had a very low score in a test makes them perform better in the next test. (But would praising those with unusually high scores lead to slacking off in the next test?)
+-   A huge problem in science: effect sizes tend to decrease through time. Problem of selective reporting?
 
 This phenomenon gave the name to one of the simplest statistical models: the linear regression.
 
@@ -104,8 +106,8 @@ $$
 Where the matrix $\left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T$ is known as the (left) Moore-Penrose pseudo-inverse of $\mathbf{X}$. Let's try to do this in `R` (the "hard" way):
 
 ```{r, warning=FALSE, message=FALSE}
-X <- cbind(1, heights$Father)
-Y <- cbind(heights$Son)
+X <- cbind(1, father.son$fheight)
+Y <- cbind(father.son$sheight)
 best_beta <- solve(t(X) %*% X) %*% t(X) %*% Y
 best_beta
 ```
@@ -113,7 +115,7 @@ best_beta
 We find that the best fitting line has an intercept of about 34 inches, and a slope of 0.51. Of course, `R` can do this calculation for you with just one command:
 
 ```{r, warning=FALSE, message=FALSE}
-best_beta_easy <- lm(Son ~ Father, data = heights)
+best_beta_easy <- lm(sheight ~ fheight, data = father.son)
 best_beta_easy
 ```
 
@@ -166,31 +168,33 @@ y_bar <- mean(Y)
 R_2 <- sum((X %*% best_beta - y_bar)^2) / sum((Y - y_bar)^2)
 R_2
 ```
+
 ```{r, warning=FALSE, message=FALSE}
 # look for Multiple R-squared:
 summary(best_beta_easy)
 ```
 
 ### Assumptions of linear regression
+
 In practice, when we are performing a linear regression, we are making a number of assumptions about the data. Here are the main ones:
 
-* Model structure: we assume that the process generating the data is linear.
-* Explanatory variable: we assume that this is measured without errors (!).
-* Residuals: we assume that residuals are i.i.d. Normal.
-* Strict exogeneity: the residuals should have conditional mean of 0. 
+-   Model structure: we assume that the process generating the data is linear.
+-   Explanatory variable: we assume that this is measured without errors (!).
+-   Residuals: we assume that residuals are i.i.d. Normal.
+-   Strict exogeneity: the residuals should have conditional mean of 0.
 
 $$
 \mathbb E[\epsilon_i | x_i] = 0
 $$
 
-* No linear dependence: the columns of $\mathbf{X}$ should be linearly independent.
-* Homoscedasticity: the variance of the residuals is independent of $x_i$.
+-   No linear dependence: the columns of $\mathbf{X}$ should be linearly independent.
+-   Homoscedasticity: the variance of the residuals is independent of $x_i$.
 
 $$
 \mathbb V[\epsilon_i | x_i] =  \sigma^2
 $$
 
-* Errors are uncorrelated between observations.
+-   Errors are uncorrelated between observations.
 
 $$
 \mathbb E[\epsilon_i \epsilon_j | x] = 0 \; \forall j \neq i
@@ -200,7 +204,7 @@ $$
 
 To perform a slightly more complicated linear regression, we take the data from:
 
-> Piwowar HA, Day RS, Fridsma DB (2007) [Sharing detailed research data is associated with increased citation rate](https://doi.org/10.1371/journal.pone.0000308). PLoS ONE 2(3): e308. 
+> Piwowar HA, Day RS, Fridsma DB (2007) [Sharing detailed research data is associated with increased citation rate](https://doi.org/10.1371/journal.pone.0000308). PLoS ONE 2(3): e308.
 
 The authors set out to demonstrate that sharing data accompanying papers tends to increase the number of citations received by the paper.
 
@@ -212,7 +216,7 @@ dat <- read_csv("data/Piwowar_2011.csv")
 dat <- dat %>% rename(IF = `Impact factor of journal`, 
                       NCIT = `Number of Citations in first 24 months after publication`, 
                       SHARE = `Is the microarray data publicly available`) %>% 
-      select(NCIT, IF, SHARE)
+      dplyr::select(NCIT, IF, SHARE)
 ```
 
 First, let's run a model in which the logarithm of the number of citations + 1 is regressed against the "Impact Factor" of the journal (which is a measure of "prestige" based on the average number of citations per paper received):
@@ -232,6 +236,7 @@ summary(my_model2)
 We find that sharing data is associated with a larger number of citations.
 
 ## A regression gone wild
+
 Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in *Nature* (no less!) by Tatem *et al*. You can find the study [here](https://www.nature.com/articles/431525a). Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:
 
 ```{r, warning=FALSE, message=FALSE}
@@ -253,7 +258,7 @@ summary(lm(Result ~ Year*Gender,
   data = olympics %>% filter(Year > 1899, Year < 2005)))
 ```
 
-An $R^2$ of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward: 
+An $R^2$ of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward:
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + 
@@ -262,7 +267,7 @@ ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) +
   xlim(c(1890, 2200)) + ylim(c(0, 13))
 ```
 
-You can see that the lines are touching in sometimes before 2200! Then women will overrun men. 
+You can see that the lines are touching in sometimes before 2200! Then women will overrun men.
 
 There are a number of things that are wrong with this result. First, by the same logic, computers will soon go faster than the speed of light, the number of people on planet Earth will be in the hundreds of billions, and the price of sequencing will drop so much that we will be paid instead of paying to get our samples sequenced...
 
@@ -288,12 +293,7 @@ You can see that the process has already slowed down: now it would take an extra
 
 So many things were wrong with this short paper, that *Nature* was showered with replies. My favorite is from a Cambridge statistician (the Authors were from Oxford, ça va sans dire); it is perfectly short and venomous---a good candidate for the Nobel prize in Literature!
 
-> Sir — A. J. Tatem and colleagues calculate that women may outsprint men by the
-middle of the twenty-second century (Nature 431, 525; 2004). They omit to mention, however, that (according to their analysis) a far more interesting race should
-occur in about 2636, when times of less than zero seconds will be recorded.
-In the intervening 600 years, the authors may wish to address the obvious
-challenges raised for both time-keeping and the teaching of basic statistics.
-— Kenneth Rice
+> Sir --- A. J. Tatem and colleagues calculate that women may outsprint men by the middle of the twenty-second century (Nature 431, 525; 2004). They omit to mention, however, that (according to their analysis) a far more interesting race should occur in about 2636, when times of less than zero seconds will be recorded. In the intervening 600 years, the authors may wish to address the obvious challenges raised for both time-keeping and the teaching of basic statistics. --- Kenneth Rice
 
 ## More advanced topics
 
@@ -305,7 +305,7 @@ $$
  \log(\text{NCIT} + 1) = \beta_0 + \beta_1 (\log(\text{IF} + 1))_i + \beta_2 (\text{SHARE})_i + \epsilon_i
 $$
 
-In this case, the variable SHARE takes values of 1 or 0. As such, when the data were not shared (SHARE = 0) the model reduces to the previous one, in which $\beta_2$ was absent. The coefficient $\beta_2$ measures the increase in the log of citation count when data are shared. 
+In this case, the variable SHARE takes values of 1 or 0. As such, when the data were not shared (SHARE = 0) the model reduces to the previous one, in which $\beta_2$ was absent. The coefficient $\beta_2$ measures the increase in the log of citation count when data are shared.
 
 The same approach can be taken whenever you have categorical values: `R` will automatically create **dummy variables** each encoding whether the ith data point belongs to a particular category. For example, suppose you want to predict the height of a child based on the height of the father, and that you also collected the gender, in three categories: `F` for female, `M` for male, `U` for unknown. Then you could use this information to build the model:
 
@@ -371,6 +371,7 @@ ggplot(data = dat) + aes(x = X, y = Y, colour = Data_set) +
 `Data_1` is fitted quite well; `Data_2` shows a marked nonlinearity; all points but one in `Data_3` are on the same line, but a single **outlier** shifts the line considerably; finally, in `Data_4` a single point is responsible for the fitting line: all other values of `X` are exactly the same. Inspecting the graphs, we would conclude that we can trust our model only in the first case. When you are performing a multiple regression, however, it is hard to see whether we're in case 1, or one of the other cases. `R` provides a number of diagnostic tools which can help you decide whether the fit to the data is good.
 
 ### Plotting the residuals
+
 The first thing you want to do is to plot the residuals as a function of the fitted values. This plot should make it apparent whether the data was linear or not. The package `lindia` (linear regression diagnostics) makes it easy to produce this type of plot using `ggplot2`:
 
 ```{r, warning=FALSE, message=FALSE}
@@ -405,7 +406,8 @@ gg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_4")))
 Here, you are looking for a good match to the 1:1 line; outliers will be found far from the line (e.g., case 3).
 
 ### Cook's distance
-Another way to detect outliers is to compute the Cook's distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point. 
+
+Another way to detect outliers is to compute the Cook's distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point.
 
 ```{r, warning=FALSE, message=FALSE}
 gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_1")))
@@ -415,6 +417,7 @@ gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_4")))
 ```
 
 ### Leverage
+
 Points that strongly influence the regression are said to have much "leverage":
 
 ```{r, warning=FALSE, message=FALSE}
@@ -427,11 +430,12 @@ gg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_4")))
 ### Running all diagnostics
 
 These are but a few of the diagnostics available. To run all diagnostics on a given model, call
+
 ```{r, warning=FALSE, message=FALSE}
 gg_diagnose(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2")))
 ```
 
-## Transforming the data 
+## Transforming the data
 
 Often, one needs to transform the data before running a linear regression, in order to fulfill the assumptions. We're going to look at the salary of professors at the University of California to show how this is done.
 
@@ -440,7 +444,7 @@ Often, one needs to transform the data before running a linear regression, in or
 # Original URL
 dt <- read_csv("https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv", 
                col_names = c("first_name", "last_name", "title", "a", "pay", "loc", "year", "b", "c", "d")) %>% 
-      select(first_name, last_name, title, loc, pay)
+      dplyr::select(first_name, last_name, title, loc, pay)
 # get only profs
 dt <- dt %>% filter(title %in% c("PROF-AY", "ASSOC PROF-AY", "ASST PROF-AY", 
                                  "PROF-AY-B/E/E", "PROF-HCOMP", "ASST PROF-AY-B/E/E", 
@@ -463,13 +467,14 @@ dt %>% ggplot() + aes(x = log2(pay)) + geom_histogram(binwidth = 0.5)
 ```
 
 We can try to explain the pay as a combination of title and location:
+
 ```{r, warning=FALSE, message=FALSE}
 unscaled <- lm(pay ~ title + loc, data = dt)
 summary(unscaled)
 gg_diagnose(lm(pay ~ title + loc, data = dt))
 ```
 
-To note: Berkeley has been taken as the baseline location. Similarly, `ASSOC-PROF AY` has been taken as the baseline title. 
+To note: Berkeley has been taken as the baseline location. Similarly, `ASSOC-PROF AY` has been taken as the baseline title.
 
 The Q-Q plot shows that this is a terrible model! Now let's try with the transformed data:
 

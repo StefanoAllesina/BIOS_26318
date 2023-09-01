@@ -18,10 +18,10 @@ For example, we want to test whether a COVID vaccine protects against infection.
 
 ANOVA tests whether samples are taken from distributions with the same mean:
 
-  * Null hypothesis: the means of the different groups are the same.
-  * Alternative hypothesis: **At least one sample mean** is not equal to the others.
+-   Null hypothesis: the means of the different groups are the same.
+-   Alternative hypothesis: **At least one sample mean** is not equal to the others.
 
-Let $Y$ indicate the response variable, and study the simplest case of one-way ANOVA. We have divided the samples in $k$ classes of size $J_1, \ldots, J_k$ such that $n=\sum_i J_i$.  We write an equation for $Y_{ij}$ (the $j$th observation in group $i$):
+Let $Y$ indicate the response variable, and study the simplest case of one-way ANOVA. We have divided the samples in $k$ classes of size $J_1, \ldots, J_k$ such that $n=\sum_i J_i$. We write an equation for $Y_{ij}$ (the $j$th observation in group $i$):
 
 $$
 Y_{ij} = \mu + \alpha_i + \epsilon_{ij}
@@ -31,10 +31,10 @@ where $\mu$ is the **overall mean**; $\mu + \alpha_i$ is the mean of group $i$--
 
 Note that we are making the same assumptions as for linear regression:
 
-  * The observations are obtained independently (and randomly) from the population defined by the factor levels (groups)
-  * The measurements for each factor level are independent and normally distributed 
-  * These normal distributions have the same variance
-  
+-   The observations are obtained independently (and randomly) from the population defined by the factor levels (groups)
+-   The measurements for each factor level are independent and normally distributed
+-   These normal distributions have the same variance
+
 ### How one-way ANOVA works
 
 We have $k$ groups, and define the overall mean $\bar{y} = \sum_i \sum_j Y_{ij} / J_{i}$, where $J_i$ is the sample size for group $i$. Then the **total sum of squared deviations** (SSD) is simply:
@@ -53,14 +53,13 @@ where now $\bar{y}_i$ is the mean for the samples in treatment (factor, group) $
 
 $$
 SSD = \sum_{j = 1}^{J_{i}} Y_{ij}^2 - n \bar{y}^2 = TSS - SSA
-$$
-where now TSS is the **total sum of squares** and SSA is the **sum of squares due to the average**. Combining the two equations, we can rewrite TSS as the sum of three components:
+$$ where now TSS is the **total sum of squares** and SSA is the **sum of squares due to the average**. Combining the two equations, we can rewrite TSS as the sum of three components:
 
 $$
 TSS = SSA + SST + SSE
 $$
 
-Note that the degrees of freedom associated with each term are $1$, $k-1$ and $n-k$, respectively. What remains to be proved is how to conduct inference. 
+Note that the degrees of freedom associated with each term are $1$, $k-1$ and $n-k$, respectively. What remains to be proved is how to conduct inference.
 
 ## Inference in one-way ANOVA
 
@@ -76,12 +75,12 @@ is called the $\chi^2$ distribution with $d$ degrees of freedom. Then, under the
 
 $$
 \frac{SST}{k-1} \frac{n-k}{SSE} = \frac{MST}{MSE} \sim F(k-1, n-k)
-$$
-where $F$ is the **F-distribution** (in `R`, you can sample from this distribution using `df(x, deg1, deg2)`). 
+$$ where $F$ is the **F-distribution** (in `R`, you can sample from this distribution using `df(x, deg1, deg2)`).
 
 ### Example of comparing diets
 
-For example, the following data contains measurements of weights of individuals before starting a diet, after 6 weeks of dieting, the type of diet (1, 2, 3), and other variables. 
+For example, the following data contains measurements of weights of individuals before starting a diet, after 6 weeks of dieting, the type of diet (1, 2, 3), and other variables.
+
 ```{r, error=FALSE, message=FALSE}
 library(tidyverse)
 # Original URL: "https://www.sheffield.ac.uk/polopoly_fs/1.570199!/file/stcp-Rdataset-Diet.csv"
@@ -106,7 +105,7 @@ We can see that there weight loss outcomes vary for each diet, but diet 3 seems 
 
 Here is the result of running ANOVA on the given data set:
 
-```{r message = FALSE, warning = FALSE, echo = TRUE} 
+```{r message = FALSE, warning = FALSE, echo = TRUE}
 diet_anova  <-  aov(weight.loss ~ Diet, data=diet) # note that this looks like lm!
 summary(diet_anova)
 print(diet_anova)
@@ -130,7 +129,7 @@ bar_y_i <- diet %>%
 
 # 3) compute degrees of freedom
 n <- nrow(diet)
-k <- nrow(diet %>% select(Diet) %>% distinct())
+k <- nrow(diet %>% dplyr::select(Diet) %>% distinct())
 deg_freedom <- c(1, k - 1, n - k)
 # 4) compute SSA, SST and SSE
 SSA <- n * bar_y^2
@@ -168,7 +167,7 @@ print(summary(aov(weight.loss ~ Diet, data = diet)))
 
 At first glance, this process is not the same as fitting parameters for linear regression, but it is based on exactly the same assumptions: additive noise and additive effect of the factors, with the only difference being that factors are not numeric, so the effect of each one is added separately. One can run linear regression and calculate coefficients that are identical to the mean and the differences between means computed by ANOVA (and note the p-values too!)
 
-```{r message = FALSE, warning = FALSE, echo = TRUE} 
+```{r message = FALSE, warning = FALSE, echo = TRUE}
 diet.lm <- lm(weight.loss ~ Diet, data=diet)
 summary(diet.lm)
 print(diet.lm$coefficients)
@@ -179,7 +178,6 @@ print(diet.lm$coefficients)
 ### Post-hoc analysis
 
 The ANOVA F-test tells us whether there is any difference in values of the response variable between the groups, but does not specify which group(s) are different. For this, a *post-hoc* test is used (Tukey's "Honest Significant Difference"):
-
 
 ```{r}
 tuk <- TukeyHSD(diet_anova)
@@ -196,7 +194,7 @@ Example taken from: [One-Way ANOVA Test in R](http://www.sthda.com/english/wiki/
 my_data <- PlantGrowth # import built-in data
 head(my_data)
 # Show the levels
-my_data %>% select(group) %>% distinct()
+my_data %>% dplyr::select(group) %>% distinct()
 ```
 
 ```{r}
@@ -222,18 +220,18 @@ my_data %>%
 
 One can compare the effect of two different factors simultaneously and see if considering both explains more of the variance than of one. This is equivalent to the multiple linear regression with two interacting variables. How would you interpret these results?
 
-```{r message = FALSE, warning = FALSE, echo = TRUE} 
+```{r message = FALSE, warning = FALSE, echo = TRUE}
 diet.fisher <- aov(weight.loss ~ Diet * gender, data = diet)
 summary(diet.fisher)
 ```
 
-## Investigate the UC  salaries dataset
+## Investigate the UC salaries dataset
 
 ```{r}
 # read the data
 # Original URL
 dt <- read_csv("https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv", 
-col_names = c("first_name", "last_name", "title", "a", "pay", "loc", "year", "b", "c", "d")) %>%  select(first_name, last_name, title, loc, pay)
+col_names = c("first_name", "last_name", "title", "a", "pay", "loc", "year", "b", "c", "d")) %>%  dplyr::select(first_name, last_name, title, loc, pay)
 # get only profs
 dt <- dt %>% filter(title %in% c("PROF-AY", "ASSOC PROF-AY", "ASST PROF-AY", 
                                  "PROF-AY-B/E/E", "PROF-HCOMP", "ASST PROF-AY-B/E/E", 
@@ -247,24 +245,25 @@ dt <- dt %>% filter(pay > 50000)
 glimpse(dt)
 ```
 
-1. Plot the distributions of pay by location and title. Is it approximately normal? If not, transform the data.
-```{r}
-
-```
-
-2. Run ANOVA for pay as dependent on the two factors separately, report the variance between means and the variance within groups, and the p-value for the null hypothesis.
+1.  Plot the distributions of pay by location and title. Is it approximately normal? If not, transform the data.
 
 ```{r}
 
 ```
 
-3. Run Tukey's test for multiple comparison of means to report which group(s) are substantially different from the rest, if any.
+2.  Run ANOVA for pay as dependent on the two factors separately, report the variance between means and the variance within groups, and the p-value for the null hypothesis.
 
 ```{r}
 
 ```
 
-4. Run a two-way ANOVA for both location and title and provide interpretation.
+3.  Run Tukey's test for multiple comparison of means to report which group(s) are substantially different from the rest, if any.
+
+```{r}
+
+```
+
+4.  Run a two-way ANOVA for both location and title and provide interpretation.
 
 ```{r}
 
@@ -273,4 +272,3 @@ glimpse(dt)
 ### A word of caution about unbalanced designs
 
 When we have a different number of samples in each category, we might encounter some problems, as the order in which we enter the terms might matter: for example, run `aov(pay ~ title + loc)` vs. `aov(pay ~ loc + title)`, and see that the sum of squares for the two models differ. In some cases, this might lead to the puzzling results---depending on how we enter the model, we might determine that a treatment has an effect or not. Turns out, there are three different ways to account for the sum-of-squares in ANOVA, all testing slightly different hypotheses. For balanced designs, they all return the same answer, but if you have different sizes, please read [here](https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/).
-

@@ -1,13 +1,14 @@
 # Data wrangling
 
 ## Goal
+
 Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of `dplyr`, `tidyr`, and the "pipe" operator `%>%`. Effortlessly produce statistics for grouped data. Massage data into "tidy" form.
 
 ## What is data wrangling?
 
 As biologists living in the XXI century, we are often faced with tons of data, possibly replicated over several organisms, treatments, or locations. We would like to streamline and automate our analysis as much as possible, writing scripts that are easy to read, fast to run, and easy to debug. Base `R` can get the job done, but often the code contains complicated operations, and a lot of `$` signs and brackets.
 
-We're going to learn about the packages `dplyr` and `tidyr`, which are part of `tidyverse` and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base `R` commands, are very compact, and can be concatenated into "pipelines". 
+We're going to learn about the packages `dplyr` and `tidyr`, which are part of `tidyverse` and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base `R` commands, are very compact, and can be concatenated into "pipelines".
 
 To start, we need to import the libraries:
 
@@ -26,6 +27,7 @@ We are going to use the data set `penguins` from the package `palmerpenguins`, w
 ## A new data type, `tibble`
 
 The data is stored in a "tibble":
+
 ```{r}
 class(penguins)
 ```
@@ -44,10 +46,10 @@ The nice feature of `tbl` objects is that they will print only what fits on the 
 
 We can take a look at the data using one of several functions:
 
-* `head(dt)` shows the first few rows
-* `tail(dt)` shows the last few rows
-* `glimpse(dt)` a summary of the data (similar to `str` in base R)
-* `View(dt)` open in spreadsheet-like window
+-   `head(dt)` shows the first few rows
+-   `tail(dt)` shows the last few rows
+-   `glimpse(dt)` a summary of the data (similar to `str` in base R)
+-   `View(dt)` open in spreadsheet-like window
 
 ## Selecting rows and columns
 
@@ -59,13 +61,7 @@ filter(penguins, island == "Torgersen")
 
 We have 52 observations. We have used the command `filter(tbl, conditions)` to select certain observations. We can combine several conditions, by listing them side by side, possibly using logical operators.
 
-> **Exercise:** what does this do?
->``
-filter(penguins, 
-       bill_length_mm > 40, 
-       bill_depth_mm > 20,
-       sex == male)
-``
+> **Exercise:** what does this do? `filter(penguins,  bill_length_mm > 40,  bill_depth_mm > 20, sex == male)`
 
 We can also select particular variables (columns) using the function `select(tbl, cols to select)`. For example, select `species` and `island`:
 
@@ -81,16 +77,16 @@ distinct(select(penguins, species))
 
 Showing that there are three species, once we removed the duplicates. There are many other ways to subset observations:
 
-- `slice_sample(tbl, howmany, replace = TRUE)` sample `howmany` rows at random (with replacement)
-- `sample_sample(tbl, proportion, replace = FALSE)` sample a certain proportion (e.g. `0.2` for 20%) of rows at random without replacement
-- `slice(tbl, 5:20)` extract the rows `5` to `20`
-- ``slice_max(penguins, 10, body_mass_g)`` extract the first `10` rows, once ordered by `body_mass_g`
+-   `slice_sample(tbl, howmany, replace = TRUE)` sample `howmany` rows at random (with replacement)
+-   `sample_sample(tbl, proportion, replace = FALSE)` sample a certain proportion (e.g. `0.2` for 20%) of rows at random without replacement
+-   `slice(tbl, 5:20)` extract the rows `5` to `20`
+-   `slice_max(penguins, 10, body_mass_g)` extract the first `10` rows, once ordered by `body_mass_g`
 
 More ways to select columns:
 
-- `select(penguins, contains("mm"))` select all columns containing the string `mm`
-- ``select(penguins, -year, -body_mass_g)`` exclude the columns `year` and `body_mass_g`
-- `select(penguins, matches("length|bill"))` select all columns whose names match a regular expression
+-   `select(penguins, contains("mm"))` select all columns containing the string `mm`
+-   `select(penguins, -year, -body_mass_g)` exclude the columns `year` and `body_mass_g`
+-   `select(penguins, matches("length|bill"))` select all columns whose names match a regular expression
 
 ## Creating pipelines using `%>%`
 
@@ -120,7 +116,7 @@ penguins %>%
   summarise(avg = mean(body_mass_g, na.rm = TRUE))
 ```
 
-where we used `na.rm = TRUE` to ignore missing values. This command returns a `tbl` object with just the average body mass. You can combine multiple statistics (use `first`, `last`, `min`, `max`, `n` [count the number of rows], `n_distinct` [count the number of distinct rows], `mean`, `median`, `var`, `sd`, etc.):
+where we used `na.rm = TRUE` to ignore missing values. This command returns a `tbl` object with just the average body mass. You can combine multiple statistics (use `first`, `last`, `min`, `max`, `n` \[count the number of rows\], `n_distinct` \[count the number of distinct rows\], `mean`, `median`, `var`, `sd`, etc.):
 
 ```{r}
 penguins %>% 
@@ -144,7 +140,7 @@ showing that male penguins are heavier for the three species considered.
 
 > **Exercise:** find the average `bill_depth_mm` and `bill_length_mm` by `species` and `sex`. Filter the data to consider only observations for the year 2008.
 
-## Ordering the data 
+## Ordering the data
 
 To order the data according to one or more variables, use `arrange()`:
 
@@ -158,6 +154,7 @@ penguins %>%
 ## Renaming columns
 
 To rename one or more columns, use `rename()`:
+
 ```{r}
 penguins %>% 
   rename(bm = body_mass_g)
@@ -183,7 +180,7 @@ penguins %>%
     geom_jitter()
 ```
 
-You can use the function `transmute()` to create a new column and drop the original columns. 
+You can use the function `transmute()` to create a new column and drop the original columns.
 
 Most importantly, you can use `mutate` and `transmute` on grouped data. For example, let's recompute the z-score of the `body_mass_g` once the data is grouped by species and sex:
 
@@ -200,9 +197,9 @@ penguins %>%
 
 Data is rarely in a format that is good for computing, and much effort goes into reading the data and wrestling with it to make it into a good format. As the name implies, `tidyverse` strongly advocates for the use of data in *tidy* form. What does this mean?
 
-- Each variable forms a column
-- Each observation forms a row
-- Each type of observational unit forms a table
+-   Each variable forms a column
+-   Each observation forms a row
+-   Each type of observational unit forms a table
 
 This is often called *narrow table* format. Any other form of data (e.g., *wide table* format) is considered *messy*. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package `tidyr` allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:
 
@@ -296,13 +293,13 @@ test %>% separate_rows(records, sep = ";")
 
 ## Example: brown bear, brown bear, what do you see?
 
-This  exercise uses a dataset from [GBIF](https://www.gbif.org/en/), the Global Biodiversity Information Facility. You can download the latest version yourself by doing the following (but just skip ahead if you want to use the data provided by us).
+This exercise uses a dataset from [GBIF](https://www.gbif.org/en/), the Global Biodiversity Information Facility. You can download the latest version yourself by doing the following (but just skip ahead if you want to use the data provided by us).
 
-1. Go to [GBIF](https://www.gbif.org/en/) and click on Occurrences. 
-2. Under Scientific Name type in *Ursus arctos* (brown bear), and hit enter.
-3. To download the data, create an account on GBIF
-4. Then click on Download, and select Simple (which should have a tab-delimited .csv file)
-5. Save to the data folder in your working folder.
+1.  Go to [GBIF](https://www.gbif.org/en/) and click on Occurrences.
+2.  Under Scientific Name type in *Ursus arctos* (brown bear), and hit enter.
+3.  To download the data, create an account on GBIF
+4.  Then click on Download, and select Simple (which should have a tab-delimited .csv file)
+5.  Save to the data folder in your working folder.
 
 If you don't want to go through all this, you can use the downloaded file called `Ursus_GBIF.csv` that should be in the data folder for this week. The following command loads and displays the contents of the tibble:
 
@@ -335,8 +332,8 @@ Note the warning message generated by `ggplot`. Then consider the map with the l
 
 ## Resources
 
-* [R for Data Science](https://hackr.io/tutorial/r-for-data-science)
-* A [cool class](https://cfss.uchicago.edu/syllabus.html) at U of C in Social Sciences 
-* [Data transformation](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) cheat sheet
-* [Dealing with dates](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf) cheat sheet
-* [Data import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf) cheat sheet
+-   [R for Data Science](https://hackr.io/tutorial/r-for-data-science)
+-   A [cool class](https://cfss.uchicago.edu/syllabus.html) at U of C in Social Sciences
+-   [Data transformation](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) cheat sheet
+-   [Dealing with dates](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf) cheat sheet
+-   [Data import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf) cheat sheet
