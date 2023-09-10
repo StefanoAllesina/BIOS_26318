@@ -158,7 +158,6 @@ $$ Notice that both measures are smallest when $p_k$ is close to 1 or 0, so they
 
 ![Recursive splitting of a two-dimensional set of observations](https://jakevdp.github.io/PythonDataScienceHandbook/figures/05.08-decision-tree-levels.png)
 
-
 One of these measures is used to create the sequential splits in the training data set. The biggest problem with this decision tree method is that it's a greedy algorithm that easily leads to overfitting: as you can see in the figure above, it can create really complicated regions in the observation space that may not correspond to meaningful distinctions.
 
 ### Penguin data
