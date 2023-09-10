@@ -1,0 +1,371 @@
+# Machine learning methods for classification
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(tidymodels)
+library(ggfortify) # for autoplot
+library(palmerpenguins)
+library(randomForest)
+library(discrim)
+library(klaR)
+library(rpart.plot)
+library(OneR)
+library(vip)
+```
+
+## Introduction
+
+The classification problem is a very common one in practice, and we have already seen the use of GLMs to systematically predict binary response variables. We have also used clustering to perform *unsupervised* learning, where we do not have any information about correct labels for data points. We now turn to *supervised* classification problems and introduce two different approaches: a Bayesian one and a tree-based one.
+
+## Naive Bayes classifier
+
+Suppose that we wish to classify an observation into one of K classes, which means there is a response variable Y can take on K different values, or labels. Let $π_k$ be the *prior probability* that a randomly chosen observation comes from the k-th class. Let $f_k(X) =Pr(X|Y = k)$ be the density function of X for an observation that comes from the k-th class.
+
+Assuming we have the prior probabilities and the conditional probability distributions of the observations within each category $k$, we can use Bayes' theorem to compute the probability of each class, given a set of observations $x$ by turning around the conditionality:
+
+$$
+P(Y = k | X = x) = \frac{\pi_k f_k(x)}{\sum_i^K \pi_i f_i(x)}
+$$ And let us use the notation $p_k (x) = P(Y = k | X = x)$ to mean the *posterior probability* that an observation $x$ belongs to class $k$.
+
+Let us use the penguin data as an example, where we want to classify the observations by species. Then, if we take a training set with known classifications, we can take the prior probabilities $\pi_k$ to be the fractions of observed birds of each species, and the probability distributions of each explanatory variable for each species $f_k(X)$ can be estimated from the observed distributions of the explanatory variables (flipper lengths, etc.) for Adelie, Gentoo, and Chinstrap subsets of observations.
+
+The difficult part in the above example is estimating the distributions $f_k(X)$, which is especially challenging for joint distributions of multiple variables. One method, called Linear Discriminant Analysis, assumes the distributions have the same covariance matrices for all classes and only differ in their mean values. Another, called Quadratic Discriminant Analysis, assumes different covariance matrices for different classes.
+
+The Naive Bayes classifier instead assumes that within each class the explanatory variables $X_i$ are independent, and thus
+
+$$
+f_k(x) = f_{k1} (x_1) \times f_{k2} (x_2) \times ... \times f_{kn} (x_n)
+$$
+
+where $f_{ki}(x_i)$ is the probability distribution of the i-th explanatory variable $x_i$ for class $k$.
+
+This modifies the Bayes' formula to look like this:
+
+$$
+P(Y = k | X = x) = \frac{\pi_k f_{k1} (x_1) \times f_{k2} (x_2) \times ... \times f_{kn} (x_n)}{\sum_i^K \pi_i f_{k1} (x_1) \times f_{k2} (x_2) \times ... \times f_{kn} (x_n)}
+$$ Although it looks more complicated, we can compute each distribution function separately, so as long as there is enough data in the training set to estimate each explanatory variable for each class, the calculation is manageable.
+
+### Penguin data
+
+```{r}
+data("penguins")
+pen_clean <- penguins %>% drop_na()
+# Fix the random numbers by setting the seed  for reproducibility
+#set.seed(314)
+# Put 3/4 of the data into the training set 
+pen_split <- initial_split(pen_clean, prop = 3/4)
+
+# Create data frames for the two sets:
+pen_train <- training(pen_split)
+pen_test  <- testing(pen_split)
+```
+
+```{r}
+
+nb_spec <- naive_Bayes() %>% 
+  set_mode("classification") %>% 
+  set_engine("naivebayes") %>% 
+  set_args(usekernel = FALSE)  
+
+
+pen_recipe <- 
+  recipe(species ~ ., data = pen_train) %>% 
+  update_role(island,  new_role = "ID")
+
+
+#nb_fit <- nb_spec %>% 
+#  fit(Direction ~ Lag1 + Lag2, data =pen_
+
+pen_workflow_nb <- workflow() %>%
+  add_model(nb_spec) %>%
+  add_recipe(pen_recipe)
+
+fit_nb <- pen_workflow_nb %>% fit(pen_train)
+
+```
+
+```{r, warning = FALSE}
+compare_pred <- augment(fit_nb, new_data = pen_test) 
+
+compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
+
+compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
+```
+
+### Breast cancer data
+
+```{r}
+data("breastcancer")
+glimpse(breastcancer)
+cancer_clean <- breastcancer %>% drop_na()
+# Fix the random numbers by setting the seed  for reproducibility
+#set.seed(314)
+# Put 3/4 of the data into the training set 
+can_split <- initial_split(cancer_clean, prop = 1/2)
+
+# Create data frames for the two sets:
+can_train <- training(can_split)
+can_test  <- testing(can_split)
+```
+
+```{r}
+
+nb_spec <- naive_Bayes() %>% 
+  set_mode("classification") %>% 
+  set_engine("naivebayes") %>% 
+  set_args(usekernel = FALSE)  
+
+
+can_recipe <- 
+  recipe(Class ~ ., data = can_train) %>% 
+  update_role(`Uniformity of Cell Shape`,  `Uniformity of Cell Size`, `Bland Chromatin`, new_role = "ID")
+  
+
+can_workflow_nb <- workflow() %>%
+  add_model(nb_spec) %>%
+  add_recipe(can_recipe)
+
+can_fit_nb <- can_workflow_nb %>% fit(can_train)
+
+```
+
+```{r, warning = FALSE}
+compare_pred <- augment(can_fit_nb, new_data = can_test) 
+
+compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
+
+compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+```
+
+## Decision Trees
+
+Suppose instead that we represent the classification process as a sequence of binary choices, that eventually lead to a category. This can be represented by a *decision tree*, whose *internal nodes* are separators of the space of observations (all the values of explanatory variables) that divide it into regions, and the *leaves* are the labels of these regions. (Decision trees can also be used for quantitative response variables, but we will focus on classification.) For example, here is a a decision tree for accepting a job offer:
+
+![Do you want this job?](https://i1.wp.com/dataaspirant.com/wp-content/uploads/2017/01/B03905_05_01-compressor.png)
+
+Building a decision tree for classification happens by sequential splitting the space of observations, starting with the decision that gives the most bang for the buck. Let us define the quality of the split into $M$ region by calculating how many observations in that regions actually belong to each category $k$. The *Gini index* (or impurity) is defined as the product of the probability of an observation (in practice, the fraction of observations in the training set) being labeled correctly with label $k$ ($p_k$) times the probability of it being labeled incorrectly ($1-p_k$), summed over all the labels $k$:
+
+$$
+G = \sum_k (1-p_k)p_k
+$$
+
+Alternatively, one can use the Shannon information or entropy measure:
+
+$$
+S = -\sum_k p_k log(p_k)
+$$ Notice that both measures are smallest when $p_k$ is close to 1 or 0, so they both tell the same story for a particular region: if (almost) all the points are points are either classified or incorrectly, these measures are close to 0.
+
+![Recursive splitting of a two-dimensional set of observations](https://jakevdp.github.io/PythonDataScienceHandbook/figures/05.08-decision-tree-levels.png)
+
+
+One of these measures is used to create the sequential splits in the training data set. The biggest problem with this decision tree method is that it's a greedy algorithm that easily leads to overfitting: as you can see in the figure above, it can create really complicated regions in the observation space that may not correspond to meaningful distinctions.
+
+### Penguin data
+
+```{r}
+tree_spec <- decision_tree() %>%
+  set_engine("rpart") %>%
+  set_mode("classification")
+```
+
+```{r}
+pen_recipe <- 
+  recipe(species ~ ., data = pen_train) %>% 
+  update_role(island,  new_role = "ID")
+
+pen_workflow_tree <- workflow() %>%
+  add_model(tree_spec) %>%
+  add_recipe(pen_recipe)
+
+fit_tree <- pen_workflow_tree %>% fit(pen_train)
+
+```
+
+```{r}
+compare_pred <- augment(fit_tree, new_data = pen_test) 
+
+compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
+
+compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
+```
+
+```{r}
+fit_tree %>%
+  extract_fit_engine() %>%
+  rpart.plot()
+```
+
+### Breast cancer data
+
+```{r}
+can_recipe <- 
+  recipe(Class ~ ., data = can_train) %>% 
+  update_role(`Uniformity of Cell Shape`,  `Uniformity of Cell Size`, `Bland Chromatin`, new_role = "ID")
+  
+
+can_workflow_tree <- workflow() %>%
+  add_model(tree_spec) %>%
+  add_recipe(can_recipe)
+
+fit_tree <- can_workflow_tree %>% fit(can_train)
+
+```
+
+```{r}
+compare_pred <- augment(fit_tree, new_data = can_test) 
+
+compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
+
+compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+```
+
+```{r}
+fit_tree %>%
+  extract_fit_engine() %>%
+  rpart.plot()
+```
+
+## Random Forests
+
+Overfitting usually results from modeling meaningless noise in the data instead of real differences. This gave rise to the idea to "shake up" the algorithm and see if the splits it produces are robust if the training set is different. In fact, let's use multiple trees and look at what the consensus of the *ensemble* can produce. This approach is called *bagging*, which makes use of an random ensemble of parallel classifiers, each of which over-fits the data, it combines the results to find a better classification. An ensemble of randomized decision trees is known as a *random forest*.
+
+Essentially, the process is as follows: use random sampling from the data set (bootstrapping) to generate different training sets and train different decision trees on each. Then for each observation, find its consensus classification among the whole ensemble; that is, how does the plurality of the trees classify it.
+
+Since each data point is left out of a number of trees, one can estimate an unbiased error of classification by computing the "out-of-bag" error: for each observation, used the classification produced by all the trees that did not have this one points in the bag. This is basically a built-in cross-validation measure.
+
+### Penguin data
+
+```{r}
+rf_spec <- rand_forest(mtry = 4) %>%
+  set_engine("ranger") %>%
+  set_mode("classification")
+```
+
+```{r}
+rf_recipe <- 
+  recipe(species ~ ., data = pen_clean) %>% 
+  update_role(island,  new_role = "ID")
+
+pen_workflow_rf <- workflow() %>%
+  add_model(rf_spec) %>%
+  add_recipe(pen_recipe)
+
+fit_rf <- pen_workflow_rf %>% fit(pen_clean)
+
+```
+
+```{r}
+compare_pred <- augment(fit_rf, new_data = pen_clean) 
+
+compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
+
+compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
+```
+
+Importance measures of different variables:
+
+```{r}
+last_rf <- 
+  rand_forest(mtry = 4, trees = 100) %>% 
+  set_engine("ranger",  importance = "impurity") %>% 
+  set_mode("classification")
+# the last workflow
+last_workflow <- 
+  pen_workflow_rf %>% 
+  update_model(last_rf)
+
+# the last fit
+set.seed(3)
+last_rf_fit <- 
+  last_workflow %>% 
+  last_fit(pen_split)
+
+```
+
+```{r}
+
+last_rf_fit %>% 
+  collect_metrics()
+
+last_rf_fit %>% 
+  pluck(".workflow", 1) %>%   
+  pull_workflow_fit() %>% 
+  vip(num_features = 20)
+
+```
+
+### Cancer data
+
+```{r}
+rf_spec <- rand_forest(mtry = 4) %>%
+  set_engine("ranger") %>%
+  set_mode("classification")
+```
+
+```{r}
+can_rf_recipe <- 
+  recipe(Class ~ ., data = cancer_clean) 
+
+can_workflow_rf <- workflow() %>%
+  add_model(rf_spec) %>%
+  add_recipe(can_rf_recipe)
+
+fit_rf <- can_workflow_rf  %>% 
+  fit(cancer_clean)
+
+```
+
+```{r}
+compare_pred <- augment(fit_rf, new_data = can_test) 
+
+compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
+
+compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+```
+
+Importance measures of different variables:
+
+```{r}
+last_rf <- 
+  rand_forest(mtry = 4, trees = 100) %>% 
+  set_engine("ranger",  importance = "impurity") %>% 
+  set_mode("classification")
+# the last workflow
+last_workflow <- 
+  can_workflow_rf %>% 
+  update_model(last_rf)
+
+# the last fit
+set.seed(3)
+last_rf_fit <- 
+  last_workflow %>% 
+  last_fit(can_split)
+
+```
+
+```{r}
+
+last_rf_fit %>% 
+  collect_metrics()
+
+last_rf_fit %>% 
+  pluck(".workflow", 1) %>%   
+  pull_workflow_fit() %>% 
+  vip(num_features = 20)
+
+```
+
+## References
+
+1.  [Introduction to Statistical Learning](https://www.statlearning.com/)
+
+2.  [Introcution to Statistical Learning Labs with Tidymodels](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/)
+
+3.  [Tidy models tutorial](https://www.tidymodels.org/start/case-study/)
+
+4.  [How Decision Trees Work](https://dataaspirant.com/how-decision-tree-algorithm-works/)
+
+5.  [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/05.08-random-forests.html)
+
+6.  [Visualization of Random Forests](https://towardsdatascience.com/rfviz-an-interactive-visualization-package-for-random-forests-in-r-8fb71709c8bf)

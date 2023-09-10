@@ -1,0 +1,45 @@
+project:
+  type: book
+  output-dir: docs
+book:
+  title: "Fundamentals of Biological Data Analysis"
+  author: "Stefano Allesina and Dmitry Kondrashov"
+  date: "`r Sys.Date()`"
+  twitter-card: true
+  search: true
+  repo-url: https://github.com/StefanoAllesina/BIOS_26318
+  downloads: [pdf, epub]
+  site-url: https://stefanoallesina.github.io/BIOS_26318/
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - 00-refresher.qmd
+    - 01-dataviz.qmd
+    - 02-probdist.qmd
+    - 03-wrangling.qmd
+    - 04-distributions.qmd
+    - 05-hypothesis.qmd
+    - 06-likelihood.qmd
+    - 07-linalg.qmd
+    - 08-linearreg.qmd
+    - 09-ANOVA.qmd
+    - 10-model_selection.qmd
+    - 11-SVD_PCA.qmd
+    - 12-clustering.qmd
+    - 13-generalized_linear_models.qmd
+    - 14-machine-learning.qmd
+
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+description: "Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023"
+
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
