@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
+
+<title>Fundamentals of Biological Data Analysis - 4&nbsp; Data wrangling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04-distributions.html" rel="next">
+<link href="./02-probdist.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta name="twitter:title" content="Fundamentals of Biological Data Analysis - 4&nbsp; Data wrangling">
+<meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data wrangling</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Fundamentals of Biological Data Analysis</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/StefanoAllesina/BIOS_26318" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.pdf">
+            <i class="bi bi-bi-file-pdf pe-1"></i>
+          Download PDF
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.epub">
+            <i class="bi bi-bi-journal pe-1"></i>
+          Download ePub
+          </a>
+        </li>
+    </ul>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Organization of the class</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-refresher.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>efresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probdist.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-wrangling.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data wrangling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distributions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions and their properties</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-hypothesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hypothesis testing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-linalg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-ANOVA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">ANOVA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-model_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-SVD_PCA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-generalized_linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalized linear models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-machine-learning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Machine learning methods for classification</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#goal" id="toc-goal" class="nav-link active" data-scroll-target="#goal"><span class="toc-section-number">4.1</span>  Goal</a></li>
+  <li><a href="#what-is-data-wrangling" id="toc-what-is-data-wrangling" class="nav-link" data-scroll-target="#what-is-data-wrangling"><span class="toc-section-number">4.2</span>  What is data wrangling?</a></li>
+  <li><a href="#a-new-data-type-tibble" id="toc-a-new-data-type-tibble" class="nav-link" data-scroll-target="#a-new-data-type-tibble"><span class="toc-section-number">4.3</span>  A new data type, <code>tibble</code></a></li>
+  <li><a href="#selecting-rows-and-columns" id="toc-selecting-rows-and-columns" class="nav-link" data-scroll-target="#selecting-rows-and-columns"><span class="toc-section-number">4.4</span>  Selecting rows and columns</a></li>
+  <li><a href="#creating-pipelines-using" id="toc-creating-pipelines-using" class="nav-link" data-scroll-target="#creating-pipelines-using"><span class="toc-section-number">4.5</span>  Creating pipelines using <code>%&gt;%</code></a></li>
+  <li><a href="#producing-summaries" id="toc-producing-summaries" class="nav-link" data-scroll-target="#producing-summaries"><span class="toc-section-number">4.6</span>  Producing summaries</a></li>
+  <li><a href="#summaries-by-group" id="toc-summaries-by-group" class="nav-link" data-scroll-target="#summaries-by-group"><span class="toc-section-number">4.7</span>  Summaries by group</a></li>
+  <li><a href="#ordering-the-data" id="toc-ordering-the-data" class="nav-link" data-scroll-target="#ordering-the-data"><span class="toc-section-number">4.8</span>  Ordering the data</a></li>
+  <li><a href="#renaming-columns" id="toc-renaming-columns" class="nav-link" data-scroll-target="#renaming-columns"><span class="toc-section-number">4.9</span>  Renaming columns</a></li>
+  <li><a href="#adding-new-variables-using-mutate" id="toc-adding-new-variables-using-mutate" class="nav-link" data-scroll-target="#adding-new-variables-using-mutate"><span class="toc-section-number">4.10</span>  Adding new variables using mutate</a></li>
+  <li><a href="#data-wrangling" id="toc-data-wrangling" class="nav-link" data-scroll-target="#data-wrangling"><span class="toc-section-number">4.11</span>  Data wrangling</a></li>
+  <li><a href="#from-narrow-to-wide" id="toc-from-narrow-to-wide" class="nav-link" data-scroll-target="#from-narrow-to-wide"><span class="toc-section-number">4.12</span>  From narrow to wide</a></li>
+  <li><a href="#from-wide-to-narrow" id="toc-from-wide-to-narrow" class="nav-link" data-scroll-target="#from-wide-to-narrow"><span class="toc-section-number">4.13</span>  From wide to narrow</a></li>
+  <li><a href="#separate-split-a-column-into-two-or-more" id="toc-separate-split-a-column-into-two-or-more" class="nav-link" data-scroll-target="#separate-split-a-column-into-two-or-more"><span class="toc-section-number">4.14</span>  Separate: split a column into two or more</a></li>
+  <li><a href="#separate-rows-from-one-row-to-many" id="toc-separate-rows-from-one-row-to-many" class="nav-link" data-scroll-target="#separate-rows-from-one-row-to-many"><span class="toc-section-number">4.15</span>  Separate rows: from one row to many</a></li>
+  <li><a href="#example-brown-bear-brown-bear-what-do-you-see" id="toc-example-brown-bear-brown-bear-what-do-you-see" class="nav-link" data-scroll-target="#example-brown-bear-brown-bear-what-do-you-see"><span class="toc-section-number">4.16</span>  Example: brown bear, brown bear, what do you see?</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="toc-section-number">4.17</span>  Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data wrangling</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="goal" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="goal"><span class="header-section-number">4.1</span> Goal</h2>
+<p>Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of <code>dplyr</code>, <code>tidyr</code>, and the “pipe” operator <code>%&gt;%</code>. Effortlessly produce statistics for grouped data. Massage data into “tidy” form.</p>
+</section>
+<section id="what-is-data-wrangling" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="what-is-data-wrangling"><span class="header-section-number">4.2</span> What is data wrangling?</h2>
+<p>As biologists living in the XXI century, we are often faced with tons of data, possibly replicated over several organisms, treatments, or locations. We would like to streamline and automate our analysis as much as possible, writing scripts that are easy to read, fast to run, and easy to debug. Base <code>R</code> can get the job done, but often the code contains complicated operations, and a lot of <code>$</code> signs and brackets.</p>
+<p>We’re going to learn about the packages <code>dplyr</code> and <code>tidyr</code>, which are part of <code>tidyverse</code> and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base <code>R</code> commands, are very compact, and can be concatenated into “pipelines”.</p>
+<p>To start, we need to import the libraries:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># this loads both dplyr and tidyr, along with other packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins) <span class="co"># a nice data set to play with</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make sure function select is the right one...</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>select <span class="ot">&lt;-</span> dplyr<span class="sc">::</span>select</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We are going to use the data set <code>penguins</code> from the package <code>palmerpenguins</code>, which we have already seen last week.</p>
+</section>
+<section id="a-new-data-type-tibble" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="a-new-data-type-tibble"><span class="header-section-number">4.3</span> A new data type, <code>tibble</code></h2>
+<p>The data is stored in a “tibble”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
+</div>
+</div>
+<p>In fact, <code>dplyr</code> ships with a new data type, called a <code>tibble</code>. To convert a <code>data.frame</code> into a tibble, use <code>as_tibble</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load a data frame</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"trees"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(trees)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>trees <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(trees)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(trees)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The nice feature of <code>tbl</code> objects is that they will print only what fits on the screen, and also give you useful information on the size of the data, as well as the type of data in each column. Other than that, a <code>tbl</code> object behaves very much like a <code>data.frame</code>. In some rare cases, you want to transform the <code>tbl</code> back into a <code>data.frame</code>. For this, use the function <code>as.data.frame(tbl_object)</code>.</p>
+<p>We can take a look at the data using one of several functions:</p>
+<ul>
+<li><code>head(dt)</code> shows the first few rows</li>
+<li><code>tail(dt)</code> shows the last few rows</li>
+<li><code>glimpse(dt)</code> a summary of the data (similar to <code>str</code> in base R)</li>
+<li><code>View(dt)</code> open in spreadsheet-like window</li>
+</ul>
+</section>
+<section id="selecting-rows-and-columns" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="selecting-rows-and-columns"><span class="header-section-number">4.4</span> Selecting rows and columns</h2>
+<p>There are many ways to subset the data, either by row (subsetting the <em>observations</em>), or by column (subsetting the <em>variables</em>). For example, let’s select only the rows with observations from the island <code>Torgersen</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(penguins, island <span class="sc">==</span> <span class="st">"Torgersen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 52 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 42 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>We have 52 observations. We have used the command <code>filter(tbl, conditions)</code> to select certain observations. We can combine several conditions, by listing them side by side, possibly using logical operators.</p>
+<blockquote class="blockquote">
+<p><strong>Exercise:</strong> what does this do? <code>filter(penguins,  bill_length_mm &gt; 40,  bill_depth_mm &gt; 20, sex == male)</code></p>
+</blockquote>
+<p>We can also select particular variables (columns) using the function <code>select(tbl, cols to select)</code>. For example, select <code>species</code> and <code>island</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(penguins, species, island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 2
+   species island   
+   &lt;fct&gt;   &lt;fct&gt;    
+ 1 Adelie  Torgersen
+ 2 Adelie  Torgersen
+ 3 Adelie  Torgersen
+ 4 Adelie  Torgersen
+ 5 Adelie  Torgersen
+ 6 Adelie  Torgersen
+ 7 Adelie  Torgersen
+ 8 Adelie  Torgersen
+ 9 Adelie  Torgersen
+10 Adelie  Torgersen
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<p>How many <code>species</code> are represented in the data set? We can use the function <code>distinct(tbl, cols to select)</code> to retain only the rows that differ from each other:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distinct</span>(<span class="fu">select</span>(penguins, species))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  species  
+  &lt;fct&gt;    
+1 Adelie   
+2 Gentoo   
+3 Chinstrap</code></pre>
+</div>
+</div>
+<p>Showing that there are three species, once we removed the duplicates. There are many other ways to subset observations:</p>
+<ul>
+<li><code>slice_sample(tbl, howmany, replace = TRUE)</code> sample <code>howmany</code> rows at random (with replacement)</li>
+<li><code>sample_sample(tbl, proportion, replace = FALSE)</code> sample a certain proportion (e.g.&nbsp;<code>0.2</code> for 20%) of rows at random without replacement</li>
+<li><code>slice(tbl, 5:20)</code> extract the rows <code>5</code> to <code>20</code></li>
+<li><code>slice_max(penguins, 10, body_mass_g)</code> extract the first <code>10</code> rows, once ordered by <code>body_mass_g</code></li>
+</ul>
+<p>More ways to select columns:</p>
+<ul>
+<li><code>select(penguins, contains("mm"))</code> select all columns containing the string <code>mm</code></li>
+<li><code>select(penguins, -year, -body_mass_g)</code> exclude the columns <code>year</code> and <code>body_mass_g</code></li>
+<li><code>select(penguins, matches("length|bill"))</code> select all columns whose names match a regular expression</li>
+</ul>
+</section>
+<section id="creating-pipelines-using" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="creating-pipelines-using"><span class="header-section-number">4.5</span> Creating pipelines using <code>%&gt;%</code></h2>
+<p>We’ve been calling nested functions, such as <code>distinct(select(penguins, species))</code>. If you have to add another layer or two, the code would become unreadable. <code>dplyr</code> allows you to “un-nest” these functions and create a “pipeline” in which you concatenate commands separated by a special operator, <code>%&gt;%</code>. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="co"># take a data table</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species) <span class="sc">%&gt;%</span> <span class="co"># select a column</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() <span class="co"># remove duplicates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  species  
+  &lt;fct&gt;    
+1 Adelie   
+2 Gentoo   
+3 Chinstrap</code></pre>
+</div>
+</div>
+<p>does exactly the same operations as the command above, but is much more readable. By concatenating many commands, you can create incredibly complex pipelines while retaining readability. It is also quite easy to add another piece of the pipeline in between commands, or to comment some of the pipeline out.</p>
+<p>Another advantage of pipelines is that they help with name completion. In fact, <code>RStudio</code> is running in the background your pipeline while you type it. Try typing <code>dt %&gt;% filter(</code> and then start typing <code>bill</code> and press <code>Tab</code>: you will see the options to complete the column name; choose it with your arrows and hit <code>Return</code>. The back tick-marks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).</p>
+</section>
+<section id="producing-summaries" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="producing-summaries"><span class="header-section-number">4.6</span> Producing summaries</h2>
+<p>Sometimes we need to calculate statistics on certain columns. For example, calculate the average body mass of the penguins. We can do this using <code>summarise</code> (you can use British or American spelling):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+    avg
+  &lt;dbl&gt;
+1 4202.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alternatively, drop_na(body_mass_g) removes all the observations for which</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># body_mass_g is NA</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(body_mass_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+    avg
+  &lt;dbl&gt;
+1 4202.</code></pre>
+</div>
+</div>
+<p>where we used <code>na.rm = TRUE</code> to ignore missing values. This command returns a <code>tbl</code> object with just the average body mass. You can combine multiple statistics (use <code>first</code>, <code>last</code>, <code>min</code>, <code>max</code>, <code>n</code> [count the number of rows], <code>n_distinct</code> [count the number of distinct rows], <code>mean</code>, <code>median</code>, <code>var</code>, <code>sd</code>, etc.):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+    avg    sd median
+  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 4202.  802.   4050</code></pre>
+</div>
+</div>
+</section>
+<section id="summaries-by-group" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="summaries-by-group"><span class="header-section-number">4.7</span> Summaries by group</h2>
+<p>One of the most useful features of <code>dplyr</code> is the ability to produce statistics for the data once subsetted by <em>groups</em>. For example, we would like to compute the average body mass by species and sex:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, species) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'sex'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   sex [2]
+  sex    species    mean
+  &lt;fct&gt;  &lt;fct&gt;     &lt;dbl&gt;
+1 female Adelie    3369.
+2 female Chinstrap 3527.
+3 female Gentoo    4680.
+4 male   Adelie    4043.
+5 male   Chinstrap 3939.
+6 male   Gentoo    5485.</code></pre>
+</div>
+</div>
+<p>showing that male penguins are heavier for the three species considered.</p>
+<blockquote class="blockquote">
+<p><strong>Exercise:</strong> find the average <code>bill_depth_mm</code> and <code>bill_length_mm</code> by <code>species</code> and <code>sex</code>. Filter the data to consider only observations for the year 2008.</p>
+</blockquote>
+</section>
+<section id="ordering-the-data" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="ordering-the-data"><span class="header-section-number">4.8</span> Ordering the data</h2>
+<p>To order the data according to one or more variables, use <code>arrange()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(body_mass_g) <span class="co"># ascending</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species   island   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;     &lt;fct&gt;             &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Chinstrap Dream              46.9          16.6               192        2700
+ 2 Adelie    Biscoe             36.5          16.6               181        2850
+ 3 Adelie    Biscoe             36.4          17.1               184        2850
+ 4 Adelie    Biscoe             34.5          18.1               187        2900
+ 5 Adelie    Dream              33.1          16.1               178        2900
+ 6 Adelie    Torgers…           38.6          17                 188        2900
+ 7 Chinstrap Dream              43.2          16.6               187        2900
+ 8 Adelie    Biscoe             37.9          18.6               193        2925
+ 9 Adelie    Dream              37.5          18.9               179        2975
+10 Adelie    Dream              37            16.9               185        3000
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(body_mass_g)) <span class="co"># descending</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Gentoo  Biscoe           49.2          15.2               221        6300
+ 2 Gentoo  Biscoe           59.6          17                 230        6050
+ 3 Gentoo  Biscoe           51.1          16.3               220        6000
+ 4 Gentoo  Biscoe           48.8          16.2               222        6000
+ 5 Gentoo  Biscoe           45.2          16.4               223        5950
+ 6 Gentoo  Biscoe           49.8          15.9               229        5950
+ 7 Gentoo  Biscoe           48.4          14.6               213        5850
+ 8 Gentoo  Biscoe           49.3          15.7               217        5850
+ 9 Gentoo  Biscoe           55.1          16                 230        5850
+10 Gentoo  Biscoe           49.5          16.2               229        5800
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="renaming-columns" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="renaming-columns"><span class="header-section-number">4.9</span> Renaming columns</h2>
+<p>To rename one or more columns, use <code>rename()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">bm =</span> body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm    bm sex   
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt; &lt;int&gt; &lt;fct&gt; 
+ 1 Adelie  Torgersen           39.1          18.7               181  3750 male  
+ 2 Adelie  Torgersen           39.5          17.4               186  3800 female
+ 3 Adelie  Torgersen           40.3          18                 195  3250 female
+ 4 Adelie  Torgersen           NA            NA                  NA    NA &lt;NA&gt;  
+ 5 Adelie  Torgersen           36.7          19.3               193  3450 female
+ 6 Adelie  Torgersen           39.3          20.6               190  3650 male  
+ 7 Adelie  Torgersen           38.9          17.8               181  3625 female
+ 8 Adelie  Torgersen           39.2          19.6               195  4675 male  
+ 9 Adelie  Torgersen           34.1          18.1               193  3475 &lt;NA&gt;  
+10 Adelie  Torgersen           42            20.2               190  4250 &lt;NA&gt;  
+# ℹ 334 more rows
+# ℹ 1 more variable: year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="adding-new-variables-using-mutate" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="adding-new-variables-using-mutate"><span class="header-section-number">4.10</span> Adding new variables using mutate</h2>
+<p>If you want to add one or more new columns, with the content being a function of other columns, use the function <code>mutate</code>. For example, we are going to add a new column showing the z-score for the body mass of each individual:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zscore_bm =</span> <span class="fu">scale</span>(body_mass_g)) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species, sex, body_mass_g, zscore_bm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 4
+   species sex    body_mass_g zscore_bm[,1]
+   &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
+ 1 Adelie  male          3750       -0.563 
+ 2 Adelie  female        3800       -0.501 
+ 3 Adelie  female        3250       -1.19  
+ 4 Adelie  &lt;NA&gt;            NA       NA     
+ 5 Adelie  female        3450       -0.937 
+ 6 Adelie  male          3650       -0.688 
+ 7 Adelie  female        3625       -0.719 
+ 8 Adelie  male          4675        0.590 
+ 9 Adelie  &lt;NA&gt;          3475       -0.906 
+10 Adelie  &lt;NA&gt;          4250        0.0602
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<p>We can pipe the results to <code>ggplot</code> for plotting!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zscore_bm =</span> <span class="fu">scale</span>(body_mass_g)) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species, sex, body_mass_g, zscore_bm) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x =</span> species, <span class="at">y =</span> zscore_bm, <span class="at">colour =</span> sex) <span class="sc">+</span> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="03-wrangling_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You can use the function <code>transmute()</code> to create a new column and drop the original columns.</p>
+<p>Most importantly, you can use <code>mutate</code> and <code>transmute</code> on grouped data. For example, let’s recompute the z-score of the <code>body_mass_g</code> once the data is grouped by species and sex:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species, sex, body_mass_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species, sex) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zscore_bm =</span> <span class="fu">scale</span>(body_mass_g)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(body_mass_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 333 × 4
+# Groups:   species, sex [6]
+   species   sex    body_mass_g zscore_bm[,1]
+   &lt;fct&gt;     &lt;fct&gt;        &lt;int&gt;         &lt;dbl&gt;
+ 1 Chinstrap female        2700         -2.90
+ 2 Adelie    female        2850         -1.93
+ 3 Adelie    female        2850         -1.93
+ 4 Adelie    female        2900         -1.74
+ 5 Adelie    female        2900         -1.74
+ 6 Adelie    female        2900         -1.74
+ 7 Chinstrap female        2900         -2.20
+ 8 Adelie    female        2925         -1.65
+ 9 Adelie    female        3000         -1.37
+10 Adelie    female        3000         -1.37
+# ℹ 323 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="data-wrangling" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="data-wrangling"><span class="header-section-number">4.11</span> Data wrangling</h2>
+<p>Data is rarely in a format that is good for computing, and much effort goes into reading the data and wrestling with it to make it into a good format. As the name implies, <code>tidyverse</code> strongly advocates for the use of data in <em>tidy</em> form. What does this mean?</p>
+<ul>
+<li>Each variable forms a column</li>
+<li>Each observation forms a row</li>
+<li>Each type of observational unit forms a table</li>
+</ul>
+<p>This is often called <em>narrow table</em> format. Any other form of data (e.g., <em>wide table</em> format) is considered <em>messy</em>. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package <code>tidyr</code> allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>penguin_bm <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, species) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">body_mass =</span> <span class="fu">mean</span>(body_mass_g), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="co"># remove groups after calculation</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>penguin_bm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  sex    species   body_mass
+  &lt;fct&gt;  &lt;fct&gt;         &lt;dbl&gt;
+1 female Adelie        3369.
+2 female Chinstrap     3527.
+3 female Gentoo        4680.
+4 male   Adelie        4043.
+5 male   Chinstrap     3939.
+6 male   Gentoo        5485.</code></pre>
+</div>
+</div>
+</section>
+<section id="from-narrow-to-wide" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="from-narrow-to-wide"><span class="header-section-number">4.12</span> From narrow to wide</h2>
+<p>Our data is in tidy form. For a paper, we want to show the difference between males and females in a table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>penguin_bm <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sex, <span class="at">values_from =</span> body_mass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  species   female  male
+  &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt;
+1 Adelie     3369. 4043.
+2 Chinstrap  3527. 3939.
+3 Gentoo     4680. 5485.</code></pre>
+</div>
+</div>
+<p>where we have created new column names using the values found in <code>sex</code> (hence, <code>names_from</code>), and filled each cell with the corresponding value found in <code>body_mass</code> (hence, <code>values_from</code>). Similarly, if we want to show the data with species as column names, and sex as rows, we can use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>penguin_bm <span class="sc">%&gt;%</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> species, <span class="at">values_from =</span> body_mass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  sex    Adelie Chinstrap Gentoo
+  &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+1 female  3369.     3527.  4680.
+2 male    4043.     3939.  5485.</code></pre>
+</div>
+</div>
+</section>
+<section id="from-wide-to-narrow" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="from-wide-to-narrow"><span class="header-section-number">4.13</span> From wide to narrow</h2>
+<p>For a real-world example, we will make data from:</p>
+<blockquote class="blockquote">
+<p><em>Tree-ring analysis for sustainable harvest of Millettia stuhlmannii in Mozambique</em>, I.A.D.Remane M.D.Therrell, <strong>South African Journal of Botany</strong> Volume 125, September 2019, Pages 120-125</p>
+</blockquote>
+<p>You can read a tab-separated file from:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/annual_increment.txt"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Age, <span class="fu">contains</span>(<span class="st">"CAT"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 172 Columns: 55
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "\t" dbl
+(37): Age, CAT01, CAT03, CAT04A, CAT05B, CAT06, CAT07, CAT08A, CAT09C, C... lgl
+(18): ...38, ...39, ...40, ...41, ...42, ...43, ...44, ...45, ...46, ......
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `Mean` -&gt; `Mean...32`
+• `Mean` -&gt; `Mean...35`
+• `` -&gt; `...37`
+• `` -&gt; `...38`
+• `` -&gt; `...39`
+• `` -&gt; `...40`
+• `` -&gt; `...41`
+• `` -&gt; `...42`
+• `` -&gt; `...43`
+• `` -&gt; `...44`
+• `` -&gt; `...45`
+• `` -&gt; `...46`
+• `` -&gt; `...47`
+• `` -&gt; `...48`
+• `` -&gt; `...49`
+• `` -&gt; `...50`
+• `` -&gt; `...51`
+• `` -&gt; `...52`
+• `` -&gt; `...53`
+• `` -&gt; `...54`
+• `` -&gt; `...55`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># selecting only age and samples</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each column besides <code>YEAR</code> represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns <code>tree</code> and <code>diameter</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>Age, <span class="at">names_to =</span> <span class="st">"tree"</span>, <span class="at">values_to =</span> <span class="st">"diameter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then remove the NAs:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(diameter))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now it is easy to plot the growth trajectory of each tree (as in Fig. 3 of the original paper):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Age, <span class="at">y =</span> diameter) <span class="sc">+</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> tree)) <span class="sc">+</span> <span class="co"># note---this makes a line for each tree</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>) <span class="co"># while the smoothing function considers all trees</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="03-wrangling_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="separate-split-a-column-into-two-or-more" class="level2" data-number="4.14">
+<h2 data-number="4.14" class="anchored" data-anchor-id="separate-split-a-column-into-two-or-more"><span class="header-section-number">4.14</span> Separate: split a column into two or more</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Allesina, Stefano"</span>, <span class="st">"Kondrashov, Dmitry"</span>, <span class="st">"Mir, Amatullah"</span>))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  name              
+  &lt;chr&gt;             
+1 Allesina, Stefano 
+2 Kondrashov, Dmitry
+3 Mir, Amatullah    </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>test <span class="sc">%&gt;%</span> <span class="fu">separate</span>(name, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"last_name"</span>, <span class="st">"first_name"</span>), <span class="at">sep =</span> <span class="st">", "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  last_name  first_name
+  &lt;chr&gt;      &lt;chr&gt;     
+1 Allesina   Stefano   
+2 Kondrashov Dmitry    
+3 Mir        Amatullah </code></pre>
+</div>
+</div>
+<p>The complement of <code>separate</code> is called <code>unite</code>.</p>
+</section>
+<section id="separate-rows-from-one-row-to-many" class="level2" data-number="4.15">
+<h2 data-number="4.15" class="anchored" data-anchor-id="separate-rows-from-one-row-to-many"><span class="header-section-number">4.15</span> Separate rows: from one row to many</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>), <span class="at">records =</span> <span class="fu">c</span>(<span class="st">"a;b;c"</span>, <span class="st">"c;d"</span>, <span class="st">"a;e"</span>, <span class="st">"f"</span>))</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+     id records
+  &lt;dbl&gt; &lt;chr&gt;  
+1     1 a;b;c  
+2     2 c;d    
+3     3 a;e    
+4     4 f      </code></pre>
+</div>
+</div>
+<p>To make it into tidy form, only one record per row:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>test <span class="sc">%&gt;%</span> <span class="fu">separate_rows</span>(records, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 2
+     id records
+  &lt;dbl&gt; &lt;chr&gt;  
+1     1 a      
+2     1 b      
+3     1 c      
+4     2 c      
+5     2 d      
+6     3 a      
+7     3 e      
+8     4 f      </code></pre>
+</div>
+</div>
+</section>
+<section id="example-brown-bear-brown-bear-what-do-you-see" class="level2" data-number="4.16">
+<h2 data-number="4.16" class="anchored" data-anchor-id="example-brown-bear-brown-bear-what-do-you-see"><span class="header-section-number">4.16</span> Example: brown bear, brown bear, what do you see?</h2>
+<p>This exercise uses a dataset from <a href="https://www.gbif.org/en/">GBIF</a>, the Global Biodiversity Information Facility. You can download the latest version yourself by doing the following (but just skip ahead if you want to use the data provided by us).</p>
+<ol type="1">
+<li>Go to <a href="https://www.gbif.org/en/">GBIF</a> and click on Occurrences.</li>
+<li>Under Scientific Name type in <em>Ursus arctos</em> (brown bear), and hit enter.</li>
+<li>To download the data, create an account on GBIF</li>
+<li>Then click on Download, and select Simple (which should have a tab-delimited .csv file)</li>
+<li>Save to the data folder in your working folder.</li>
+</ol>
+<p>If you don’t want to go through all this, you can use the downloaded file called <code>Ursus_GBIF.csv</code> that should be in the data folder for this week. The following command loads and displays the contents of the tibble:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you will need ggmap!</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>Ursus_data <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/Ursus_GBIF.csv"</span>)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Ursus_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 23,498
+Columns: 50
+$ gbifID                           &lt;dbl&gt; 2382421192, 2382420986, 2382420916, 2…
+$ datasetKey                       &lt;chr&gt; "88d8974c-f762-11e1-a439-00145eb45e9a…
+$ occurrenceID                     &lt;chr&gt; "http://arctos.database.museum/guid/U…
+$ kingdom                          &lt;chr&gt; "Animalia", "Animalia", "Animalia", "…
+$ phylum                           &lt;chr&gt; "Chordata", "Chordata", "Chordata", "…
+$ class                            &lt;chr&gt; "Mammalia", "Mammalia", "Mammalia", "…
+$ order                            &lt;chr&gt; "Carnivora", "Carnivora", "Carnivora"…
+$ family                           &lt;chr&gt; "Ursidae", "Ursidae", "Ursidae", "Urs…
+$ genus                            &lt;chr&gt; "Ursus", "Ursus", "Ursus", "Ursus", "…
+$ species                          &lt;chr&gt; "Ursus arctos", "Ursus arctos", "Ursu…
+$ infraspecificEpithet             &lt;chr&gt; NA, NA, NA, "horribilis", NA, NA, NA,…
+$ taxonRank                        &lt;chr&gt; "SPECIES", "SPECIES", "SPECIES", "SUB…
+$ scientificName                   &lt;chr&gt; "Ursus arctos Linnaeus, 1758", "Ursus…
+$ verbatimScientificName           &lt;chr&gt; "Ursus arctos", "Ursus arctos", "Ursu…
+$ verbatimScientificNameAuthorship &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ countryCode                      &lt;chr&gt; NA, "US", NA, NA, "US", NA, NA, "US",…
+$ locality                         &lt;chr&gt; "no specific locality recorded", "no …
+$ stateProvince                    &lt;chr&gt; NA, "Alaska", NA, NA, "Colorado", NA,…
+$ occurrenceStatus                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ individualCount                  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ publishingOrgKey                 &lt;chr&gt; "4cadac10-3e7b-11d9-8439-b8a03c50a862…
+$ decimalLatitude                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ decimalLongitude                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ coordinateUncertaintyInMeters    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ coordinatePrecision              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ elevation                        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ elevationAccuracy                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ depth                            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ depthAccuracy                    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ eventDate                        &lt;dttm&gt; 1800-01-01, 1800-01-01, 1800-01-01, …
+$ day                              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ month                            &lt;dbl&gt; 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1…
+$ year                             &lt;dbl&gt; 1800, 1800, 1800, 1800, 1914, 1938, 1…
+$ taxonKey                         &lt;dbl&gt; 2433433, 2433433, 2433433, 6163845, 2…
+$ speciesKey                       &lt;dbl&gt; 2433433, 2433433, 2433433, 2433433, 2…
+$ basisOfRecord                    &lt;chr&gt; "PRESERVED_SPECIMEN", "PRESERVED_SPEC…
+$ institutionCode                  &lt;chr&gt; "UCM", "UCM", "UCM", "UCM", "UCM", "U…
+$ collectionCode                   &lt;chr&gt; "Mammal specimens", "Mammal specimens…
+$ catalogNumber                    &lt;chr&gt; "UCM:Mamm:5003", "UCM:Mamm:3329", "UC…
+$ recordNumber                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ identifiedBy                     &lt;chr&gt; "T. C. Hart", "unknown", "unknown", "…
+$ dateIdentified                   &lt;dttm&gt; 2013-01-01, 1936-01-01, NA, 2015-10-…
+$ license                          &lt;chr&gt; "CC0_1_0", "CC0_1_0", "CC0_1_0", "CC0…
+$ rightsHolder                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ recordedBy                       &lt;chr&gt; "Collector(s): T. C. Hart", "Collecto…
+$ typeStatus                       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ establishmentMeans               &lt;chr&gt; NA, NA, NA, NA, NA, NA, "MANAGED", NA…
+$ lastInterpreted                  &lt;dttm&gt; 2019-09-03 22:11:14, 2019-09-03 22:1…
+$ mediaType                        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ issue                            &lt;chr&gt; NA, NA, NA, NA, "TAXON_MATCH_HIGHERRA…</code></pre>
+</div>
+</div>
+<p>You see there are 50 variables in the data set, so it may be useful to remove the ones we don’t need. For this exercise, our objective is to plot the occurrences of this species on the world map, so we need two variables for certain: <code>decimalLatitude</code> and <code>decimalLongitude</code>, as well as the <code>BasisofRecord</code> for additional information. Use your <code>tidyverse</code> skills to create a new tibble with only those variables. In addition, remove duplicate records from the tibble.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code goes here!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can plot this data set on the world map, using the useful package maps. To plot, use the <code>ggplot()</code> syntax with the following addition:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>mapWorld <span class="ot">&lt;-</span> <span class="fu">borders</span>(<span class="st">"world"</span>, <span class="at">colour=</span><span class="st">"gray50"</span>, <span class="at">fill=</span><span class="st">"gray50"</span>) <span class="co"># create a layer of borders</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># now you can call </span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot() + mapWorld + ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note the warning message generated by <code>ggplot</code>. Then consider the map with the locations of the brown bear specimens. Do any of them seem strange to you? What may be the explanation behind these strange data point? Now filter out the points that you identified as suspicious and print out their BasisofRecord. Does this suggest an explanation for the strangeness?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code goes here!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resources" class="level2" data-number="4.17">
+<h2 data-number="4.17" class="anchored" data-anchor-id="resources"><span class="header-section-number">4.17</span> Resources</h2>
+<ul>
+<li><a href="https://hackr.io/tutorial/r-for-data-science">R for Data Science</a></li>
+<li>A <a href="https://cfss.uchicago.edu/syllabus.html">cool class</a> at U of C in Social Sciences</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">Data transformation</a> cheat sheet</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf">Dealing with dates</a> cheat sheet</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data import</a> cheat sheet</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-probdist.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04-distributions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions and their properties</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

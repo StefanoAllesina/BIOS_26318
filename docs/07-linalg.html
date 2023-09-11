@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
+
+<title>Fundamentals of Biological Data Analysis - 8&nbsp; Review of linear algebra</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08-linearreg.html" rel="next">
+<link href="./06-likelihood.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="twitter:title" content="Fundamentals of Biological Data Analysis - 8&nbsp; Review of linear algebra">
+<meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Fundamentals of Biological Data Analysis</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/StefanoAllesina/BIOS_26318" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
+    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.pdf">
+            <i class="bi bi-bi-file-pdf pe-1"></i>
+          Download PDF
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.epub">
+            <i class="bi bi-bi-journal pe-1"></i>
+          Download ePub
+          </a>
+        </li>
+    </ul>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Organization of the class</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-refresher.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>efresher</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-probdist.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data wrangling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distributions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions and their properties</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-hypothesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hypothesis testing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-linalg.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-ANOVA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">ANOVA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-model_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-SVD_PCA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-generalized_linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalized linear models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-machine-learning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Machine learning methods for classification</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#solving-multivariate-linear-equations" id="toc-solving-multivariate-linear-equations" class="nav-link active" data-scroll-target="#solving-multivariate-linear-equations"><span class="toc-section-number">8.1</span>  Solving multivariate linear equations</a></li>
+  <li><a href="#fitting-a-line-to-data" id="toc-fitting-a-line-to-data" class="nav-link" data-scroll-target="#fitting-a-line-to-data"><span class="toc-section-number">8.2</span>  Fitting a line to data</a>
+  <ul class="collapse">
+  <li><a href="#least-squares-line" id="toc-least-squares-line" class="nav-link" data-scroll-target="#least-squares-line"><span class="toc-section-number">8.2.1</span>  Least-squares line</a></li>
+  </ul></li>
+  <li><a href="#linearity-and-vector-spaces" id="toc-linearity-and-vector-spaces" class="nav-link" data-scroll-target="#linearity-and-vector-spaces"><span class="toc-section-number">8.3</span>  Linearity and vector spaces</a>
+  <ul class="collapse">
+  <li><a href="#linear-independence-and-basis-vectors" id="toc-linear-independence-and-basis-vectors" class="nav-link" data-scroll-target="#linear-independence-and-basis-vectors"><span class="toc-section-number">8.3.1</span>  Linear independence and basis vectors</a></li>
+  <li><a href="#projections-and-changes-of-basis" id="toc-projections-and-changes-of-basis" class="nav-link" data-scroll-target="#projections-and-changes-of-basis"><span class="toc-section-number">8.3.2</span>  Projections and changes of basis</a></li>
+  </ul></li>
+  <li><a href="#matrices-as-linear-operators" id="toc-matrices-as-linear-operators" class="nav-link" data-scroll-target="#matrices-as-linear-operators"><span class="toc-section-number">8.4</span>  Matrices as linear operators</a>
+  <ul class="collapse">
+  <li><a href="#matrices-transform-vectors" id="toc-matrices-transform-vectors" class="nav-link" data-scroll-target="#matrices-transform-vectors"><span class="toc-section-number">8.4.1</span>  Matrices transform vectors</a></li>
+  <li><a href="#calculating-eigenvalues" id="toc-calculating-eigenvalues" class="nav-link" data-scroll-target="#calculating-eigenvalues"><span class="toc-section-number">8.4.2</span>  calculating eigenvalues</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Goals</strong></p>
+<ul>
+<li>Solving linear equations</li>
+<li>Best-fit line through multiple data points</li>
+<li>Concepts of linearity and vector spaces</li>
+<li>Representation of vectors in multiple bases</li>
+<li>Eigenvalues and eigenvectors of matrices</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># our friend the tidyverse</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="solving-multivariate-linear-equations" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="solving-multivariate-linear-equations"><span class="header-section-number">8.1</span> Solving multivariate linear equations</h2>
+<p>Linear algebra is intimately tied to linear equations, that is, to equations where all variables are multiplied by constant terms and added together. Linear equations with one variable are easily solved by division, for example:</p>
+<p><span class="math display">\[
+4x = 20
+\]</span></p>
+<p>is solved by dividing both sides by 4, obtaining the unique solution <span class="math inline">\(x=5\)</span>.</p>
+<p>The situation gets more interesting when multiple variables are involved, with multiple equations, for example:</p>
+<p><span class="math display">\[
+\begin{aligned}
+4x - 3y &amp;= 5 \\
+-x + 2y &amp;= 10
+\end{aligned}
+\]</span></p>
+<p>There are multiple ways to solve this, for example solving one equation for one variable in terms of the other, then substituting it into the second equation to obtain a one-variable problem. A more general approach involves writing this problem in terms of a matrix <span class="math inline">\(\mathbf A\)</span> that contains the multiplicative constants of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> and a vector <span class="math inline">\(\vec b\)</span> that contains the right-hand side constants:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{A} = \begin{pmatrix} 4 &amp; -3 \\ -1 &amp; 2 \end{pmatrix} \;\;\; \vec{b} = \begin{pmatrix}5 \\ 10 \end{pmatrix} &amp;\;\;\;
+\vec{x} = \begin{pmatrix} x \\ y \end{pmatrix} \\
+\mathbf{A} \vec x = \vec b &amp;
+\end{aligned}
+\]</span></p>
+<p>This now looks analogous to the one-variable equation above, which we solved by dividing both sides by the multiple of <span class="math inline">\(x\)</span>. The difficulty is that matrix operations are more complicated than scalar multiplication and division. Matrix multiplication is used in the equation above to multiply all the coefficients in the matrix by their respective variables, which involves a relatively complicated <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">procedure in general</a>.</p>
+<p>The “division” equivalent is called <a href="https://en.wikipedia.org/wiki/Invertible_matrix">matrix inversion</a> and it is even more complicated. First, we need to define the identity matrix, or the equivalent of the number 1 for matrix multiplication. The identity matrix is defined only for square matrices (equal number of rows and columns), so a size <span class="math inline">\(n\)</span> by <span class="math inline">\(n\)</span> identity matrix is define to have all 1s on the diagonal and all zeros on the off-diagonal: <span class="math display">\[
+I = \begin{pmatrix} 1 &amp; 0 &amp; \dots &amp; 0 \\ 0 &amp; 1  &amp;\dots &amp; 0 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp;\dots &amp; 1\end{pmatrix}
+\]</span> The identity matrix is special because multiplying any other matrix (of compatible size) by it results in the same exact matrix (this is easy to check on a couple of examples for <span class="math inline">\(2 \times 2\)</span> or <span class="math inline">\(3 \times 3\)</span> matrices):</p>
+<p><span class="math display">\[
+I A = A I = A
+\]</span> Then for an <span class="math inline">\(n\)</span> by <span class="math inline">\(n\)</span> matrix <span class="math inline">\(A\)</span> its inverse <span class="math inline">\(A^{-1}\)</span> is defined to be the matrix multiplication by which results in the identity matrix, that is: <span class="math display">\[
+A^{-1} A = A A^{-1}  = I
+\]</span> Defining the inverse is one task, but calculating it for any given matrix, especially of large size, is quite laborious. We will not describe the algorithms here, but you can read about <a href="https://en.wikipedia.org/wiki/Gaussian_elimination#Finding_the_inverse_of_a_matrix">Gauss-Jordan elimination</a>, which is one classic example. One important point is that not all matrices are invertible, and for some no inverse matrix exists, analogous to zero for real number division. The difference is that there are infinitely many matrices for which this is the case, called <em>singular</em> matrices.</p>
+<p>In the cases in which the inverse matrix exists, the linear system of equations can be solved by multiplying both sides by the inverse matrix, like this: <span class="math display">\[
+\vec x = \mathbf{A}^{-1}\vec b
+\]</span></p>
+<p><em>Example:</em> Take the linear <span class="math inline">\(2 \times 2\)</span> system of equations of above and solve it using matrix inversion.The <code>R</code> function <code>solve()</code> calculates the inverse and multiplies it by the constant vector <code>b</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A,b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8 9</code></pre>
+</div>
+</div>
+</section>
+<section id="fitting-a-line-to-data" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="fitting-a-line-to-data"><span class="header-section-number">8.2</span> Fitting a line to data</h2>
+<p>One geometric application of solving multiple linear equations is to find the coefficients of a line that passes through two points in the 2-dimensional plane (or of a plane that passes through three points in three-dimensional space, but we won’t go there.) In that case, the coordinates of the points are the data, and the unknown variables are the parameters slope <span class="math inline">\(m\)</span> and intercept <span class="math inline">\(b\)</span> of the line that we want to find.</p>
+<p><strong>Example:</strong> If the data set consists of two points <span class="math inline">\((3,5), (6, 2)\)</span>, then finding the best fit values of <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> means solving the following two equations:</p>
+<p><span class="math display">\[
+\begin{aligned}
+3m + b &amp;= 5 \\
+6m + b &amp;= 2
+\end{aligned}
+\]</span></p>
+<p>These equations have a solution for the slope and intercept, which can be calculated in <code>R</code> using <code>solve()</code> and then plot the line with the parameters from the solution vector <code>beta</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ys <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(xs[<span class="dv">1</span>], xs[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(ys[<span class="dv">1</span>], ys[<span class="dv">2</span>])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">solve</span>(A, b)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(xs, ys)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data1) <span class="sc">+</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> xs, <span class="at">y =</span> ys) <span class="sc">+</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> beta[<span class="dv">1</span>], <span class="at">intercept =</span> beta[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-linalg_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>However, a data set with two points is very small and nobody would accept these values as reasonable estimates. Let us add one more data point, to increase our sample size to three: <span class="math inline">\((3,5), (6, 2), (9, 1)\)</span>. How do you find the best fit slope and intercept?</p>
+<p><strong>Bad idea:</strong> take two points and find a line, that is the slope and the intercept, that passes through the two. It should be clear why this is a bad idea: we are arbitrarily ignoring some of the data, while perfectly fitting two points. So how do we use all the data? Let us write down the equations that a line with slope <span class="math inline">\(m\)</span> and intercept <span class="math inline">\(b\)</span> have to satisfy in order to fit our data points:</p>
+<p><span class="math display">\[
+\begin{aligned}
+3m + b = 5 \\
+6m + b = 2\\
+9m + b = 1
+\end{aligned}
+\]</span></p>
+<p>This system has no exact solution, since there are three equations and only two unknowns. We need to find <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> such that they are a “best fit” to the data, not the perfect solution.</p>
+<section id="least-squares-line" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="least-squares-line"><span class="header-section-number">8.2.1</span> Least-squares line</h3>
+<p>Let us write the equation in matrix form as follows:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{A} = \begin{pmatrix} 3 &amp; 1 \\ 6 &amp; 1 \\ 9 &amp; 1 \end{pmatrix} \;\;\; \vec{b} = \begin{pmatrix}5 \\ 2 \\ 1 \end{pmatrix} \;\;\;
+\vec{\beta} = \begin{pmatrix} m \\ b \end{pmatrix} \\
+\mathbf{A} \vec \beta = \vec b
+\end{aligned}
+\]</span></p>
+<p>Mathematically, the problem is that one cannot invert a non-square matrix. However, there is a way of turning the matrix into a square one, by multiplying it by its own transpose (same matrix with rows and columns reversed):</p>
+<p><span class="math display">\[
+\mathbf{A}^T \mathbf{A} \vec \beta = \mathbf{A}^T \vec b
+\]</span> <em>Exercise:</em> Carry out the matrix multiplications to verify that <span class="math inline">\(\mathbf{A}^T \mathbf{A}\)</span> is a <span class="math inline">\(2 \times 2\)</span> matrix and <span class="math inline">\(\mathbf{A}^T \vec b\)</span> is a vector of length 2.</p>
+<p>Now we can solve this equation with a square matrix <span class="math inline">\(\mathbf{A}^T \mathbf{A}\)</span> by multiplying both sides by the inverse! In general, for an <span class="math inline">\(n\)</span>-dimensional data set consisting of a bunch of values of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, the process looks like this:</p>
+<p><span class="math display">\[
+\vec Y = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix} \;\;\;
+\mathbf{X} = \begin{pmatrix} 1 &amp; x_1\\ 1 &amp; x_2\\ \vdots &amp; \vdots \\ 1 &amp; x_n \end{pmatrix}
+\;\;\;
+\mathbf{\beta} = \begin{pmatrix} m \\ b \end{pmatrix} \\
+\beta = (\mathbf{X}^{T} \mathbf{X})^{-1} \mathbf{X}^{T}\vec Y
+\]</span> <em>Example:</em> Let us see the best-fit line for the 3-point data set above:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ys <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(xs[<span class="dv">1</span>], xs[<span class="dv">2</span>], xs[<span class="dv">3</span>], <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(ys[<span class="dv">1</span>], ys[<span class="dv">2</span>], ys[<span class="dv">3</span>])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(A) <span class="sc">%*%</span> A, <span class="fu">t</span>(A) <span class="sc">%*%</span> b)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(xs, ys)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data1) <span class="sc">+</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> xs, <span class="at">y =</span> ys) <span class="sc">+</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> beta[<span class="dv">1</span>], <span class="at">intercept =</span> beta[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-linalg_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let us use the classic data set of Karl Pearson’s from 1903 containing the height of fathers and sons, which we will return to next week when we tackle linear regression properly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(UsingR)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"father.son"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> father.son) <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> fheight, <span class="at">y =</span> sheight) <span class="sc">+</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>pl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-linalg_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>Exercise:</em> Let’s try to find the best fit line to this data set (the hard way) using the same process as above for the three - point data set:</p>
+<div class="cell">
+
+</div>
+<p>Of course, <code>R</code> can do this calculation for you with just one command:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>best_beta_easy <span class="ot">&lt;-</span> <span class="fu">lm</span>(sheight <span class="sc">~</span> fheight, <span class="at">data =</span> father.son)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>best_beta_easy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sheight ~ fheight, data = father.son)
+
+Coefficients:
+(Intercept)      fheight  
+    33.8866       0.5141  </code></pre>
+</div>
+</div>
+<p>But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="co"># lm stands for linear model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="07-linalg_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="linearity-and-vector-spaces" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="linearity-and-vector-spaces"><span class="header-section-number">8.3</span> Linearity and vector spaces</h2>
+<p>We have dealt with linear models in various guises, so now would be a good time to define properly what linearity means. The word comes from the shape of graphs of linear functions of one variable, e.g.&nbsp;<span class="math inline">\(f(x) = a x + b\)</span>, but the algebraic meaning rests on the following two general properties:</p>
+<p><strong>Definition.</strong> A <em>linear transformation</em> or <em>linear operator</em> is a mapping <span class="math inline">\(L\)</span> between two sets of vectors with the following properties:</p>
+<ol type="1">
+<li><em>(scalar multiplication)</em> <span class="math inline">\(L(c \vec v) = c L(\vec v)\)</span>; where <span class="math inline">\(c\)</span> is a scalar and <span class="math inline">\(\vec v\)</span> is a vector</li>
+<li><em>(additive)</em> <span class="math inline">\(L(\vec v_1 + \vec v_2) = L(\vec v_1) + L(\vec v_2)\)</span>; where <span class="math inline">\(\vec v_1\)</span> and <span class="math inline">\(\vec v_2\)</span> are vectors</li>
+</ol>
+<p>Here we have two types of objects: vectors and transformations/operators that act on those vectors. The basic example of this are vectors and matrices, because a matrix multiplied by a vector (on the right) results another vector, provided the number of columns in the matrix is the same as the number of rows in the vector. This can be interpreted as the matrix transforming the vector <span class="math inline">\(\vec v\)</span> into another one: <span class="math inline">\(A \times \vec v = \vec u\)</span>.</p>
+<p><strong>Example:</strong> Let us multiply the following matrix and vector (specially chosen to make a point):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>vec1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>vec2 <span class="ot">&lt;-</span> A <span class="sc">%*%</span> vec1</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vec1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1 -1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vec2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]    1
+[2,]   -1</code></pre>
+</div>
+</div>
+<p>We see that this particular vector <span class="math inline">\((1,-1)\)</span> is unchanged when multiplied by this matrix, or we can say that the matrix multiplication is equivalent to multiplication by 1. Here is another such vector for the same matrix:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>vec1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>vec2 <span class="ot">&lt;-</span> A <span class="sc">%*%</span> vec1</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vec1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vec2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]    4
+[2,]    8</code></pre>
+</div>
+</div>
+<p>In this case, the vector is changed, but only by multiplication by a constant (4). Thus the geometric direction of the vector remained unchanged.</p>
+<p>The notion of linearity leads to the important idea of combining different vectors:</p>
+<p><strong>Definition:</strong> A <em>linear combination</em> of <span class="math inline">\(n\)</span> vectors <span class="math inline">\(\{ \vec v_i \}\)</span> is a weighted sum of these vectors with any real numbers <span class="math inline">\(\{a_i\}\)</span>: <span class="math display">\[ a_1 \vec v_1+ a_2 \vec v_2... + a_n \vec v_n\]</span></p>
+<p>Linear combinations arise naturally from the notion of linearity, combining the additive property and the scalar multiplication property. Speaking intuitively, a linear combination of vectors produces a new vector that is related to the original set. Linear combinations give a simple way of generating new vectors, and thus invite the following definition for a collection of vectors closed under linear combinations:</p>
+<p><strong>Definition.</strong> A <em>vector space</em> is a collection of vectors such that a linear combination of any <span class="math inline">\(n\)</span> vectors is contained in the vector space.</p>
+<p>The most common examples are the spaces of all real-valued vectors of dimension <span class="math inline">\(n\)</span>, which are denoted by <span class="math inline">\(\mathbb{R}^n\)</span>. For instance, <span class="math inline">\(\mathbb{R}^2\)</span> (pronounced “r two”) is the vector space of two dimensional real-valued vectors such as <span class="math inline">\((1,3)\)</span> and <span class="math inline">\((\pi, -\sqrt{17})\)</span>; similarly, <span class="math inline">\(\mathbb{R}^3\)</span> is the vector space consisting of three dimensional real-valued vectors such as <span class="math inline">\((0.1,0,-5.6)\)</span>. You can convince yourself, by taking linear combinations of vectors, that these vector spaces contain all the points in the usual Euclidean plane and three-dimensional space. The real number line can also be thought of as the vector space <span class="math inline">\(\mathbb{R}^1\)</span>.</p>
+<section id="linear-independence-and-basis-vectors" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="linear-independence-and-basis-vectors"><span class="header-section-number">8.3.1</span> Linear independence and basis vectors</h3>
+<p>How can we describe a vector space without trying to list all of its elements? We know that one can generate an element by taking linear combinations of vectors. It turns out that it is possible to generate (or “span”) a vector space by taking linear combinations of a subset of its vectors. The challenge is to find a minimal subset of subset that is not redundant. In order to do this, we first introduce a new concept:</p>
+<p><strong>Definition:</strong> A set of vectors <span class="math inline">\(\{ \vec v_i \}\)</span> is called <em>linearly independent</em> if the only linear combination involving them that equals the zero vector is if all the coefficients are zero. ( <span class="math inline">\(a_1 \vec v_1 + a_2 \vec v_2 + ... + a_n \vec v_n = 0\)</span> only if <span class="math inline">\(a_i = 0\)</span> for all <span class="math inline">\(i\)</span>.)</p>
+<p>In the familiar Euclidean spaces, e.g.&nbsp;<span class="math inline">\(\mathbb{R}^2\)</span>, linear independence has a geometric meaning: two vectors are linearly independent if the segments from the origin to the endpoint do not lie on the same line. But it can be shown that any set of three vectors in the plane is linearly dependent, because there are only two dimensions in the vector space. This brings us to the key definition of this section:</p>
+<p><strong>Definition:</strong> A <em>basis</em> of a vector space is a linearly independent set of vectors that generate (or span) the vector space. The number of vectors (cardinality) in such a set is called the <em>dimension</em> of the vector space.</p>
+<p>A vector space generally has many possible bases, as illustrated in figure. In the case of <span class="math inline">\(\mathbb{R}^2\)</span>, the usual (canonical) basis set is <span class="math inline">\(\{(1,0); (0,1)\}\)</span> which obviously generates any point on the plane and is linearly independent. But any two linearly independent vectors can generate any vector in the plane.</p>
+<p><strong>Example:</strong> The vector <span class="math inline">\(\vec r = (2,1)\)</span> can be represented as a linear combination of the two canonical vectors: <span class="math inline">\(\vec r = 2\times (1,0)+1\times (0,1)\)</span>. Let us choose another basis set, say <span class="math inline">\(\{(1,1); (-1,1)\}\)</span> (this is the canonical basis vectors rotated by <span class="math inline">\(\pi/2\)</span>.) The same vector can be represented by a linear combination of these two vectors, with coefficients <span class="math inline">\(1.5\)</span> and <span class="math inline">\(-0.5\)</span>: <span class="math inline">\(\vec r = 1.5\times (1,1) - 0.5 \times (-1,1)\)</span>. If we call the first basis <span class="math inline">\(C\)</span> for canonical and the second basis <span class="math inline">\(D\)</span> for different, we can write the same vector using different sets of coordinates for each basis:</p>
+<p><span class="math display">\[
+\vec r_{C} = (2,1); \; \vec r_D = (1.5, -0.5)
+\]</span></p>
+</section>
+<section id="projections-and-changes-of-basis" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="projections-and-changes-of-basis"><span class="header-section-number">8.3.2</span> Projections and changes of basis</h3>
+<p>The representation of an arbitrary vector (point) in a vector space as a linear combination of a given basis set is called the <em>decomposition</em> of the point in terms of the basis, which gives the coordinates for the vector in terms of each basis vector. The decomposition of a point in terms of a particular basis is very useful in high-dimensional spaces, where a clever choice of a basis can allow a description of a set of points (such as a data set) in terms of contributions of only a few basis vectors, if the data set primarily extends only in a few dimensions.</p>
+<p>To obtain the coefficients of the basis vectors in a decomposition of a vector <span class="math inline">\(\vec r\)</span>, we need to perform what is termed a <em>projection</em> of the vector onto the basis vectors. Think of shining a light perpendicular to the basis vector, and measuring the length of the shadow cast by the vector <span class="math inline">\(\vec r\)</span> onto <span class="math inline">\(\vec v_i\)</span>. If the vectors are parallel, the shadow is equal to the length of <span class="math inline">\(\vec r\)</span>; if they are orthogonal, the shadow is nonexistent. To find the length of the shadow, use the inner product of <span class="math inline">\(\vec r\)</span> and <span class="math inline">\(\vec v\)</span>, which as you recall corresponds to the cosine of the angle between the two vectors multiplied by their norms: <span class="math inline">\(\left\langle \vec r, \vec v\right \rangle =\vert\vec r\vert \vert\vec v\vert\cos(\theta)\)</span>. We do not care about the length of the vector <span class="math inline">\(\vec v\)</span> we are projecting onto, thus we divide the inner product by the square norm of <span class="math inline">\(\vec v\)</span>, and then multiply the vector <span class="math inline">\(\vec v\)</span> by this projection coefficient:</p>
+<p><span class="math display">\[
+Proj(\vec r ; \vec v) = \frac{ \langle \vec r , \vec v \rangle  } {\langle \vec v , \vec v \rangle } \vec v = \frac{ \langle \vec r ,  \vec v \rangle  } {\vert \vec v \vert^2} \vec v= \frac{  \vert\vec r\vert \cos(\theta) } {\vert \vec v \vert}\vec v
+\]</span></p>
+<p>This formula gives the projection of the vector <span class="math inline">\(\vec r\)</span> onto <span class="math inline">\(\vec v\)</span>, the result is a new vector in the direction of <span class="math inline">\(\vec v\)</span>, with the scalar coefficient <span class="math inline">\(a = \ \langle \vec r , \vec v \rangle /\vert \vec v \vert^2\)</span>.</p>
+<p><strong>Example:</strong> Here is how one might calculate the projection of the point <span class="math inline">\((2,1)\)</span> onto the basis set <span class="math inline">\(\{(1,1); (-1,1)\}\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ProjMat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">cbind</span>(v1, v2), </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">byrow =</span> T, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ProjMat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    1
+[2,]   -1    1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ProjMat <span class="sc">%*%</span> u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]    3
+[2,]   -1</code></pre>
+</div>
+</div>
+<p>This is not quite right: the projection coefficients are off by a factor of two compared to the correct values in the example above. This is because we have neglected to <em>normalize</em> the basis vectors, so we should modify the script as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> v1 <span class="sc">/</span> (<span class="fu">sum</span>(v1<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> v2 <span class="sc">/</span> (<span class="fu">sum</span>(v2<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>ProjMat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">cbind</span>(v1, v2), </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">byrow =</span> T, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ProjMat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]  0.5  0.5
+[2,] -0.5  0.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ProjMat <span class="sc">%*%</span> u)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]  1.5
+[2,] -0.5</code></pre>
+</div>
+</div>
+<p>This is an example of how to convert a vector/point from representation in one basis set to another. The new basis vectors, expressed in the original basis set, are arranged in a matrix by row, scaled by their norm squared, and multiplied by the vector that one wants to express in the new basis. The resulting vector contains the coordinates in the new basis.</p>
+</section>
+</section>
+<section id="matrices-as-linear-operators" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="matrices-as-linear-operators"><span class="header-section-number">8.4</span> Matrices as linear operators</h2>
+<section id="matrices-transform-vectors" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="matrices-transform-vectors"><span class="header-section-number">8.4.1</span> Matrices transform vectors</h3>
+<p>In this section we will learn to characterize square matrices by finding special numbers and vectors associated with them. At the core of this analysis lies the concept of a matrix as an <em>operator</em> that transforms vectors by multiplication. To be clear, in this section we take as default that the matrices <span class="math inline">\(A\)</span> are square, and that vectors <span class="math inline">\(\vec v\)</span> are column vectors, and thus will multiply the matrix on the right: <span class="math inline">\(A \times \vec v\)</span>.</p>
+<p>A matrix multiplied by a vector produces another vector, provided the number of columns in the matrix is the same as the number of rows in the vector. This can be interpreted as the matrix transforming the vector <span class="math inline">\(\vec v\)</span> into another one: <span class="math inline">\(A \times \vec v = \vec u\)</span>. The resultant vector <span class="math inline">\(\vec u\)</span> may or may not resemble <span class="math inline">\(\vec v\)</span>, but there are special vectors for which the transformation is very simple.</p>
+<p><strong>Example.</strong> Let us multiply the following matrix and vector (specially chosen to make a point):</p>
+<p><span class="math display">\[
+\left(\begin{array}{cc}2 &amp; 1 \\ 2&amp; 3\end{array}\right)\left(\begin{array}{c}1 \\ -1 \end{array}\right) = \left(\begin{array}{c}2 -1 \\ 2 - 3 \end{array}\right) =  \left(\begin{array}{c} 1 \\ -1 \end{array}\right)
+\]</span></p>
+<p>We see that this particular vector is unchanged when multiplied by this matrix, or we can say that the matrix multiplication is equivalent to multiplication by 1. Here is another such vector for the same matrix:</p>
+<p><span class="math display">\[
+\left(\begin{array}{cc}2 &amp; 1 \\ 2&amp; 3\end{array}\right)\left(\begin{array}{c}1 \\ 2 \end{array}\right) = \left(\begin{array}{c}2 +2 \\ 2 + 6 \end{array}\right) =  \left(\begin{array}{c} 4 \\ 8 \end{array}\right)
+\]</span></p>
+<p>In this case, the vector is changed, but only by multiplication by a constant (4). Thus the geometric direction of the vector remained unchanged.</p>
+<p>Generally, a square matrix has an associated set of vectors for which multiplication by the matrix is equivalent to multiplication by a constant. This can be written down as a definition:</p>
+<p><strong>Definition.</strong> An <em>eigenvector</em> of a square matrix <span class="math inline">\(A\)</span> is a vector <span class="math inline">\(\vec v\)</span> for which matrix multiplication by <span class="math inline">\(A\)</span> is equivalent to multiplication by a constant. This constant <span class="math inline">\(\lambda\)</span> is called its <em>eigenvalue</em> of <span class="math inline">\(A\)</span> corresponding the the eigenvector <span class="math inline">\(\vec v\)</span>. The relationship is summarized in the following equation:</p>
+<p><span class="math display">\[
+A  \times  \vec v = \lambda \vec v
+\]</span></p>
+<p>Note that this equation combines a matrix (<span class="math inline">\(A\)</span>), a vector (<span class="math inline">\(\vec v\)</span>) and a scalar <span class="math inline">\(\lambda\)</span>, and that both sides of the equation are column vectors.</p>
+<p>The definition does not specify how many such eigenvectors and eigenvalues can exist for a given matrix <span class="math inline">\(A\)</span>. There are usually as many such vectors <span class="math inline">\(\vec v\)</span> and corresponding numbers <span class="math inline">\(\lambda\)</span> as the number of rows or columns of the square matrix <span class="math inline">\(A\)</span>, so a 2 by 2 matrix has two eigenvectors and two eigenvalues, a 5x5 matrix has 5 of each, etc. One ironclad rule is that there cannot be more distinct eigenvalues than the matrix dimension. Some matrices possess fewer eigenvalues than the matrix dimension, those are said to have a <em>degenerate</em> set of eigenvalues, and at least two of the eigenvectors share the same eigenvalue.</p>
+<p>The situation with eigenvectors is trickier. There are some matrices for which any vector is an eigenvector, and others which have a limited set of eigenvectors. What is difficult about counting eigenvectors is that an eigenvector is still an eigenvector when multiplied by a constant. You can show that for any matrix, multiplication by a constant is commutative: <span class="math inline">\(cA = Ac\)</span>, where <span class="math inline">\(A\)</span> is a matrix and <span class="math inline">\(c\)</span> is a constant. This leads us to the important result that if <span class="math inline">\(\vec v\)</span> is an eigenvector with eigenvalue <span class="math inline">\(\lambda\)</span>, then any scalar multiple <span class="math inline">\(c \vec v\)</span> is also an eigenvector with the same eigenvalue. The following demonstrates this algebraically:</p>
+<p><span class="math display">\[
+A  \times  (c \vec v) = c A  \times  \vec v = c \lambda \vec v =  \lambda (c \vec v)
+\]</span></p>
+<p>This shows that when the vector <span class="math inline">\(c \vec v\)</span> is multiplied by the matrix <span class="math inline">\(A\)</span>, it results in its being multiplied by the same number <span class="math inline">\(\lambda\)</span>, so by definition it is an eigenvector. Therefore, an eigenvector <span class="math inline">\(\vec v\)</span> is not unique, as any constant multiple <span class="math inline">\(c \vec v\)</span> is also an eigenvector. It is more useful to think not of a single eigenvector <span class="math inline">\(\vec v\)</span>, but of a <strong>collection of vectors that can be inter-converted by scalar multiplication</strong> that are all essentially the same eigenvector. Another way to represent this, if the eigenvector is real, is that an eigenvector as a <strong>direction that remains unchanged by multiplication by the matrix</strong>, such as direction of the vector <span class="math inline">\(v\)</span> in the figure below. As mentioned above, this is true only for real eigenvalues and eigenvectors, since complex eigenvectors cannot be used to define a direction in a real space.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Eigenvalue_equation.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Illustration of the geometry of a matrix <span class="math inline">\(A\)</span> multiplying its eigenvector <span class="math inline">\(v\)</span>, resulting in a vector in the same direction <span class="math inline">\(\lambda v\)</span></figcaption><p></p>
+</figure>
+</div>
+<p>To summarize, eigenvalues and eigenvectors of a matrix are a set of numbers and a set of vectors (up to scalar multiple) that describe the action of the matrix as a multiplicative operator on vectors. “Well-behaved” square <span class="math inline">\(n \times n\)</span> matrices have <span class="math inline">\(n\)</span> distinct eigenvalues and <span class="math inline">\(n\)</span> eigenvectors pointing in distinct directions. In a deep sense, the collection of eigenvectors and eigenvalues defines a matrix <span class="math inline">\(A\)</span>, which is why an older name for them is characteristic vectors and values.</p>
+</section>
+<section id="calculating-eigenvalues" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="calculating-eigenvalues"><span class="header-section-number">8.4.2</span> calculating eigenvalues</h3>
+<p>Finding the eigenvalues and eigenvectors analytically, that is on paper, is quite laborious even for 3 by 3 or 4 by 4 matrices and for larger ones there is no analytical solution. In practice, the task is outsourced to a computer, and MATLAB has a number of functions for this purpose. Nevertheless, it is useful to go through the process in 2 dimensions in order to gain an understanding of what is involved. From the definition of eigenvalues and eigenvectors, the condition can be written in terms of the four elements of a 2 by 2 matrix:</p>
+<p><span class="math display">\[
+\left(\begin{array}{cc}a &amp; b \\c &amp; d\end{array}\right)\left(\begin{array}{c}v_1 \\ v_2 \end{array}\right) = \left(\begin{array}{c}av_1 +b v_2\\ cv_1+ dv_2 \end{array}\right) = \lambda \left(\begin{array}{c}v_1 \\ v_2 \end{array}\right)
+\]</span></p>
+<p>This is now a system of two linear algebraic equations, which we can solve by substitution. First, let us solve for <span class="math inline">\(v_1\)</span> in the first row, to get <span class="math display">\[v_1 = \frac{-bv_2}{a-\lambda}\]</span> Then we substitute this into the second equation and get:</p>
+<p><span class="math display">\[
+\frac{-bcv_2}{a-\lambda} +(d-\lambda)v_2 = 0
+\]</span></p>
+<p>Since <span class="math inline">\(v_2\)</span> multiplies both terms, and is not necessarily zero, we require that its multiplicative factor be zero. Doing a little algebra, we obtain the following, known as the <em>characteristic equation</em> of the matrix:</p>
+<p><span class="math display">\[
+-bc +(a-\lambda)(d-\lambda) = \lambda^2-(a+d)\lambda +ad-bc = 0
+\]</span></p>
+<p>This equation can be simplified by using two quantities we defined at the beginning of the section: the sum of the diagonal elements called the trace <span class="math inline">\(\tau = a+d\)</span>, and the determinant <span class="math inline">\(\Delta = ad-bc\)</span>. The quadratic equation has two solutions, dependent solely on <span class="math inline">\(\tau\)</span> and <span class="math inline">\(\Delta\)</span>:</p>
+<p><span class="math display">\[
+\lambda = \frac{\tau \pm \sqrt{\tau^2-4\Delta}}{2}
+\]</span></p>
+<p>This is the general expression for a 2 by 2 matrix, showing there are two possible eigenvalues. Note that if <span class="math inline">\(\tau^2-4\Delta&gt;0\)</span>, the eigenvalues are real, if <span class="math inline">\(\tau^2-4\Delta&lt;0\)</span>, they are complex (have real and imaginary parts), and if <span class="math inline">\(\tau^2-4\Delta=0\)</span>, there is only one eigenvalue. This situation is known as degenerate, because two eigenvectors share the same eigenvalue.</p>
+<p><strong>Example.</strong> Let us take the same matrix we looked at in the previous subsection:</p>
+<p><span class="math display">\[
+A = \left(\begin{array}{cc}2 &amp; 1 \\ 2&amp; 3\end{array}\right)
+\]</span></p>
+<p>The trace of this matrix is <span class="math inline">\(\tau = 2+3 =5\)</span> and the determinant is <span class="math inline">\(\Delta = 6 - 2 = 4\)</span>. Then by our formula, the eigenvalues are:</p>
+<p><span class="math display">\[
+\lambda = \frac{5 \pm \sqrt{5^2-4 \times 4}}{2}  =  \frac{5 \pm 3}{2}  = 4, 1
+\]</span></p>
+<p>These are the multiples we found in the example above, as expected. Of course <code>R</code> has functions to calculate this instead of doing this by hand:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>), <span class="at">nrow =</span><span class="dv">2</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>eigs <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>eigs<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>eigs<span class="sc">$</span>vectors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]       [,2]
+[1,] -0.4472136 -0.7071068
+[2,] -0.8944272  0.7071068</code></pre>
+</div>
+</div>
+<p><strong>Note:</strong> a real-valued matrix can have complex eigenvalues and eigenvectors, but whenever it acts on a real vector, the result is still real. This is because the complex numbers cancel each others imaginary parts.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06-likelihood.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08-linearreg.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
