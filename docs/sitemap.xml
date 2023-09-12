@@ -2,66 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/index.html</loc>
-    <lastmod>2023-09-10T19:18:07.653Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.203Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/00-refresher.html</loc>
-    <lastmod>2023-09-10T19:18:07.656Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.206Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/01-dataviz.html</loc>
-    <lastmod>2023-09-10T19:18:07.657Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.208Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/02-probdist.html</loc>
-    <lastmod>2023-09-10T19:18:07.658Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.208Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/03-wrangling.html</loc>
-    <lastmod>2023-09-10T19:18:07.659Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.209Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/04-distributions.html</loc>
-    <lastmod>2023-09-10T19:18:07.661Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.211Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/05-hypothesis.html</loc>
-    <lastmod>2023-09-10T19:18:07.662Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.212Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/06-likelihood.html</loc>
-    <lastmod>2023-09-10T19:18:07.662Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.213Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/07-linalg.html</loc>
-    <lastmod>2023-09-10T19:18:07.663Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.214Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/08-linearreg.html</loc>
-    <lastmod>2023-09-10T19:18:07.665Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.217Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/09-ANOVA.html</loc>
-    <lastmod>2023-09-10T19:18:07.666Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.218Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/10-model_selection.html</loc>
-    <lastmod>2023-09-10T19:18:07.669Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.220Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/11-SVD_PCA.html</loc>
-    <lastmod>2023-09-10T19:18:07.670Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.222Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/12-clustering.html</loc>
-    <lastmod>2023-09-10T19:18:07.672Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.223Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/13-generalized_linear_models.html</loc>
-    <lastmod>2023-09-10T19:18:07.672Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.224Z</lastmod>
   </url>
   <url>
     <loc>https://stefanoallesina.github.io/BIOS_26318/14-machine-learning.html</loc>
-    <lastmod>2023-09-10T19:18:07.674Z</lastmod>
+    <lastmod>2023-09-12T16:11:06.225Z</lastmod>
+  </url>
+  <url>
+    <loc>https://stefanoallesina.github.io/BIOS_26318/Fundamentals-of-Biological-Data-Analysis.pdf</loc>
+    <lastmod>2023-09-12T16:11:05.880Z</lastmod>
   </url>
 </urlset>

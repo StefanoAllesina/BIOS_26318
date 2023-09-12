@@ -371,16 +371,16 @@ P(Y = k | X = x) = \frac{\pi_k f_{k1} (x_1) \times f_{k2} (x_2) \times ... \time
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  Adelie Chinstrap Gentoo
-  Adelie        41         0      0
-  Chinstrap      1        13      0
-  Gentoo         0         0     29</code></pre>
+  Adelie        38         0      0
+  Chinstrap      2        16      0
+  Gentoo         0         0     28</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> species, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy multiclass     0.988</code></pre>
+1 accuracy multiclass     0.976</code></pre>
 </div>
 </div>
 </section>
@@ -438,15 +438,15 @@ $ Class                         &lt;fct&gt; benign, benign, benign, benign, beni
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       212         2
-  malignant     13       115</code></pre>
+  benign       203         4
+  malignant     14       121</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.956</code></pre>
+1 accuracy binary         0.947</code></pre>
 </div>
 </div>
 </section>
@@ -456,8 +456,8 @@ Prediction  benign malignant
 <p>Suppose instead that we represent the classification process as a sequence of binary choices, that eventually lead to a category. This can be represented by a <em>decision tree</em>, whose <em>internal nodes</em> are separators of the space of observations (all the values of explanatory variables) that divide it into regions, and the <em>leaves</em> are the labels of these regions. (Decision trees can also be used for quantitative response variables, but we will focus on classification.) For example, here is a a decision tree for accepting a job offer:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://i1.wp.com/dataaspirant.com/wp-content/uploads/2017/01/B03905_05_01-compressor.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Do you want this job?</figcaption><p></p>
+<p><img src="images/59utffqewug-decision-trees-image2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Should you take this job? (from https://365datascience.com/tutorials/machine-learning-tutorials/decision-trees)</figcaption><p></p>
 </figure>
 </div>
 <p>Building a decision tree for classification happens by sequential splitting the space of observations, starting with the decision that gives the most bang for the buck. Let us define the quality of the split into <span class="math inline">\(M\)</span> region by calculating how many observations in that regions actually belong to each category <span class="math inline">\(k\)</span>. The <em>Gini index</em> (or impurity) is defined as the product of the probability of an observation (in practice, the fraction of observations in the training set) being labeled correctly with label <span class="math inline">\(k\)</span> (<span class="math inline">\(p_k\)</span>) times the probability of it being labeled incorrectly (<span class="math inline">\(1-p_k\)</span>), summed over all the labels <span class="math inline">\(k\)</span>:</p>
@@ -470,8 +470,8 @@ S = -\sum_k p_k log(p_k)
 \]</span> Notice that both measures are smallest when <span class="math inline">\(p_k\)</span> is close to 1 or 0, so they both tell the same story for a particular region: if (almost) all the points are points are either classified or incorrectly, these measures are close to 0.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://jakevdp.github.io/PythonDataScienceHandbook/figures/05.08-decision-tree-levels.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Recursive splitting of a two-dimensional set of observations</figcaption><p></p>
+<p><img src="images/05.08-decision-tree-levels.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Recursive splitting of a two-dimensional set of observations (from https://jakevdp.github.io/PythonDataScienceHandbook/)</figcaption><p></p>
 </figure>
 </div>
 <p>One of these measures is used to create the sequential splits in the training data set. The biggest problem with this decision tree method is that it’s a greedy algorithm that easily leads to overfitting: as you can see in the figure above, it can create really complicated regions in the observation space that may not correspond to meaningful distinctions.</p>
@@ -500,16 +500,16 @@ S = -\sum_k p_k log(p_k)
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  Adelie Chinstrap Gentoo
-  Adelie        40         0      0
-  Chinstrap      0        11      0
-  Gentoo         2         2     29</code></pre>
+  Adelie        37         0      0
+  Chinstrap      3        16      0
+  Gentoo         0         0     28</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> species, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy multiclass     0.952</code></pre>
+1 accuracy multiclass     0.964</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -542,15 +542,15 @@ Prediction  Adelie Chinstrap Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       215         5
-  malignant     10       112</code></pre>
+  benign       206        20
+  malignant     11       105</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.956</code></pre>
+1 accuracy binary         0.909</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -666,15 +666,15 @@ Prediction  Adelie Chinstrap Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       219         1
-  malignant      6       116</code></pre>
+  benign       212         1
+  malignant      5       124</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.980</code></pre>
+1 accuracy binary         0.982</code></pre>
 </div>
 </div>
 <p>Importance measures of different variables:</p>
@@ -701,8 +701,8 @@ Prediction  benign malignant
 <pre><code># A tibble: 2 × 4
   .metric  .estimator .estimate .config             
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
-1 accuracy binary         0.959 Preprocessor1_Model1
-2 roc_auc  binary         0.988 Preprocessor1_Model1</code></pre>
+1 accuracy binary         0.950 Preprocessor1_Model1
+2 roc_auc  binary         0.992 Preprocessor1_Model1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span> </span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".workflow"</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span>   </span>

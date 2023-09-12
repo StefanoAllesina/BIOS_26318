@@ -142,7 +142,7 @@ compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
 
 Suppose instead that we represent the classification process as a sequence of binary choices, that eventually lead to a category. This can be represented by a *decision tree*, whose *internal nodes* are separators of the space of observations (all the values of explanatory variables) that divide it into regions, and the *leaves* are the labels of these regions. (Decision trees can also be used for quantitative response variables, but we will focus on classification.) For example, here is a a decision tree for accepting a job offer:
 
-![Do you want this job?](https://i1.wp.com/dataaspirant.com/wp-content/uploads/2017/01/B03905_05_01-compressor.png)
+![Should you take this job? (from https://365datascience.com/tutorials/machine-learning-tutorials/decision-trees)](images/59utffqewug-decision-trees-image2.png)
 
 Building a decision tree for classification happens by sequential splitting the space of observations, starting with the decision that gives the most bang for the buck. Let us define the quality of the split into $M$ region by calculating how many observations in that regions actually belong to each category $k$. The *Gini index* (or impurity) is defined as the product of the probability of an observation (in practice, the fraction of observations in the training set) being labeled correctly with label $k$ ($p_k$) times the probability of it being labeled incorrectly ($1-p_k$), summed over all the labels $k$:
 
@@ -156,7 +156,7 @@ $$
 S = -\sum_k p_k log(p_k)
 $$ Notice that both measures are smallest when $p_k$ is close to 1 or 0, so they both tell the same story for a particular region: if (almost) all the points are points are either classified or incorrectly, these measures are close to 0.
 
-![Recursive splitting of a two-dimensional set of observations](https://jakevdp.github.io/PythonDataScienceHandbook/figures/05.08-decision-tree-levels.png)
+![Recursive splitting of a two-dimensional set of observations (from https://jakevdp.github.io/PythonDataScienceHandbook/)](images/05.08-decision-tree-levels.png)
 
 One of these measures is used to create the sequential splits in the training data set. The biggest problem with this decision tree method is that it's a greedy algorithm that easily leads to overfitting: as you can see in the figure above, it can create really complicated regions in the observation space that may not correspond to meaningful distinctions.
 

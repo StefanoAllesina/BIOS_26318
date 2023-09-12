@@ -539,12 +539,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>unif.exp <span class="ot">&lt;-</span> <span class="fu">mean</span>(unif.sample)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"The expected value of uniform distribution is"</span>, unif.exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The expected value of uniform distribution is 5.05787406122079"</code></pre>
+<pre><code>[1] "The expected value of uniform distribution is 5.02364758887095"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>unif.var <span class="ot">&lt;-</span> <span class="fu">var</span>(unif.sample)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"The variance of uniform distribution is"</span>, unif.var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The variance of uniform distribution is 8.25546766764142"</code></pre>
+<pre><code>[1] "The variance of uniform distribution is 8.71339915448664"</code></pre>
 </div>
 </div>
 <p><em>Exercise:</em> experiment with the width of the interval to see how it affects the expectation and variance.</p>
@@ -571,12 +571,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>exp.exp <span class="ot">&lt;-</span> <span class="fu">mean</span>(exp.sample)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"The expected value of exponential distribution is"</span>, exp.exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The expected value of exponential distribution is 2.01370448269565"</code></pre>
+<pre><code>[1] "The expected value of exponential distribution is 2.02121760903905"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>exp.var <span class="ot">&lt;-</span> <span class="fu">var</span>(exp.sample)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"The variance of exponential distribution is"</span>, exp.var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The variance of exponential distribution is 4.17829169511987"</code></pre>
+<pre><code>[1] "The variance of exponential distribution is 4.30061752311506"</code></pre>
 </div>
 </div>
 <p><em>Exercise:</em> What is the relationship between the rate and the expectation and variance?</p>
@@ -609,12 +609,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>norm.exp <span class="ot">&lt;-</span> <span class="fu">mean</span>(norm.sample)</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"The expected value of normal distribution is"</span>, norm.exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The expected value of normal distribution is 5.00970376564988"</code></pre>
+<pre><code>[1] "The expected value of normal distribution is 5.02963777166693"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>norm.var <span class="ot">&lt;-</span> <span class="fu">var</span>(norm.sample)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">"The variance of normal distribution is"</span>, norm.var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "The variance of normal distribution is 0.255956916507307"</code></pre>
+<pre><code>[1] "The variance of normal distribution is 0.258017808087884"</code></pre>
 </div>
 </div>
 </section>
@@ -663,11 +663,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>right <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample) <span class="sc">-</span> s <span class="sc">*</span> z</span>
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5791448</code></pre>
+<pre><code>[1] 0.5709923</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(left)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4784867</code></pre>
+<pre><code>[1] 0.4549192</code></pre>
 </div>
 </div>
 <p><em>Exercise:</em> Modify that script to report whether the confidence interval captures the true mean. Use a loop structure (as in the script above) to generate 1000 sample means and report how many of them are within the theoretical confidence interval. Does this match the fraction you expect from the significance level? Try different significance levels and sample sizes and report what you discover.</p>
@@ -756,8 +756,8 @@ Attaching package: 'MASS'</code></pre>
 <span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(my_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      mean          sd    
-  3.05451897   1.50535634 
- (0.06732158) (0.04760355)</code></pre>
+  2.96864811   1.47378728 
+ (0.06590977) (0.04660525)</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(test_data, <span class="fu">aes</span>(<span class="at">sample =</span> x)) <span class="sc">+</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="at">distribution =</span> qnorm, <span class="at">dparams =</span> my_normal<span class="sc">$</span>estimate) <span class="sc">+</span></span>
