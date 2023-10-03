@@ -384,13 +384,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     Two Sample t-test
 
 data:  my_sample$sample1 and my_sample$sample2
-t = 0.18466, df = 1998, p-value = 0.8535
+t = -0.097098, df = 1998, p-value = 0.9227
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
- -0.07975197  0.09633166
+ -0.09374748  0.08490237
 sample estimates:
 mean of x mean of y 
- 1.035735  1.027445 </code></pre>
+0.9880106 0.9924331 </code></pre>
 </div>
 </div>
 <p><strong>Exercise:</strong> Can you detect a “significant difference in means” (assuming <span class="math inline">\(\alpha = 0.05\)</span>)? What if you take a much larger sample? What if the difference in means is more pronounced?</p>
@@ -416,7 +416,7 @@ mean of x mean of y
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvalues <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 137</code></pre>
+<pre><code>[1] 114</code></pre>
 </div>
 </div>
 <p>You should get a number of “significant” tests that is about <span class="math inline">\(2500 \cdot 0.05 = 125\)</span>. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:</p>

@@ -1329,19 +1329,19 @@ $Values
 <div class="cell">
 <div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>) <span class="co"># sample 5 numbers from the uniform distribution between 0 and 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01668242 0.84305452 0.55949211 0.57366068 0.22103824</code></pre>
+<pre><code>[1] 0.01962403 0.72188541 0.19604929 0.89697906 0.27940383</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">9</span>) <span class="co"># set the limits of the uniform distribution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.065530 4.541868 8.682352 5.233677 5.687496</code></pre>
+<pre><code>[1] 8.566680 3.984103 5.816915 8.493536 7.479580</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>) <span class="co"># three values from standard normal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.2680278 -2.3329528 -1.3815135</code></pre>
+<pre><code>[1] -0.3722112 -0.0546145 -0.9802423</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">3</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">4</span>) <span class="co"># specify mean and standard deviation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  7.729812 -0.281645  5.832863</code></pre>
+<pre><code>[1] 10.152838  9.880437  3.946763</code></pre>
 </div>
 </div>
 <p>To sample from a set of values, use <code>sample</code>:</p>
@@ -1349,15 +1349,15 @@ $Values
 <div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>)</span>
 <span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(v, <span class="dv">2</span>) <span class="co"># without replacement</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "c" "b"</code></pre>
+<pre><code>[1] "b" "c"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(v, <span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="co"># with replacement</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "a" "a" "b" "c" "a" "b"</code></pre>
+<pre><code>[1] "b" "a" "d" "b" "d" "c"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(v) <span class="co"># simply shuffle the elements</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "d" "c" "b" "a"</code></pre>
+<pre><code>[1] "c" "a" "d" "b"</code></pre>
 </div>
 </div>
 </section>
@@ -1434,7 +1434,7 @@ $Values
 <span id="cb233-5"><a href="#cb233-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb233-6"><a href="#cb233-6" aria-hidden="true" tabindex="-1"></a><span class="fu">order_two_numbers</span>(<span class="fu">runif</span>(<span class="dv">1</span>), <span class="fu">runif</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6485144 0.2905707</code></pre>
+<pre><code>[1] 0.9397107 0.5635263</code></pre>
 </div>
 </div>
 </section>

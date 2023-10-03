@@ -237,7 +237,7 @@ For a real-world example, we will make data from:
 You can read a tab-separated file from:
 
 ```{r, warning=FALSE}
-dt <- read_tsv("data/annual_increment.txt") %>% 
+dt <- read_tsv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/master/data/annual_increment.txt") %>% 
   select(Age, contains("CAT"))
 # selecting only age and samples
 ```
