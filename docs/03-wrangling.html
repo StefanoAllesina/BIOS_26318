@@ -841,11 +841,11 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <li>Then click on Download, and select Simple (which should have a tab-delimited .csv file)</li>
 <li>Save to the data folder in your working folder.</li>
 </ol>
-<p>If you don’t want to go through all this, you can use the downloaded file called <code>Ursus_GBIF.csv</code> that should be in the data folder for this week. The following command loads and displays the contents of the tibble:</p>
+<p>If you don’t want to go through all this, you can load this previously downloaded file called <code>Ursus_GBIF.csv</code> from our GitHub repository. The code in the following chunk loads and displays the contents of the tibble:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you will need ggmap!</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>Ursus_data <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/Ursus_GBIF.csv"</span>)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>Ursus_data <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/master/data/Ursus_GBIF.csv"</span>)</span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Ursus_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 23,498

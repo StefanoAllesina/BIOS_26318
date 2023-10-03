@@ -371,16 +371,16 @@ P(Y = k | X = x) = \frac{\pi_k f_{k1} (x_1) \times f_{k2} (x_2) \times ... \time
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  Adelie Chinstrap Gentoo
-  Adelie        38         0      0
-  Chinstrap      2        16      0
-  Gentoo         0         0     28</code></pre>
+  Adelie        35         2      0
+  Chinstrap      1        11      0
+  Gentoo         0         0     35</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> species, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy multiclass     0.976</code></pre>
+1 accuracy multiclass     0.964</code></pre>
 </div>
 </div>
 </section>
@@ -438,15 +438,15 @@ $ Class                         &lt;fct&gt; benign, benign, benign, benign, beni
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       203         4
-  malignant     14       121</code></pre>
+  benign       224         4
+  malignant     10       104</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.947</code></pre>
+1 accuracy binary         0.959</code></pre>
 </div>
 </div>
 </section>
@@ -500,16 +500,16 @@ S = -\sum_k p_k log(p_k)
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  Adelie Chinstrap Gentoo
-  Adelie        37         0      0
-  Chinstrap      3        16      0
-  Gentoo         0         0     28</code></pre>
+  Adelie        35         2      6
+  Chinstrap      0        10      0
+  Gentoo         1         1     29</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> species, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy multiclass     0.964</code></pre>
+1 accuracy multiclass     0.881</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -542,15 +542,15 @@ Prediction  Adelie Chinstrap Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       206        20
-  malignant     11       105</code></pre>
+  benign       227         5
+  malignant      7       103</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.909</code></pre>
+1 accuracy binary         0.965</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -629,8 +629,8 @@ Prediction  Adelie Chinstrap Gentoo
 <pre><code># A tibble: 2 × 4
   .metric  .estimator .estimate .config             
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
-1 accuracy multiclass     0.976 Preprocessor1_Model1
-2 roc_auc  hand_till      0.999 Preprocessor1_Model1</code></pre>
+1 accuracy multiclass     0.964 Preprocessor1_Model1
+2 roc_auc  hand_till      0.996 Preprocessor1_Model1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span> </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".workflow"</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span>   </span>
@@ -666,15 +666,15 @@ Prediction  Adelie Chinstrap Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       212         1
-  malignant      5       124</code></pre>
+  benign       230         1
+  malignant      4       107</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.982</code></pre>
+1 accuracy binary         0.985</code></pre>
 </div>
 </div>
 <p>Importance measures of different variables:</p>
@@ -701,8 +701,8 @@ Prediction  benign malignant
 <pre><code># A tibble: 2 × 4
   .metric  .estimator .estimate .config             
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
-1 accuracy binary         0.950 Preprocessor1_Model1
-2 roc_auc  binary         0.992 Preprocessor1_Model1</code></pre>
+1 accuracy binary         0.971 Preprocessor1_Model1
+2 roc_auc  binary         0.994 Preprocessor1_Model1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span> </span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".workflow"</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span>   </span>

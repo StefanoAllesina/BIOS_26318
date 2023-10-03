@@ -301,12 +301,12 @@ This exercise uses a dataset from [GBIF](https://www.gbif.org/en/), the Global B
 4.  Then click on Download, and select Simple (which should have a tab-delimited .csv file)
 5.  Save to the data folder in your working folder.
 
-If you don't want to go through all this, you can use the downloaded file called `Ursus_GBIF.csv` that should be in the data folder for this week. The following command loads and displays the contents of the tibble:
+If you don't want to go through all this, you can load this previously downloaded file called `Ursus_GBIF.csv` from our GitHub repository. The code in the following chunk loads and displays the contents of the tibble:
 
 ```{r warning=F, message=F}
 # you will need ggmap!
 library(ggmap)
-Ursus_data <- read_tsv("data/Ursus_GBIF.csv")
+Ursus_data <- read_tsv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/master/data/Ursus_GBIF.csv")
 glimpse(Ursus_data)
 ```
 

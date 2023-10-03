@@ -1,21 +1,21 @@
 # Monte Carlo methods
 
 > *The Monte Carlo casino refused to admit me until I was properly dressed so I went and found my stockings, and then came back and lost my shirt.*
-> 
-> — Dorothy Parker
+>
+> --- Dorothy Parker
 
-## Idea 
+## Idea
 
-In statistics, Monte Carlo methods are computational methods in which repeated, random sampling is used for estimation or hypothesis testing. 
+In statistics, Monte Carlo methods are computational methods in which repeated, random sampling is used for estimation or hypothesis testing.
 
 They are often used when:
 
-- We have small data sizes, and thus (asymptotic) convergence to known distribution is not known. 
-- We want to apply a permutation test, but there are too many permutations.
-- Build posterior distributions from Bayesian calculations.
-- Determine confidence intervals for parameters that are difficult to calculate.
-- Test hypotheses on data that are not distributed according to convenient, well-studied distributions.
-- etc.
+-   We have small data sizes, and thus (asymptotic) convergence to known distribution is not known.
+-   We want to apply a permutation test, but there are too many permutations.
+-   Build posterior distributions from Bayesian calculations.
+-   Determine confidence intervals for parameters that are difficult to calculate.
+-   Test hypotheses on data that are not distributed according to convenient, well-studied distributions.
+-   etc.
 
 ## History
 
@@ -29,10 +29,10 @@ The idea is to build confidence intervals for (complex) metrics by repeatedly re
 
 The basic algorithm is as follows:
 
-- We have a data set of size $n$, and we want to compute a certain metric on the data.
-- We iteratively re-sample the data (with repetition), each time obtaining a sample of size $n$
-- We compute the metric for the re-sampled data sets, thus building a distribution for the metric.
-- We can compute statistics on the distribution (e.g., percentiles, confidence intervals, etc.)
+-   We have a data set of size $n$, and we want to compute a certain metric on the data.
+-   We iteratively re-sample the data (with repetition), each time obtaining a sample of size $n$
+-   We compute the metric for the re-sampled data sets, thus building a distribution for the metric.
+-   We can compute statistics on the distribution (e.g., percentiles, confidence intervals, etc.)
 
 ### Example 1
 
@@ -50,11 +50,13 @@ and compute the mean number of bears per quadrat
 ```{r}
 mean(num_bears)
 ```
+
 and count the number of quadrats
 
 ```{r}
 length(num_bears)
 ```
+
 What should we expect for the mean if we had access to only 75 quadrats? We can bootstrap the data? we can approach this by repeatedly sampling 75 quadrats out of the 164 and measure the distribution of the means:
 
 ```{r}
@@ -65,11 +67,12 @@ mean(sample_means)
 confidence <- mean(sample_means) + c(-2, 2) * sd(sample_means)/sqrt(75)
 confidence
 ```
+
 ## Example 2
 
-Another example, taken from Fieberg et al. 
+Another example, taken from Fieberg et al.
 
->[Consider the] data collected by the Minnesota Department of Natural Resources to explore the potential impact of changing fishing regulations on the size distribution of northern pike (Esox lucius) in Medicine Lake, an approximately 460-acre lake in Beltrami County, MN. In 1989, the MN DNR instituted a slot limit of 22–30 inches in this lake (i.e., all caught fish within this size interval had to be released). We consider length data from 73 and 81 fish collected in trap nets in 1988 and 1993, respectively (before and after the fishing regulation was put in place). Importantly, these data come from only one lake, and many other factors may have changed between 1988 and 1993. Therefore, we must be cautious when interpreting any changes in the distribution of fish sizes (i.e., attributing the cause of length changes to the management regulation or generalizing results to other lakes). Nonetheless, we can ask, “How much did fish length, on average, change between 1988 and 1993 in Medicine Lake?” To address this question, we estimate the difference in the mean length of fish in the two samples. We also quantify our uncertainty in this estimated difference in means, recognizing that we would get a different estimate if we could go back and collect other samples of fish in those 2 years.
+> \[Consider the\] data collected by the Minnesota Department of Natural Resources to explore the potential impact of changing fishing regulations on the size distribution of northern pike (Esox lucius) in Medicine Lake, an approximately 460-acre lake in Beltrami County, MN. In 1989, the MN DNR instituted a slot limit of 22--30 inches in this lake (i.e., all caught fish within this size interval had to be released). We consider length data from 73 and 81 fish collected in trap nets in 1988 and 1993, respectively (before and after the fishing regulation was put in place). Importantly, these data come from only one lake, and many other factors may have changed between 1988 and 1993. Therefore, we must be cautious when interpreting any changes in the distribution of fish sizes (i.e., attributing the cause of length changes to the management regulation or generalizing results to other lakes). Nonetheless, we can ask, "How much did fish length, on average, change between 1988 and 1993 in Medicine Lake?" To address this question, we estimate the difference in the mean length of fish in the two samples. We also quantify our uncertainty in this estimated difference in means, recognizing that we would get a different estimate if we could go back and collect other samples of fish in those 2 years.
 
 Let's read the data
 
@@ -84,6 +87,7 @@ y1988 <- dt$length.inches[dt$year == 1988]
 y1993 <- dt$length.inches[dt$year == 1993]
 print(mean(y1993) - mean(y1988))
 ```
+
 Showing that fish in 1993 were 2.6 inches longer. Because we caught a small number of fish (about 80) per year, we can build a distribution for the difference by bootstrapping
 
 ```{r}
@@ -104,14 +108,14 @@ These methods are often used when we can easily sample from the null model (i.e.
 
 This example is taken from Graeme Ruxton & Markus Neuhäuser ("Improving the reporting of P-values generated by randomization methods", *Methods in Eco & Evol* 2013).
 
-> Massaro & Blair (*New Zealand J. Ecol*, 2003) wanted to compare the numbers of breeding yellow-eyed penguins (*Megadyptes antipodes*) on Stewart Island off New Zealand with those on nearby islands, which (unlike Stewart Island) had no feral cats (*Felis catus*) that are potential predators of the penguins. They visited 19 breeding colonies on Stewart island and recorded the following numbers of breeding pairs at them {7,3,3,7,3,7,3,10,1,7,4,1,3,2,1,2,9,4,2}, and 10 colonies on nearby islands where the recorded numbers of pairs were {15,32,1,13,14,11,1,3,2,7}. Thus, in total, 178 breeding pairs were observed; on Stewart Island, the mean colony size (±SE) was 4.2 (±0.6), whereas on other islands, it was 9.9 (±3). We want to explore by randomization whether this sample gives reason for rejecting the null hypothesis that each pair chooses a breeding site (independently) without regard to the presence of cats. [...] Given the noticeably lower variability among colony sizes on Stewart Island, an appropriate test statistic to adopt might be the *t* statistic for samples with unequal variance (Ruxton 2006). For each randomization, each of the 178 pairs independently chooses one of the 29 colonies (each with equal probability).
+> Massaro & Blair (*New Zealand J. Ecol*, 2003) wanted to compare the numbers of breeding yellow-eyed penguins (*Megadyptes antipodes*) on Stewart Island off New Zealand with those on nearby islands, which (unlike Stewart Island) had no feral cats (*Felis catus*) that are potential predators of the penguins. They visited 19 breeding colonies on Stewart island and recorded the following numbers of breeding pairs at them {7,3,3,7,3,7,3,10,1,7,4,1,3,2,1,2,9,4,2}, and 10 colonies on nearby islands where the recorded numbers of pairs were {15,32,1,13,14,11,1,3,2,7}. Thus, in total, 178 breeding pairs were observed; on Stewart Island, the mean colony size (±SE) was 4.2 (±0.6), whereas on other islands, it was 9.9 (±3). We want to explore by randomization whether this sample gives reason for rejecting the null hypothesis that each pair chooses a breeding site (independently) without regard to the presence of cats. \[...\] Given the noticeably lower variability among colony sizes on Stewart Island, an appropriate test statistic to adopt might be the *t* statistic for samples with unequal variance (Ruxton 2006). For each randomization, each of the 178 pairs independently chooses one of the 29 colonies (each with equal probability).
 
 In a nutshell, the idea is to
 
-1. measure the t statistics for the observed data
-2. repeatedly generate randomized data by assigning the 178 pairs to the colonies at random
-3. measure the t statistics for the randomized data, forming a distribution
-4. compute the (empirical) probability of finding a value for the randomized data that is larger than that found for the observed data
+1.  measure the t statistics for the observed data
+2.  repeatedly generate randomized data by assigning the 178 pairs to the colonies at random
+3.  measure the t statistics for the randomized data, forming a distribution
+4.  compute the (empirical) probability of finding a value for the randomized data that is larger than that found for the observed data
 
 ```{r}
 set.seed(1)
@@ -131,6 +135,7 @@ for (i in 1:num_rand){
 }
 print(p_value)
 ```
+
 In this case, we have observed a larger (or equal) value 61 times out of 999 randomizations. The last step is to divide this number by the number of simulations, to obtain a probability. There are two ways to do this:
 
 $$
@@ -142,6 +147,7 @@ where $x_i$ is the statistics for randomization $i$, $X$ is the statistics for t
 ```{r}
 p_value / 999
 ```
+
 Alternatively, and slightly more conservatively, we can assume that the empirical data was also sampled from the null model, in which case:
 
 $$
@@ -153,23 +159,24 @@ yielding:
 ```{r}
 (1 + p_value) / 1000
 ```
+
 The difference between the two approaches is largest when the probability of observing a large value in the randomizations is very small (in one case we would get $0$, in the other $1/(n+1)$). Ruxton & Neuhäuser recommend stating the choice explicitly, to improve replicability. A discussion of this issue in the field of genetics can be found in North *et al.* ("A Note on the Calculation of Empirical P Values from Monte Carlo Procedures", *Am J Hum Genet* 2002); Gandy ("Sequential implementation of Monte Carlo Tests with uniformly bounded resampling risk" *Journal of the American Statistical Association* 2000) provides an algorithm to compute confidence intervals on the empirical p-value.
 
-Naturally, the larger the number of simulations, the more accurate the result. The rule of thumb is that one would need about $10^4$ randomizations to be confident in the first two decimals. 
+Naturally, the larger the number of simulations, the more accurate the result. The rule of thumb is that one would need about $10^4$ randomizations to be confident in the first two decimals.
 
 ## Randomizing binary tables (bipartite networks)
 
 Often, biological data is represented by binary, rectangular tables. For example:
 
-- Rows are sampling sites, and columns are species; a 1 marks the presence of a species at a site, and a 0 its absence.
-- Rows are individuals and columns are SNPs.
-- Rows are species and columns are traits.
-- Rows are genes and columns are times; a 1 marks genes that are significantly over-expressed at a given time.
-- ...
+-   Rows are sampling sites, and columns are species; a 1 marks the presence of a species at a site, and a 0 its absence.
+-   Rows are individuals and columns are SNPs.
+-   Rows are species and columns are traits.
+-   Rows are genes and columns are times; a 1 marks genes that are significantly over-expressed at a given time.
+-   ...
 
 These data can be represented as either a binary, rectangular matrix, or equivalently as a bipartite network.
 
-One of the most salient feature of such a table is given by its marginal totals (row/col sums, or the degree of the nodes in the bipartite network). The marginal totals/degrees greatly influence the network/table structure. For example, in extreme cases there is only one binary table/network with a given set of degrees. 
+One of the most salient feature of such a table is given by its marginal totals (row/col sums, or the degree of the nodes in the bipartite network). The marginal totals/degrees greatly influence the network/table structure. For example, in extreme cases there is only one binary table/network with a given set of degrees.
 
 ```{r}
 A <- matrix(c(
@@ -192,19 +199,19 @@ B
 
 ### Randomizing the network: checkerboard swapping
 
-If we can identify two rows and two columns such that the induced submatrix is 
+If we can identify two rows and two columns such that the induced submatrix is
 
-|   | a | b |
-|---|---|---|
-| A | 0 | 1 |
-| B | 1 | 0 |
+|     | a   | b   |
+|-----|-----|-----|
+| A   | 0   | 1   |
+| B   | 1   | 0   |
 
-or 
+or
 
-|   | a | b |
-|---|---|---|
-| A | 1 | 0 |
-| B | 0 | 1 |
+|     | a   | b   |
+|-----|-----|-----|
+| A   | 1   | 0   |
+| B   | 0   | 1   |
 
 we can swap the submatrix for the other, without altering the row/col marginal totals.
 
@@ -214,14 +221,14 @@ The same idea can be generalized. One fun way to think about this, introduced by
 
 Take two rows of a binary matrix:
 
-|   | a | b | c | d | e | f | g |
-|---|---|---|---|---|---|---|---|
-| A | 0 | 1 | 0 | 1 | 1 | 1 | 0 |
-| B | 1 | 1 | 1 | 0 | 1 | 0 | 1 |
+|     | a   | b   | c   | d   | e   | f   | g   |
+|-----|-----|-----|-----|-----|-----|-----|-----|
+| A   | 0   | 1   | 0   | 1   | 1   | 1   | 0   |
+| B   | 1   | 1   | 1   | 0   | 1   | 0   | 1   |
 
-The intersection set $A \cap B$ is given by \{a,c,d,f,g\}, with A contributing two "cards" (d, f) and B contributing three (a,c,g). If we pool all the cards in the intersection, and then A picks two at random, and B the remaining three, the marginals are unchanged.
+The intersection set $A \cap B$ is given by {a,c,d,f,g}, with A contributing two "cards" (d, f) and B contributing three (a,c,g). If we pool all the cards in the intersection, and then A picks two at random, and B the remaining three, the marginals are unchanged.
 
-Clearly, the "mixing" of the table is faster, because we can trade several cards at once. It can be proven that, after a sufficiently large number of trades, the resulting table/network is sampled uniformly from the set of tables/networks with the given marginal totals. 
+Clearly, the "mixing" of the table is faster, because we can trade several cards at once. It can be proven that, after a sufficiently large number of trades, the resulting table/network is sampled uniformly from the set of tables/networks with the given marginal totals.
 
 For example, create a random binary table, and shuffle it keeping the marginal totals:
 
@@ -239,7 +246,7 @@ B <- curveball.run(A, 1000)
 
 ### Example: Darwin's finches
 
-Jared Diamond proposed that the presence/absence of species on islands would be influenced by competition: bird species would try avoiding overlapping with their competitors, and would tend to co-occur with species they are not competing with. While this idea generated a very contentious debate, here we are going to test this hypothesis using the famous Darwin's finches (see Weiner, *The Beak of the Finch: A Story of Evolution in Our Time* 1994), using a metric proposed by Roberts and Stone. Take $A$ to be a matrix with the $m$ finch species as rows, and $n$ islands as columns; a 1 marks the presence of a finch species on an island. The matrix $S = A A^T$ counts the number of islands in which species co-occur. Naturally, the diagonal reports the number of islands in which a finch species is found. 
+Jared Diamond proposed that the presence/absence of species on islands would be influenced by competition: bird species would try avoiding overlapping with their competitors, and would tend to co-occur with species they are not competing with. While this idea generated a very contentious debate, here we are going to test this hypothesis using the famous Darwin's finches (see Weiner, *The Beak of the Finch: A Story of Evolution in Our Time* 1994), using a metric proposed by Roberts and Stone. Take $A$ to be a matrix with the $m$ finch species as rows, and $n$ islands as columns; a 1 marks the presence of a finch species on an island. The matrix $S = A A^T$ counts the number of islands in which species co-occur. Naturally, the diagonal reports the number of islands in which a finch species is found.
 
 Roberts and Stone proposed to measure:
 
@@ -247,8 +254,7 @@ $$
 \bar{S^2} = \frac{1}{m (m-1)} \sum_{i\neq j}S_{ij}^2
 $$
 
-This number is small if finch species do not co-occurr often, and is high when some species always co-occur. We are going to use the curveball algorithm to randomize the species data, and then compute an empirical p value for the probability of observing this result by chance: 
-
+This number is small if finch species do not co-occurr often, and is high when some species always co-occur. We are going to use the curveball algorithm to randomize the species data, and then compute an empirical p value for the probability of observing this result by chance:
 
 ```{r}
 finches <- as.matrix(read.csv("data/finches.csv"))
@@ -272,4 +278,5 @@ for (i in 1:nrand){
 }
 print((pval + 1) / (nrand + 1))
 ```
+
 we conclude that our null model (finches choose random islands, considering that some fiches are more widespread than others, and that some islands harbor a larger number of species) would not generate such a high value by chance with high probability, and thus we reject the hypothesis.

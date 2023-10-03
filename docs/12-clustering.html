@@ -362,28 +362,28 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pen_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pen_train, <span class="dv">3</span>) <span class="co">#k-means with 3 clusters</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pen_km</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 166, 61, 106
+<pre><code>K-means clustering with 3 clusters of sizes 113, 140, 80
 
 Cluster means:
   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g     year
-1       41.39277      18.06265          190.4578    3536.446 2008.030
-2       49.30656      15.64918          221.0656    5501.639 2008.049
-3       45.00660      16.63113          205.8585    4512.264 2008.057
+1       44.24336      17.44779          201.5487    4310.619 2008.000
+2       41.12214      17.94643          189.6286    3461.250 2008.021
+3       48.66250      15.39750          219.9875    5365.938 2008.138
 
 Clustering vector:
-  [1] 1 1 1 1 1 1 3 1 1 3 1 1 3 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 3 1 1
- [38] 1 3 1 3 1 1 3 1 3 1 3 1 1 1 1 1 1 1 3 1 3 1 1 1 3 1 3 1 1 1 3 1 3 1 1 1 1
- [75] 1 3 1 3 1 1 1 1 1 1 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 1 1 1 1 3 1 3 1 3 1 3 1
-[112] 1 1 1 1 1 1 1 1 1 1 3 1 1 1 1 1 3 1 1 1 1 1 3 1 1 1 1 1 1 3 1 1 1 1 1 3 2
-[149] 3 2 2 3 3 2 3 2 3 2 3 2 3 2 3 2 3 2 2 3 3 2 3 2 2 3 2 2 3 2 2 2 2 3 2 3 2
-[186] 1 2 3 3 2 3 3 2 2 2 3 2 3 3 3 2 3 3 3 2 3 2 3 2 3 2 2 3 2 3 3 2 2 3 2 3 2
-[223] 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 3 3 2 3 2 3 2 2 3 2 3 2 3 2 3 2 3 2
-[260] 2 3 3 2 2 2 1 1 1 1 1 1 1 1 3 1 1 1 1 3 1 3 1 1 1 3 1 1 1 1 1 3 1 1 1 3 1
-[297] 3 1 3 1 1 1 3 1 3 1 1 1 1 1 3 1 3 1 1 1 1 1 3 1 1 1 3 1 1 1 1 1 1 1 1 3 1
+  [1] 2 2 2 2 2 2 1 2 2 1 2 2 1 2 1 2 2 2 1 2 2 2 2 2 1 2 1 2 1 2 1 1 2 2 1 2 1
+ [38] 2 1 2 1 2 2 1 2 1 2 1 2 2 2 2 2 2 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1
+ [75] 2 1 2 1 2 2 2 2 1 2 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 2 2 1 2 1 2 1 2 1 1 1 2
+[112] 2 2 2 2 2 2 2 2 1 2 1 2 1 2 2 2 1 2 1 2 1 2 1 2 2 2 2 2 2 1 2 2 2 2 1 1 3
+[149] 1 3 3 1 1 3 1 3 1 3 1 3 1 3 1 3 1 3 3 3 1 3 3 3 3 1 3 3 1 3 3 3 3 3 3 1 3
+[186] 1 3 1 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3 1 3 1 3 1 3 1 3 3 1 3 1 3 3 3 1 3 1 3
+[223] 1 3 1 3 1 3 1 3 1 3 3 3 3 3 1 3 3 3 3 3 1 3 3 3 3 3 3 1 3 1 3 3 3 1 3 1 3
+[260] 3 3 3 3 3 3 2 1 2 2 2 1 2 2 1 2 2 2 2 1 2 1 2 2 2 1 2 2 2 2 2 1 2 2 2 1 2
+[297] 1 2 1 2 1 2 1 2 1 1 2 2 2 2 1 2 1 2 2 2 1 2 1 2 2 2 1 2 2 1 2 2 1 2 2 1 2
 
 Within cluster sum of squares by cluster:
-[1] 14818689  4922640  8786203
- (between_SS / total_SS =  86.8 %)
+[1] 9318106 9724908 9718878
+ (between_SS / total_SS =  86.6 %)
 
 Available components:
 
@@ -394,9 +394,9 @@ Available components:
 <div class="cell-output cell-output-stdout">
 <pre><code>   
     Adelie Chinstrap Gentoo
-  1    112        53      1
-  2      0         0     61
-  3     34        15     57</code></pre>
+  1     52        22     39
+  2     94        46      0
+  3      0         0     80</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> pen_train, <span class="at">cluster =</span> pen_km<span class="sc">$</span>cluster),</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"norm"</span>, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">stand =</span> <span class="cn">FALSE</span>, <span class="at">palette =</span> <span class="st">"jco"</span>, <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -413,28 +413,28 @@ Available components:
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pen_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pen_scaled, <span class="dv">3</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pen_km</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 76, 119, 138
+<pre><code>K-means clustering with 3 clusters of sizes 214, 86, 33
 
 Cluster means:
   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g        year
-1     -0.3345668     0.5109535        -0.4989583  -0.6497332  1.17838142
-2      0.6537742    -1.1010497         1.1607163   1.0995561  0.03097981
-3     -0.3795077     0.6680613        -0.7261189  -0.5903438 -0.67567816
+1     -0.3635474      0.612266         -0.645445  -0.6114354 -0.01722709
+2      0.6872551     -1.043247          1.219425   1.0959519  0.53472590
+3      0.5665212     -1.251686          1.007718   1.1089486 -1.28181302
 
 Clustering vector:
-  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
- [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
- [75] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2
-[149] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3
+[149] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2
 [186] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 [223] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-[260] 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-[297] 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[260] 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[297] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 
 Within cluster sum of squares by cluster:
-[1] 142.1897 250.6269 317.5351
- (between_SS / total_SS =  57.2 %)
+[1] 632.2068 130.0707  39.4031
+ (between_SS / total_SS =  51.7 %)
 
 Available components:
 
@@ -445,9 +445,9 @@ Available components:
 <div class="cell-output cell-output-stdout">
 <pre><code>   
     Adelie Chinstrap Gentoo
-  1     52        24      0
-  2      0         0    119
-  3     94        44      0</code></pre>
+  1    146        68      0
+  2      0         0     86
+  3      0         0     33</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> pen_scaled, <span class="at">cluster =</span> pen_km<span class="sc">$</span>cluster),</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"norm"</span>, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">stand =</span> <span class="cn">FALSE</span>, <span class="at">palette =</span> <span class="st">"jco"</span>, <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -606,7 +606,7 @@ H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hopkins</span>(pen_scaled, <span class="at">n =</span> <span class="dv">30</span>) <span class="co"># n should be about 20% of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$H
-[1] 0.1992629</code></pre>
+[1] 0.2452142</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a couple times to sample repeatedly</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
