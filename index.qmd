@@ -50,7 +50,7 @@
 
 #### Week 4 {.unnumbered}
 
--   Linear algebra refresher
+-   Linear algebra primer
 -   Linear models
 
 #### Week 5 {.unnumbered}
@@ -60,8 +60,8 @@
 
 #### Week 6 {.unnumbered}
 
--   Principal Component Analysis
--   Multidimensional Scaling and Clustering
+-   Principal Component Analysis and SVD
+-   Multidimensional scaling and Clustering
 
 #### Week 7 {.unnumbered}
 
@@ -70,8 +70,8 @@
 
 #### Week 8 {.unnumbered}
 
--   Phylogenetic reconstruction (?)
--   Modeling time-series data (?)
+-   Monte Carlo and boostrap
+-   Modeling time-series data 
 
 #### Week 9 {.unnumbered}
 
