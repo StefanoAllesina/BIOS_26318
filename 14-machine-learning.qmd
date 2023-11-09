@@ -44,15 +44,18 @@ This modifies the Bayes' formula to look like this:
 
 $$
 P(Y = k | X = x) = \frac{\pi_k f_{k1} (x_1) \times f_{k2} (x_2) \times ... \times f_{kn} (x_n)}{\sum_i^K \pi_i f_{k1} (x_1) \times f_{k2} (x_2) \times ... \times f_{kn} (x_n)}
-$$ Although it looks more complicated, we can compute each distribution function separately, so as long as there is enough data in the training set to estimate each explanatory variable for each class, the calculation is manageable.
+$$Although it looks more complicated, we can compute each distribution function separately, so as long as there is enough data in the training set to estimate each explanatory variable for each class, the calculation is manageable.
 
-### Penguin data
+### Naive Bayes penguin example
+
+Here is an example of using `tidymodels` for classification using Naive Bayes.
+
+First, we load and clean the data, then split the observations into training and test sets.
 
 ```{r}
 data("penguins")
 pen_clean <- penguins %>% drop_na()
-# Fix the random numbers by setting the seed  for reproducibility
-#set.seed(314)
+
 # Put 3/4 of the data into the training set 
 pen_split <- initial_split(pen_clean, prop = 3/4)
 
@@ -61,62 +64,75 @@ pen_train <- training(pen_split)
 pen_test  <- testing(pen_split)
 ```
 
-```{r}
+We then define a *model specification* using the `parsnip` package. Here is how to set up a Naive Bayes model:
 
+```{r}
 nb_spec <- naive_Bayes() %>% 
   set_mode("classification") %>% 
   set_engine("naivebayes") %>% 
   set_args(usekernel = FALSE)  
+```
 
+Next we define the *recipe*, which specifies the data tibble and which variables will be explanatory (predictors) and which will be the response variable. In this case we will use species as the response variables, and all other variables, except for `island` as predictors.
 
+```{r}
 pen_recipe <- 
   recipe(species ~ ., data = pen_train) %>% 
   update_role(island,  new_role = "ID")
+```
 
+Then we define the *workflow*, which combines the model with the recipe:
 
-#nb_fit <- nb_spec %>% 
-#  fit(Direction ~ Lag1 + Lag2, data =pen_
-
+```{r}
 pen_workflow_nb <- workflow() %>%
   add_model(nb_spec) %>%
   add_recipe(pen_recipe)
-
-fit_nb <- pen_workflow_nb %>% fit(pen_train)
-
 ```
 
-```{r, warning = FALSE}
+Finally, we use this workflow on the data set to fit the response variable on the training set:
+
+```{r}
+fit_nb <- pen_workflow_nb %>% fit(pen_train)
+```
+
+We can examine the contents of the fitted model, such as parameters, using `extract_fit_parsnip`. In the case of Naive Bayes, it returns the calculated mean and standard deviations for each variable, by class:
+
+```{r}
+fit_nb %>% 
+  extract_fit_parsnip() 
+```
+
+Now we can use the parameters from the parameters from the fitted model to predict the species in the test set. The function `augment` performs the prediction and adds a new column called `.pred_class` to the data frame. Then we can compare the truth with predictions using a confusion matrix or an accuracy score:
+
+```{r}
 compare_pred <- augment(fit_nb, new_data = pen_test) 
 
 compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
-
-compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
+compare_pred %>% accuracy(truth = species, estimate = .pred_class)
 ```
 
 ### Breast cancer data
+
+Here is an data set of breast cancer samples, where the classification of each sample is given in variable `Class` as either \"benign\" or \"malign\". The other variables contain observations that we can use to classify the samples.
+
+First, we clean and split the data set:
 
 ```{r}
 data("breastcancer")
 glimpse(breastcancer)
 cancer_clean <- breastcancer %>% drop_na()
-# Fix the random numbers by setting the seed  for reproducibility
-#set.seed(314)
+
 # Put 3/4 of the data into the training set 
-can_split <- initial_split(cancer_clean, prop = 1/2)
+can_split <- initial_split(cancer_clean, prop = 3/4)
 
 # Create data frames for the two sets:
 can_train <- training(can_split)
 can_test  <- testing(can_split)
 ```
 
+Next, we can use the same model specification `nb_spec`, define a new recipe and apply it to the data, and fit the model:
+
 ```{r}
-
-nb_spec <- naive_Bayes() %>% 
-  set_mode("classification") %>% 
-  set_engine("naivebayes") %>% 
-  set_args(usekernel = FALSE)  
-
-
 can_recipe <- 
   recipe(Class ~ ., data = can_train) %>% 
   update_role(`Uniformity of Cell Shape`,  `Uniformity of Cell Size`, `Bland Chromatin`, new_role = "ID")
@@ -130,12 +146,20 @@ can_fit_nb <- can_workflow_nb %>% fit(can_train)
 
 ```
 
+Predict the classification of samples in the test set and compare the
+truth with predictions using a confusion matrix and an accuracy score:
+
 ```{r, warning = FALSE}
 compare_pred <- augment(can_fit_nb, new_data = can_test) 
 
 compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
 
 compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+```
+
+```{r}
+can_fit_nb %>% 
+  extract_fit_parsnip() 
 ```
 
 ## Decision Trees
@@ -154,7 +178,7 @@ Alternatively, one can use the Shannon information or entropy measure:
 
 $$
 S = -\sum_k p_k log(p_k)
-$$ 
+$$
 
 Notice that both measures are smallest when $p_k$ is close to 1 or 0, so they both tell the same story for a particular region: if (almost) all the points are points are either classified or incorrectly, these measures are close to 0.
 
@@ -164,11 +188,15 @@ One of these measures is used to create the sequential splits in the training da
 
 ### Penguin data
 
+Define the model specifications for decision trees:
+
 ```{r}
 tree_spec <- decision_tree() %>%
   set_engine("rpart") %>%
   set_mode("classification")
 ```
+
+Create a recipe, apply the model and fit it on the training set:
 
 ```{r}
 pen_recipe <- 
@@ -183,6 +211,8 @@ fit_tree <- pen_workflow_tree %>% fit(pen_train)
 
 ```
 
+Predict the classification for the test set and validate the predictions:
+
 ```{r}
 compare_pred <- augment(fit_tree, new_data = pen_test) 
 
@@ -191,6 +221,8 @@ compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
 compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
 ```
 
+Make a plot of the best-fit decision tree:
+
 ```{r}
 fit_tree %>%
   extract_fit_engine() %>%
@@ -198,6 +230,8 @@ fit_tree %>%
 ```
 
 ### Breast cancer data
+
+Using the same model `tree_spec`, create a recipe, apply the model and fit it on the training set:
 
 ```{r}
 can_recipe <- 
@@ -213,6 +247,8 @@ fit_tree <- can_workflow_tree %>% fit(can_train)
 
 ```
 
+Predict the classification for the test set and validate the predictions:
+
 ```{r}
 compare_pred <- augment(fit_tree, new_data = can_test) 
 
@@ -220,6 +256,8 @@ compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
 
 compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
 ```
+
+Make a plot of the best-fit decision tree:
 
 ```{r}
 fit_tree %>%
@@ -237,11 +275,15 @@ Since each data point is left out of a number of trees, one can estimate an unbi
 
 ### Penguin data
 
+Define the model specification for random forests:
+
 ```{r}
 rf_spec <- rand_forest(mtry = 4) %>%
   set_engine("ranger") %>%
   set_mode("classification")
 ```
+
+Create a recipe, apply the model and fit it on the training set:
 
 ```{r}
 rf_recipe <- 
@@ -256,6 +298,8 @@ fit_rf <- pen_workflow_rf %>% fit(pen_clean)
 
 ```
 
+Predict the classification for the test set and validate the predictions:
+
 ```{r}
 compare_pred <- augment(fit_rf, new_data = pen_clean) 
 
@@ -264,7 +308,7 @@ compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
 compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
 ```
 
-Importance measures of different variables:
+Calculate the \"last fit\" of the entire data set:
 
 ```{r}
 last_rf <- 
@@ -284,6 +328,8 @@ last_rf_fit <-
 
 ```
 
+Plot the importance measures of different variables:
+
 ```{r}
 
 last_rf_fit %>% 
@@ -298,11 +344,7 @@ last_rf_fit %>%
 
 ### Cancer data
 
-```{r}
-rf_spec <- rand_forest(mtry = 4) %>%
-  set_engine("ranger") %>%
-  set_mode("classification")
-```
+Using the same model `rf_spec`, create a recipe, apply the model and fit it on the training set:
 
 ```{r}
 can_rf_recipe <- 
@@ -317,6 +359,8 @@ fit_rf <- can_workflow_rf  %>%
 
 ```
 
+Predict the classification for the test set and validate the predictions:
+
 ```{r}
 compare_pred <- augment(fit_rf, new_data = can_test) 
 
@@ -325,7 +369,7 @@ compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
 compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
 ```
 
-Importance measures of different variables:
+Calculate the \"last fit\" of the entire data set:
 
 ```{r}
 last_rf <- 
@@ -344,6 +388,8 @@ last_rf_fit <-
   last_fit(can_split)
 
 ```
+
+Plot the importance measures of different variables:
 
 ```{r}
 

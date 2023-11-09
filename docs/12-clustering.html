@@ -413,27 +413,27 @@ Available components:
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pen_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pen_scaled, <span class="dv">3</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pen_km</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 119, 70, 144
+<pre><code>K-means clustering with 3 clusters of sizes 119, 118, 96
 
 Cluster means:
   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g        year
 1      0.6537742    -1.1010497         1.1607163   1.0995561  0.03097981
-2     -0.2599105     0.7766572        -0.8660530  -0.6212885 -1.28181302
-3     -0.4139264     0.5323536        -0.5382051  -0.6066457  0.59750218
+2     -0.5739159     0.6564793        -0.8320546  -0.6394510 -0.78143449
+3     -0.1049694     0.5579205        -0.4160708  -0.5769995  0.92211117
 
 Clustering vector:
   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
- [38] 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
- [75] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 2 2 2 2 2
+ [75] 2 3 2 2 2 2 2 2 2 2 2 3 2 2 2 3 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 [112] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1
 [149] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 [186] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 [223] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-[260] 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3
-[297] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+[260] 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 2
+[297] 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 
 Within cluster sum of squares by cluster:
-[1] 250.6269 128.9600 327.8863
+[1] 250.6269 238.5233 218.5422
  (between_SS / total_SS =  57.4 %)
 
 Available components:
@@ -446,8 +446,8 @@ Available components:
 <pre><code>   
     Adelie Chinstrap Gentoo
   1      0         0    119
-  2     44        26      0
-  3    102        42      0</code></pre>
+  2     90        28      0
+  3     56        40      0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> pen_scaled, <span class="at">cluster =</span> pen_km<span class="sc">$</span>cluster),</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"norm"</span>, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">stand =</span> <span class="cn">FALSE</span>, <span class="at">palette =</span> <span class="st">"jco"</span>, <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -606,7 +606,7 @@ H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hopkins</span>(pen_scaled, <span class="at">n =</span> <span class="dv">30</span>) <span class="co"># n should be about 20% of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$H
-[1] 0.2023589</code></pre>
+[1] 0.2379309</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a couple times to sample repeatedly</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
