@@ -113,7 +113,7 @@ compare_pred %>% accuracy(truth = species, estimate = .pred_class)
 
 ### Breast cancer data
 
-Here is an data set of breast cancer samples, where the classification of each sample is given in variable `Class` as either \"benign\" or \"malign\". The other variables contain observations that we can use to classify the samples.
+Here is an data set of breast cancer samples, where the classification of each sample is given in variable `Class` as either "benign" or "malign". The other variables contain observations that we can use to classify the samples.
 
 First, we clean and split the data set:
 
@@ -146,8 +146,7 @@ can_fit_nb <- can_workflow_nb %>% fit(can_train)
 
 ```
 
-Predict the classification of samples in the test set and compare the
-truth with predictions using a confusion matrix and an accuracy score:
+Predict the classification of samples in the test set and compare the truth with predictions using a confusion matrix and an accuracy score:
 
 ```{r, warning = FALSE}
 compare_pred <- augment(can_fit_nb, new_data = can_test) 
@@ -308,7 +307,7 @@ compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
 compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
 ```
 
-Calculate the \"last fit\" of the entire data set:
+Calculate the "last fit" of the entire data set:
 
 ```{r}
 last_rf <- 
@@ -369,7 +368,7 @@ compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
 compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
 ```
 
-Calculate the \"last fit\" of the entire data set:
+Calculate the "last fit" of the entire data set:
 
 ```{r}
 last_rf <- 
