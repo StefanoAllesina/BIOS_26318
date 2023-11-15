@@ -28,7 +28,8 @@ book:
     - 12-clustering.qmd
     - 13-generalized_linear_models.qmd
     - 14-machine-learning.qmd
-    - 17-monte-carlo.qmd
+    - 15-monte-carlo.qmd
+    - 16-time-series.qmd
 
 bibliography: book.bib
 biblio-style: apalike
