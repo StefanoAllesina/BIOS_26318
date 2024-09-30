@@ -111,7 +111,6 @@ autoplot(birthstimeseries, series = "data") +
 
 **Exercise:** Change the moving average window and see if you can make seasonality (periodicity) vanish!
 
-
 An even order of periodicity requires an asymmetric averaging window, so to create an symmetric average, one can repeat the moving average of order two on the already-averaged data.
 
 ### Classic decomposition:
@@ -265,7 +264,6 @@ as_tsibble(birthstimeseries) %>%
   forecast(h = "2 years") %>% 
   autoplot(birthstimeseries)
 ```
-
 
 ## References and further reading:
 

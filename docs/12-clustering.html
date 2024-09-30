@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,9 +18,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,43 +48,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -125,22 +96,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <meta name="twitter:title" content="Fundamentals of Biological Data Analysis - 13&nbsp; Clustering">
 <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://stefanoallesina.github.io/BIOS_26318/12-clustering_files/figure-html/unnamed-chunk-2-1.png">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-clustering.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -148,155 +128,176 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Fundamentals of Biological Data Analysis</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/StefanoAllesina/BIOS_26318" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Download" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.pdf">
-            <i class="bi bi-bi-file-pdf pe-1"></i>
-          Download PDF
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.epub">
-            <i class="bi bi-bi-journal pe-1"></i>
-          Download ePub
-          </a>
-        </li>
-    </ul>
+    <a href="https://github.com/StefanoAllesina/BIOS_26318" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Fundamentals-of-Biological-Data-Analysis.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Organization of the class</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Organization of the class</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-refresher.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>efresher</span></a>
+  <a href="./00-refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>efresher</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></a>
+  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-probdist.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></a>
+  <a href="./02-probdist.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data wrangling</span></a>
+  <a href="./03-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data wrangling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-distributions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions and their properties</span></a>
+  <a href="./04-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions and their properties</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-hypothesis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hypothesis testing</span></a>
+  <a href="./05-hypothesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Hypothesis testing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></a>
+  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-linalg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></a>
+  <a href="./07-linalg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear models</span></a>
+  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-ANOVA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">ANOVA</span></a>
+  <a href="./09-ANOVA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-model_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  <a href="./10-model_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Model Selection</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-SVD_PCA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></a>
+  <a href="./11-SVD_PCA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Principal Component Analysis</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-clustering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></a>
+  <a href="./12-clustering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./13-generalized_linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalized linear models</span></a>
+  <a href="./13-generalized_linear_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalized linear models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./14-machine-learning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Machine learning methods for classification</span></a>
+  <a href="./14-machine-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Machine learning methods for classification</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./15-monte-carlo.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Monte Carlo methods</span></a>
+  <a href="./15-monte-carlo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Monte Carlo methods</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./16-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Time series: modeling and forecasting</span></a>
+  <a href="./16-time-series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Time series: modeling and forecasting</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link active" data-scroll-target="#k-means-algorithm"><span class="toc-section-number">13.1</span>  K-means algorithm</a>
+  <li><a href="#k-means-algorithm" id="toc-k-means-algorithm" class="nav-link active" data-scroll-target="#k-means-algorithm"><span class="header-section-number">13.1</span> K-means algorithm</a>
   <ul class="collapse">
-  <li><a href="#assumptions-of-k-means-algorithm" id="toc-assumptions-of-k-means-algorithm" class="nav-link" data-scroll-target="#assumptions-of-k-means-algorithm"><span class="toc-section-number">13.1.1</span>  Assumptions of K-means algorithm</a></li>
+  <li><a href="#assumptions-of-k-means-algorithm" id="toc-assumptions-of-k-means-algorithm" class="nav-link" data-scroll-target="#assumptions-of-k-means-algorithm"><span class="header-section-number">13.1.1</span> Assumptions of K-means algorithm</a></li>
   </ul></li>
-  <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering"><span class="toc-section-number">13.2</span>  Hierarchical clustering</a>
+  <li><a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering"><span class="header-section-number">13.2</span> Hierarchical clustering</a>
   <ul class="collapse">
-  <li><a href="#agglomerative-clustering" id="toc-agglomerative-clustering" class="nav-link" data-scroll-target="#agglomerative-clustering"><span class="toc-section-number">13.2.1</span>  Agglomerative clustering</a></li>
-  <li><a href="#clustering-penguin-data-using-hierarchical-methods" id="toc-clustering-penguin-data-using-hierarchical-methods" class="nav-link" data-scroll-target="#clustering-penguin-data-using-hierarchical-methods"><span class="toc-section-number">13.2.2</span>  Clustering penguin data using hierarchical methods</a></li>
+  <li><a href="#agglomerative-clustering" id="toc-agglomerative-clustering" class="nav-link" data-scroll-target="#agglomerative-clustering"><span class="header-section-number">13.2.1</span> Agglomerative clustering</a></li>
+  <li><a href="#clustering-penguin-data-using-hierarchical-methods" id="toc-clustering-penguin-data-using-hierarchical-methods" class="nav-link" data-scroll-target="#clustering-penguin-data-using-hierarchical-methods"><span class="header-section-number">13.2.2</span> Clustering penguin data using hierarchical methods</a></li>
   </ul></li>
-  <li><a href="#clustering-analysis-and-validation" id="toc-clustering-analysis-and-validation" class="nav-link" data-scroll-target="#clustering-analysis-and-validation"><span class="toc-section-number">13.3</span>  Clustering analysis and validation</a>
+  <li><a href="#clustering-analysis-and-validation" id="toc-clustering-analysis-and-validation" class="nav-link" data-scroll-target="#clustering-analysis-and-validation"><span class="header-section-number">13.3</span> Clustering analysis and validation</a>
   <ul class="collapse">
-  <li><a href="#hopkins-statistic" id="toc-hopkins-statistic" class="nav-link" data-scroll-target="#hopkins-statistic"><span class="toc-section-number">13.3.1</span>  Hopkins statistic</a></li>
-  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="toc-section-number">13.3.2</span>  Elbow method</a></li>
-  <li><a href="#silhouette-plot" id="toc-silhouette-plot" class="nav-link" data-scroll-target="#silhouette-plot"><span class="toc-section-number">13.3.3</span>  Silhouette Plot</a></li>
-  <li><a href="#lazy-way-use-all-the-methods" id="toc-lazy-way-use-all-the-methods" class="nav-link" data-scroll-target="#lazy-way-use-all-the-methods"><span class="toc-section-number">13.3.4</span>  Lazy way: use all the methods!</a></li>
-  <li><a href="#validation-using-bootstrapping" id="toc-validation-using-bootstrapping" class="nav-link" data-scroll-target="#validation-using-bootstrapping"><span class="toc-section-number">13.3.5</span>  Validation using bootstrapping</a></li>
+  <li><a href="#hopkins-statistic" id="toc-hopkins-statistic" class="nav-link" data-scroll-target="#hopkins-statistic"><span class="header-section-number">13.3.1</span> Hopkins statistic</a></li>
+  <li><a href="#elbow-method" id="toc-elbow-method" class="nav-link" data-scroll-target="#elbow-method"><span class="header-section-number">13.3.2</span> Elbow method</a></li>
+  <li><a href="#silhouette-plot" id="toc-silhouette-plot" class="nav-link" data-scroll-target="#silhouette-plot"><span class="header-section-number">13.3.3</span> Silhouette Plot</a></li>
+  <li><a href="#lazy-way-use-all-the-methods" id="toc-lazy-way-use-all-the-methods" class="nav-link" data-scroll-target="#lazy-way-use-all-the-methods"><span class="header-section-number">13.3.4</span> Lazy way: use all the methods!</a></li>
+  <li><a href="#validation-using-bootstrapping" id="toc-validation-using-bootstrapping" class="nav-link" data-scroll-target="#validation-using-bootstrapping"><span class="header-section-number">13.3.5</span> Validation using bootstrapping</a></li>
   </ul></li>
-  <li><a href="#application-to-breast-cancer-data" id="toc-application-to-breast-cancer-data" class="nav-link" data-scroll-target="#application-to-breast-cancer-data"><span class="toc-section-number">13.4</span>  Application to breast cancer data</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">13.5</span>  References:</a></li>
+  <li><a href="#application-to-breast-cancer-data" id="toc-application-to-breast-cancer-data" class="nav-link" data-scroll-target="#application-to-breast-cancer-data"><span class="header-section-number">13.4</span> Application to breast cancer data</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">13.5</span> References:</a></li>
   </ul>
 </nav>
     </div>
@@ -305,7 +306,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Clustering</span></h1>
 </div>
 
 
@@ -372,27 +373,27 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pen_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pen_train, <span class="dv">3</span>) <span class="co">#k-means with 3 clusters</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pen_km</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 140, 80, 113
+<pre><code>K-means clustering with 3 clusters of sizes 113, 140, 80
 
 Cluster means:
   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g     year
-1       41.12214      17.94643          189.6286    3461.250 2008.021
-2       48.66250      15.39750          219.9875    5365.938 2008.138
-3       44.24336      17.44779          201.5487    4310.619 2008.000
+1       44.24336      17.44779          201.5487    4310.619 2008.000
+2       41.12214      17.94643          189.6286    3461.250 2008.021
+3       48.66250      15.39750          219.9875    5365.938 2008.138
 
 Clustering vector:
-  [1] 1 1 1 1 1 1 3 1 1 3 1 1 3 1 3 1 1 1 3 1 1 1 1 1 3 1 3 1 3 1 3 3 1 1 3 1 3
- [38] 1 3 1 3 1 1 3 1 3 1 3 1 1 1 1 1 1 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 3
- [75] 1 3 1 3 1 1 1 1 3 1 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 1 1 3 1 3 1 3 1 3 3 3 1
-[112] 1 1 1 1 1 1 1 1 3 1 3 1 3 1 1 1 3 1 3 1 3 1 3 1 1 1 1 1 1 3 1 1 1 1 3 3 2
-[149] 3 2 2 3 3 2 3 2 3 2 3 2 3 2 3 2 3 2 2 2 3 2 2 2 2 3 2 2 3 2 2 2 2 2 2 3 2
-[186] 3 2 3 3 2 2 3 2 2 2 2 2 3 2 2 2 3 2 3 2 3 2 3 2 3 2 2 3 2 3 2 2 2 3 2 3 2
-[223] 3 2 3 2 3 2 3 2 3 2 2 2 2 2 3 2 2 2 2 2 3 2 2 2 2 2 2 3 2 3 2 2 2 3 2 3 2
-[260] 2 2 2 2 2 2 1 3 1 1 1 3 1 1 3 1 1 1 1 3 1 3 1 1 1 3 1 1 1 1 1 3 1 1 1 3 1
-[297] 3 1 3 1 3 1 3 1 3 3 1 1 1 1 3 1 3 1 1 1 3 1 3 1 1 1 3 1 1 3 1 1 3 1 1 3 1
+  [1] 2 2 2 2 2 2 1 2 2 1 2 2 1 2 1 2 2 2 1 2 2 2 2 2 1 2 1 2 1 2 1 1 2 2 1 2 1
+ [38] 2 1 2 1 2 2 1 2 1 2 1 2 2 2 2 2 2 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1
+ [75] 2 1 2 1 2 2 2 2 1 2 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 2 2 1 2 1 2 1 2 1 1 1 2
+[112] 2 2 2 2 2 2 2 2 1 2 1 2 1 2 2 2 1 2 1 2 1 2 1 2 2 2 2 2 2 1 2 2 2 2 1 1 3
+[149] 1 3 3 1 1 3 1 3 1 3 1 3 1 3 1 3 1 3 3 3 1 3 3 3 3 1 3 3 1 3 3 3 3 3 3 1 3
+[186] 1 3 1 1 3 3 1 3 3 3 3 3 1 3 3 3 1 3 1 3 1 3 1 3 1 3 3 1 3 1 3 3 3 1 3 1 3
+[223] 1 3 1 3 1 3 1 3 1 3 3 3 3 3 1 3 3 3 3 3 1 3 3 3 3 3 3 1 3 1 3 3 3 1 3 1 3
+[260] 3 3 3 3 3 3 2 1 2 2 2 1 2 2 1 2 2 2 2 1 2 1 2 2 2 1 2 2 2 2 2 1 2 2 2 1 2
+[297] 1 2 1 2 1 2 1 2 1 1 2 2 2 2 1 2 1 2 2 2 1 2 1 2 2 2 1 2 2 1 2 2 1 2 2 1 2
 
 Within cluster sum of squares by cluster:
-[1] 9724908 9718878 9318106
+[1] 9318106 9724908 9718878
  (between_SS / total_SS =  86.6 %)
 
 Available components:
@@ -404,9 +405,9 @@ Available components:
 <div class="cell-output cell-output-stdout">
 <pre><code>   
     Adelie Chinstrap Gentoo
-  1     94        46      0
-  2      0         0     80
-  3     52        22     39</code></pre>
+  1     52        22     39
+  2     94        46      0
+  3      0         0     80</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> pen_train, <span class="at">cluster =</span> pen_km<span class="sc">$</span>cluster),</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"norm"</span>, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">stand =</span> <span class="cn">FALSE</span>, <span class="at">palette =</span> <span class="st">"jco"</span>, <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -423,28 +424,28 @@ Available components:
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pen_km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(pen_scaled, <span class="dv">3</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pen_km</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 3 clusters of sizes 85, 119, 129
+<pre><code>K-means clustering with 3 clusters of sizes 83, 131, 119
 
 Cluster means:
   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g        year
-1      0.6609042     0.8058457        -0.2687664  -0.3743951  0.02064286
-2      0.6537742    -1.1010497         1.1607163   1.0995561  0.03097981
-3     -1.0385736     0.4847135        -0.8936441  -0.7676247 -0.04218016
+1    -0.05199786     0.8382938        -0.7308966  -0.5500394 -1.08914719
+2    -0.56094130     0.4690575        -0.5913040  -0.6503351  0.66192839
+3     0.65377423    -1.1010497         1.1607163   1.0995561  0.03097981
 
 Clustering vector:
-  [1] 3 3 3 3 3 3 3 3 3 3 3 3 1 3 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
- [38] 3 1 3 3 3 3 1 3 3 3 1 3 3 3 3 3 3 3 1 3 3 3 3 3 3 3 1 3 3 3 1 3 1 3 3 3 1
- [75] 3 1 3 3 3 3 3 3 3 3 3 1 3 3 3 1 3 3 3 1 3 1 3 3 3 3 3 3 3 1 3 1 3 1 3 1 3
-[112] 3 3 3 3 3 3 1 3 3 3 3 3 1 3 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2
-[149] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-[186] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-[223] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-[260] 2 2 2 2 2 2 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 3 1 1 1 1 1 1 1 3
-[297] 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1
+  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [38] 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2
+ [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[112] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3
+[149] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+[186] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+[223] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+[260] 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2
+[297] 1 2 1 1 2 1 1 2 1 1 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 
 Within cluster sum of squares by cluster:
-[1] 197.0915 250.6269 253.7112
- (between_SS / total_SS =  57.7 %)
+[1] 189.7556 265.0704 250.6269
+ (between_SS / total_SS =  57.5 %)
 
 Available components:
 
@@ -455,9 +456,9 @@ Available components:
 <div class="cell-output cell-output-stdout">
 <pre><code>   
     Adelie Chinstrap Gentoo
-  1     23        62      0
-  2      0         0    119
-  3    123         6      0</code></pre>
+  1     46        37      0
+  2    100        31      0
+  3      0         0    119</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> pen_scaled, <span class="at">cluster =</span> pen_km<span class="sc">$</span>cluster),</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">ellipse.type =</span> <span class="st">"norm"</span>, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">stand =</span> <span class="cn">FALSE</span>, <span class="at">palette =</span> <span class="st">"jco"</span>, <span class="at">ggtheme =</span> <span class="fu">theme_classic</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -616,7 +617,7 @@ H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hopkins</span>(pen_scaled, <span class="at">n =</span> <span class="dv">30</span>) <span class="co"># n should be about 20% of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$H
-[1] 0.2176938</code></pre>
+[1] 0.2052332</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run a couple times to sample repeatedly</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -955,9 +956,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1022,6 +1037,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
