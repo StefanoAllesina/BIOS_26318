@@ -71,7 +71,7 @@
 #### Week 8 {.unnumbered}
 
 -   Monte Carlo and boostrap
--   Modeling time-series data 
+-   Modeling time-series data
 
 #### Week 9 {.unnumbered}
 

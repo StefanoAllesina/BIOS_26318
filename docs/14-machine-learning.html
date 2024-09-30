@@ -401,7 +401,7 @@ Laplace smoothing: 0
 A priori probabilities: 
 
    Adelie Chinstrap    Gentoo 
-0.4337349 0.2088353 0.3574297 
+0.4297189 0.2168675 0.3534137 
 
 -------------------------------------------------------------------------------- 
  
@@ -412,40 +412,40 @@ Tables:
 -------------------------------------------------------------------------------- 
               
 bill_length_mm    Adelie Chinstrap    Gentoo
-          mean 38.926852 48.684615 47.512360
-          sd    2.823817  3.304802  2.622881
+          mean 38.699065 48.338889 47.514773
+          sd    2.692775  3.144652  2.932401
 
 -------------------------------------------------------------------------------- 
 :: bill_depth_mm (Gaussian) 
 -------------------------------------------------------------------------------- 
              
 bill_depth_mm     Adelie  Chinstrap     Gentoo
-         mean 18.3000000 18.4846154 14.9393258
-         sd    1.2554926  1.1556145  0.8793874
+         mean 18.3822430 18.3722222 14.9113636
+         sd    1.2545625  1.1307731  0.9896513
 
 -------------------------------------------------------------------------------- 
 :: flipper_length_mm (Gaussian) 
 -------------------------------------------------------------------------------- 
                  
 flipper_length_mm     Adelie  Chinstrap     Gentoo
-             mean 189.879630 195.769231 216.898876
-             sd     6.368318   6.991915   6.349740
+             mean 190.140187 195.796296 217.272727
+             sd     6.595379   7.300503   6.669070
 
 -------------------------------------------------------------------------------- 
 :: body_mass_g (Gaussian) 
 -------------------------------------------------------------------------------- 
            
 body_mass_g    Adelie Chinstrap    Gentoo
-       mean 3700.2315 3737.5000 5069.3820
-       sd    478.8701  403.7053  486.0227
+       mean 3700.9346 3734.7222 5073.8636
+       sd    472.8218  388.5573  524.0332
 
 -------------------------------------------------------------------------------- 
 :: sex (Bernoulli) 
 -------------------------------------------------------------------------------- 
         
 sex         Adelie Chinstrap    Gentoo
-  female 0.5000000 0.4807692 0.5280899
-  male   0.5000000 0.5192308 0.4719101
+  female 0.5327103 0.5370370 0.5227273
+  male   0.4672897 0.4629630 0.4772727
 
 --------------------------------------------------------------------------------
 
@@ -462,9 +462,9 @@ sex         Adelie Chinstrap    Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  Adelie Chinstrap Gentoo
-  Adelie        38         1      0
-  Chinstrap      0        15      0
-  Gentoo         0         0     30</code></pre>
+  Adelie        38         0      0
+  Chinstrap      1        14      0
+  Gentoo         0         0     31</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(<span class="at">truth =</span> species, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -526,15 +526,15 @@ $ Class                         &lt;fct&gt; benign, benign, benign, benign, beni
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       108         2
-  malignant      4        57</code></pre>
+  benign       102         1
+  malignant      7        61</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.965</code></pre>
+1 accuracy binary         0.953</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -558,7 +558,7 @@ Laplace smoothing: 0
 A priori probabilities: 
 
    benign malignant 
-0.6484375 0.3515625 
+0.6542969 0.3457031 
 
 -------------------------------------------------------------------------------- 
  
@@ -569,40 +569,40 @@ Tables:
 -------------------------------------------------------------------------------- 
                
 Clump Thickness   benign malignant
-           mean 3.021084  7.227778
-           sd   1.698455  2.377338
+           mean 3.011940  7.305085
+           sd   1.690013  2.368742
 
 -------------------------------------------------------------------------------- 
 :: Marginal Adhesion (Gaussian) 
 -------------------------------------------------------------------------------- 
                  
 Marginal Adhesion    benign malignant
-             mean 1.3734940 5.7277778
-             sd   0.9672691 3.1407051
+             mean 1.3402985 5.5310734
+             sd   0.8637857 3.1587533
 
 -------------------------------------------------------------------------------- 
 :: Single Epithelial Cell Size (Gaussian) 
 -------------------------------------------------------------------------------- 
                            
-Single Epithelial Cell Size   benign malignant
-                       mean 2.117470  5.427778
-                       sd   0.910527  2.417419
+Single Epithelial Cell Size    benign malignant
+                       mean 2.0686567 5.4406780
+                       sd   0.7164051 2.5289541
 
 -------------------------------------------------------------------------------- 
 :: Bare Nuclei (Gaussian) 
 -------------------------------------------------------------------------------- 
            
 Bare Nuclei   benign malignant
-       mean 1.403614  7.505556
-       sd   1.267673  3.208747
+       mean 1.373134  7.632768
+       sd   1.264862  3.090611
 
 -------------------------------------------------------------------------------- 
 :: Normal Nucleoli (Gaussian) 
 -------------------------------------------------------------------------------- 
                
 Normal Nucleoli   benign malignant
-           mean 1.292169  5.905556
-           sd   1.020425  3.291596
+           mean 1.229851  5.711864
+           sd   0.894597  3.354360
 
 --------------------------------------------------------------------------------
 
@@ -666,16 +666,16 @@ S = -\sum_k p_k log(p_k)
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  Adelie Chinstrap Gentoo
-  Adelie        37         1      0
-  Chinstrap      1        15      6
-  Gentoo         0         0     24</code></pre>
+  Adelie        38         1      0
+  Chinstrap      1        13      2
+  Gentoo         0         0     29</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> species, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy multiclass     0.905</code></pre>
+1 accuracy multiclass     0.952</code></pre>
 </div>
 </div>
 <p>Make a plot of the best-fit decision tree:</p>
@@ -711,15 +711,15 @@ Prediction  Adelie Chinstrap Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       109         5
-  malignant      3        54</code></pre>
+  benign       101         3
+  malignant      8        59</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.953</code></pre>
+1 accuracy binary         0.936</code></pre>
 </div>
 </div>
 <p>Make a plot of the best-fit decision tree:</p>
@@ -803,9 +803,9 @@ Prediction  Adelie Chinstrap Gentoo
 <pre><code># A tibble: 3 × 4
   .metric     .estimator .estimate .config             
   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
-1 accuracy    multiclass    1      Preprocessor1_Model1
-2 roc_auc     hand_till     1      Preprocessor1_Model1
-3 brier_class multiclass    0.0103 Preprocessor1_Model1</code></pre>
+1 accuracy    multiclass    0.988  Preprocessor1_Model1
+2 roc_auc     hand_till     0.999  Preprocessor1_Model1
+3 brier_class multiclass    0.0129 Preprocessor1_Model1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span> </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".workflow"</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span>   </span>
@@ -838,15 +838,15 @@ Prediction  Adelie Chinstrap Gentoo
 <div class="cell-output cell-output-stdout">
 <pre><code>           Truth
 Prediction  benign malignant
-  benign       110         1
-  malignant      2        58</code></pre>
+  benign       109         0
+  malignant      0        62</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>compare_pred <span class="sc">%&gt;%</span>  <span class="fu">accuracy</span>(<span class="at">truth =</span> Class, <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-1 accuracy binary         0.982</code></pre>
+1 accuracy binary             1</code></pre>
 </div>
 </div>
 <p>Calculate the “last fit” of the entire data set:</p>
@@ -875,8 +875,8 @@ Prediction  benign malignant
   .metric     .estimator .estimate .config             
   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
 1 accuracy    binary        0.965  Preprocessor1_Model1
-2 roc_auc     binary        0.989  Preprocessor1_Model1
-3 brier_class binary        0.0300 Preprocessor1_Model1</code></pre>
+2 roc_auc     binary        0.997  Preprocessor1_Model1
+3 brier_class binary        0.0233 Preprocessor1_Model1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>last_rf_fit <span class="sc">%&gt;%</span> </span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">".workflow"</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span>   </span>
