@@ -1,6 +1,10 @@
 project:
   type: book
   output-dir: docs
+filters:
+  - webr
+webr:
+  packages: ['palmerpenguins', "HistData", 'tidyverse']
 book:
   title: "Fundamentals of Biological Data Analysis"
   author: "Stefano Allesina and Dmitry Kondrashov"
@@ -19,17 +23,17 @@ book:
     - 03-wrangling.qmd
     - 04-distributions.qmd
     - 05-hypothesis.qmd
-    - 06-likelihood.qmd
-    - 07-linalg.qmd
-    - 08-linearreg.qmd
-    - 09-ANOVA.qmd
-    - 10-model_selection.qmd
-    - 11-SVD_PCA.qmd
-    - 12-clustering.qmd
-    - 13-generalized_linear_models.qmd
-    - 14-machine-learning.qmd
-    - 15-monte-carlo.qmd
-    - 16-time-series.qmd
+#    - 06-likelihood.qmd
+#    - 07-linalg.qmd
+#    - 08-linearreg.qmd
+#    - 09-ANOVA.qmd
+#    - 10-model_selection.qmd
+#    - 11-SVD_PCA.qmd
+#    - 12-clustering.qmd
+#    - 13-generalized_linear_models.qmd
+#    - 14-machine-learning.qmd
+#    - 15-monte-carlo.qmd
+#    - 16-time-series.qmd
 
 bibliography: book.bib
 biblio-style: apalike
@@ -39,9 +43,11 @@ description: "Course material for Fundamentals of Biological Data Analysis, BIOS
 
 format:
   html:
-    theme: cosmo
+    theme: materia
   pdf:
     documentclass: scrreprt
 
 editor: visual
+
+
 
