@@ -1,9 +1,5 @@
 # ANOVA
 
-```{r}
-library(tidyverse) # our friend the tidyverse
-```
-
 ## Analysis of variance
 
 ANOVA is a method for testing the hypothesis that there is no difference in means of subsets of measurements grouped by factors. Essentially, this is a generalization of linear regression to categorical explanatory variables instead of numeric variables, and it is based on very similar assumptions.
@@ -81,20 +77,19 @@ $$ where $F$ is the **F-distribution** (in `R`, you can sample from this distrib
 
 For example, the following data contains measurements of weights of individuals before starting a diet, after 6 weeks of dieting, the type of diet (1, 2, 3), and other variables.
 
-```{r, error=FALSE, message=FALSE}
-library(tidyverse)
+```{webr-r}
 # Original URL: "https://www.sheffield.ac.uk/polopoly_fs/1.570199!/file/stcp-Rdataset-Diet.csv"
-diet <- read_csv("data/Diet.csv") 
-diet <- diet %>% mutate(weight.loss = pre.weight - weight6weeks) 
+diet <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/Diet.csv") 
+diet <- diet |> mutate(weight.loss = pre.weight - weight6weeks) 
 glimpse(diet)
 # make diet into factors
-diet <- diet %>% mutate(Diet = factor(Diet))
+diet <- diet |> mutate(Diet = factor(Diet))
 ```
 
 Write a script below using ggplot to generate boxplots for the weights after three different diets.
 
-```{r}
-diet %>% ggplot() + 
+```{webr-r}
+diet |> ggplot() + 
   aes(y = weight.loss, 
       x = Diet, 
       fill = Diet) + 
@@ -105,7 +100,7 @@ We can see that there weight loss outcomes vary for each diet, but diet 3 seems 
 
 Here is the result of running ANOVA on the given data set:
 
-```{r message = FALSE, warning = FALSE, echo = TRUE}
+```{webr-r}
 diet_anova  <-  aov(weight.loss ~ Diet, data=diet) # note that this looks like lm!
 summary(diet_anova)
 print(diet_anova)
@@ -115,50 +110,50 @@ print(diet_anova)
 
 Let's compare this with the calculations from the data set:
 
-```{r}
+```{webr-r}
 # 1) compute the overall mean
-bar_y <- diet %>% 
-  summarise(bar_y = mean(weight.loss)) %>% 
+bar_y <- diet |> 
+  summarise(bar_y = mean(weight.loss)) |> 
   as.numeric()
 # 2) compute means by diet and sample size by diet
-bar_y_i <- diet %>% 
-  group_by(Diet) %>% 
+bar_y_i <- diet |> 
+  group_by(Diet) |> 
   summarise(bar_y_i = mean(weight.loss),
             J_i = n())
 #(NB: almost balanced!)
 
 # 3) compute degrees of freedom
 n <- nrow(diet)
-k <- nrow(diet %>% dplyr::select(Diet) %>% distinct())
+k <- nrow(diet |> dplyr::select(Diet) |> distinct())
 deg_freedom <- c(1, k - 1, n - k)
 # 4) compute SSA, SST and SSE
 SSA <- n * bar_y^2
-SST <- bar_y_i %>% 
-  mutate(tmp = J_i * (bar_y_i - bar_y)^2) %>% 
-  summarise(sst = sum(tmp)) %>% 
+SST <- bar_y_i |> 
+  mutate(tmp = J_i * (bar_y_i - bar_y)^2) |> 
+  summarise(sst = sum(tmp)) |> 
   as.numeric()
-SSE <- diet %>% 
-  inner_join(bar_y_i, by = "Diet") %>% 
-  mutate(tmp = (weight.loss - bar_y_i)^2) %>% 
-  summarise(sse = sum(tmp)) %>% 
+SSE <- diet |> 
+  inner_join(bar_y_i, by = "Diet") |> 
+  mutate(tmp = (weight.loss - bar_y_i)^2) |> 
+  summarise(sse = sum(tmp)) |> 
   as.numeric()
 # 5) show that TSS = SSA + SST + SSE
-TSS <- diet %>% 
-  summarise(tss = sum(weight.loss^2)) %>% 
+TSS <- diet |> 
+  summarise(tss = sum(weight.loss^2)) |> 
   as.numeric()
 print(c(TSS, SSA + SST + SSE))
 ```
 
 Now that we have all the numbers in place, we can compute our F-statistics, and the associated p-value:
 
-```{r}
+```{webr-r}
 Fs <- (SST / (deg_freedom[2])) / (SSE / (deg_freedom[3]))
 pval <- 1 - pf(Fs, deg_freedom[2], deg_freedom[3])
 ```
 
 Contrast these with the output of `aov`:
 
-```{r}
+```{webr-r}
 print(deg_freedom[-1])
 print(c(SST, SSE))
 print(c(Fs, pval))
@@ -167,7 +162,7 @@ print(summary(aov(weight.loss ~ Diet, data = diet)))
 
 At first glance, this process is not the same as fitting parameters for linear regression, but it is based on exactly the same assumptions: additive noise and additive effect of the factors, with the only difference being that factors are not numeric, so the effect of each one is added separately. One can run linear regression and calculate coefficients that are identical to the mean and the differences between means computed by ANOVA (and note the p-values too!)
 
-```{r message = FALSE, warning = FALSE, echo = TRUE}
+```{webr-r}
 diet.lm <- lm(weight.loss ~ Diet, data=diet)
 summary(diet.lm)
 print(diet.lm$coefficients)
@@ -179,7 +174,7 @@ print(diet.lm$coefficients)
 
 The ANOVA F-test tells us whether there is any difference in values of the response variable between the groups, but does not specify which group(s) are different. For this, a *post-hoc* test is used (Tukey's "Honest Significant Difference"):
 
-```{r}
+```{webr-r}
 tuk <- TukeyHSD(diet_anova)
 tuk
 ```
@@ -190,15 +185,15 @@ This compares the three pairs of groups and reports the p-value for the hypothes
 
 Example taken from: [One-Way ANOVA Test in R](http://www.sthda.com/english/wiki/one-way-anova-test-in-r)
 
-```{r}
+```{webr-r}
 my_data <- PlantGrowth # import built-in data
 head(my_data)
 # Show the levels
-my_data %>% dplyr::select(group) %>% distinct()
+my_data |> dplyr::select(group) |> distinct()
 ```
 
-```{r}
-group_by(my_data, group) %>%
+```{webr-r}
+group_by(my_data, group) |>
   summarise(
     count = n(),
     mean = mean(weight, na.rm = TRUE),
@@ -206,8 +201,8 @@ group_by(my_data, group) %>%
   )
 ```
 
-```{r}
-my_data %>% 
+```{webr-r}
+my_data |> 
   ggplot() + 
   aes(y = weight, x = group, 
       fill = group) + 
@@ -220,52 +215,52 @@ my_data %>%
 
 One can compare the effect of two different factors simultaneously and see if considering both explains more of the variance than of one. This is equivalent to the multiple linear regression with two interacting variables. How would you interpret these results?
 
-```{r message = FALSE, warning = FALSE, echo = TRUE}
+```{webr-r}
 diet.fisher <- aov(weight.loss ~ Diet * gender, data = diet)
 summary(diet.fisher)
 ```
 
 ## Investigate the UC salaries dataset
 
-```{r}
+```{webr-r}
 # read the data
 # Original URL
 dt <- read_csv("https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv", 
-col_names = c("first_name", "last_name", "title", "a", "pay", "loc", "year", "b", "c", "d")) %>%  dplyr::select(first_name, last_name, title, loc, pay)
+col_names = c("first_name", "last_name", "title", "a", "pay", "loc", "year", "b", "c", "d")) |>  dplyr::select(first_name, last_name, title, loc, pay)
 # get only profs
-dt <- dt %>% filter(title %in% c("PROF-AY", "ASSOC PROF-AY", "ASST PROF-AY", 
+dt <- dt |> filter(title %in% c("PROF-AY", "ASSOC PROF-AY", "ASST PROF-AY", 
                                  "PROF-AY-B/E/E", "PROF-HCOMP", "ASST PROF-AY-B/E/E", 
                                  "ASSOC PROF-AY-B/E/E", "ASSOC PROF-HCOMP", "ASST PROF-HCOMP"))
 # simplify titles
-dt <- dt %>% mutate(title = ifelse(grepl("ASST", title), "Assistant", title))
-dt <- dt %>% mutate(title = ifelse(grepl("ASSOC", title), "Associate", title))
-dt <- dt %>% mutate(title = ifelse(grepl("PROF", title), "Full", title))
+dt <- dt |> mutate(title = ifelse(grepl("ASST", title), "Assistant", title))
+dt <- dt |> mutate(title = ifelse(grepl("ASSOC", title), "Associate", title))
+dt <- dt |> mutate(title = ifelse(grepl("PROF", title), "Full", title))
 # remove those making less than 50k (probably there only for a period)
-dt <- dt %>% filter(pay > 50000)
+dt <- dt |> filter(pay > 50000)
 glimpse(dt)
 ```
 
 1.  Plot the distributions of pay by location and title. Is it approximately normal? If not, transform the data.
 
-```{r}
+```{webr-r}
 
 ```
 
 2.  Run ANOVA for pay as dependent on the two factors separately, report the variance between means and the variance within groups, and the p-value for the null hypothesis.
 
-```{r}
+```{webr-r}
 
 ```
 
 3.  Run Tukey's test for multiple comparison of means to report which group(s) are substantially different from the rest, if any.
 
-```{r}
+```{webr-r}
 
 ```
 
 4.  Run a two-way ANOVA for both location and title and provide interpretation.
 
-```{r}
+```{webr-r}
 
 ```
 

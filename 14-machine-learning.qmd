@@ -1,14 +1,14 @@
 # Machine learning methods for classification
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
-library(tidyverse)
+```{webr-r}
 library(tidymodels)
 library(ggfortify) # for autoplot
 library(palmerpenguins)
 library(randomForest)
+library(naivebayes)
 library(discrim)
-library(klaR)
+library(ranger)
+#library(klaR)
 library(rpart.plot)
 library(OneR)
 library(vip)
@@ -52,9 +52,9 @@ Here is an example of using `tidymodels` for classification using Naive Bayes.
 
 First, we load and clean the data, then split the observations into training and test sets.
 
-```{r}
+```{webr-r}
 data("penguins")
-pen_clean <- penguins %>% drop_na()
+pen_clean <- penguins |> drop_na()
 
 # Put 3/4 of the data into the training set 
 pen_split <- initial_split(pen_clean, prop = 3/4)
@@ -66,49 +66,49 @@ pen_test  <- testing(pen_split)
 
 We then define a *model specification* using the `parsnip` package. Here is how to set up a Naive Bayes model:
 
-```{r}
-nb_spec <- naive_Bayes() %>% 
-  set_mode("classification") %>% 
-  set_engine("naivebayes") %>% 
+```{webr-r}
+nb_spec <- naive_Bayes() |> 
+  set_mode("classification") |> 
+  set_engine("naivebayes") |> 
   set_args(usekernel = FALSE)  
 ```
 
 Next we define the *recipe*, which specifies the data tibble and which variables will be explanatory (predictors) and which will be the response variable. In this case we will use species as the response variables, and all other variables, except for `island` as predictors.
 
-```{r}
+```{webr-r}
 pen_recipe <- 
-  recipe(species ~ ., data = pen_train) %>% 
+  recipe(species ~ ., data = pen_train) |> 
   update_role(island,  new_role = "ID")
 ```
 
 Then we define the *workflow*, which combines the model with the recipe:
 
-```{r}
-pen_workflow_nb <- workflow() %>%
-  add_model(nb_spec) %>%
+```{webr-r}
+pen_workflow_nb <- workflow() |>
+  add_model(nb_spec) |>
   add_recipe(pen_recipe)
 ```
 
 Finally, we use this workflow on the data set to fit the response variable on the training set:
 
-```{r}
-fit_nb <- pen_workflow_nb %>% fit(pen_train)
+```{webr-r}
+fit_nb <- pen_workflow_nb |> fit(pen_train)
 ```
 
 We can examine the contents of the fitted model, such as parameters, using `extract_fit_parsnip`. In the case of Naive Bayes, it returns the calculated mean and standard deviations for each variable, by class:
 
-```{r}
-fit_nb %>% 
+```{webr-r}
+fit_nb |> 
   extract_fit_parsnip() 
 ```
 
 Now we can use the parameters from the parameters from the fitted model to predict the species in the test set. The function `augment` performs the prediction and adds a new column called `.pred_class` to the data frame. Then we can compare the truth with predictions using a confusion matrix or an accuracy score:
 
-```{r}
+```{webr-r}
 compare_pred <- augment(fit_nb, new_data = pen_test) 
 
-compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
-compare_pred %>% accuracy(truth = species, estimate = .pred_class)
+compare_pred |> conf_mat(truth = species, estimate = .pred_class)
+compare_pred |> accuracy(truth = species, estimate = .pred_class)
 ```
 
 ### Breast cancer data
@@ -117,10 +117,10 @@ Here is an data set of breast cancer samples, where the classification of each s
 
 First, we clean and split the data set:
 
-```{r}
+```{webr-r}
 data("breastcancer")
 glimpse(breastcancer)
-cancer_clean <- breastcancer %>% drop_na()
+cancer_clean <- breastcancer |> drop_na()
 
 # Put 3/4 of the data into the training set 
 can_split <- initial_split(cancer_clean, prop = 3/4)
@@ -132,32 +132,32 @@ can_test  <- testing(can_split)
 
 Next, we can use the same model specification `nb_spec`, define a new recipe and apply it to the data, and fit the model:
 
-```{r}
+```{webr-r}
 can_recipe <- 
-  recipe(Class ~ ., data = can_train) %>% 
+  recipe(Class ~ ., data = can_train) |> 
   update_role(`Uniformity of Cell Shape`,  `Uniformity of Cell Size`, `Bland Chromatin`, new_role = "ID")
   
 
-can_workflow_nb <- workflow() %>%
-  add_model(nb_spec) %>%
+can_workflow_nb <- workflow() |>
+  add_model(nb_spec) |>
   add_recipe(can_recipe)
 
-can_fit_nb <- can_workflow_nb %>% fit(can_train)
+can_fit_nb <- can_workflow_nb |> fit(can_train)
 
 ```
 
 Predict the classification of samples in the test set and compare the truth with predictions using a confusion matrix and an accuracy score:
 
-```{r, warning = FALSE}
+```{webr-r}
 compare_pred <- augment(can_fit_nb, new_data = can_test) 
 
-compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
+compare_pred |> conf_mat(truth = Class, estimate = .pred_class)
 
-compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+compare_pred |>  accuracy(truth = Class, estimate = .pred_class)
 ```
 
-```{r}
-can_fit_nb %>% 
+```{webr-r}
+can_fit_nb |> 
   extract_fit_parsnip() 
 ```
 
@@ -189,42 +189,42 @@ One of these measures is used to create the sequential splits in the training da
 
 Define the model specifications for decision trees:
 
-```{r}
-tree_spec <- decision_tree() %>%
-  set_engine("rpart") %>%
+```{webr-r}
+tree_spec <- decision_tree() |>
+  set_engine("rpart") |>
   set_mode("classification")
 ```
 
 Create a recipe, apply the model and fit it on the training set:
 
-```{r}
+```{webr-r}
 pen_recipe <- 
-  recipe(species ~ ., data = pen_train) %>% 
+  recipe(species ~ ., data = pen_train) |> 
   update_role(island,  new_role = "ID")
 
-pen_workflow_tree <- workflow() %>%
-  add_model(tree_spec) %>%
+pen_workflow_tree <- workflow() |>
+  add_model(tree_spec) |>
   add_recipe(pen_recipe)
 
-fit_tree <- pen_workflow_tree %>% fit(pen_train)
+fit_tree <- pen_workflow_tree |> fit(pen_train)
 
 ```
 
 Predict the classification for the test set and validate the predictions:
 
-```{r}
+```{webr-r}
 compare_pred <- augment(fit_tree, new_data = pen_test) 
 
-compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
+compare_pred |> conf_mat(truth = species, estimate = .pred_class)
 
-compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
+compare_pred |>  accuracy(truth = species, estimate = .pred_class)
 ```
 
 Make a plot of the best-fit decision tree:
 
-```{r}
-fit_tree %>%
-  extract_fit_engine() %>%
+```{webr-r}
+fit_tree |>
+  extract_fit_engine() |>
   rpart.plot()
 ```
 
@@ -232,35 +232,35 @@ fit_tree %>%
 
 Using the same model `tree_spec`, create a recipe, apply the model and fit it on the training set:
 
-```{r}
+```{webr-r}
 can_recipe <- 
-  recipe(Class ~ ., data = can_train) %>% 
+  recipe(Class ~ ., data = can_train) |> 
   update_role(`Uniformity of Cell Shape`,  `Uniformity of Cell Size`, `Bland Chromatin`, new_role = "ID")
   
 
-can_workflow_tree <- workflow() %>%
-  add_model(tree_spec) %>%
+can_workflow_tree <- workflow() |>
+  add_model(tree_spec) |>
   add_recipe(can_recipe)
 
-fit_tree <- can_workflow_tree %>% fit(can_train)
+fit_tree <- can_workflow_tree |> fit(can_train)
 
 ```
 
 Predict the classification for the test set and validate the predictions:
 
-```{r}
+```{webr-r}
 compare_pred <- augment(fit_tree, new_data = can_test) 
 
-compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
+compare_pred |> conf_mat(truth = Class, estimate = .pred_class)
 
-compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+compare_pred |>  accuracy(truth = Class, estimate = .pred_class)
 ```
 
 Make a plot of the best-fit decision tree:
 
-```{r}
-fit_tree %>%
-  extract_fit_engine() %>%
+```{webr-r}
+fit_tree |>
+  extract_fit_engine() |>
   rpart.plot()
 ```
 
@@ -276,67 +276,67 @@ Since each data point is left out of a number of trees, one can estimate an unbi
 
 Define the model specification for random forests:
 
-```{r}
-rf_spec <- rand_forest(mtry = 4) %>%
-  set_engine("ranger") %>%
+```{webr-r}
+rf_spec <- rand_forest(mtry = 4) |>
+  set_engine("ranger") |>
   set_mode("classification")
 ```
 
 Create a recipe, apply the model and fit it on the training set:
 
-```{r}
+```{webr-r}
 rf_recipe <- 
-  recipe(species ~ ., data = pen_clean) %>% 
+  recipe(species ~ ., data = pen_clean) |> 
   update_role(island,  new_role = "ID")
 
-pen_workflow_rf <- workflow() %>%
-  add_model(rf_spec) %>%
+pen_workflow_rf <- workflow() |>
+  add_model(rf_spec) |>
   add_recipe(pen_recipe)
 
-fit_rf <- pen_workflow_rf %>% fit(pen_clean)
+fit_rf <- pen_workflow_rf |> fit(pen_clean)
 
 ```
 
 Predict the classification for the test set and validate the predictions:
 
-```{r}
+```{webr-r}
 compare_pred <- augment(fit_rf, new_data = pen_clean) 
 
-compare_pred %>% conf_mat(truth = species, estimate = .pred_class)
+compare_pred |> conf_mat(truth = species, estimate = .pred_class)
 
-compare_pred %>%  accuracy(truth = species, estimate = .pred_class)
+compare_pred |>  accuracy(truth = species, estimate = .pred_class)
 ```
 
 Calculate the "last fit" of the entire data set:
 
-```{r}
+```{webr-r}
 last_rf <- 
-  rand_forest(mtry = 4, trees = 100) %>% 
-  set_engine("ranger",  importance = "impurity") %>% 
+  rand_forest(mtry = 4, trees = 100) |> 
+  set_engine("ranger",  importance = "impurity") |> 
   set_mode("classification")
 # the last workflow
 last_workflow <- 
-  pen_workflow_rf %>% 
+  pen_workflow_rf |> 
   update_model(last_rf)
 
 # the last fit
 set.seed(3)
 last_rf_fit <- 
-  last_workflow %>% 
+  last_workflow |> 
   last_fit(pen_split)
 
 ```
 
 Plot the importance measures of different variables:
 
-```{r}
+```{webr-r}
 
-last_rf_fit %>% 
+last_rf_fit |> 
   collect_metrics()
 
-last_rf_fit %>% 
-  pluck(".workflow", 1) %>%   
-  pull_workflow_fit() %>% 
+last_rf_fit |> 
+  pluck(".workflow", 1) |>   
+  pull_workflow_fit() |> 
   vip(num_features = 20)
 
 ```
@@ -345,59 +345,59 @@ last_rf_fit %>%
 
 Using the same model `rf_spec`, create a recipe, apply the model and fit it on the training set:
 
-```{r}
+```{webr-r}
 can_rf_recipe <- 
   recipe(Class ~ ., data = cancer_clean) 
 
-can_workflow_rf <- workflow() %>%
-  add_model(rf_spec) %>%
+can_workflow_rf <- workflow() |>
+  add_model(rf_spec) |>
   add_recipe(can_rf_recipe)
 
-fit_rf <- can_workflow_rf  %>% 
+fit_rf <- can_workflow_rf  |> 
   fit(cancer_clean)
 
 ```
 
 Predict the classification for the test set and validate the predictions:
 
-```{r}
+```{webr-r}
 compare_pred <- augment(fit_rf, new_data = can_test) 
 
-compare_pred %>% conf_mat(truth = Class, estimate = .pred_class)
+compare_pred |> conf_mat(truth = Class, estimate = .pred_class)
 
-compare_pred %>%  accuracy(truth = Class, estimate = .pred_class)
+compare_pred |>  accuracy(truth = Class, estimate = .pred_class)
 ```
 
 Calculate the "last fit" of the entire data set:
 
-```{r}
+```{webr-r}
 last_rf <- 
-  rand_forest(mtry = 4, trees = 100) %>% 
-  set_engine("ranger",  importance = "impurity") %>% 
+  rand_forest(mtry = 4, trees = 100) |> 
+  set_engine("ranger",  importance = "impurity") |> 
   set_mode("classification")
 # the last workflow
 last_workflow <- 
-  can_workflow_rf %>% 
+  can_workflow_rf |> 
   update_model(last_rf)
 
 # the last fit
 set.seed(3)
 last_rf_fit <- 
-  last_workflow %>% 
+  last_workflow |> 
   last_fit(can_split)
 
 ```
 
 Plot the importance measures of different variables:
 
-```{r}
+```{webr-r}
 
-last_rf_fit %>% 
+last_rf_fit |> 
   collect_metrics()
 
-last_rf_fit %>% 
-  pluck(".workflow", 1) %>%   
-  pull_workflow_fit() %>% 
+last_rf_fit |> 
+  pluck(".workflow", 1) |>   
+  pull_workflow_fit() |> 
   vip(num_features = 20)
 
 ```

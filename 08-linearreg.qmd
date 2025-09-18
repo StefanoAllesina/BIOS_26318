@@ -4,8 +4,7 @@ Learn how to perform linear regression, how to make sure that the assumptions of
 
 Note that we need a new library:
 
-```{r, warning=FALSE, message=FALSE}
-library(tidyverse)
+```{webr-r}
 library(lindia) # regression diagnostic in ggplot2
 ```
 
@@ -17,8 +16,8 @@ In his "Regression towards mediocrity in hereditary stature" he showed an intere
 
 We're going to explore this phenomenon using Karl Pearson's (another founding father of statistics) data from 1903, recording the height of fathers and sons:
 
-```{r, warning=FALSE, message=FALSE}
-require(UsingR)
+```{webr-r}
+library(UsingR)
 data("father.son")
 pl <- ggplot(data = father.son) + aes(x = fheight, y = sheight) + geom_point() + coord_equal()
 pl
@@ -26,13 +25,13 @@ pl
 
 Let's add the 1:1 line for comparison:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 pl + geom_abline(slope = 1, intercept = 0, linetype = 2, color = "red")
 ```
 
 You can see that the sons tend to be taller than their fathers. Let's see of how much:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 mean(father.son$fheight)
 mean(father.son$sheight)
 # difference
@@ -41,7 +40,7 @@ mean(father.son$sheight) - mean(father.son$fheight)
 
 So let's add a line with an intercept of 1:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 pl <- pl + geom_abline(slope = 1, intercept = 1, linetype = 2, color = "blue")
 pl
 ```
@@ -105,7 +104,7 @@ $$
 
 Where the matrix $\left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T$ is known as the (left) Moore-Penrose pseudo-inverse of $\mathbf{X}$. Let's try to do this in `R` (the "hard" way):
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 X <- cbind(1, father.son$fheight)
 Y <- cbind(father.son$sheight)
 best_beta <- solve(t(X) %*% X) %*% t(X) %*% Y
@@ -114,14 +113,14 @@ best_beta
 
 We find that the best fitting line has an intercept of about 34 inches, and a slope of 0.51. Of course, `R` can do this calculation for you with just one command:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 best_beta_easy <- lm(sheight ~ fheight, data = father.son)
 best_beta_easy
 ```
 
 But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 pl + geom_smooth(method = "lm") # lm stands for linear model
 ```
 
@@ -141,7 +140,7 @@ $$
 
 where $n$ is the number of data points, and $p$ is the number of parameters in $\mathbf{\beta}$ (2 in this case); this measures the number of **degrees of freedom**. Let's try to compute it:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 degrees_of_freedom <- length(Y) - 2
 degrees_of_freedom
 epsilon_hat <- X %*% best_beta - Y
@@ -151,7 +150,7 @@ sigma
 
 In `R`, you will find this reported as the `Residual standard error` when you call `summary` on your model:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 summary(best_beta_easy)
 ```
 
@@ -163,13 +162,13 @@ $$
 
 where $\bar{y}$ is the mean of $y_i$. If the regression has an intercept, then the $R^2$ can vary between 0 and 1, with values close to 1 indicating a good fit to the data. Again, let's compute it the hard way and then the easy way:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 y_bar <- mean(Y)
 R_2 <- sum((X %*% best_beta - y_bar)^2) / sum((Y - y_bar)^2)
 R_2
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # look for Multiple R-squared:
 summary(best_beta_easy)
 ```
@@ -208,7 +207,7 @@ To perform a slightly more complicated linear regression, we take the data from:
 
 The authors set out to demonstrate that sharing data accompanying papers tends to increase the number of citations received by the paper.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # original URL 
 # https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g
 dat <- read_csv("data/Piwowar_2011.csv") 
@@ -221,14 +220,14 @@ dat <- dat %>% rename(IF = `Impact factor of journal`,
 
 First, let's run a model in which the logarithm of the number of citations + 1 is regressed against the "Impact Factor" of the journal (which is a measure of "prestige" based on the average number of citations per paper received):
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 my_model <- lm(log(NCIT + 1) ~ log(IF + 1), data = dat)
 summary(my_model)
 ```
 
 You can see that the higher the impact factor, the higher the number of citations received (unsurprisingly!). Now let's add another variable, detailing whether publicly available data accompany the paper:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 my_model2 <- lm(log(NCIT + 1) ~ log(IF + 1) + SHARE, data = dat)
 summary(my_model2)
 ```
@@ -239,13 +238,13 @@ We find that sharing data is associated with a larger number of citations.
 
 Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in *Nature* (no less!) by Tatem *et al*. You can find the study [here](https://www.nature.com/articles/431525a). Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 olympics <- read_csv("data/100m_dash.csv")
 ```
 
 Then, they fitted a linear regression through the points, for both men and women. So far, so good:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + 
   aes(x = Year, y = Result, colour = Gender) + 
   geom_point() + geom_smooth(method = "lm")
@@ -253,14 +252,14 @@ ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) +
 
 The fit is quite good:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 summary(lm(Result ~ Year*Gender,
   data = olympics %>% filter(Year > 1899, Year < 2005)))
 ```
 
 An $R^2$ of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + 
   aes(x = Year, y = Result, colour = Gender) + 
   geom_point() + geom_smooth(method = "lm", fullrange = TRUE, se = FALSE) +
@@ -273,7 +272,7 @@ There are a number of things that are wrong with this result. First, by the same
 
 Second, if we extend backwards, rather than forward, we would find that Roman women would take more than a minute to run 100m (possibly, because of the uncomfortable tunics and sandals...).
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + 
   aes(x = Year, y = Result, colour = Gender) + 
   geom_point() + geom_smooth(method = "lm", fullrange = TRUE, se = FALSE) +
@@ -282,7 +281,7 @@ ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) +
 
 As Neil Bohr allegedly said (but this is disputed), "Prediction is very difficult, especially about the future". The fact is that any non-linear curve looks quite linear if we are only considering a small range of values on the x-axis. To prove this point, let's add the data from 2004 to today:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 ggplot(data = olympics %>% filter(Year > 1899)) + 
   aes(x = Year, y = Result, colour = Gender) + 
   geom_point() + geom_smooth(method = "lm", fullrange = TRUE, se = FALSE) +
@@ -347,13 +346,13 @@ which in `R` can be coded as `lm(BMI ~ height + calories + gender:diet)`. Finall
 
 Now that we know the mechanics of linear regression, we turn to diagnostics: how can we make sure that the model fits the data "well"? We start by analyzing a data set assembled by Anscombe (*The American Statistician*, 1973)
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 dat <- read_csv("data/Anscombe_1973.csv")
 ```
 
 The file comprised four data sets. We perform a linear regression using each data set separately:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 lm(Y ~ X, data = dat %>% filter(Data_set == "Data_1"))
 lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2"))
 lm(Y ~ X, data = dat %>% filter(Data_set == "Data_3"))
@@ -362,7 +361,7 @@ lm(Y ~ X, data = dat %>% filter(Data_set == "Data_4"))
 
 As you can see, each data set is best fit by the same line, with intercept 3 and slope $\frac{1}{2}$. Plotting the data, however, shows that the situation is more complicated:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 ggplot(data = dat) + aes(x = X, y = Y, colour = Data_set) + 
   geom_point() + geom_smooth(method = "lm", se = FALSE) + 
   facet_wrap(~Data_set)
@@ -374,13 +373,13 @@ ggplot(data = dat) + aes(x = X, y = Y, colour = Data_set) +
 
 The first thing you want to do is to plot the residuals as a function of the fitted values. This plot should make it apparent whether the data was linear or not. The package `lindia` (linear regression diagnostics) makes it easy to produce this type of plot using `ggplot2`:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 gg_resfitted(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_1"))) + geom_smooth(method = "loess")
 ```
 
 What you are looking for is an approximately flat line, meaning that the residuals are approximately normally distributed with mean zero for each fitted value. This is not the case in the other data sets:
 
-```{r, message = FALSE, warning = FALSE}
+```{webr-r}
 gg_resfitted(lm(Y ~ X, data = dat %>% 
                   filter(Data_set == "Data_2"))) + 
   geom_smooth(method = "loess")
@@ -396,7 +395,7 @@ gg_resfitted(lm(Y ~ X, data = dat %>%
 
 We can take this further, and test whether the residuals follow a normal distribution. In particular, we can estimate the density of the residuals, and plot it against the density of a normal distribution:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 gg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_1")))
 gg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2")))
 gg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_3")))
@@ -409,7 +408,7 @@ Here, you are looking for a good match to the 1:1 line; outliers will be found f
 
 Another way to detect outliers is to compute the Cook's distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_1")))
 gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2")))
 gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_3")))
@@ -420,7 +419,7 @@ gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_4")))
 
 Points that strongly influence the regression are said to have much "leverage":
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 gg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_1")))
 gg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2")))
 gg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_3")))
@@ -431,7 +430,7 @@ gg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_4")))
 
 These are but a few of the diagnostics available. To run all diagnostics on a given model, call
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 gg_diagnose(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2")))
 ```
 
@@ -439,7 +438,7 @@ gg_diagnose(lm(Y ~ X, data = dat %>% filter(Data_set == "Data_2")))
 
 Often, one needs to transform the data before running a linear regression, in order to fulfill the assumptions. We're going to look at the salary of professors at the University of California to show how this is done.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # read the data
 # Original URL
 dt <- read_csv("https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv", 
@@ -456,19 +455,19 @@ dt
 
 The distribution of salaries is very skewed --- it looks like a log-normal distribution:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 dt %>% ggplot() + aes(x = pay) + geom_histogram(binwidth = 10000)
 ```
 
 If we set consider the log of pay, we get closer to a normal:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 dt %>% ggplot() + aes(x = log2(pay)) + geom_histogram(binwidth = 0.5)
 ```
 
 We can try to explain the pay as a combination of title and location:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 unscaled <- lm(pay ~ title + loc, data = dt)
 summary(unscaled)
 gg_diagnose(lm(pay ~ title + loc, data = dt))
@@ -478,7 +477,7 @@ To note: Berkeley has been taken as the baseline location. Similarly, `ASSOC-PRO
 
 The Q-Q plot shows that this is a terrible model! Now let's try with the transformed data:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 scaled <- lm(log2(pay) ~ title + loc, data = dt)
 summary(scaled)
 gg_diagnose(lm(log2(pay) ~ title + loc, data = dt))

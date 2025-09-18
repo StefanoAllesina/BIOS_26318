@@ -96,7 +96,7 @@ The following are examples of distributions of random variables with discrete va
 
 The simplest probability distribution in which every value has the same probability (and one which is sometimes called "purely random" even though any random variable with any distribution is just as random). The probability distribution for a uniform random variable with $n$ values is $P(x) = 1/n$ for any value $x$.
 
-```{r}
+```{webr-r}
 low <- 0 # minimum value
 high <- 10 # maximum value
 values <- low:high # vector of discrete values of the RV
@@ -106,7 +106,7 @@ barplot(probs, names.arg = values, xlab = 'values', ylab = 'probability',
         main = paste("uniform  distribution on integers from ", low, "to ", high))
 ```
 
-```{r}
+```{webr-r}
 unif.exp <- sum(values*probs)
 paste("The expected value of uniform distribution is", unif.exp)
 unif.var <- sum((unif.exp - values)^2*probs)
@@ -119,7 +119,7 @@ paste("The variance of uniform distribution is", unif.var)
 
 Binary or Bernoulli trials have two discrete outcomes (mutant/wild-type, win/lose, etc.). The number of "successes" out of a sequence of $n$ independent binary trials with probability of success $p$ is described by the binomial distribution.
 
-```{r}
+```{webr-r}
 n <- 10 # the number of trials
 p <- 0.3 # the probability of success in one trial
 values <- 0:n # vector of discrete values of the binomial
@@ -128,7 +128,7 @@ barplot(probs, names.arg = values, xlab = 'values', ylab = 'probability',
         main = paste("binomial distribution with n=", n, "and p=", p))
 ```
 
-```{r}
+```{webr-r}
 bin.exp <- sum(values*probs)
 paste("The expected value of binomial distribution is", bin.exp)
 bin.var <- sum((bin.exp - values)^2*probs)
@@ -141,7 +141,7 @@ paste("The variance of binomial distribution is", bin.var)
 
 The random variable is the first "success" in a string of independent binary trials and the distribution describes the probability of any non-negative value. It may be pretty intuitive that since all the trials have the same probability of success, the distribution with have a geometric (exponential) form---try to figure out the exact formula for the probability density without looking it up!
 
-```{r}
+```{webr-r}
 p <- 0.3 # the probability of success
 low <- 0 # minimum value
 high <- 20 # maximum value
@@ -150,7 +150,7 @@ probs <- dgeom(values, p)
 barplot(probs, names.arg = values, xlab = 'values', ylab = 'probability', main = paste("geometric distribution with p=", p))
 ```
 
-```{r}
+```{webr-r}
 geom.exp <- sum(values*probs)
 paste("The expected value of geometric distribution is", geom.exp)
 geom.var <- sum((geom.exp - values)^2*probs)
@@ -163,7 +163,7 @@ paste("The variance of geometric distribution is", geom.var)
 
 Suppose that there is a discrete process that occurs with some average rate $\lambda$, which describes the expected number of occurrences of these events in a unit of time. The Poisson random variable is the number of such occurrences, and the distribution describes the probability of any non-negative value.
 
-```{r}
+```{webr-r}
 low <- 0 # minimum value
 high <- 20 # maximum value
 lambda <- 10 # Poisson rate
@@ -173,7 +173,7 @@ barplot(probs, names.arg = values, xlab = 'values', ylab = 'probability',
         main = paste("Poisson distribution with lambda=", lambda))
 ```
 
-```{r}
+```{webr-r}
 pois.exp <- sum(values*probs)
 paste("The expected value of Poisson distribution is", pois.exp)
 pois.var <- sum((pois.exp - values)^2*probs)
@@ -190,7 +190,7 @@ In the following examples with continuous variables we cannot calculate the mean
 
 The continuous equivalent of the discrete uniform distribution.
 
-```{r}
+```{webr-r}
 low <- 0 # minimum value
 high <- 10 # maximum values
 number <- 100
@@ -200,7 +200,7 @@ plot(values, probs, t='l', xlab = 'values', ylab = 'density',
         main = paste("Uniform distribution on interval from ", low, "to ", high))
 ```
 
-```{r}
+```{webr-r}
 n <- 1000 # sample size
 unif.sample <- runif(n, low, high) # generate sample
 unif.exp <- mean(unif.sample)
@@ -215,7 +215,7 @@ paste("The variance of uniform distribution is", unif.var)
 
 The random variable describes the length of time between independent discrete events occurring with a certain rate, like we saw in the Poisson distribution.
 
-```{r}
+```{webr-r}
 low <- 0 # minimum value
 high <- 20 # maximum values
 number <- 100
@@ -226,7 +226,7 @@ plot(values, probs, t='l', xlab = 'values', ylab = 'density',
         main = paste("Exponential distribution with rate=", r))
 ```
 
-```{r}
+```{webr-r}
 n <- 1000 # sample size
 exp.sample <- rexp(n, r) # generate sample
 exp.exp <- mean(exp.sample)
@@ -245,7 +245,7 @@ The normal distribution, sometimes written $N(\mu, \sigma)$ comes up everywhere 
 > \lim_{n \to \infty} = \frac{\bar X_n - \mu}{\sigma} = N(0,1)
 > $$ where $N(0,1)$ stands for the normal distribution with mean 0 and standard deviation 1.
 
-```{r}
+```{webr-r}
 low <- 0 # minimum value
 high <- 10 # maximum values
 number <- 100
@@ -257,7 +257,7 @@ plot(values, probs, t='l',xlab = 'values', ylab = 'density',
         main = paste("Normal distribution with mean=", mu, "and sigma=", sigma))
 ```
 
-```{r}
+```{webr-r}
 n <- 1000 # sample size
 norm.sample <- rnorm(n, mu, sigma) # generate sample
 norm.exp <- mean(norm.sample)
@@ -270,7 +270,7 @@ paste("The variance of normal distribution is", norm.var)
 
 The most important use of the normal distribution has to do with estimation of means, because the normal distribution describes the *sampling distributions* of means of IID samples. The mean of that sampling distribution is the mean of the population distribution that is being sampled, and the standard deviation is called the *standard error* and is related to the standard deviation of the population $\sigma_X$ as follows: $\sigma_{SE} = \sigma/n$, where $n$ is the sample size.
 
-```{r}
+```{webr-r}
 numsamples <- 1000
 size <- 100
 # compute mean for different samples
@@ -292,7 +292,7 @@ lines(range,
 
 The following script calculates a confidence interval based on a sample.
 
-```{r}
+```{webr-r}
 # Computing confidence intervals
 qnorm(0.5) # the value that divides the density function in two
 qnorm(0.95) # the value such that 95% of density is to its left 
@@ -313,29 +313,28 @@ print(left)
 
 Let us consider the penguin data set again:
 
-```{r}
-library(tidyverse)
+```{webr-r}
 library(palmerpenguins)
-str(penguins)
+glimpse(penguins)
 ```
 
 A simple way to visualize a distribution is to plot a histogram: data are binned, and the height of the bin represents counts (or frequencies). Here are the histograms of distributions of flipper lengths of all the species of penguins separated by sex:
 
-```{r}
+```{webr-r}
 ggplot(penguins) +
   aes(x = flipper_length_mm, color = sex, fill=sex) + geom_histogram(alpha = 0.5, position = "identity")
 ```
 
 And here are the histograms of flipper lengths separated by species:
 
-```{r}
+```{webr-r}
 ggplot(penguins) +
   aes(x = flipper_length_mm, color = species, fill=species) + geom_histogram(alpha = 0.5, position = "identity")
 ```
 
 To decide systematically which of these distributions are closer to a theoretical distribution is via a Quantile-Quantile (QQ) plot, which plots the quantile value from a sample against the quantiles from a given distribution with best-fit parameters. If the data were to follow the distribution closely, you should find all the points lying on the identity line. For example, here is how to compare a data set drawn from the normal random number generator with the normal distribution:
 
-```{r}
+```{webr-r}
 library(fitdistrplus)
 test_data <- tibble(x = rnorm(n = 500, mean = 3, sd = 1.5))
 # example: find best-fitting Normal
@@ -351,8 +350,8 @@ ggplot(test_data, aes(sample = x)) +
 
 Now let us assess the "normality" of the flipper length data separated by sex and separated by species:
 
-```{r}
-dataset <- penguins %>%  dplyr::filter(sex == 'female') %>% drop_na() %>%  dplyr::select(flipper_length_mm) 
+```{webr-r}
+dataset <- penguins |>  dplyr::filter(sex == 'female') |> drop_na() |>  dplyr::select(flipper_length_mm) 
 my_normal <- fitdistr(x = as_vector(dataset), densfun = "normal")
 # note the slight discrepancies
 print(my_normal)
@@ -363,7 +362,7 @@ ggplot(dataset, aes(sample = flipper_length_mm)) +
   ggtitle("Q-Q plot assuming best-fitting Normal distribution of flipper lenth for female penguins")
 
 
-dataset <- penguins %>%  dplyr::filter(sex == 'male') %>% drop_na() %>%  dplyr::select(flipper_length_mm) 
+dataset <- penguins |>  dplyr::filter(sex == 'male') |> drop_na() |>  dplyr::select(flipper_length_mm) 
 my_normal <- fitdistr(x = as_vector(dataset), densfun = "normal")
 # note the slight discrepancies
 print(my_normal)

@@ -1,14 +1,13 @@
 # Time series: modeling and forecasting
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 library(tsibble)
 library(tsibbledata)
 library(lubridate)
-library(tidyverse)
 library(fable)
 library(feasts)
-library(forecast)
-library(fpp2)
+#library(forecast)
+#library(fpp2)
 ```
 
 > Prediction is difficult, especially about the future.
@@ -26,8 +25,8 @@ library(fpp2)
 
 A time series is a special data set where each observation has an associated time measurement. There is a special R structure for storing and operating on time series, called `ts`, as illustrated here:
 
-```{r}
-births <- scan("http://robjhyndman.com/tsdldata/data/nybirths.dat")
+```{webr-r}
+births <- scan("https://robjhyndman.com/tsdldata/data/nybirths.dat")
 birthstimeseries <- ts(births, frequency = 12, start = c(1946, 1))
 birthstimeseries
 ```
@@ -36,7 +35,7 @@ This reads in a data set recording the number of births per month in New York Ci
 
 There are several other specialized data structures for handling time series. We will use one from a new set of R packages called `tidyverts` that is called a `tsibble`. https://tsibble.tidyverts.org/ The `tsibbledata` package contains several time series data sets and we will load two below: `olympic_running`, containing the Olympic winning times in different running events, and `pelt`, containing the classic data of the number of Lynx and Hare pelts sold in Canada in the 19th and early 20th centuries:
 
-```{r}
+```{webr-r}
 data("olympic_running")
 glimpse(olympic_running)
 data("pelt")
@@ -49,7 +48,7 @@ You can see that tsibbles contain multiple variables, one of which is the time v
 
 The most straightforward way of visualizing time series is using a time plot, which can be created using `autoplot`:
 
-```{r}
+```{webr-r}
 autoplot(birthstimeseries) +
   ggtitle("Number of births in NYC") +
   ylab("Births (thousands)") +
@@ -58,7 +57,7 @@ autoplot(birthstimeseries) +
 
 `autoplot` works best with timeseries objects, so to use it with a tsibble you can convert it to a ts first, like this:
 
-```{r}
+```{webr-r}
 autoplot(as.ts(pelt)) +
   ggtitle("Lynx and hare pelts") +
   ylab("Number of pelts") +
@@ -67,8 +66,8 @@ autoplot(as.ts(pelt)) +
 
 One can also use `ggplot` directly, for example to plot a faceted graph of the olympic times for different years:
 
-```{r}
-olympic_running %>% as_tibble %>%
+```{webr-r}
+olympic_running |> as_tibble |>
   ggplot(aes(x=Year, y = Time, colour = Sex)) +
   geom_line() +
   facet_wrap(~ Length, scales = "free_y")
@@ -100,7 +99,7 @@ $$
 
 Here $m$ is called the *order* of the moving average and is defined as $m = 2k+1$. There is a useful function `ma()` that calculates these averages and allows them to be plotted.
 
-```{r}
+```{webr-r}
 m <- 6
 s_name <- paste("MA-", m)
 autoplot(birthstimeseries, series = "data") +
@@ -122,8 +121,8 @@ Additive decomposition \[1\]:
 3.  To estimate the seasonal component for each season, average the detrended values for that season. For example, with monthly data, the seasonal component for March is the average of all the detrended March values in the data. These seasonal component values are then adjusted to ensure that they add to zero. The seasonal component is obtained by stringing together these monthly values, and then replicating the sequence for each year of data. This gives $\hat S_t$.
 4.  The remainder component is calculated by subtracting the estimated seasonal and trend-cycle components: $\hat R_t = X_t - \hat T_t - \hat S_t$
 
-```{r}
-birthstimeseries %>% decompose(type="additive") %>%
+```{webr-r}
+birthstimeseries |> decompose(type="additive") |>
   autoplot() + xlab("Year") +
   ggtitle("Classic additive decomposition
     of the NYC births time series")
@@ -140,8 +139,8 @@ A more robust method is called the STL decomposition (Seasonal and Trend decompo
 -   The smoothness of the trend-cycle can also be controlled by the user.
 -   It can be robust to outliers (i.e., the user can specify a robust decomposition), so that occasional unusual observations will not affect the estimates of the trend-cycle and seasonal components. They will, however, affect the remainder component.
 
-```{r}
-birthstimeseries %>%  stl(t.window=13, s.window="periodic", robust=TRUE) %>%
+```{webr-r}
+birthstimeseries |>  stl(t.window=13, s.window="periodic", robust=TRUE) |>
   autoplot()
 ```
 
@@ -153,7 +152,7 @@ birthstimeseries %>%  stl(t.window=13, s.window="periodic", robust=TRUE) %>%
 
 The following data set contains the number of visitors (visitor nights) on a quarterly basis for five regions of New South Wales, Australia:
 
-```{r}
+```{webr-r}
 autoplot(visnights[,1:5]) +
   ylab("Number of visitor nights each quarter (millions)")
 ```
@@ -166,23 +165,23 @@ $$
 
 In a data set with multiple variables it can be handy to examine the cross-correlations between all pairs between them. Here's a convenient function to both calculate and visualize it for multiple variables, in this case the hotel visitor nights for the 5 different regions of NSW. The plot below show the scatter plots of all the pairs of time series against each other, along with the respective correlation coefficients:
 
-```{r}
+```{webr-r}
 head(visnights)
 GGally::ggpairs(as.data.frame(visnights[,1:5]))
 ```
 
 However, sometimes the straightforward correlation may miss or underestimate a relationship that is obviously there, but with a delay. Here is the Lynx and Hare variables from the pelts data set correlated with each other:
 
-```{r}
+```{webr-r}
 head(pelt)
 GGally::ggpairs(pelt[,2:3])
 ```
 
 The correlation coefficient is about 0.3, but it appears that the relationship should be stronger than that from the plots. The function `CCF` from `feasts` package calculates correlations for a pair of variables that are shifted against each other (lagged) and here is the resulting plot:
 
-```{r}
-pelt %>%
-  CCF(Lynx, Hare, lag_max = 8) %>%
+```{webr-r}
+pelt |>
+  CCF(Lynx, Hare, lag_max = 8) |>
   autoplot()
 ```
 
@@ -192,7 +191,7 @@ You can see the non-shifted correlation of about 0.3 at lag of 0, but the correl
 
 Just as we saw for cross-correlations, a time series can be correlated against itself shifted in time by some set amount, also called *lagged*. We can plot the lagged correlations for different visitor
 
-```{r}
+```{webr-r}
 visnights[,1]
 visnights_smaller <- window(visnights[,2], start=2000, end = 2010)
 gglagplot(visnights_smaller) 
@@ -208,18 +207,18 @@ $$
 
 The autocorrelation can be calculated and plotted for our example of the visitation nights in New South Wales:
 
-```{r}
+```{webr-r}
 ggAcf(visnights_smaller)
 ```
 
-```{r}
+```{webr-r}
 gglagplot(pelt$Lynx, lags =12) + ggtitle("Lag plots for the Lynx pelt data")
 gglagplot(pelt$Hare, lags = 12) + ggtitle("Lag plots for the Hare pelt data")
 ```
 
 In both cases, the lag plots are closest to the diagonal identity line for lag of 9 or 10. This should be reflected in the autocorrelation plot:
 
-```{r}
+```{webr-r}
 ggAcf(pelt$Lynx) + ggtitle("Autocorrelation for the Lynx pelt data")
 ggAcf(pelt$Hare) + ggtitle("Autocorrelation for the Hare pelt data")
 ```
@@ -234,7 +233,7 @@ Autocorrelation measures the *memory* of a signal - for example, pure white nois
 
 These two data sets, on Australian air passengers and rice production in Guinea, have a very strong positive correlation:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 aussies <- window(ausair, end=2011)
 fit <- tslm(aussies ~ guinearice)
 summary(fit)
@@ -242,7 +241,7 @@ summary(fit)
 
 However, notice that the residuals indicate a strong trend, which violates the assumptions of linear regression.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 checkresiduals(fit)
 ```
 
@@ -254,14 +253,14 @@ There are a number of fun examples of spurious time series correlations in refer
 
 The package `fable` is part of the `tidyverts` bundle and can be used to easily produce forecasts using several standard methods, such as ASNAIVE (Seasonal Naive), ETS (exponential smoothing), and ARIMA (AutoRegressive Integrated Moving Average). The code below compares all three forecast models for the births in NYC data:
 
-```{r}
-as_tsibble(birthstimeseries) %>% 
+```{webr-r}
+as_tsibble(birthstimeseries) |> 
   model(
     ets = ETS(box_cox(birthstimeseries, 0.3)),
    arima = ARIMA(log(birthstimeseries)),
     snaive = SNAIVE(birthstimeseries)
-  ) %>%
-  forecast(h = "2 years") %>% 
+  ) |>
+  forecast(h = "2 years") |> 
   autoplot(birthstimeseries)
 ```
 

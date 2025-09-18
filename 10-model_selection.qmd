@@ -16,9 +16,7 @@ But what does "simplest" mean? Measuring a model's "complexity" is far from triv
 
 But why should you choose the simplest model? First, simpler models are easier to analyze, so that for example you could make analytical headway into the mechanics of the process you want to model; simpler models are also considered more beautiful. Second, you want to avoid *over-fitting*: each biological data set---however carefully crafted---is noisy, and you want to fit the signal, not the noise. If you include too much flexibility in your model, you will get what looks like an excellent fit for the specific data set, but you will be unable to fit other data sets to which your model should also apply.
 
-```{r, message=FALSE,warning=FALSE}
-library(tidyverse) # our friend 
-library(BayesFactor) # Bayesian model selection
+```{webr-r}
 library(tidymodels)  # for the parsnip package, along with the rest of tidymodels
 library(palmerpenguins)
 # Helper packages
@@ -102,21 +100,21 @@ Likelihood-ratio is especially easy to perform for *nested* models.
 
 For example, suppose we want to model the height of trees. We measure the response variable (height of tree $i$, $h_i$) as well as the girth ($g_i$). We actually have a data set that ships with `R` that contains exactly this type of data:
 
-```{r, message=FALSE}
+```{webr-r}
 data(trees)
 head(trees)
 ```
 
 The `Height` of these cherry trees is measured in feet; the `Girth` is the diameter in inches, and the `Volume` is the measuring the amount of timber in cubic feet. Let's add a `Radius` measured in feet:
 
-```{r}
-trees <- trees %>% mutate (Radius = Girth / (2 * 12)) # diameter to radius; inches to feet
+```{webr-r}
+trees <- trees |> mutate (Radius = Girth / (2 * 12)) # diameter to radius; inches to feet
 ```
 
 Let's look at the distribution of three heights:
 
-```{r}
-trees %>% ggplot(aes(x = Height)) + geom_density()
+```{webr-r}
+trees |> ggplot(aes(x = Height)) + geom_density()
 ```
 
 A possible simple model is one that says that all tree heights have heights taken from a Gaussian distribution with a given mean. In the context of linear regression, we can write the model $\mathcal M_0$:
@@ -127,7 +125,7 @@ $$ where we assume that the errors $\epsilon_i \overset{\text{iid}}{\sim} \mathc
 
 In `R`, we would call:
 
-```{r}
+```{webr-r}
 M0 <- lm(data = trees, Height ~ 1) # only intercept
 # the m.l.e. of theta_0
 theta0_M0 <- M0$coefficients[1]
@@ -138,14 +136,14 @@ logLik(M0)
 
 Now let's plot the height of the trees vs. their radius:
 
-```{r}
-trees %>% ggplot(aes(x = Radius, y = Height)) + 
+```{webr-r}
+trees |> ggplot(aes(x = Radius, y = Height)) + 
   geom_point()
 ```
 
 And compute their correlation:
 
-```{r}
+```{webr-r}
 cor(trees$Radius, trees$Height)
 ```
 
@@ -157,7 +155,7 @@ $$ as for model $\mathcal M_0$, fit the parameters (note that $\hat{\theta_0}$ f
 
 In `R`:
 
-```{r}
+```{webr-r}
 M1 <- lm(data = trees, Height ~ Radius) # intercept and slope
 theta0_M1 <- M1$coefficients[1]
 theta1_M1 <- M1$coefficients[2]
@@ -173,7 +171,7 @@ Enter the likelihood-ratio test. We want to know whether it's worth using the mo
 
 While there are many caveats \[\^1\] this method is commonly used in practice.
 
-```{r}
+```{webr-r}
 # 2 * log-likelihood ratio
 lrt <- as.numeric(2 * (logLik(M1) - logLik(M0)))
 print("2 log(L1 / L0)")
@@ -201,31 +199,31 @@ In this case, the likelihood-ratio test would favor the use of the more complex 
 
 The data also contains a column with the volume. Let's take a look:
 
-```{r}
-trees %>% ggplot() + aes(x = Volume, y = Height) + geom_point()
+```{webr-r}
+trees |> ggplot() + aes(x = Volume, y = Height) + geom_point()
 ```
 
 And look at the correlation
 
-```{r}
+```{webr-r}
 cor(trees$Volume, trees$Height)
 ```
 
 We can build another model:
 
-```{r}
+```{webr-r}
 M2 <- lm(data = trees, Height ~ Volume) # intercept and slope
 ```
 
 Compute the log likelihood:
 
-```{r}
+```{webr-r}
 logLik(M2)
 ```
 
 and test whether that's better than the (nested) model 0:
 
-```{r}
+```{webr-r}
 # 2 * log-likelihood ratio
 lrt <- as.numeric(2 * (logLik(M2) - logLik(M0)))
 print("2 log(L2 / L0)")
@@ -248,21 +246,21 @@ Also in this case, the likelihood-ratio test would favor the use of the more com
 
 In fact, we can even concoct another model that uses a mix of radius and volume. If we assume that trees are cylinders, then we have $V = \pi r^2 h$, and as such $h = V / (\pi r^2)$. We can test whether this is a good approximation by creating a new variable:
 
-```{r}
-trees <- trees %>% mutate(Guess = Radius^2)
+```{webr-r}
+trees <- trees |> mutate(Guess = Radius^2)
 ```
 
-```{r}
-trees %>% ggplot() + aes(x = Guess, y = Height) + geom_point()
+```{webr-r}
+trees |> ggplot() + aes(x = Guess, y = Height) + geom_point()
 ```
 
-```{r}
+```{webr-r}
 cor(trees$Guess, trees$Height)
 ```
 
 Pretty good! Let's add it to our list of models:
 
-```{r}
+```{webr-r}
 M3 <- lm(Height ~ Guess, data = trees)
 logLik(M3)
 ```
@@ -277,7 +275,7 @@ $$AIC = -2 \mathcal L(\theta \vert D) + 2 k$$
 
 where $k$ is the number of free parameters (e.g., 3 for the simplest linear regression \[intercept, slope, variance of the residuals\]). In `R`, many models provide a way to access their AIC score:
 
-```{r}
+```{webr-r}
 AIC(M0) # only intercept
 AIC(M1) # use radius
 AIC(M2) # use volume
@@ -340,7 +338,7 @@ In practice, Bayes Factors can be estimated from MCMC. While we're not going to 
 
 Let's build very many models. Load the data:
 
-```{r, message=FALSE}
+```{webr-r}
 data(trees)
 head(trees)
 trees$Radius <- trees$Girth / (2 * 12)
@@ -349,7 +347,7 @@ trees$Guess <- trees$Volume / trees$Radius^2
 
 And build the models:
 
-```{r}
+```{webr-r}
 lm_all <- lm(Height ~ ., data = trees) # . means use all cols besides Height
 summary(lm_all)
 logLik(lm_all)
@@ -357,7 +355,8 @@ logLik(lm_all)
 
 Perform selection among all models nested into `lm_all`:
 
-```{r}
+```{webr-r}
+library(BayesFactor) # Bayesian model selection
 bf_analysis <- regressionBF(Height ~ ., data = trees)
 plot(bf_analysis)
 ```
@@ -371,10 +370,10 @@ These ratios measure how many times more probable the model is compared to that 
 
 There is an excellent suite of packages called `tidymodels` that offers very beautiful and streamlined tools for building models, training them, and evaluating their results. We will use the Palmer penguins data as an application, with the aim of building a predictive model for the bill length of penguins. Let us first examine the data graphically to see the relationship between body mass and bill length:
 
-```{r}
+```{webr-r}
 library(palmerpenguins)
 data("penguins")
-penguins %>% ggplot(aes( x= body_mass_g, y= bill_length_mm)) +
+penguins |> ggplot(aes( x= body_mass_g, y= bill_length_mm)) +
   geom_point() +
   geom_smooth(method = lm, se = FALSE) +
   scale_color_viridis_d(option = "plasma", end = .7)
@@ -382,8 +381,8 @@ penguins %>% ggplot(aes( x= body_mass_g, y= bill_length_mm)) +
 
 There is clearly a relationship, but would it help to add species and sex as variables? Let us see:
 
-```{r}
-penguins %>% filter (!is.na(sex)) %>% ggplot(aes( x= body_mass_g, y= bill_length_mm, color = sex)) +
+```{webr-r}
+penguins |> filter (!is.na(sex)) |> ggplot(aes( x= body_mass_g, y= bill_length_mm, color = sex)) +
   geom_point() +
   geom_smooth(method = lm, se = FALSE) +
   facet_wrap(~species, scales = 'free') +
@@ -394,17 +393,17 @@ It certainly appears that including sex and species will result in a better fit.
 
 First, we need to create the model that we will use in the pipeline. This is created like this:
 
-```{r}
+```{webr-r}
 lm_mod <- 
-  linear_reg() %>% 
+  linear_reg() |> 
   set_engine("lm")
 ```
 
 Next, we clean the data and split it into the training and testing sets, and create a *recipe* that specifies the data set and the response variable that we want to model. The other variables are left as the predictors, but we can take them out of consideration by *changing the role* of those variables to "ID". In this recipe, the only predictor (explanatory) variable in the data set is body_mass_g.
 
-```{r}
+```{webr-r}
 data("penguins")
-pen_clean <- penguins %>% filter(!is.na(bill_length_mm), !is.na(sex), !is.na(species))
+pen_clean <- penguins |> filter(!is.na(bill_length_mm), !is.na(sex), !is.na(species))
 # Fix the random numbers by setting the seed  for reproducibility
 set.seed(314)
 # Put 3/4 of the data into the training set 
@@ -415,29 +414,29 @@ train_data <- training(data_split)
 test_data  <- testing(data_split)
 
 pen_recipe <- 
-  recipe(bill_length_mm ~ ., data = train_data) %>% 
+  recipe(bill_length_mm ~ ., data = train_data) |> 
   #update_role(sex, island, year, species, bill_depth_mm, flipper_length_mm, new_role = "ID")
   update_role(sex, island, species, bill_depth_mm, flipper_length_mm, new_role = "ID") 
 ```
 
 We can now combine the recipe for the data and the model to create a *workflow* for training the data with a model, and then use it to create a fit:
 
-```{r}
+```{webr-r}
 # create workflow
 pen_wflow <- 
-  workflow() %>% 
-  add_model(lm_mod) %>% 
+  workflow() |> 
+  add_model(lm_mod) |> 
   add_recipe(pen_recipe)
 # fit the model to the data
 pen_fit <- 
-  pen_wflow %>% 
+  pen_wflow |> 
   fit(data = train_data)
 ```
 
 Finally, we can extract all sorts of information, such as best-fit parameters, errors, p-values, and likelihoods generated by the fit:
 
-```{r}
-fit1 <- pen_fit %>% 
+```{webr-r}
+fit1 <- pen_fit |> 
   extract_fit_parsnip() 
 tidy(fit1)
 glance(fit1) # 
@@ -447,23 +446,23 @@ The `tidy` and `glance` functions return different summaries of information; the
 
 Let us now modify the recipe to include the species and save the fitting results to a different object fit2:
 
-```{r}
+```{webr-r}
 pen_recipe2 <- 
-  recipe(bill_length_mm ~ ., data = train_data) %>% 
+  recipe(bill_length_mm ~ ., data = train_data) |> 
   #update_role(sex, island, year, bill_depth_mm, flipper_length_mm, new_role = "ID")
   update_role(sex, island, bill_depth_mm, flipper_length_mm, new_role = "ID") 
 
 # create workflow
 pen_wflow2 <- 
-  workflow() %>% 
-  add_model(lm_mod) %>% 
+  workflow() |> 
+  add_model(lm_mod) |> 
   add_recipe(pen_recipe2)
 # fit the model to the data
 pen_fit2 <- 
-  pen_wflow2 %>% 
+  pen_wflow2 |> 
   fit(data = train_data)
 # summarise the fit
-fit2 <- pen_fit2 %>% 
+fit2 <- pen_fit2 |> 
   extract_fit_parsnip() 
 tidy(fit2)
 glance(fit2) 
@@ -473,23 +472,23 @@ The R-squared as well as the log likelihood have improved substantially and the 
 
 Now let us see if we can further improve the model quality by incorporating sex as another explanatory variable:
 
-```{r}
+```{webr-r}
 pen_recipe3 <- 
-  recipe(bill_length_mm ~ ., data = train_data) %>% 
+  recipe(bill_length_mm ~ ., data = train_data) |> 
   #update_role(island, year, bill_depth_mm, flipper_length_mm, new_role = "ID")
   update_role(island,  bill_depth_mm, flipper_length_mm, new_role = "ID") 
 
 # create workflow
 pen_wflow3 <- 
-  workflow() %>% 
-  add_model(lm_mod) %>% 
+  workflow() |> 
+  add_model(lm_mod) |> 
   add_recipe(pen_recipe3)
 # fit the model to the data
 pen_fit3 <- 
-  pen_wflow3 %>% 
+  pen_wflow3 |> 
   fit(data = train_data)
 # summarise the fit
-fit3 <- pen_fit3 %>% 
+fit3 <- pen_fit3 |> 
   extract_fit_parsnip() 
 tidy(fit3)
 glance(fit3) 
@@ -501,7 +500,7 @@ Adding sex further improves the R-squared and log-likelihood, as the AIC drops a
 
 Now let us the three trained models to predict the values of bill length in the test data that we set aside:
 
-```{r}
+```{webr-r}
 bill_fit1 <- predict(fit1, test_data)
 bill_fit2 <- predict(fit2, test_data)
 bill_fit3 <- predict(fit3, test_data)
@@ -514,7 +513,7 @@ ggplot(prediction1, aes(x=.pred, y=bill_length_mm)) + geom_point() + geom_smooth
 metrics(prediction1, truth = bill_length_mm, estimate = .pred)
 ```
 
-```{r}
+```{webr-r}
 bill_fit2 <- predict(fit2, test_data)
 
 prediction2<- augment(fit2, test_data)
@@ -525,7 +524,7 @@ ggplot(prediction2, aes(x=.pred, y=bill_length_mm)) + geom_point() + geom_smooth
 metrics(prediction2, truth = bill_length_mm, estimate = .pred)
 ```
 
-```{r}
+```{webr-r}
 bill_fit3 <- predict(fit3, test_data)
 
 prediction3 <- augment(fit3, test_data)
@@ -558,7 +557,7 @@ To test the power of cross-validation, we are going to examine a bold claim by L
 
 > Letchford A, Moat HS, Preis T (2015) [The advantage of short paper titles](https://doi.org/10.1098/rsos.150266). Royal Society Open Science 2(8): 150266.
 
-```{r}
+```{webr-r}
 # original URL
 # https://datadryad.org/stash/dataset/doi:10.5061/dryad.hg3j0
 dt <- read_csv("data/LMP2015.csv")
@@ -566,9 +565,9 @@ dt <- read_csv("data/LMP2015.csv")
 
 The data set reports information on the top 20000 articles for each year from 2007 to 2013. The Author's claim is that shorter titles lead to more citations:
 
-```{r}
-dt %>% 
-  group_by(year) %>% 
+```{webr-r}
+dt |> 
+  group_by(year) |> 
   summarise(correlation = cor(title_length, cites, method = "kendall"))
 ```
 
@@ -580,24 +579,24 @@ There are several problems with this claim:
 -   The journals cover a wide array of disciplines. The title length could reflect different publishing cultures.
 -   Most importantly, different journals have different requirements for title lengths. For example, Nature requires titles to be less than 90 characters:
 
-```{r}
-dt%>% filter(journal %in% c("Nature", "Science")) %>% 
+```{webr-r}
+dt|> filter(journal %in% c("Nature", "Science")) |> 
   ggplot() + aes(x = journal, y = title_length) + geom_violin()
 ```
 
 But then, is the effect the Authors are reporting only due to the fact that high-profile journals mandate short titles? Let's see whether their claims hold water when considering specific journals:
 
-```{r}
+```{webr-r}
 # only consider journals with more than 1000 papers in the data set
-dt <- dt %>% 
-  group_by(journal) %>% 
-  mutate(num_papers = n())%>% 
-  filter(num_papers > 1000) %>% 
+dt <- dt |> 
+  group_by(journal) |> 
+  mutate(num_papers = n())|> 
+  filter(num_papers > 1000) |> 
   ungroup()
 # now compute correlation and plot
-dt %>% 
-  group_by(year, journal) %>% 
-  summarise(correlation = cor(title_length, cites, method = "kendall")) %>% 
+dt |> 
+  group_by(year, journal) |> 
+  summarise(correlation = cor(title_length, cites, method = "kendall")) |> 
   ggplot() + 
   aes(x = reorder(substr(journal, 1, 30), (correlation)), y = correlation) + 
   geom_boxplot() + 
@@ -610,18 +609,18 @@ It seems that in several medical journals (NEJM, Circulation, J Clin Oncology) l
 
 Let's look at the mean and standard deviation of citations by journal/year
 
-```{r}
-dt %>% 
-  group_by(journal, year) %>% 
-  summarize(mean = mean(log(cites + 1)), sd = sd(log(cites + 1))) %>% 
+```{webr-r}
+dt |> 
+  group_by(journal, year) |> 
+  summarize(mean = mean(log(cites + 1)), sd = sd(log(cites + 1))) |> 
   ggplot() + 
   aes(x = year, y = mean) + 
   geom_point() + 
   facet_wrap(~journal)
 
-dt %>% 
-  group_by(journal, year) %>% 
-  summarize(mean = mean(log(cites + 1)), sd = sd(log(cites + 1))) %>% 
+dt |> 
+  group_by(journal, year) |> 
+  summarize(mean = mean(log(cites + 1)), sd = sd(log(cites + 1))) |> 
   ggplot() + 
   aes(x = year, y = sd) + 
   geom_point() + 
@@ -642,24 +641,24 @@ $\log(\text{cits} + 1) \sim \text{journal}:\text{year} + \text{title-length}$
 
 We are going to fit the model using 90% of the data; we are going to use the remaining data for cross-validation.
 
-```{r}
+```{webr-r}
 set.seed(4)
-dt <- dt %>% mutate(logcit = log(cites + 1))
+dt <- dt |> mutate(logcit = log(cites + 1))
 # sample 10% of the data
-data_test <- dt %>% sample_frac(0.3)
+data_test <- dt |> sample_frac(0.3)
 data_fit  <- anti_join(dt, data_test) # get all those not in data_test
 ```
 
 Now fit the models:
 
-```{r}
+```{webr-r}
 M1 <- lm(logcit ~ factor(year)*journal, data = data_fit)
 M2 <- lm(logcit ~ factor(year)*journal + title_length, data = data_fit)
 ```
 
 Now let's try to predict out-of-fit the data that we haven't used:
 
-```{r}
+```{webr-r}
 M1_predictions <- predict(M1, newdata = data_test)
 SSQ_M1 <- sum((log(data_test$cites + 1) - M1_predictions)^2)
 M2_predictions <- predict(M2, newdata = data_test)
