@@ -8,7 +8,7 @@
 
 <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
 
-<title>1&nbsp; Visualizing data using ggplot2 – Fundamentals of Biological Data Analysis</title>
+<title>8&nbsp; Linear models – Fundamentals of Biological Data Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,8 +31,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-probdist.html" rel="next">
-<link href="./00-refresher.html" rel="prev">
+<link href="./09-ANOVA.html" rel="next">
+<link href="./07-linalg.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -406,7 +371,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# read the data\ndt <- read.csv(\"https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv\")\nhead(dt)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dti <- dt[(dt$state == \"Illinois\") & (dt$cases > 10^4), ]","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + aes(x = county, y = cases)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + aes(x = county, y = cases) + geom_col()","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + \n  aes(x = county, y = cases) + \n  geom_col() + \n  coord_flip()","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + \n  aes(x = reorder(county, cases), y = cases) + # order labels according to cases\n  geom_col() +\n  ylab(\"Number of COVID cases reported\") + # x label\n  xlab(\"Illinois County\") + # y label\n  scale_y_log10() + # transform the counts to logs\n  coord_flip()+\n  ggtitle(dti$date[1]) # main title (use current date)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# you can store the graph in a variable\npl <- ggplot(data = dti)\npl <- pl + aes(x = cases, y = deaths) # for a scatter plot, we need two aes mappings!\npl <- pl + geom_point() # draw points in a scatterplot\npl <- pl + scale_x_sqrt() + scale_y_sqrt() # transform axes\npl # or show(pl)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dti)\npl <- pl + aes(x = deaths / cases)  \npl + geom_histogram(binwidth = 0.0025) ","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl + geom_histogram(bins = 30) # specify the number of bins\npl + geom_histogram(binwidth = 0.001) # specify the bin width","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill the bar colors by state\n  geom_histogram(bins = 30)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill the bar colors by state\n  geom_histogram(position = \"dodge\", bins = 30)+ \n  xlim(c(0,0.03))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill by state\n  geom_density() + xlim(c(0,0.03))","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill by state\n  geom_density(alpha = 0.5) + xlim(c(0, 0.03))","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = state, y = deaths / cases, fill = state) + # we need both x and y\n  geom_boxplot() + ylim(c(0, 0.03))","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = state, y = deaths / cases, fill = state) + # we need both x and y\n  geom_violin(draw_quantiles = 0.5) + ylim(c(0, 0.03))","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dti) + \n  aes(x = cases, y = deaths, colour = log(deaths)) +\n    geom_point() \npl","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl + scale_x_log10() + scale_y_log10() # log-log plot\npl + scale_x_sqrt() # sqrt of number of cases\npl + scale_x_reverse() # from large to small","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# a more complex example\nggplot(data = dt) + \n  aes(x = cases, y = deaths, \n          color = state) +\n  geom_point() + \n  scale_x_log10() + # note that the points with 0 cases or deaths will not work\n  scale_y_log10() +\n  theme(legend.position = \"bottom\")","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# to install, type install.packages(\"ggthemes\") in the console\nlibrary(ggthemes)\npl <- ggplot(data = dti) + aes(x = cases, y = deaths) +\n    geom_point() + scale_x_log10() + scale_y_log10()\npl + theme_bw() # white background\npl + theme_economist() # like in the magazine \"The Economist\"\npl + theme_wsj() # like \"The Wall Street Journal\"","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Missouri\", \"Wisconsin\", \"Indiana\"), ]) + \n  aes(x = cases, y = deaths, colour = state) + geom_point() + scale_x_log10() + scale_y_log10()\npl <- pl + facet_wrap(~state)\npl","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- pl + geom_smooth()\npl","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- pl + coord_equal() + geom_abline(slope = 1, intercept = 0)\npl","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dt) + \n  aes(x = cases, y = deaths) + \n  scale_x_log10() + \n  scale_y_log10()\npl + geom_point()\npl + geom_point(colour = \"red\")\npl + geom_point(shape = 3)\npl + geom_point(alpha = 0.5)","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# save to pdf format\npdf(\"my_output.pdf\", width = 6, height = 4)\nprint(my_plot)\ndev.off()\n# save to svg format\nsvg(\"my_output.svg\", width = 6, height = 4)\nprint(my_plot)\ndev.off()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# save current graph\nggsave(\"my_output.pdf\")\n# save a graph stored in ggplot object\nggsave(plot = my_plot, filename = \"my_output.svg\")","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt) + \n  geom_point(aes(y = state, x = cases), color = \"black\") + \n  geom_point(aes(y = state, x = deaths), color = \"red\") +\n  scale_x_log10() + \n  xlab(\"cases (black), deaths (red)\")","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"library(lindia) # regression diagnostic in ggplot2","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"library(UsingR)\ndata(\"father.son\")\npl <- ggplot(data = father.son) + aes(x = fheight, y = sheight) + geom_point() + coord_equal()\npl","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl + geom_abline(slope = 1, intercept = 0, linetype = 2, color = \"red\")","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"mean(father.son$fheight)\nmean(father.son$sheight)\n# difference\nmean(father.son$sheight) - mean(father.son$fheight)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- pl + geom_abline(slope = 1, intercept = 1, linetype = 2, color = \"blue\")\npl","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"X <- cbind(1, father.son$fheight)\nY <- cbind(father.son$sheight)\nbest_beta <- solve(t(X) %*% X) %*% t(X) %*% Y\nbest_beta","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"best_beta_easy <- lm(sheight ~ fheight, data = father.son)\nbest_beta_easy","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl + geom_smooth(method = \"lm\") # lm stands for linear model","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"degrees_of_freedom <- length(Y) - 2\ndegrees_of_freedom\nepsilon_hat <- X %*% best_beta - Y\nsigma <- sqrt(sum(epsilon_hat^2) / degrees_of_freedom)\nsigma","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(best_beta_easy)","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"y_bar <- mean(Y)\nR_2 <- sum((X %*% best_beta - y_bar)^2) / sum((Y - y_bar)^2)\nR_2","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# look for Multiple R-squared:\nsummary(best_beta_easy)","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# original URL \n# https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g\ndat <- read_csv(\"data/Piwowar_2011.csv\") \n# rename variables for easier handling\ndat <- dat %>% rename(IF = `Impact factor of journal`, \n                      NCIT = `Number of Citations in first 24 months after publication`, \n                      SHARE = `Is the microarray data publicly available`) %>% \n      dplyr::select(NCIT, IF, SHARE)","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"my_model <- lm(log(NCIT + 1) ~ log(IF + 1), data = dat)\nsummary(my_model)","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"my_model2 <- lm(log(NCIT + 1) ~ log(IF + 1) + SHARE, data = dat)\nsummary(my_model2)","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"olympics <- read_csv(\"data/100m_dash.csv\")","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + \n  aes(x = Year, y = Result, colour = Gender) + \n  geom_point() + geom_smooth(method = \"lm\")","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"summary(lm(Result ~ Year*Gender,\n  data = olympics %>% filter(Year > 1899, Year < 2005)))","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + \n  aes(x = Year, y = Result, colour = Gender) + \n  geom_point() + geom_smooth(method = \"lm\", fullrange = TRUE, se = FALSE) +\n  xlim(c(1890, 2200)) + ylim(c(0, 13))","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = olympics %>% filter(Year > 1899, Year < 2005)) + \n  aes(x = Year, y = Result, colour = Gender) + \n  geom_point() + geom_smooth(method = \"lm\", fullrange = TRUE, se = FALSE) +\n  xlim(c(-2000, 2200)) + ylim(c(0, 75))","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = olympics %>% filter(Year > 1899)) + \n  aes(x = Year, y = Result, colour = Gender) + \n  geom_point() + geom_smooth(method = \"lm\", fullrange = TRUE, se = FALSE) +\n  xlim(c(1890, 2400)) + ylim(c(0, 13))","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dat <- read_csv(\"data/Anscombe_1973.csv\")","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_1\"))\nlm(Y ~ X, data = dat %>% filter(Data_set == \"Data_2\"))\nlm(Y ~ X, data = dat %>% filter(Data_set == \"Data_3\"))\nlm(Y ~ X, data = dat %>% filter(Data_set == \"Data_4\"))","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dat) + aes(x = X, y = Y, colour = Data_set) + \n  geom_point() + geom_smooth(method = \"lm\", se = FALSE) + \n  facet_wrap(~Data_set)","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gg_resfitted(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_1\"))) + geom_smooth(method = \"loess\")","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gg_resfitted(lm(Y ~ X, data = dat %>% \n                  filter(Data_set == \"Data_2\"))) + \n  geom_smooth(method = \"loess\")\ngg_resfitted(lm(Y ~ X, data = dat %>% \n                  filter(Data_set == \"Data_3\"))) + \n  geom_smooth(method = \"loess\")\ngg_resfitted(lm(Y ~ X, data = dat %>% \n                  filter(Data_set == \"Data_4\"))) + \n  geom_smooth(method = \"loess\")","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_1\")))\ngg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_2\")))\ngg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_3\")))\ngg_qqplot(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_4\")))","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_1\")))\ngg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_2\")))\ngg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_3\")))\ngg_cooksd(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_4\")))","id":28,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-28","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_1\")))\ngg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_2\")))\ngg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_3\")))\ngg_resleverage(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_4\")))","id":29,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-29","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"gg_diagnose(lm(Y ~ X, data = dat %>% filter(Data_set == \"Data_2\")))","id":30,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-30","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# read the data\n# Original URL\ndt <- read_csv(\"https://raw.githubusercontent.com/dailybruin/uc-salaries/master/data/uc_salaries.csv\", \n               col_names = c(\"first_name\", \"last_name\", \"title\", \"a\", \"pay\", \"loc\", \"year\", \"b\", \"c\", \"d\")) %>% \n      dplyr::select(first_name, last_name, title, loc, pay)\n# get only profs\ndt <- dt %>% filter(title %in% c(\"PROF-AY\", \"ASSOC PROF-AY\", \"ASST PROF-AY\", \n                                 \"PROF-AY-B/E/E\", \"PROF-HCOMP\", \"ASST PROF-AY-B/E/E\", \n                                 \"ASSOC PROF-AY-B/E/E\", \"ASSOC PROF-HCOMP\", \"ASST PROF-HCOMP\"))\n# remove those making less than 30k (probably there only for a period)\ndt <- dt %>% filter(pay > 30000)\ndt","id":31,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-31","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dt %>% ggplot() + aes(x = pay) + geom_histogram(binwidth = 10000)","id":32,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-32","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dt %>% ggplot() + aes(x = log2(pay)) + geom_histogram(binwidth = 0.5)","id":33,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-33","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"unscaled <- lm(pay ~ title + loc, data = dt)\nsummary(unscaled)\ngg_diagnose(lm(pay ~ title + loc, data = dt))","id":34,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-34","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"scaled <- lm(log2(pay) ~ title + loc, data = dt)\nsummary(scaled)\ngg_diagnose(lm(log2(pay) ~ title + loc, data = dt))","id":35,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-35","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1660,8 +1625,37 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="twitter:title" content="1&nbsp; Visualizing data using ggplot2 – Fundamentals of Biological Data Analysis">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="8&nbsp; Linear models – Fundamentals of Biological Data Analysis">
 <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
 <meta name="twitter:card" content="summary">
 </head>
@@ -1675,7 +1669,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-dataviz.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-linearreg.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linear models</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1736,7 +1730,7 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></span></a>
   </div>
 </li>
@@ -1778,7 +1772,7 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link">
+  <a href="./08-linearreg.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
   </div>
 </li>
@@ -1840,23 +1834,27 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#goal" id="toc-goal" class="nav-link active" data-scroll-target="#goal"><span class="header-section-number">1.1</span> Goal</a></li>
-  <li><a href="#introduction-to-the-grammar-of-graphics" id="toc-introduction-to-the-grammar-of-graphics" class="nav-link" data-scroll-target="#introduction-to-the-grammar-of-graphics"><span class="header-section-number">1.2</span> Introduction to the Grammar of Graphics</a></li>
-  <li><a href="#basic-ggplot2" id="toc-basic-ggplot2" class="nav-link" data-scroll-target="#basic-ggplot2"><span class="header-section-number">1.3</span> Basic <code>ggplot2</code></a></li>
-  <li><a href="#building-a-well-formed-graph" id="toc-building-a-well-formed-graph" class="nav-link" data-scroll-target="#building-a-well-formed-graph"><span class="header-section-number">1.4</span> Building a well-formed graph</a></li>
-  <li><a href="#scatterplots" id="toc-scatterplots" class="nav-link" data-scroll-target="#scatterplots"><span class="header-section-number">1.5</span> Scatterplots</a></li>
-  <li><a href="#histograms-density-and-boxplots" id="toc-histograms-density-and-boxplots" class="nav-link" data-scroll-target="#histograms-density-and-boxplots"><span class="header-section-number">1.6</span> Histograms, density and boxplots</a></li>
-  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">1.7</span> Scales</a></li>
-  <li><a href="#list-of-aesthetic-mappings" id="toc-list-of-aesthetic-mappings" class="nav-link" data-scroll-target="#list-of-aesthetic-mappings"><span class="header-section-number">1.8</span> List of aesthetic mappings</a></li>
-  <li><a href="#list-of-geometries" id="toc-list-of-geometries" class="nav-link" data-scroll-target="#list-of-geometries"><span class="header-section-number">1.9</span> List of geometries</a></li>
-  <li><a href="#list-of-scales" id="toc-list-of-scales" class="nav-link" data-scroll-target="#list-of-scales"><span class="header-section-number">1.10</span> List of scales</a></li>
-  <li><a href="#themes" id="toc-themes" class="nav-link" data-scroll-target="#themes"><span class="header-section-number">1.11</span> Themes</a></li>
-  <li><a href="#faceting" id="toc-faceting" class="nav-link" data-scroll-target="#faceting"><span class="header-section-number">1.12</span> Faceting</a></li>
-  <li><a href="#setting-features" id="toc-setting-features" class="nav-link" data-scroll-target="#setting-features"><span class="header-section-number">1.13</span> Setting features</a></li>
-  <li><a href="#saving-graphs" id="toc-saving-graphs" class="nav-link" data-scroll-target="#saving-graphs"><span class="header-section-number">1.14</span> Saving graphs</a></li>
-  <li><a href="#multiple-layers" id="toc-multiple-layers" class="nav-link" data-scroll-target="#multiple-layers"><span class="header-section-number">1.15</span> Multiple layers</a></li>
-  <li><a href="#try-on-your-own-data" id="toc-try-on-your-own-data" class="nav-link" data-scroll-target="#try-on-your-own-data"><span class="header-section-number">1.16</span> Try on your own data!</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">1.17</span> Resources</a></li>
+  <li><a href="#regression-toward-the-mean" id="toc-regression-toward-the-mean" class="nav-link active" data-scroll-target="#regression-toward-the-mean"><span class="header-section-number">8.1</span> Regression toward the mean</a></li>
+  <li><a href="#finding-the-best-fitting-line-linear-regression" id="toc-finding-the-best-fitting-line-linear-regression" class="nav-link" data-scroll-target="#finding-the-best-fitting-line-linear-regression"><span class="header-section-number">8.2</span> Finding the best fitting line: Linear Regression</a>
+  <ul class="collapse">
+  <li><a href="#solving-a-linear-model-some-linear-algebra" id="toc-solving-a-linear-model-some-linear-algebra" class="nav-link" data-scroll-target="#solving-a-linear-model-some-linear-algebra"><span class="header-section-number">8.2.1</span> Solving a linear model — some linear algebra</a></li>
+  <li><a href="#minimizing-the-sum-of-squares" id="toc-minimizing-the-sum-of-squares" class="nav-link" data-scroll-target="#minimizing-the-sum-of-squares"><span class="header-section-number">8.2.2</span> Minimizing the sum of squares</a></li>
+  <li><a href="#assumptions-of-linear-regression" id="toc-assumptions-of-linear-regression" class="nav-link" data-scroll-target="#assumptions-of-linear-regression"><span class="header-section-number">8.2.3</span> Assumptions of linear regression</a></li>
+  </ul></li>
+  <li><a href="#linear-regression-in-action" id="toc-linear-regression-in-action" class="nav-link" data-scroll-target="#linear-regression-in-action"><span class="header-section-number">8.3</span> Linear regression in action</a></li>
+  <li><a href="#a-regression-gone-wild" id="toc-a-regression-gone-wild" class="nav-link" data-scroll-target="#a-regression-gone-wild"><span class="header-section-number">8.4</span> A regression gone wild</a></li>
+  <li><a href="#more-advanced-topics" id="toc-more-advanced-topics" class="nav-link" data-scroll-target="#more-advanced-topics"><span class="header-section-number">8.5</span> More advanced topics</a>
+  <ul class="collapse">
+  <li><a href="#categorical-variables-in-linear-models" id="toc-categorical-variables-in-linear-models" class="nav-link" data-scroll-target="#categorical-variables-in-linear-models"><span class="header-section-number">8.5.1</span> Categorical variables in linear models</a></li>
+  <li><a href="#interactions-in-linear-models" id="toc-interactions-in-linear-models" class="nav-link" data-scroll-target="#interactions-in-linear-models"><span class="header-section-number">8.5.2</span> Interactions in linear models</a></li>
+  <li><a href="#regression-diagnostics" id="toc-regression-diagnostics" class="nav-link" data-scroll-target="#regression-diagnostics"><span class="header-section-number">8.5.3</span> Regression diagnostics</a></li>
+  <li><a href="#plotting-the-residuals" id="toc-plotting-the-residuals" class="nav-link" data-scroll-target="#plotting-the-residuals"><span class="header-section-number">8.5.4</span> Plotting the residuals</a></li>
+  <li><a href="#q-q-plot" id="toc-q-q-plot" class="nav-link" data-scroll-target="#q-q-plot"><span class="header-section-number">8.5.5</span> Q-Q Plot</a></li>
+  <li><a href="#cooks-distance" id="toc-cooks-distance" class="nav-link" data-scroll-target="#cooks-distance"><span class="header-section-number">8.5.6</span> Cook’s distance</a></li>
+  <li><a href="#leverage" id="toc-leverage" class="nav-link" data-scroll-target="#leverage"><span class="header-section-number">8.5.7</span> Leverage</a></li>
+  <li><a href="#running-all-diagnostics" id="toc-running-all-diagnostics" class="nav-link" data-scroll-target="#running-all-diagnostics"><span class="header-section-number">8.5.8</span> Running all diagnostics</a></li>
+  </ul></li>
+  <li><a href="#transforming-the-data" id="toc-transforming-the-data" class="nav-link" data-scroll-target="#transforming-the-data"><span class="header-section-number">8.6</span> Transforming the data</a></li>
   </ul>
 </nav>
     </div>
@@ -2149,7 +2147,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Linear models</span></h1>
 </div>
 
 
@@ -2166,203 +2164,280 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="goal" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="goal"><span class="header-section-number">1.1</span> Goal</h2>
-<p>Introduce the package <code>ggplot2</code>, which is part of the <code>tidyverse</code> bundle. Learn how to use <code>ggplot2</code> to produce publication-quality figures. Discuss the philosophical underpinnings of the “Grammar of Graphics”, showcase the <code>ggplot2</code> syntax, produce examples of the different types of graphs. Learn how to change colors, legends, scales. Visualize histograms, barplots, scatterplots, etc.</p>
-</section>
-<section id="introduction-to-the-grammar-of-graphics" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="introduction-to-the-grammar-of-graphics"><span class="header-section-number">1.2</span> Introduction to the Grammar of Graphics</h2>
-<p>The most salient feature of scientific graphs should be clarity. Each figure should make crystal-clear a) what is being plotted; b) what are the axes; c) what do colors, shapes, and sizes represent; d) the message the figure wants to convey. Each figure is accompanied by a (sometimes long) caption, where the details can be explained further, but the main message should be clear from glancing at the figure (often, figures are the first thing editors and referees look at).</p>
-<p>Many scientific publications contain very poor graphics: labels are missing, scales are unintelligible, there is no explanation of some graphical elements. Moreover, some color graphs are impossible to understand if printed in black and white, or difficult to discern for color-blind people.</p>
-<p>Given the effort that you put into your science, you want to ensure that it is well presented and accessible. The investment to master some plotting software will be rewarded by pleasing graphics that convey a clear message.</p>
-<p>In this section, we introduce <code>ggplot2</code>, a plotting package for <code>R</code> This package was developed by Hadley Wickham who contributed many important packages to <code>R</code> (all included in the <code>tidyverse</code> bundle we’re going to use for the reminder of the class). Unlike many other plotting systems, <code>ggplot2</code> is deeply rooted in a “philosophical” vision. The goal is to conceive a grammar for all graphical representation of data. Leland Wilkinson and collaborators proposed The Grammar of Graphics. It follows the idea of a well-formed sentence that is composed of a subject, a predicate, and an object. The Grammar of Graphics likewise aims at describing a well-formed graph by a grammar that captures a very wide range of statistical and scientific graphics. This might be more clear with an example – Take a simple two-dimensional scatterplot. How can we describe it? We have:</p>
-<ul>
-<li><p><strong>Data</strong> The data we want to plot.</p></li>
-<li><p><strong>Mapping</strong> What part of the data is associated with a particular visual feature? For example: Which column is associated with the x-axis? Which with the y-axis? Which column corresponds to the shape or the color of the points? In <code>ggplot2</code> lingo, these are called <em>aesthetic mappings</em> (<code>aes</code>).</p></li>
-<li><p><strong>Geometry</strong> Do we want to draw points? Lines? In <code>ggplot2</code> we speak of <em>geometries</em> (<code>geom</code>).</p></li>
-<li><p><strong>Scale</strong> Do we want the sizes and shapes of the points to scale according to some value? Linearly? Logarithmically? Which palette of colors do we want to use?</p></li>
-<li><p><strong>Coordinate</strong> We need to choose a coordinate system (e.g., Cartesian, polar).</p></li>
-<li><p><strong>Faceting</strong> Do we want to produce different panels, partitioning the data according to one (or more) of the variables?</p></li>
-</ul>
-<p>This basic grammar can be extended by adding statistical transformations of the data (e.g., regression, smoothing), multiple layers, adjustment of position (e.g., stack bars instead of plotting them side-by-side), annotations, and so on.</p>
-<p>Exactly like in the grammar of a natural language, we can easily change the meaning of a “sentence” by adding or removing parts. Also, it is very easy to completely change the type of geometry if we are moving from say a histogram to a boxplot or a violin plot, as these types of plots are meant to describe one-dimensional distributions. Similarly, we can go from points to lines, changing one “word” in our code. Finally, the look and feel of the graphs is controlled by a theming system, separating the content from the presentation.</p>
-</section>
-<section id="basic-ggplot2" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="basic-ggplot2"><span class="header-section-number">1.3</span> Basic <code>ggplot2</code></h2>
-<p><code>ggplot2</code> ships with a simplified graphing function, called <code>qplot</code>. In this introduction we are not going to use it, and we concentrate instead on the function <code>ggplot</code>, which gives you complete control over your plotting. We will need to use the package <code>tidyverse</code>, which is already loaded if you are using the Web version of the book. If you want to copy this code into an R script to execute on your local machine, start with this line:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>To explore the features of <code>ggplot2</code>, we are going to use a data set detailing the total number of COVID cases and deaths in US counties. The data are provided by the <a href="https://github.com/nytimes/covid-19-data/blob/master/live/us-counties.csv">New York Times</a>.</p>
+<p>Learn how to perform linear regression, how to make sure that the assumptions of the model are not violated, and how to interpret the results.</p>
+<p>Note that we need a new library:</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>we are going to work with <code>date</code>, <code>county</code>, <code>state</code>, <code>cases</code> and <code>deaths</code>.</p>
-<p>Let’s select Illnois, and take only the counties with more than 10k cases (to have a less crowded graph):</p>
+<section id="regression-toward-the-mean" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="regression-toward-the-mean"><span class="header-section-number">8.1</span> Regression toward the mean</h2>
+<p>Francis Galton (Darwin’s half-cousin) was a biologist interested in evolution, and one of the main proponents of eugenics (he coined the term himself). To advance his research program, he set out to measure several features in human populations, and started trying to explain the variation he observed, incidentally becoming one of the founding fathers of modern statistics.</p>
+<p>In his “Regression towards mediocrity in hereditary stature” he showed an interesting pattern: children of tall parents tended to be shorter than their parents, while children of short parents tended to be taller than their parents. He called this phenomenon “regression toward mediocrity” (now called regression toward [to] the mean).</p>
+<p>We’re going to explore this phenomenon using Karl Pearson’s (another founding father of statistics) data from 1903, recording the height of fathers and sons:</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A particularity of <code>ggplot2</code> is that it accepts exclusively data organized in tables (a <code>data.frame</code> or a <code>tibble</code> object—more on tibbles later). Thus, all of your data needs to be converted into a data frame format for plotting.</p>
-</section>
-<section id="building-a-well-formed-graph" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="building-a-well-formed-graph"><span class="header-section-number">1.4</span> Building a well-formed graph</h2>
-<p>For our first plot, we’re going to produce a barplot detailing how many cases have been reported in each County:</p>
+<p>Let’s add the 1:1 line for comparison:</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As you can see, nothing is drawn: we need to specify what we would like to associate to the <em>x</em> axis, and what to the <em>y</em> axis, etc. (i.e., we want to set as the <em>aesthetic mappings</em>). A barplot typically has classes on the <em>x</em> axis, while the <em>y</em> axis reports the counts in each class.</p>
+<p>You can see that the sons tend to be taller than their fathers. Let’s see of how much:</p>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Note that we concatenate pieces of our “sentence” using the <code>+</code> sign! We’ve got the aestethic mappings figured out, but still no graph… we need to specify a geometry, i.e., the type of graph we want to produce. In this case, a barplot where the height of the bars is specified by the <code>y</code> value:</p>
+<p>So let’s add a line with an intercept of 1:</p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Because it is very difficult to see the labels, let’s swap the axes:</p>
+<p>You can see that the line does not divide the cloud of points evenly: even though tall fathers tend to produce tall sons, and short fathers short sons, the sons of short fathers tend to be taller than their fathers (for example, look at the sons of fathers less than 60 inches tall), while the sons of tall fathers tend to be shorter than their fathers (for example, the sons of fathers taller than 75 inches).</p>
+<p>This phenomenon is called “regression toward the mean”: when you take two measurement on the same sample (or related samples, as here), if a variable is extreme on its first measurement, it will tend to be closer to the average on its second measurement; if it is extreme on its second measurement, it will tend to have been closer to the average on its first.</p>
+<blockquote class="blockquote">
+<p><strong>Regression to the mean: dangers of interpretation</strong></p>
+</blockquote>
+<ul>
+<li>A city sees an unusual growth of crime in a given neighborhood, and they decide to patrol the neighborhood more heavily. The next year, crime rates are close to normal. Was this due to heavy presence of police?</li>
+<li>A teacher sees that scolding students who’ve had a very low score in a test makes them perform better in the next test. (But would praising those with unusually high scores lead to slacking off in the next test?)</li>
+<li>A huge problem in science: effect sizes tend to decrease through time. Problem of selective reporting?</li>
+</ul>
+<p>This phenomenon gave the name to one of the simplest statistical models: the linear regression.</p>
+</section>
+<section id="finding-the-best-fitting-line-linear-regression" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="finding-the-best-fitting-line-linear-regression"><span class="header-section-number">8.2</span> Finding the best fitting line: Linear Regression</h2>
+<p>How can we explain the relationship between the height of the fathers and those of their sons? One of the simplest models we can use is called a “Linear Model”. Basically, we want to express the height of the son as a function of the height of the father:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+\]</span></p>
+<p>where <span class="math inline">\(y_i\)</span> is the height of the son (<strong>response variable</strong>), <span class="math inline">\(x_i\)</span> is the height of the father (<strong>explanatory variable</strong>), <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are two numbers (intercept and slope of the line) that do not vary within the population (these are the parameters we want to fit). Finally, the term <span class="math inline">\(\epsilon_i\)</span> measures the “error” we are making for the <span class="math inline">\(i^{th}\)</span> son. For simplicity, we assume the <span class="math inline">\(\epsilon_i \overset{\text{iid}}{\sim} \mathcal N(0, \sigma^2)\)</span> (and <span class="math inline">\(\sigma\)</span> is therefore another parameter we want to fit).</p>
+<p>When we have multiple explanatory variables (for example, if we had recorded also the height of the mother, whether the son was born at full term or premature, the average caloric intake for the family, etc.), we speak of <strong>Multiple Linear Regression</strong>:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \sum_{k=1}^n \beta_k x_{ik} + \epsilon_i
+\]</span></p>
+<section id="solving-a-linear-model-some-linear-algebra" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="solving-a-linear-model-some-linear-algebra"><span class="header-section-number">8.2.1</span> Solving a linear model — some linear algebra</h3>
+<p>In this section, we’re going to look at the mechanics of linear regression. Suppose that for simplicity we have a single explanatory variable, then we can write the linear model in compact form as:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \mathbf{X} \mathbf{\beta} + \mathbf{\epsilon}
+\]</span></p>
+<p>where:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \begin{pmatrix} y_1\\ y_2\\ \vdots \\ y_n \end{pmatrix} \;\;\;
+\mathbf{X} = \begin{pmatrix} 1 &amp; x_1\\ 1 &amp; x_2\\ \vdots &amp; \vdots \\ 1 &amp; x_n \end{pmatrix}
+\;\;\;
+\mathbf{\beta} = \begin{pmatrix} \beta_0 \\ \beta_1\end{pmatrix} \;\;\; \mathbf{\epsilon} = \begin{pmatrix} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{pmatrix}
+\]</span></p>
+<p>Solving the linear regression means finding the best-fitting <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\sigma\)</span> (controlling the spread of the distribution of the <span class="math inline">\(\epsilon_i\)</span>). Our goal is to find the values of <span class="math inline">\(\beta\)</span> that minimize <span class="math inline">\(\sigma\)</span> (meaning that the points fall closer to the line). Rearranging:</p>
+<p><span class="math display">\[
+\sum_i \epsilon_i^2 = \sum_i (y_i - \beta_0 - \beta_1 x_i)^2 =  \Vert \mathbf{Y} - \mathbf{X} \mathbf{\beta} \Vert
+\]</span></p>
+<p>As such, we want to find the vector <span class="math inline">\(\beta\)</span> that minimizes the norm <span class="math inline">\(\Vert \mathbf{Y} - \mathbf{X} \mathbf{\beta} \Vert\)</span>. One can prove that this is accomplished using:</p>
+<p><span class="math display">\[
+\hat{\mathbf{\beta}} = \left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T \mathbf{Y}
+\]</span></p>
+<p>Where the matrix <span class="math inline">\(\left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T\)</span> is known as the (left) Moore-Penrose pseudo-inverse of <span class="math inline">\(\mathbf{X}\)</span>. Let’s try to do this in <code>R</code> (the “hard” way):</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The graph shows that, naturally, the vast majority of cases was reported in Cook county. We have written a “well-formed sentence”, composed of <strong>data</strong> + <strong>mapping</strong> + <strong>geometry</strong>, and this is sufficient to produce a graph. We can add “adjectives” and “adverbs” to our graph, to make it clearer:</p>
+<p>We find that the best fitting line has an intercept of about 34 inches, and a slope of 0.51. Of course, <code>R</code> can do this calculation for you with just one command:</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="scatterplots" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="scatterplots"><span class="header-section-number">1.5</span> Scatterplots</h2>
-<p>Using <code>ggplot2</code>, one can produce very many types of graphs. The package works very well for 2D graphs (or 3D rendered in two dimensions), while it lack capabilities to draw proper 3D graphs, or networks.</p>
-<p>The main feature of <code>ggplot2</code> is that you can tinker with your graph fairly easily, and with a common grammar. You don’t have to settle on a certain presentation of the data until you’re ready, and it is very easy to switch from one type of graph to another.</p>
-<p>For example, let’s plot the number of cases vs.&nbsp;number of deaths:</p>
+<p>But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:</p>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Showing that number of daily cases and number of daily deaths are highly correlated (but it would be a stronger correlation if we were to plot past cases vs.&nbsp;current deaths).</p>
 </section>
-<section id="histograms-density-and-boxplots" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="histograms-density-and-boxplots"><span class="header-section-number">1.6</span> Histograms, density and boxplots</h2>
-<p>It would be nice to see the distribution of the ratio deaths/cases. To do so, we can produce a histogram:</p>
+<section id="minimizing-the-sum-of-squares" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="minimizing-the-sum-of-squares"><span class="header-section-number">8.2.2</span> Minimizing the sum of squares</h3>
+<p>What we just did is called “ordinary least-squares”: we are trying to minimize the distance from the data points to their projection on the best-fitting line. We can compute the “predicted” heights as:</p>
+<p><span class="math display">\[
+\hat{\mathbf{Y}} = \mathbf{X}\hat{\mathbf{\beta}}
+\]</span></p>
+<p>Then, we’re minimizing <span class="math inline">\(\Vert \mathbf{Y} - \hat{\mathbf{Y}}\Vert\)</span>. We call <span class="math inline">\(\hat{\mathbf{\epsilon}} = \mathbf{Y} - \hat{\mathbf{Y}}\)</span> the vector of <strong>residuals</strong>. From this, we can estimate the final parameter, <span class="math inline">\(\sigma\)</span>:</p>
+<p><span class="math display">\[
+\sigma = \sqrt{\frac{\sum_i \hat{\epsilon_i}^2}{n -  p}}
+\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the number of data points, and <span class="math inline">\(p\)</span> is the number of parameters in <span class="math inline">\(\mathbf{\beta}\)</span> (2 in this case); this measures the number of <strong>degrees of freedom</strong>. Let’s try to compute it:</p>
 <div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can control the width of the bins by specifying:</p>
+<p>In <code>R</code>, you will find this reported as the <code>Residual standard error</code> when you call <code>summary</code> on your model:</p>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Let’s see whether the histograms differ between Illinois and Indiana:</p>
+<p>Finally, the <strong>coefficient of determination</strong> <span class="math inline">\(R^2\)</span> is computed as:</p>
+<p><span class="math display">\[
+R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
+\]</span></p>
+<p>where <span class="math inline">\(\bar{y}\)</span> is the mean of <span class="math inline">\(y_i\)</span>. If the regression has an intercept, then the <span class="math inline">\(R^2\)</span> can vary between 0 and 1, with values close to 1 indicating a good fit to the data. Again, let’s compute it the hard way and then the easy way:</p>
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>To plot the histogram side by side, use</p>
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Similarly, we can approximate the histogram using a density plot, which interpolates the bin height to create a smooth distribution:</p>
+</section>
+<section id="assumptions-of-linear-regression" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="assumptions-of-linear-regression"><span class="header-section-number">8.2.3</span> Assumptions of linear regression</h3>
+<p>In practice, when we are performing a linear regression, we are making a number of assumptions about the data. Here are the main ones:</p>
+<ul>
+<li>Model structure: we assume that the process generating the data is linear.</li>
+<li>Explanatory variable: we assume that this is measured without errors (!).</li>
+<li>Residuals: we assume that residuals are i.i.d. Normal.</li>
+<li>Strict exogeneity: the residuals should have conditional mean of 0.</li>
+</ul>
+<p><span class="math display">\[
+\mathbb E[\epsilon_i | x_i] = 0
+\]</span></p>
+<ul>
+<li>No linear dependence: the columns of <span class="math inline">\(\mathbf{X}\)</span> should be linearly independent.</li>
+<li>Homoscedasticity: the variance of the residuals is independent of <span class="math inline">\(x_i\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\mathbb V[\epsilon_i | x_i] =  \sigma^2
+\]</span></p>
+<ul>
+<li>Errors are uncorrelated between observations.</li>
+</ul>
+<p><span class="math display">\[
+\mathbb E[\epsilon_i \epsilon_j | x] = 0 \; \forall j \neq i
+\]</span></p>
+</section>
+</section>
+<section id="linear-regression-in-action" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="linear-regression-in-action"><span class="header-section-number">8.3</span> Linear regression in action</h2>
+<p>To perform a slightly more complicated linear regression, we take the data from:</p>
+<blockquote class="blockquote">
+<p>Piwowar HA, Day RS, Fridsma DB (2007) <a href="https://doi.org/10.1371/journal.pone.0000308">Sharing detailed research data is associated with increased citation rate</a>. PLoS ONE 2(3): e308.</p>
+</blockquote>
+<p>The authors set out to demonstrate that sharing data accompanying papers tends to increase the number of citations received by the paper.</p>
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>To see the graph better, let’s make the coloring semi-transparent:</p>
+<p>First, let’s run a model in which the logarithm of the number of citations + 1 is regressed against the “Impact Factor” of the journal (which is a measure of “prestige” based on the average number of citations per paper received):</p>
 <div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Showing a similar distribution for the death rate in the two states. For this type of comparison, the ideal graph to show is maybe a box-plot or a violin plot:</p>
+<p>You can see that the higher the impact factor, the higher the number of citations received (unsurprisingly!). Now let’s add another variable, detailing whether publicly available data accompany the paper:</p>
 <div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent “outliers”. To show the full distribution, you can use a violin plot:</p>
+<p>We find that sharing data is associated with a larger number of citations.</p>
+</section>
+<section id="a-regression-gone-wild" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="a-regression-gone-wild"><span class="header-section-number">8.4</span> A regression gone wild</h2>
+<p>Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in <em>Nature</em> (no less!) by Tatem <em>et al</em>. You can find the study <a href="https://www.nature.com/articles/431525a">here</a>. Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:</p>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Note that when we’re producing “similar” plots (e.g., histogram vs.&nbsp;density, box vs.&nbsp;violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!</p>
-</section>
-<section id="scales" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="scales"><span class="header-section-number">1.7</span> Scales</h2>
-<p>We can use scales to determine how the aesthetic mappings are displayed. For example, we could set the <em>x</em> axis to be in logarithmic scale, or we can choose how the colors, shapes and sizes are used. <code>ggplot2</code> uses two types of scales: <code>continuous</code> scales are used for continuos variables (e.g., real numbers); <code>discrete</code> scales for variables that can only take a certain number of values (e.g., colors, shapes, sizes).</p>
-<p>For example, let’s plot deaths vs.&nbsp;cases in our <code>dti</code> data set:</p>
+<p>Then, they fitted a linear regression through the points, for both men and women. So far, so good:</p>
 <div id="qwebr-insertion-location-17"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can change the scale of the <em>x</em> axis by calling:</p>
+<p>The fit is quite good:</p>
 <div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Similarly, we can change the use of colors, points, etc.</p>
-</section>
-<section id="list-of-aesthetic-mappings" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="list-of-aesthetic-mappings"><span class="header-section-number">1.8</span> List of aesthetic mappings</h2>
-<p>We’ve seen some of the aesthetic mappings. Here’s a list of the main <code>aes</code>:</p>
-<ul>
-<li><code>x</code> what to use for <em>x</em> axis</li>
-<li><code>y</code> what to use for <em>y</em> axis</li>
-<li><code>color</code> the color of points and lines</li>
-<li><code>fill</code> the color of shapes (e.g., boxes, bars, etc.)</li>
-<li><code>size</code> the size of points, lines, etc.</li>
-<li><code>shape</code> the shape of points</li>
-<li><code>alpha</code> the level of transparency of the object</li>
-<li><code>linetype</code> the type of line (e.g., solid, dashed, etc.)</li>
-</ul>
+<p>An <span class="math inline">\(R^2\)</span> of 0.93, the pinnacle of a good linear regression. Now however, comes the problem. The Authors noticed that the times recorded for women are falling faster than those for men, meaning that the gender gap is reducing. Will it ever disappear? Just extend the regression and project forward:</p>
 <div id="qwebr-insertion-location-19"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="list-of-geometries" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="list-of-geometries"><span class="header-section-number">1.9</span> List of geometries</h2>
-<p>There are very many geometries; here are a few of the most useful ones:</p>
-<ul>
-<li>Lines: <code>geom_abline</code> (line given slope and intercept); <code>geom_hline</code>, <code>geom_vline</code> (horizontal, vertical line); <code>geom_line</code> (connect observation in scatterplot).</li>
-<li>Bars: <code>geom_bar</code> (bar height is the count/sum); <code>geom_col</code> (bar heigts are provided by the data).</li>
-<li>Boxes: <code>geom_boxplot</code>.</li>
-<li>Distributions: <code>geom_violin</code> (like boxplots, but showing the density of the distribution); <code>geom_density</code> (density of 1D distribution), <code>geom_density2d</code> (density of bivariate distribution); <code>geom_histogram</code>, <code>geom_bin2d</code> (histograms).</li>
-<li>Text: <code>geom_text</code>.</li>
-<li>Smoothing function: <code>geom_smooth</code> (interpolates the points of a scatterplot).</li>
-<li>Error bars: <code>geom_errorbar</code>.</li>
-<li>Maps: <code>geom_map</code> (polygons from a reference map).</li>
-</ul>
-</section>
-<section id="list-of-scales" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="list-of-scales"><span class="header-section-number">1.10</span> List of scales</h2>
-<p>There are also very many scales. Here are a few:</p>
-<ul>
-<li><code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code> control labels and ranges of the axes.</li>
-<li><code>scale_alpha</code> transparency of the points/shapes.</li>
-<li><code>scale_color</code> (many options) colors of points and lines.</li>
-<li><code>scale_fill</code> (many options) colors of boxes, bars and shapes.</li>
-<li><code>scale_shape</code> shape of the points.</li>
-<li><code>scale_linetype</code> type of lines.</li>
-<li><code>scale_size</code> size of points and lines.</li>
-<li><code>scale_x</code>, <code>scale_y</code> (many options) transformations of the axes.</li>
-</ul>
-</section>
-<section id="themes" class="level2" data-number="1.11">
-<h2 data-number="1.11" class="anchored" data-anchor-id="themes"><span class="header-section-number">1.11</span> Themes</h2>
-<p>Themes allow you to manipulate the look and feel of a graph with just one command. The package <code>ggthemes</code> extends the themes collection of <code>ggplot2</code> considerably. For example:</p>
+<p>You can see that the lines are touching in sometimes before 2200! Then women will overrun men.</p>
+<p>There are a number of things that are wrong with this result. First, by the same logic, computers will soon go faster than the speed of light, the number of people on planet Earth will be in the hundreds of billions, and the price of sequencing will drop so much that we will be paid instead of paying to get our samples sequenced…</p>
+<p>Second, if we extend backwards, rather than forward, we would find that Roman women would take more than a minute to run 100m (possibly, because of the uncomfortable tunics and sandals…).</p>
 <div id="qwebr-insertion-location-20"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="faceting" class="level2" data-number="1.12">
-<h2 data-number="1.12" class="anchored" data-anchor-id="faceting"><span class="header-section-number">1.12</span> Faceting</h2>
-<p>In many cases, we would like to produce a multi-panel graph, in which each panel shows the data for a certain combination of parameters. In <code>ggplot2</code> this is called <em>faceting</em>: the command <code>facet_grid</code> is used when you want to produce a grid of panels, in which all the panels in the same row (or column) have axes-ranges in common; <code>facet_wrap</code> is used when the different panels do not necessarily have axes-ranges in common.</p>
-<p>For example:</p>
+<p>As Neil Bohr allegedly said (but this is disputed), “Prediction is very difficult, especially about the future”. The fact is that any non-linear curve looks quite linear if we are only considering a small range of values on the x-axis. To prove this point, let’s add the data from 2004 to today:</p>
 <div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Let’s add a line separating showing the best-fit line:</p>
+<p>You can see that the process has already slowed down: now it would take an extra century before the “momentous sprint”.</p>
+<p>So many things were wrong with this short paper, that <em>Nature</em> was showered with replies. My favorite is from a Cambridge statistician (the Authors were from Oxford, ça va sans dire); it is perfectly short and venomous—a good candidate for the Nobel prize in Literature!</p>
+<blockquote class="blockquote">
+<p>Sir — A. J. Tatem and colleagues calculate that women may outsprint men by the middle of the twenty-second century (Nature 431, 525; 2004). They omit to mention, however, that (according to their analysis) a far more interesting race should occur in about 2636, when times of less than zero seconds will be recorded. In the intervening 600 years, the authors may wish to address the obvious challenges raised for both time-keeping and the teaching of basic statistics. — Kenneth Rice</p>
+</blockquote>
+</section>
+<section id="more-advanced-topics" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="more-advanced-topics"><span class="header-section-number">8.5</span> More advanced topics</h2>
+<section id="categorical-variables-in-linear-models" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="categorical-variables-in-linear-models"><span class="header-section-number">8.5.1</span> Categorical variables in linear models</h3>
+<p>In the example above, we have built the model:</p>
+<p><span class="math display">\[
+\log(\text{NCIT} + 1) = \beta_0 + \beta_1 (\log(\text{IF} + 1))_i + \beta_2 (\text{SHARE})_i + \epsilon_i
+\]</span></p>
+<p>In this case, the variable SHARE takes values of 1 or 0. As such, when the data were not shared (SHARE = 0) the model reduces to the previous one, in which <span class="math inline">\(\beta_2\)</span> was absent. The coefficient <span class="math inline">\(\beta_2\)</span> measures the increase in the log of citation count when data are shared.</p>
+<p>The same approach can be taken whenever you have categorical values: <code>R</code> will automatically create <strong>dummy variables</strong> each encoding whether the ith data point belongs to a particular category. For example, suppose you want to predict the height of a child based on the height of the father, and that you also collected the gender, in three categories: <code>F</code> for female, <code>M</code> for male, <code>U</code> for unknown. Then you could use this information to build the model:</p>
+<p><span class="math display">\[
+\text{height}_i = \beta_0 + \beta_1 \text{(height of father)}_i + \beta_2 (\text{gender is M})_i + \beta_3 (\text{gender is U})_i + \epsilon_i
+\]</span></p>
+<p>where the variable <code>gender is M</code> takes value 1 when the gender is <code>M</code> and 0 otherwise, and <code>gender is U</code> takes value 1 when the gender is unknown and 0 otherwise. As such, when the gender is <code>F</code> both variables will be zero, and <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> measure the increase (or decrease) in height for males and those with unspecified gender, respectively. While <code>R</code> does this for you automatically, understanding what is going on “under the hood” is essential for interpreting the results.</p>
+</section>
+<section id="interactions-in-linear-models" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="interactions-in-linear-models"><span class="header-section-number">8.5.2</span> Interactions in linear models</h3>
+<p>Sometimes we think that our explanatory variables could “interact”. For example, suppose you want to predict the BMI of people. What we have available is the average caloric intake, the height, gender, and whether they are vegetarian, vegan, or omnivores. A simple model could be:</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_g \text{gender}_i + \epsilon_i
+\]</span></p>
+<p>We could add the type of diet as a factor:</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_g \text{gender}_i + \beta_d \text{diet}_i + \epsilon_i
+\]</span></p>
+<p>However, suppose that we believe the type of diet to affect differentially men and women. Then, we would like to create an “interaction” (e.g., paleo-female, vegan-male):</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_g \text{gender}_i + \beta_d \text{diet}_i + \beta_{gd} \text{gender:diet}_i + \epsilon_i
+\]</span></p>
+<p>where the colon signals “interaction”. In <code>R</code>, this would be coded as <code>lm(BMI ~ height + calories + gender * diet)</code>. A simpler model is one in which we only account for the <code>gender:diet</code> interaction, but not for the separate effects of gender and diet:</p>
+<p><span class="math display">\[
+\text{BMI}_i = \beta_0 + \beta_h \text{height}_i + \beta_c \text{calories}_i + \beta_{gd}\text{gender:diet}_i + \epsilon_i
+\]</span></p>
+<p>which in <code>R</code> can be coded as <code>lm(BMI ~ height + calories + gender:diet)</code>. Finally, for some models you believe the intercept should be 0 (note that this makes the <span class="math inline">\(R^2\)</span> statistics uninterpretable!). In <code>R</code>, just put <code>-1</code> at the end of the definition of the model (e.g., <code>lm(BMI ~ height + calories + gender:diet - 1)</code>).</p>
+</section>
+<section id="regression-diagnostics" class="level3" data-number="8.5.3">
+<h3 data-number="8.5.3" class="anchored" data-anchor-id="regression-diagnostics"><span class="header-section-number">8.5.3</span> Regression diagnostics</h3>
+<p>Now that we know the mechanics of linear regression, we turn to diagnostics: how can we make sure that the model fits the data “well”? We start by analyzing a data set assembled by Anscombe (<em>The American Statistician</em>, 1973)</p>
 <div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Make ranges on <em>x</em> and <em>y</em> axes equal, and add the 1:1 line:</p>
+<p>The file comprised four data sets. We perform a linear regression using each data set separately:</p>
 <div id="qwebr-insertion-location-23"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="setting-features" class="level2" data-number="1.13">
-<h2 data-number="1.13" class="anchored" data-anchor-id="setting-features"><span class="header-section-number">1.13</span> Setting features</h2>
-<p>Often, you want to simply set a feature (e.g., the color of the points, or their shape), rather than using it to display information (i.e., mapping some aestethic). In such cases, simply declare the feature outside the <code>aes</code>:</p>
+<p>As you can see, each data set is best fit by the same line, with intercept 3 and slope <span class="math inline">\(\frac{1}{2}\)</span>. Plotting the data, however, shows that the situation is more complicated:</p>
 <div id="qwebr-insertion-location-24"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><code>Data_1</code> is fitted quite well; <code>Data_2</code> shows a marked nonlinearity; all points but one in <code>Data_3</code> are on the same line, but a single <strong>outlier</strong> shifts the line considerably; finally, in <code>Data_4</code> a single point is responsible for the fitting line: all other values of <code>X</code> are exactly the same. Inspecting the graphs, we would conclude that we can trust our model only in the first case. When you are performing a multiple regression, however, it is hard to see whether we’re in case 1, or one of the other cases. <code>R</code> provides a number of diagnostic tools which can help you decide whether the fit to the data is good.</p>
 </section>
-<section id="saving-graphs" class="level2" data-number="1.14">
-<h2 data-number="1.14" class="anchored" data-anchor-id="saving-graphs"><span class="header-section-number">1.14</span> Saving graphs</h2>
-<p>You can either save graphs as done normally in <code>R</code>:</p>
+<section id="plotting-the-residuals" class="level3" data-number="8.5.4">
+<h3 data-number="8.5.4" class="anchored" data-anchor-id="plotting-the-residuals"><span class="header-section-number">8.5.4</span> Plotting the residuals</h3>
+<p>The first thing you want to do is to plot the residuals as a function of the fitted values. This plot should make it apparent whether the data was linear or not. The package <code>lindia</code> (linear regression diagnostics) makes it easy to produce this type of plot using <code>ggplot2</code>:</p>
 <div id="qwebr-insertion-location-25"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>or use the function <code>ggsave</code></p>
+<p>What you are looking for is an approximately flat line, meaning that the residuals are approximately normally distributed with mean zero for each fitted value. This is not the case in the other data sets:</p>
 <div id="qwebr-insertion-location-26"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="multiple-layers" class="level2" data-number="1.15">
-<h2 data-number="1.15" class="anchored" data-anchor-id="multiple-layers"><span class="header-section-number">1.15</span> Multiple layers</h2>
-<p>You can overlay different plots. To do so, however, they must share some of the aesthetic mappings. The simplest case is that in which you have only one dataset:</p>
+<section id="q-q-plot" class="level3" data-number="8.5.5">
+<h3 data-number="8.5.5" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">8.5.5</span> Q-Q Plot</h3>
+<p>We can take this further, and test whether the residuals follow a normal distribution. In particular, we can estimate the density of the residuals, and plot it against the density of a normal distribution:</p>
 <div id="qwebr-insertion-location-27"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Here, you are looking for a good match to the 1:1 line; outliers will be found far from the line (e.g., case 3).</p>
 </section>
-<section id="try-on-your-own-data" class="level2" data-number="1.16">
-<h2 data-number="1.16" class="anchored" data-anchor-id="try-on-your-own-data"><span class="header-section-number">1.16</span> Try on your own data!</h2>
-<p>Now that you’re familiar with <code>ggplot2</code>, try producing some meaningful plots for your own data.</p>
+<section id="cooks-distance" class="level3" data-number="8.5.6">
+<h3 data-number="8.5.6" class="anchored" data-anchor-id="cooks-distance"><span class="header-section-number">8.5.6</span> Cook’s distance</h3>
+<p>Another way to detect outliers is to compute the Cook’s distance for every point. Briefly, this statistic measures the effect on the regression we would obtain if we were to remove a point.</p>
+<div id="qwebr-insertion-location-28"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="resources" class="level2" data-number="1.17">
-<h2 data-number="1.17" class="anchored" data-anchor-id="resources"><span class="header-section-number">1.17</span> Resources</h2>
-<ul>
-<li><a href="https://hackr.io/tutorial/r-for-data-science">R for Data Science</a></li>
-<li><a href="https://www.tidyverse.org/">Tidyverse reference website</a></li>
-<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">Data Visualization Cheat Sheet</a></li>
-</ul>
+<section id="leverage" class="level3" data-number="8.5.7">
+<h3 data-number="8.5.7" class="anchored" data-anchor-id="leverage"><span class="header-section-number">8.5.7</span> Leverage</h3>
+<p>Points that strongly influence the regression are said to have much “leverage”:</p>
+<div id="qwebr-insertion-location-29"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="running-all-diagnostics" class="level3" data-number="8.5.8">
+<h3 data-number="8.5.8" class="anchored" data-anchor-id="running-all-diagnostics"><span class="header-section-number">8.5.8</span> Running all diagnostics</h3>
+<p>These are but a few of the diagnostics available. To run all diagnostics on a given model, call</p>
+<div id="qwebr-insertion-location-30"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+</section>
+<section id="transforming-the-data" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="transforming-the-data"><span class="header-section-number">8.6</span> Transforming the data</h2>
+<p>Often, one needs to transform the data before running a linear regression, in order to fulfill the assumptions. We’re going to look at the salary of professors at the University of California to show how this is done.</p>
+<div id="qwebr-insertion-location-31"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The distribution of salaries is very skewed — it looks like a log-normal distribution:</p>
+<div id="qwebr-insertion-location-32"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>If we set consider the log of pay, we get closer to a normal:</p>
+<div id="qwebr-insertion-location-33"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We can try to explain the pay as a combination of title and location:</p>
+<div id="qwebr-insertion-location-34"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>To note: Berkeley has been taken as the baseline location. Similarly, <code>ASSOC-PROF AY</code> has been taken as the baseline title.</p>
+<p>The Q-Q plot shows that this is a terrible model! Now let’s try with the transformed data:</p>
+<div id="qwebr-insertion-location-35"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Much better! Remember to inspect your explanatory and response variables. Ideally, you want the response to be normally distributed. Sometimes one or many covariates can have a nonlinear relationship with the response variable, and you should transform them prior to analysis.</p>
 
 
 </section>
@@ -2770,13 +2845,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./00-refresher.html" class="pagination-link" aria-label="`R`efresher">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><code>R</code>efresher</span>
+      <a href="./07-linalg.html" class="pagination-link" aria-label="Review of linear algebra">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-probdist.html" class="pagination-link" aria-label="Fundamentals of probability">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./09-ANOVA.html" class="pagination-link" aria-label="ANOVA">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ANOVA</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

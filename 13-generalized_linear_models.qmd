@@ -6,8 +6,7 @@ Learn about Generalized Linear Models (GLMs), and be able to decide which model 
 
 Let's load some packages:
 
-```{r}
-library(tidyverse) # our friend the tidyverse
+```{webr-r}
 library(MASS) # negative binom regression
 ```
 
@@ -65,7 +64,7 @@ $$
 
 Clearly, when $\beta_0 + \beta_1 x_i = 0$, the probability $\pi_i = 1/2$, while the probability tends to 1 when $(\beta_0 + \beta_1 x_i) \to \infty$ and to zero when $(\beta_0 + \beta_1 x_i) \to -\infty$. :
 
-```{r}
+```{webr-r}
 # some random data
 X <- rnorm(100)
 beta_0 <- 0.35
@@ -99,7 +98,7 @@ $$ Clearly, you could alternatively use the cumulative distribution function of 
 
 We want to know whether being in first, second and third class, as well as gender (women and women first!) influenced the probability of survival in the Titanic disaster. We start with a null model (all passengers have the same probability of survival):
 
-```{r}
+```{webr-r}
 library(titanic)
 # model 0: probability of survival in general
 # regress against an intercept
@@ -115,7 +114,7 @@ exp(model0$coefficients) / (1 + exp(model0$coefficients))
 
 Now let's include gender:
 
-```{r}
+```{webr-r}
 model1 <- glm(Survived ~ Sex, # one sex as baseline, the other modifies intercept
               data = titanic_train,
               family = "binomial")
@@ -124,7 +123,7 @@ summary(model1)
 
 What is the best-fitting probability of survival for male/female?
 
-```{r}
+```{webr-r}
 coeffs <- model1$coefficients
 # prob women
 as.numeric(1 - 1 / (1 + exp(coeffs[1])))
@@ -134,7 +133,7 @@ as.numeric(1 - 1 / (1 + exp(coeffs[1] + coeffs[2])))
 
 Now let's see whether we can explain better the data using the class:
 
-```{r}
+```{webr-r}
 model2 <- glm(Survived ~ Sex + factor(Pclass), # combine Sex and Pclass
               data = titanic_train,
               family = "binomial")
@@ -143,7 +142,7 @@ summary(model2)
 
 A woman in first class would have survival probability:
 
-```{r}
+```{webr-r}
 coeffs <- model2$coefficients
 # prob women first class
 as.numeric(1 - 1 / (1 + exp(coeffs[1])))
@@ -151,7 +150,7 @@ as.numeric(1 - 1 / (1 + exp(coeffs[1])))
 
 While a man in third class:
 
-```{r}
+```{webr-r}
 as.numeric(1 - 1 / (1 + exp(coeffs[1] + coeffs[2] + coeffs[4])))
 ```
 
@@ -161,8 +160,8 @@ Consider the alternative models `Survived ~ Sex * factor(Pclass)`, `Survived ~ S
 
 With slight abuse of notation, you can fit probabilities using the logistic regression (the only problem is that you don't know how many values contributed to the calculations of the probabilities---i.e., sample sizes). Read in the file `admission_rates.csv`, containing data on admissions to several universities. Your goal is to find a good prediction (or a good combination of predictors) for the `Admission_rate`. You can use `State`, `Ownership` (public/private), `Citytype` (town, suburb, city), `SAT` (typical SAT score of admits), `AvgCost` (tuition). Fit the models using:
 
-```{r}
-dt <- read_csv("data/admission_rates.csv")
+```{webr-r}
+dt <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/admission_rates.csv")
 # example
 logit_1 <- glm(Admission_rate ~ AvgCost, data = dt, family = "binomial")
 ```
@@ -173,14 +172,14 @@ logit_1 <- glm(Admission_rate ~ AvgCost, data = dt, family = "binomial")
 
 For the example above:
 
-```{r}
+```{webr-r}
 plot(dt$Admission_rate, logit_1$fitted.values)
 abline(c(0,1))
 ```
 
 -   Score the models using `AIC`: which is the single best predictor of acceptance rate? (Note: as we will see later this week, the lower the AIC, the better).
 
-```{r}
+```{webr-r}
 AIC(logit_1)
 ```
 

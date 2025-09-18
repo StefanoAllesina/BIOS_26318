@@ -31,7 +31,7 @@
 
 #### Week 0 {.unnumbered}
 
--   `R` refresher \@ref(refresher)
+-   `R` refresher
 
 #### Week 1 {.unnumbered}
 

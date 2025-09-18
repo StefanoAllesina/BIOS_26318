@@ -7,13 +7,12 @@
 -   Use clustering validation methods
 -   Apply different methods to larger data sets
 
-```{r, warning=FALSE, message=FALSE}
-library(tidyverse) 
+```{webr-r}
 library(ggfortify) 
-library(factoextra) 
+# library(factoextra) 
 library(NbClust)
-library(fpc)
-library(clustertend)
+#library(fpc)
+library(hopkins)
 library(palmerpenguins)
 ```
 
@@ -32,12 +31,12 @@ If the truth is unknown, we need a way of deciding which data points belong toge
 
 Let us apply the k-means algorithm to our well-studied penguin data set. In the script below, we remove the NAs, and select out the categorical variables, as they are not directly useful for the distance-based algorithm, leaving the four numeric variables to define similarity between individuals. The question is, will they cluster penguins according to species?t
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 #set.seed(20)
 glimpse(penguins)
-pen_data <- penguins %>% drop_na() 
-#pen_train <- pen_data  %>% dplyr::select(-species,-island, -sex, -year) # remove species (the true labels)
-pen_train <- pen_data  %>% dplyr::select(-species,-island, -sex) # remove species (the true labels)
+pen_data <- penguins |> drop_na() 
+#pen_train <- pen_data  |> dplyr::select(-species,-island, -sex, -year) # remove species (the true labels)
+pen_train <- pen_data  |> dplyr::select(-species,-island, -sex) # remove species (the true labels)
 pen_km <- kmeans(pen_train, 3) #k-means with 3 clusters
 pen_km
 table(pen_km$cluster, pen_data$species)
@@ -50,10 +49,10 @@ The plot is produced by performing PCA to reduce the number of variables from 4 
 
 However, the four measurements have very different variances, so we try scaling them to make them all have equal variance of one:
 
-```{r, warning=FALSE, message=FALSE}
-pen_data <- penguins %>% drop_na()
-#pen_scaled <- scale(pen_data %>% dplyr::select(-species, -island, -sex, -year) )
-pen_scaled <- scale(pen_data %>% dplyr::select(-species, -island, -sex) )
+```{webr-r}
+pen_data <- penguins |> drop_na()
+#pen_scaled <- scale(pen_data |> dplyr::select(-species, -island, -sex, -year) )
+pen_scaled <- scale(pen_data |> dplyr::select(-species, -island, -sex) )
 pen_km <- kmeans(pen_scaled, 3)
 pen_km
 table(pen_km$cluster, pen_data$species)
@@ -70,21 +69,21 @@ Now we get much better separation, as well as much better prediction quality. Ho
 -   Clusters are roughly spherical
 -   Clusters are of similar size
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Generate random data which will be first cluster
 clust1 <- data_frame(x = rnorm(200), y = rnorm(200))
 # Generate the second cluster which will ‘surround’ the first cluster
 clust2 <- data_frame(r = rnorm(200, 15, .5), 
                      theta = runif(200, 0, 2 * pi),
-                 x = r * cos(theta), y = r * sin(theta)) %>%
+                 x = r * cos(theta), y = r * sin(theta)) |>
   dplyr::select(x, y)
 #Combine the data
 dataset_cir <- rbind(clust1, clust2)
 #see the plot
-dataset_cir %>% ggplot() + aes(x = x, y = y) + geom_point()
+dataset_cir |> ggplot() + aes(x = x, y = y) + geom_point()
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 #Fit the k-means model
 k_clust_spher1 <- kmeans(dataset_cir, centers=2)
 #Plot the data and clusters
@@ -96,7 +95,7 @@ fviz_cluster(list(data = dataset_cir,
              ggtheme = theme_classic())
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Make the first cluster with 200 random values
 clust1 <- data_frame(x = rnorm(200), 
                      y = rnorm(200))
@@ -105,10 +104,10 @@ clust2 <- data_frame(x=c(5,5.1,5.2,5.3,5.4),
                      y=c(5,5,5,5,5))
 #Combine the data
 dataset_uneven <- rbind(clust1,clust2)
-dataset_uneven %>% ggplot() + aes(x = x, y = y) + geom_point()
+dataset_uneven |> ggplot() + aes(x = x, y = y) + geom_point()
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 k_clust_spher3 <- kmeans(dataset_uneven, centers=2)
 fviz_cluster(list(data = dataset_uneven, 
                   cluster = k_clust_spher3$cluster),
@@ -137,7 +136,7 @@ Start with single data points as "clusters," then iteratively combine the closes
 
 5.  Ward's Method: This method does not directly define a measure of distance between two points or clusters. It is an ANOVA based approach. One-way univariate ANOVAs are done for each variable with groups defined by the clusters at that stage of the process. At each stage, two clusters merge that provide the smallest increase in the combined error sum of squares.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Use hcut() which compute hclust and cut the tree
 cir_hc <- hcut(dataset_cir, k = 2, hc_method = "single")
 # Visualize dendrogram
@@ -146,7 +145,7 @@ fviz_dend(cir_hc, show_labels = FALSE, rect = TRUE)
 fviz_cluster(cir_hc, ellipse.type = "convex")
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Use hcut() which compute hclust and cut the tree
 uneven_hc <- hcut(dataset_uneven, k = 2, hc_method = "single")
 # Visualize dendrogram
@@ -159,7 +158,7 @@ fviz_cluster(uneven_hc, ellipse.type = "convex")
 
 Try different methods and see which one generates the best results
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Hierarchical clustering
 # ++++++++++++++++++++++++
 # Use hcut() which compute hclust and cut the tree
@@ -178,18 +177,18 @@ table(pen_hc$cluster, pen_data$species)
 ### Hopkins statistic
 
 Comparing the mean nearest-neighbor distance between uniformly generated sample points and mean nearest-neighbor distance within the data set. $$
-H = 1 - \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
+H = \frac{\sum u^d_i}{\sum u^d_i + \sum w^d_i}
 $$ This quantifies the "clustering tendency" of the data set.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Check Cluster Tendency--Hopkins Statistic
-hopkins(pen_scaled, n = 30) # n should be about 20% of the data
+hopkins(pen_scaled) # by default samples about 10% of the data points
 # run a couple times to sample repeatedly
 ```
 
-If H is below 0.5 reject the null hypothesis, which is that the data are generated by a Poisson point process (uniformly distributed.)
+If H is substantially above 0.5, reject the null hypothesis that the data are generated by a Poisson point process (no clustering tendency.)
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Visual Assessment of Cluster Tendency
 fviz_dist(dist(pen_scaled), show_labels = FALSE)+ labs(title = "Scaled penguin data")
 ```
@@ -199,7 +198,7 @@ fviz_dist(dist(pen_scaled), show_labels = FALSE)+ labs(title = "Scaled penguin d
 
 ### Elbow method
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Elbow method
 fviz_nbclust(pen_scaled, kmeans, method = "wss") + geom_vline(xintercept = 2, linetype = 2)+
 labs(subtitle = "Elbow method for K-means of the scaled penguin data")
@@ -209,15 +208,14 @@ labs(subtitle = "Elbow method for K-means of the scaled penguin data")
 
 Measures how similar an object $i$ is to the other objects in its same cluster versus the objects outside of its cluster; $S_i$ values range from -1 to 1. Close to 1 means very similar to objects in its own group and dissimilar to others
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Silhouette method
 fviz_nbclust(pen_scaled, kmeans, method = "silhouette")+ labs(subtitle = "Silhouette method for k-means")
 ```
 
 ### Lazy way: use all the methods!
 
-```{r, eval=FALSE, warning=FALSE, message=FALSE}
-# not evaluating because it does not run on my computer SA Sept 22 2022
+```{webr-r}
 nb <- NbClust(pen_scaled, distance = "euclidean", min.nc = 2,
         max.nc = 10, method = "kmeans")
 fviz_nbclust(nb)
@@ -231,7 +229,7 @@ $$
 J = \frac{ \vert A \cap B \vert }{\vert A \cup B \vert}
 $$ The vertical lines indicate the number of points (cardinality) in the set.
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 k <- 3
 cboot.hclust <- clusterboot(pen_scaled, clustermethod=kmeansCBI, k= k)
 print(cboot.hclust)
@@ -244,19 +242,19 @@ print(cboot.hclust)
 
 The following measurements are based on biopsy data on patients with suspected breast cancer (see \[5\]). It contains several measurements of cell characteristics, as well as the classification of each biopsy into malignant or benign (2 or 4). Let us see if using clustering
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Import Breast Cancer Data Set
-fulldata <- read_csv("data/Wisconsin_Breast_Cancers.csv")
-bcdata <- fulldata %>% drop_na() %>% dplyr::select(-Sample, -Class)
+fulldata <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/Wisconsin_Breast_Cancers.csv")
+bcdata <- fulldata |> drop_na() |> dplyr::select(-Sample, -Class)
 glimpse(fulldata)
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Visually Inspect Data (PCA)
 fviz_pca_ind(prcomp(bcdata), title = "PCA - Breast Cancer data", geom = "point", ggtheme = theme_classic())
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 bc_km <- kmeans(scale(bcdata), 2)
 bc_km
 table(bc_km$cluster, fulldata$Class)
@@ -267,7 +265,7 @@ fviz_cluster(list(data = bcdata, cluster = bc_km$cluster),
 ellipse.type = "norm", geom = "point", stand = FALSE, palette = "jco", ggtheme = theme_classic())
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 # Use hcut() which compute hclust and cut the tree
 bc_hc <- hcut(scale(bcdata), k = 2, hc_method = "ward")
 # Visualize dendrogram

@@ -42,8 +42,7 @@ To explore the features of `ggplot2`, we are going to use a data set detailing t
 
 ```{webr-r}
 # read the data
-# original URL https://github.com/nytimes/covid-19-data/raw/master/live/us-counties.csv
-dt <- read_csv("https://rb.gy/zr65gg")
+dt <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv")
 head(dt)
 ```
 

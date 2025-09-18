@@ -8,7 +8,7 @@
 
 <meta name="description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
 
-<title>1&nbsp; Visualizing data using ggplot2 – Fundamentals of Biological Data Analysis</title>
+<title>6&nbsp; Likelihood and Bayes – Fundamentals of Biological Data Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,8 +31,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-probdist.html" rel="next">
-<link href="./00-refresher.html" rel="prev">
+<link href="./07-linalg.html" rel="next">
+<link href="./05-hypothesis.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -406,7 +371,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# read the data\ndt <- read.csv(\"https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv\")\nhead(dt)","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"dti <- dt[(dt$state == \"Illinois\") & (dt$cases > 10^4), ]","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti)","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + aes(x = county, y = cases)","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + aes(x = county, y = cases) + geom_col()","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + \n  aes(x = county, y = cases) + \n  geom_col() + \n  coord_flip()","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dti) + \n  aes(x = reorder(county, cases), y = cases) + # order labels according to cases\n  geom_col() +\n  ylab(\"Number of COVID cases reported\") + # x label\n  xlab(\"Illinois County\") + # y label\n  scale_y_log10() + # transform the counts to logs\n  coord_flip()+\n  ggtitle(dti$date[1]) # main title (use current date)","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# you can store the graph in a variable\npl <- ggplot(data = dti)\npl <- pl + aes(x = cases, y = deaths) # for a scatter plot, we need two aes mappings!\npl <- pl + geom_point() # draw points in a scatterplot\npl <- pl + scale_x_sqrt() + scale_y_sqrt() # transform axes\npl # or show(pl)","id":8,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-8","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dti)\npl <- pl + aes(x = deaths / cases)  \npl + geom_histogram(binwidth = 0.0025) ","id":9,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-9","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl + geom_histogram(bins = 30) # specify the number of bins\npl + geom_histogram(binwidth = 0.001) # specify the bin width","id":10,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-10","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill the bar colors by state\n  geom_histogram(bins = 30)","id":11,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-11","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill the bar colors by state\n  geom_histogram(position = \"dodge\", bins = 30)+ \n  xlim(c(0,0.03))","id":12,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-12","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill by state\n  geom_density() + xlim(c(0,0.03))","id":13,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-13","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = deaths / cases, fill = state) + # fill by state\n  geom_density(alpha = 0.5) + xlim(c(0, 0.03))","id":14,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-14","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = state, y = deaths / cases, fill = state) + # we need both x and y\n  geom_boxplot() + ylim(c(0, 0.03))","id":15,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-15","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Indiana\"),]) + \n  aes(x = state, y = deaths / cases, fill = state) + # we need both x and y\n  geom_violin(draw_quantiles = 0.5) + ylim(c(0, 0.03))","id":16,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-16","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dti) + \n  aes(x = cases, y = deaths, colour = log(deaths)) +\n    geom_point() \npl","id":17,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-17","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl + scale_x_log10() + scale_y_log10() # log-log plot\npl + scale_x_sqrt() # sqrt of number of cases\npl + scale_x_reverse() # from large to small","id":18,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-18","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# a more complex example\nggplot(data = dt) + \n  aes(x = cases, y = deaths, \n          color = state) +\n  geom_point() + \n  scale_x_log10() + # note that the points with 0 cases or deaths will not work\n  scale_y_log10() +\n  theme(legend.position = \"bottom\")","id":19,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-19","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# to install, type install.packages(\"ggthemes\") in the console\nlibrary(ggthemes)\npl <- ggplot(data = dti) + aes(x = cases, y = deaths) +\n    geom_point() + scale_x_log10() + scale_y_log10()\npl + theme_bw() # white background\npl + theme_economist() # like in the magazine \"The Economist\"\npl + theme_wsj() # like \"The Wall Street Journal\"","id":20,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-20","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dt[dt$state %in% c(\"Illinois\", \"Missouri\", \"Wisconsin\", \"Indiana\"), ]) + \n  aes(x = cases, y = deaths, colour = state) + geom_point() + scale_x_log10() + scale_y_log10()\npl <- pl + facet_wrap(~state)\npl","id":21,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-21","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- pl + geom_smooth()\npl","id":22,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-22","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- pl + coord_equal() + geom_abline(slope = 1, intercept = 0)\npl","id":23,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-23","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"pl <- ggplot(data = dt) + \n  aes(x = cases, y = deaths) + \n  scale_x_log10() + \n  scale_y_log10()\npl + geom_point()\npl + geom_point(colour = \"red\")\npl + geom_point(shape = 3)\npl + geom_point(alpha = 0.5)","id":24,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-24","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# save to pdf format\npdf(\"my_output.pdf\", width = 6, height = 4)\nprint(my_plot)\ndev.off()\n# save to svg format\nsvg(\"my_output.svg\", width = 6, height = 4)\nprint(my_plot)\ndev.off()","id":25,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-25","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# save current graph\nggsave(\"my_output.pdf\")\n# save a graph stored in ggplot object\nggsave(plot = my_plot, filename = \"my_output.svg\")","id":26,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-26","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"ggplot(data = dt) + \n  geom_point(aes(y = state, x = cases), color = \"black\") + \n  geom_point(aes(y = state, x = deaths), color = \"red\") +\n  scale_x_log10() + \n  xlab(\"cases (black), deaths (red)\")","id":27,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-27","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
+globalThis.qwebrCellDetails = [{"code":"print(dbinom(4,10,0.5))","id":1,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-1","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 10\nk <- 4\npl <- ggplot(data = data.frame(x = 0, y = 0)) + xlim(c(0,1))\nlike_fun <- function(p) {\n  lik <- dbinom(k, n, p)\n  return(lik)\n}\npl <- pl + stat_function(fun = like_fun) + \n  xlab('probability of success (p)') + \n  ylab('likelihood') +\n  geom_vline(xintercept = 0.4, linetype='dotted', color = 'red')\nshow(pl)","id":2,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-2","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Define variable containing URL\nurl <- \"https://imgs.xkcd.com/comics/modified_bayes_theorem.png\"","id":3,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-3","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# Define variable containing URL\nurl <- \"https://imgs.xkcd.com/comics/frequentists_vs_bayesians.png\"","id":4,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-4","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"n <- 100\nm <- 33\npl <- ggplot(data = data.frame(x = 0, y = 0)) + xlim(c(0,1))\nlikelihood_function <- function(p) {\n  lik <- choose(n, m) * p^m * (1-p)^(n - m)\n  # divide by the evidence to make into density function\n  return(lik * (n + 1))\n}\npl <- pl + stat_function(fun = likelihood_function)\nshow(pl)","id":5,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-5","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# a strong prior\nalpha <- 10\nbeta <- 10\nprior_function <- function(p) dbeta(p, alpha, beta)\nposterior_function <- function(p) dbeta(p, alpha + m, beta + n - m)\npl + stat_function(fun = prior_function, colour = \"blue\") + \n  stat_function(fun = posterior_function, colour = \"red\")","id":6,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-6","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}},{"code":"# a weak prior\nalpha <- 1/2\nbeta <- 1/2\npl + stat_function(fun = prior_function, colour = \"blue\") + \n  stat_function(fun = posterior_function, colour = \"red\")","id":7,"options":{"autorun":"false","classes":"","comment":"","context":"interactive","dpi":72,"editor-font-scale":"1","editor-max-height":"","editor-quick-suggestions":"false","editor-word-wrap":"true","fig-cap":"","fig-height":5,"fig-width":7,"label":"unnamed-chunk-7","message":"true","out-height":"","out-width":"700px","output":"true","read-only":"false","results":"markup","warning":"true"}}];
 
 </script>
 <script type="module">
@@ -1660,10 +1625,40 @@ globalThis.qwebrExecuteCode = async function (
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="twitter:title" content="1&nbsp; Visualizing data using ggplot2 – Fundamentals of Biological Data Analysis">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="6&nbsp; Likelihood and Bayes – Fundamentals of Biological Data Analysis">
 <meta name="twitter:description" content="Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://stefanoallesina.github.io/BIOS_26318/`r url`">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -1675,7 +1670,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-dataviz.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-likelihood.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -1736,7 +1731,7 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01-dataviz.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></span></a>
   </div>
 </li>
@@ -1766,7 +1761,7 @@ globalThis.qwebrExecuteCode = async function (
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-likelihood.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></span></a>
   </div>
 </li>
@@ -1840,23 +1835,26 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#goal" id="toc-goal" class="nav-link active" data-scroll-target="#goal"><span class="header-section-number">1.1</span> Goal</a></li>
-  <li><a href="#introduction-to-the-grammar-of-graphics" id="toc-introduction-to-the-grammar-of-graphics" class="nav-link" data-scroll-target="#introduction-to-the-grammar-of-graphics"><span class="header-section-number">1.2</span> Introduction to the Grammar of Graphics</a></li>
-  <li><a href="#basic-ggplot2" id="toc-basic-ggplot2" class="nav-link" data-scroll-target="#basic-ggplot2"><span class="header-section-number">1.3</span> Basic <code>ggplot2</code></a></li>
-  <li><a href="#building-a-well-formed-graph" id="toc-building-a-well-formed-graph" class="nav-link" data-scroll-target="#building-a-well-formed-graph"><span class="header-section-number">1.4</span> Building a well-formed graph</a></li>
-  <li><a href="#scatterplots" id="toc-scatterplots" class="nav-link" data-scroll-target="#scatterplots"><span class="header-section-number">1.5</span> Scatterplots</a></li>
-  <li><a href="#histograms-density-and-boxplots" id="toc-histograms-density-and-boxplots" class="nav-link" data-scroll-target="#histograms-density-and-boxplots"><span class="header-section-number">1.6</span> Histograms, density and boxplots</a></li>
-  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">1.7</span> Scales</a></li>
-  <li><a href="#list-of-aesthetic-mappings" id="toc-list-of-aesthetic-mappings" class="nav-link" data-scroll-target="#list-of-aesthetic-mappings"><span class="header-section-number">1.8</span> List of aesthetic mappings</a></li>
-  <li><a href="#list-of-geometries" id="toc-list-of-geometries" class="nav-link" data-scroll-target="#list-of-geometries"><span class="header-section-number">1.9</span> List of geometries</a></li>
-  <li><a href="#list-of-scales" id="toc-list-of-scales" class="nav-link" data-scroll-target="#list-of-scales"><span class="header-section-number">1.10</span> List of scales</a></li>
-  <li><a href="#themes" id="toc-themes" class="nav-link" data-scroll-target="#themes"><span class="header-section-number">1.11</span> Themes</a></li>
-  <li><a href="#faceting" id="toc-faceting" class="nav-link" data-scroll-target="#faceting"><span class="header-section-number">1.12</span> Faceting</a></li>
-  <li><a href="#setting-features" id="toc-setting-features" class="nav-link" data-scroll-target="#setting-features"><span class="header-section-number">1.13</span> Setting features</a></li>
-  <li><a href="#saving-graphs" id="toc-saving-graphs" class="nav-link" data-scroll-target="#saving-graphs"><span class="header-section-number">1.14</span> Saving graphs</a></li>
-  <li><a href="#multiple-layers" id="toc-multiple-layers" class="nav-link" data-scroll-target="#multiple-layers"><span class="header-section-number">1.15</span> Multiple layers</a></li>
-  <li><a href="#try-on-your-own-data" id="toc-try-on-your-own-data" class="nav-link" data-scroll-target="#try-on-your-own-data"><span class="header-section-number">1.16</span> Try on your own data!</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">1.17</span> Resources</a></li>
+  <li><a href="#likelihood-and-estimation" id="toc-likelihood-and-estimation" class="nav-link active" data-scroll-target="#likelihood-and-estimation"><span class="header-section-number">6.1</span> Likelihood and estimation</a>
+  <ul class="collapse">
+  <li><a href="#likelihood-vs.-probability" id="toc-likelihood-vs.-probability" class="nav-link" data-scroll-target="#likelihood-vs.-probability"><span class="header-section-number">6.1.1</span> likelihood vs.&nbsp;probability</a></li>
+  <li><a href="#maximizing-likelihood" id="toc-maximizing-likelihood" class="nav-link" data-scroll-target="#maximizing-likelihood"><span class="header-section-number">6.1.2</span> maximizing likelihood</a></li>
+  <li><a href="#discrete-probability-distributions" id="toc-discrete-probability-distributions" class="nav-link" data-scroll-target="#discrete-probability-distributions"><span class="header-section-number">6.1.3</span> discrete probability distributions</a></li>
+  <li><a href="#continuous-probability-distributions" id="toc-continuous-probability-distributions" class="nav-link" data-scroll-target="#continuous-probability-distributions"><span class="header-section-number">6.1.4</span> continuous probability distributions</a></li>
+  </ul></li>
+  <li><a href="#bayesian-thinking" id="toc-bayesian-thinking" class="nav-link" data-scroll-target="#bayesian-thinking"><span class="header-section-number">6.2</span> Bayesian thinking</a>
+  <ul class="collapse">
+  <li><a href="#bayes-formula" id="toc-bayes-formula" class="nav-link" data-scroll-target="#bayes-formula"><span class="header-section-number">6.2.1</span> Bayes’ formula</a></li>
+  <li><a href="#positive-predictive-value" id="toc-positive-predictive-value" class="nav-link" data-scroll-target="#positive-predictive-value"><span class="header-section-number">6.2.2</span> positive predictive value</a></li>
+  <li><a href="#prosecutors-fallacy" id="toc-prosecutors-fallacy" class="nav-link" data-scroll-target="#prosecutors-fallacy"><span class="header-section-number">6.2.3</span> prosecutor’s fallacy</a></li>
+  <li><a href="#reproducibility-in-science" id="toc-reproducibility-in-science" class="nav-link" data-scroll-target="#reproducibility-in-science"><span class="header-section-number">6.2.4</span> reproducibility in science</a></li>
+  </ul></li>
+  <li><a href="#bayesian-inference" id="toc-bayesian-inference" class="nav-link" data-scroll-target="#bayesian-inference"><span class="header-section-number">6.3</span> Bayesian inference</a>
+  <ul class="collapse">
+  <li><a href="#example-capture-recapture" id="toc-example-capture-recapture" class="nav-link" data-scroll-target="#example-capture-recapture"><span class="header-section-number">6.3.1</span> Example: capture-recapture</a></li>
+  <li><a href="#mcmc" id="toc-mcmc" class="nav-link" data-scroll-target="#mcmc"><span class="header-section-number">6.3.2</span> MCMC</a></li>
+  </ul></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">6.4</span> Reading:</a></li>
   </ul>
 </nav>
     </div>
@@ -2149,7 +2147,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Visualizing data using <code>ggplot2</code></span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Likelihood and Bayes</span></h1>
 </div>
 
 
@@ -2166,203 +2164,203 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </header>
 
 
-<section id="goal" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="goal"><span class="header-section-number">1.1</span> Goal</h2>
-<p>Introduce the package <code>ggplot2</code>, which is part of the <code>tidyverse</code> bundle. Learn how to use <code>ggplot2</code> to produce publication-quality figures. Discuss the philosophical underpinnings of the “Grammar of Graphics”, showcase the <code>ggplot2</code> syntax, produce examples of the different types of graphs. Learn how to change colors, legends, scales. Visualize histograms, barplots, scatterplots, etc.</p>
-</section>
-<section id="introduction-to-the-grammar-of-graphics" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="introduction-to-the-grammar-of-graphics"><span class="header-section-number">1.2</span> Introduction to the Grammar of Graphics</h2>
-<p>The most salient feature of scientific graphs should be clarity. Each figure should make crystal-clear a) what is being plotted; b) what are the axes; c) what do colors, shapes, and sizes represent; d) the message the figure wants to convey. Each figure is accompanied by a (sometimes long) caption, where the details can be explained further, but the main message should be clear from glancing at the figure (often, figures are the first thing editors and referees look at).</p>
-<p>Many scientific publications contain very poor graphics: labels are missing, scales are unintelligible, there is no explanation of some graphical elements. Moreover, some color graphs are impossible to understand if printed in black and white, or difficult to discern for color-blind people.</p>
-<p>Given the effort that you put into your science, you want to ensure that it is well presented and accessible. The investment to master some plotting software will be rewarded by pleasing graphics that convey a clear message.</p>
-<p>In this section, we introduce <code>ggplot2</code>, a plotting package for <code>R</code> This package was developed by Hadley Wickham who contributed many important packages to <code>R</code> (all included in the <code>tidyverse</code> bundle we’re going to use for the reminder of the class). Unlike many other plotting systems, <code>ggplot2</code> is deeply rooted in a “philosophical” vision. The goal is to conceive a grammar for all graphical representation of data. Leland Wilkinson and collaborators proposed The Grammar of Graphics. It follows the idea of a well-formed sentence that is composed of a subject, a predicate, and an object. The Grammar of Graphics likewise aims at describing a well-formed graph by a grammar that captures a very wide range of statistical and scientific graphics. This might be more clear with an example – Take a simple two-dimensional scatterplot. How can we describe it? We have:</p>
 <ul>
-<li><p><strong>Data</strong> The data we want to plot.</p></li>
-<li><p><strong>Mapping</strong> What part of the data is associated with a particular visual feature? For example: Which column is associated with the x-axis? Which with the y-axis? Which column corresponds to the shape or the color of the points? In <code>ggplot2</code> lingo, these are called <em>aesthetic mappings</em> (<code>aes</code>).</p></li>
-<li><p><strong>Geometry</strong> Do we want to draw points? Lines? In <code>ggplot2</code> we speak of <em>geometries</em> (<code>geom</code>).</p></li>
-<li><p><strong>Scale</strong> Do we want the sizes and shapes of the points to scale according to some value? Linearly? Logarithmically? Which palette of colors do we want to use?</p></li>
-<li><p><strong>Coordinate</strong> We need to choose a coordinate system (e.g., Cartesian, polar).</p></li>
-<li><p><strong>Faceting</strong> Do we want to produce different panels, partitioning the data according to one (or more) of the variables?</p></li>
+<li>understand the difference between likelihood and probability</li>
+<li>maximum likelihood estimation</li>
+<li>calculate positive predictive value of a hypothesis test</li>
+<li>interpret the results of Bayesian inference</li>
 </ul>
-<p>This basic grammar can be extended by adding statistical transformations of the data (e.g., regression, smoothing), multiple layers, adjustment of position (e.g., stack bars instead of plotting them side-by-side), annotations, and so on.</p>
-<p>Exactly like in the grammar of a natural language, we can easily change the meaning of a “sentence” by adding or removing parts. Also, it is very easy to completely change the type of geometry if we are moving from say a histogram to a boxplot or a violin plot, as these types of plots are meant to describe one-dimensional distributions. Similarly, we can go from points to lines, changing one “word” in our code. Finally, the look and feel of the graphs is controlled by a theming system, separating the content from the presentation.</p>
-</section>
-<section id="basic-ggplot2" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="basic-ggplot2"><span class="header-section-number">1.3</span> Basic <code>ggplot2</code></h2>
-<p><code>ggplot2</code> ships with a simplified graphing function, called <code>qplot</code>. In this introduction we are not going to use it, and we concentrate instead on the function <code>ggplot</code>, which gives you complete control over your plotting. We will need to use the package <code>tidyverse</code>, which is already loaded if you are using the Web version of the book. If you want to copy this code into an R script to execute on your local machine, start with this line:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>To explore the features of <code>ggplot2</code>, we are going to use a data set detailing the total number of COVID cases and deaths in US counties. The data are provided by the <a href="https://github.com/nytimes/covid-19-data/blob/master/live/us-counties.csv">New York Times</a>.</p>
+<section id="likelihood-and-estimation" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="likelihood-and-estimation"><span class="header-section-number">6.1</span> Likelihood and estimation</h2>
+<section id="likelihood-vs.-probability" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="likelihood-vs.-probability"><span class="header-section-number">6.1.1</span> likelihood vs.&nbsp;probability</h3>
+<p>In everyday English, probability and likelihood are synonymous. In probability and statistics, however, the two are distinct, although related, concepts. The definition of likelihood is based on the notion of conditional probability that we defined in week 2, applied to a data set and a particular probability model <span class="math inline">\(M\)</span>:</p>
+<p><span class="math display">\[
+L(M \ \ \vert \ \ D) = P(D \ \ \vert \ \ M)
+\]</span></p>
+<p>The model is based on a set of assumptions that allow us to calculate probabilities of outcomes of a random experiment, typically a random variable with a well-defined probability distribution function.</p>
+<p><strong>Example.</strong> <span class="math inline">\(M\)</span> may represent the binomial random variable, based on the assumptions that the data are strings of <span class="math inline">\(n\)</span> independent binary outcomes with a set probability <span class="math inline">\(p\)</span> of “success.” We then have the following formula for the probability of obtaining <span class="math inline">\(k\)</span> successes:</p>
+<p><span class="math display">\[
+P(k ; n , p) =  {n \choose k} p^k (1-p)^{n-k}
+\]</span></p>
+<p>Suppose we think we have a fair coin and we flip it ten times and obtain 4 heads and 6 tails. Then the likelihood of our model (a binomial random variable with <span class="math inline">\(p=0.5\)</span> with <span class="math inline">\(n=10\)</span>) based on our data (<span class="math inline">\(k=4\)</span>) is:</p>
+<p><span class="math display">\[
+L(p=0.5, n=10 \ \vert \ k=4 ) = P(k =4 \ \vert \ n=10 , p=0.5) = {10 \choose 4} 0.5^4 (0.5)^{6}
+\]</span></p>
+<p>To calculate this precisely, it is easiest to use the R function dbinom():</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>we are going to work with <code>date</code>, <code>county</code>, <code>state</code>, <code>cases</code> and <code>deaths</code>.</p>
-<p>Let’s select Illnois, and take only the counties with more than 10k cases (to have a less crowded graph):</p>
+<p>So the likelihood of this data set being produced by a fair coin is about 20.5%.</p>
+<p>This certainly looks like a probability — in fact we calculated it from a probability distribution function, so why do we call it a likelihood? There are two fundamental differences between the two, one mostly abstract, the other more grounded.</p>
+<p>First, a model (or model parameters) is not a random variable, because it comes from an assumption we made in our heads, not from an outcome of a random process. This may seem to be an abstract, almost philosophical distinction, but how would you go about assigning probabilities to all the models one can come up with? Would they vary from person to person, because one may prefer to use the binomial random variable, and another prefers Poisson? You see how this can get dicey if we think of these in terms of the traditional “frequency of outcomes” framework of probability.</p>
+<p>Second, and more quantitatively relevant, is that likelihoods do not satisfy the fundamental axiom of probability: they do not add up to one. Remember that probabilities were defined on a sample space of all outcomes of a random experiment. Likelihoods apply to models or their parameters, and there are usually uncountably many models - in fact it’s not possible to even describe all the possible models in vague terms! Even if we agree that we’re evaluating only one type of model, e.g.&nbsp;the binomial random variable, the likelihood parameter <span class="math inline">\(p\)</span> does not work like a probability, because there is a non-zero likelihood for any value <span class="math inline">\(p\)</span> (technically, the coin could have any degree of unfairness!) so adding up all of the likelihoods will results in infinity.</p>
+</section>
+<section id="maximizing-likelihood" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="maximizing-likelihood"><span class="header-section-number">6.1.2</span> maximizing likelihood</h3>
+<p>One of the most common applications of likelihood is to find the model or model parameters that give the highest likelihood based on the data, and call those the best statistical estimate. Here are the symbols we will use in this discussion:</p>
+<ul>
+<li><span class="math inline">\(D\)</span>: the observed data</li>
+<li><span class="math inline">\(\theta\)</span>: the free parameter(s) of the statistical model</li>
+<li><span class="math inline">\(L(\theta \ \vert \ D)\)</span>: the likelihood function, read “the likelihood of <span class="math inline">\(\theta\)</span> given the data”</li>
+<li><span class="math inline">\(\hat{\theta}\)</span>: the maximum-likelihood estimates (m.l.e.) of the parameters</li>
+</ul>
+</section>
+<section id="discrete-probability-distributions" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="discrete-probability-distributions"><span class="header-section-number">6.1.3</span> discrete probability distributions</h3>
+<p>The simplest case is that of a probability distribution function that takes discrete values. Then, the likelihood of <span class="math inline">\(\theta\)</span> given the data is simply the probability of obtaining the data when parametrizing the model with parameters <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[L(\theta \ \vert \ D) = P(X = D \ \vert \ \theta)\]</span></p>
+<p>Finding the m.l.e. of <span class="math inline">\(\theta\)</span> simply means finding the value(s) maximizing the probability of obtaining the given data under the model. In cases when this likelihood function has a simple algebraic form, we can find the maximum value using the classic method of taking its derivative and setting it to zero.</p>
+<p><strong>Example.</strong> Let’s go back to the binomial example. Based on the data set of 4 heads out of 10 coin tosses, what is the maximum likelihood estimate of the probability of a head <span class="math inline">\(p\)</span>? The range of values of <span class="math inline">\(p\)</span> is between 0 and 1, and since we have a functional expression for <span class="math inline">\(P(k=4 ; n=10, p)\)</span> (see above) we can plot it using the dbinom() function:</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A particularity of <code>ggplot2</code> is that it accepts exclusively data organized in tables (a <code>data.frame</code> or a <code>tibble</code> object—more on tibbles later). Thus, all of your data needs to be converted into a data frame format for plotting.</p>
+<p>It’s probably not surprising that the maximum of the likelihood function occurs at <span class="math inline">\(p=0.4\)</span>, that is the observed fraction of heads! Using the magic of derivatives, we can show that for a data set with <span class="math inline">\(k\)</span> success out of <span class="math inline">\(n\)</span> trials, the maximum likelihood value of <span class="math inline">\(p\)</span> is <span class="math inline">\(\hat p = k/n\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+L(p  \ \vert \ n, k) &amp;= {n \choose k} p^k (1-p)^{n-k} \\ \hline
+L'(p | n, k ) &amp;= {n \choose k}\left [ kp^{k-1}(1-p)^{n-k} - (n-k) (1-p)^{n-k-1}p^k \right] \\
+&amp;={n \choose k} p^{k-1} (1-p)^{n-k-1} \left [ k(1-p) - (n-k)p \right] = 0 \\
+\hline
+k(1-p) &amp;= (n-k)p \\
+\hat p &amp;= k/n
+\end{aligned}
+\]</span></p>
 </section>
-<section id="building-a-well-formed-graph" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="building-a-well-formed-graph"><span class="header-section-number">1.4</span> Building a well-formed graph</h2>
-<p>For our first plot, we’re going to produce a barplot detailing how many cases have been reported in each County:</p>
+<section id="continuous-probability-distributions" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="continuous-probability-distributions"><span class="header-section-number">6.1.4</span> continuous probability distributions</h3>
+<p>The definition is more complex for continuous variables (because <span class="math inline">\(P(X = x; \theta) = 0\)</span> as there are infinitely many values…). What is commonly done is to use the <em>density function</em> <span class="math inline">\(f(x; \theta)\)</span> and considering the probability of obtaining a value <span class="math inline">\(x \in [x_j, x_j + h]\)</span>, where <span class="math inline">\(x_j\)</span> is our observed data point, and <span class="math inline">\(h\)</span> is small. Then:</p>
+<p><span class="math display">\[
+L(\theta \ \vert \ x_j) = \lim_{h \to 0^+} \frac{1}{h} \int_{x_j}^{x_j + h} f(x ; \theta) dx = f(x_j ; \theta)
+\]</span></p>
+<p>Note that, contrary to probabilities, density values can take values greater than 1. As such, when the dispersion is small, one could end up with values of likelihood greater than 1 (or positive log-likelihoods). In fact, the likelihood function is proportional to but not necessarily equal to the probability of generating the data given the parameters: <span class="math inline">\(L(\theta\vert X) \propto P(X; \theta)\)</span>.</p>
+<p>Most classical statistical estimations are based on maximizing a likelihood function. For example, linear regression estimates of slope and intercept are based on minimizing the sum of squares, or more generally, the <span class="math inline">\(\chi\)</span>-squared statistic. This amounts to maximizing the likelihood of the underlying model, which is based on the assumptions of normally distributed independent residuals.</p>
+</section>
+</section>
+<section id="bayesian-thinking" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="bayesian-thinking"><span class="header-section-number">6.2</span> Bayesian thinking</h2>
+<p>We will formalize the process of incorporation of prior knowledge into probabilistic inference by going back to the notion of conditional probability introduced in week 2. First, if you multiply both sides of the definition by <span class="math inline">\(P(B)\)</span>, then we obtain the probability of the intersection of events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
+<p><span class="math display">\[P(A \cap B) = P(A \ \vert \ B) P(B); \;  P(A \cap B) = P(B \ \vert \ A) P(A) \]</span></p>
+<p>Second, we can partition a sample space into two complementary sets, <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar A\)</span>, and then the set of <span class="math inline">\(B\)</span> can be partitioned into two parts, that intersect with <span class="math inline">\(A\)</span> and <span class="math inline">\(\bar A\)</span>, respectively, so that the probability of <span class="math inline">\(B\)</span> is</p>
+<p><span class="math display">\[P(B) = P(A \cap B) + P( \bar A\cap B)\]</span></p>
+<p>The two formulas together lead to a very important result called the <em>law of total probability</em>:</p>
+<p><span class="math display">\[
+P(B) =  P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P(\bar A)
+\]</span></p>
+<p>It may not be clear at first glance why this is useful: after all, we replaced something simple (<span class="math inline">\(P(B)\)</span>) with something much more complex on the right hand side. You will see how this formula enables us to calculate quantities that are not otherwise accessible.</p>
+<p><strong>Example:</strong> Suppose we know that the probability of a patient having a disease is 1% (called the prevalence of the disease in a population), and the sensitivity and specificity of the test are both 80%. What is the probability of obtaining a negative test result for a randomly selected patient? Let us call <span class="math inline">\(P(H) = 0.99\)</span> the probability of a healthy patient and <span class="math inline">\(P(D) = 0.01\)</span> the probability of a diseased patient. Then: <span class="math display">\[ P(Neg) =  P(Neg  \ \vert \  H) P(H) + P(Neg  \ \vert \  D)P(D)  = \]</span> <span class="math display">\[ = 0.8 \times 0.99 + 0.2 \times 0.01 = 0.794\]</span></p>
+<section id="bayes-formula" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="bayes-formula"><span class="header-section-number">6.2.1</span> Bayes’ formula</h3>
+<p>Take the first formula in this section, which expresses the probability <span class="math inline">\(P(A \cap B)\)</span> in two different ways. Since the expressions are equal, we can combine them into one equation, and by dividing both sides by <span class="math inline">\(P(B)\)</span>, we obtain what’s known as <em>Bayes’ formula</em>: <span class="math display">\[ P(A \ \vert \ B) = \frac{P(B \ \vert \ A) P(A)}{P(B) }\]</span></p>
+<p>Another version of Bayes’ formula re-writes the denominator using the Law of total probability above: <span class="math display">\[
+P(A \ \vert \ B) = \frac{P(B \ \vert \ A)P(A)}{P(B \ \vert \ A) P(A) + P(B \ \vert \ \bar A)P( \bar A)}
+\]</span></p>
+<p>Bayes’ formula gives us the probability of <span class="math inline">\(A\)</span> given <span class="math inline">\(B\)</span> from probabilities of <span class="math inline">\(B\)</span> given <span class="math inline">\(A\)</span> and given <span class="math inline">\(-A\)</span>, and the prior (baseline) probability of <span class="math inline">\(P(A)\)</span>. This is enormously useful when it is easy to calculate the conditionals one way and not the other. Among its many applications, it computes the effect of a test result with given sensitivity and specificity (conditional probabilities) on the probability of the hypothesis being true.</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>As you can see, nothing is drawn: we need to specify what we would like to associate to the <em>x</em> axis, and what to the <em>y</em> axis, etc. (i.e., we want to set as the <em>aesthetic mappings</em>). A barplot typically has classes on the <em>x</em> axis, while the <em>y</em> axis reports the counts in each class.</p>
+<center>
+<img src="`r url`">
+</center>
+</section>
+<section id="positive-predictive-value" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="positive-predictive-value"><span class="header-section-number">6.2.2</span> positive predictive value</h3>
+<p>In reality, a doctor doesn’t have the true information about the patient’s health, but rather the information from the test and hopefully some information about the population where she is working. Let us assume we know the rate of false positives <span class="math inline">\(P(Pos \ \vert \ H\)</span>) and the rate of false negatives <span class="math inline">\(P(Neg \ \vert \  D)\)</span>, as well as the prevalence of the disease in the whole population <span class="math inline">\(P(D)\)</span>. Then we can use Bayes’ formula to answer the practical question, if the test result is positive, what is the probability the patient is actually sick? This is called the <em>positive predictive value</em> of a test. The deep Bayesian fact is that one cannot make inferences about the health of the patient after the test without some prior knowledge, specifically the prevalence of the disease in the population:</p>
+<p><span class="math display">\[ P(D  \ \vert \  Pos) =  \frac{P(Pos \ \vert \ D)P(D)}{P(Pos \ \vert \ D) P(D) + P(Pos  \ \vert \  H)P(H)}\]</span></p>
+<p><strong>Example.</strong> Suppose the test has a 0.01 probability of both false positive and false negatives, and the overall prevalence of the disease in the population 0.02. You may be surprised that from an epidemiological perspective, a positive result is far from definitive:</p>
+<p><span class="math display">\[ P(D  \ \vert \  Pos)  = \frac{0.99 \times 0.02}{0.99 \times 0.02 + 0.01 \times 0.98} = 0.67 \]</span></p>
+<p>This is because the disease is so rare, that even though the test is quite accurate, there are going to be a lot of false positives (about 1/3 of the time) since 98% of the patients are healthy.</p>
+<p>We can also calculate the probability of a patient who tests negative of actually being healthy, which is called the <em>negative predictive value</em>. In this example, it is far more definitive:</p>
+<p><span class="math display">\[ P(H  \ \vert \  Neg)  = \frac{P(Neg \ \vert \ H)P(H)}{P(Neg \ \vert \ H) P(H) + P(Neg  \ \vert \  D)P(D)} = \]</span></p>
+<p><span class="math display">\[ = \frac{0.99 \times 0.98}{0.99 \times 0.98 + 0.01 \times 0.02} =  0.9998\]</span> This is again because this disease is quite rare in this population, so a negative test result is almost guaranteed to be correct. In another population, where disease is more prevalent, this may not be the case.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/prob_tree_tikz1.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Bayesian hypothesis testing tree with prior probability 0.1</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/prob_tree_tikz2.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Bayesian hypothesis testing tree with prior probability 0.01</figcaption>
+</figure>
+</div>
+<p><strong>Exercise:</strong> Simulate medical testing by rolling dice for a rare disease (1/6 prevalence) and a common disease (1/2 prevalence), with both sensitivity and specificity of 5/6. Compare the positive predictive values for the two cases.</p>
+</section>
+<section id="prosecutors-fallacy" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="prosecutors-fallacy"><span class="header-section-number">6.2.3</span> prosecutor’s fallacy</h3>
 <div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Note that we concatenate pieces of our “sentence” using the <code>+</code> sign! We’ve got the aestethic mappings figured out, but still no graph… we need to specify a geometry, i.e., the type of graph we want to produce. In this case, a barplot where the height of the bars is specified by the <code>y</code> value:</p>
+<center>
+<img src="`r url`">
+</center>
+<p>The basic principle of Bayesian thinking is that one cannot interpret the reliability of a result, e.g.&nbsp;a hypothesis test, without factoring in the prior probability of it being true. This seems like a commonsensical concept, but it is often neglected when such results are interpreted in various contexts, which can lead to perilous mistakes.</p>
+<p>Here is a scenario called “the prosecutor’s fallacy”. Suppose that a defendant is accused of a crime, and physical evidence collected at the crime scene matches this person (e.g.&nbsp;a fingerprint or a DNA sample), but no other evidence exists to connect the defendant to the crime. The prosecutor calls an expert witness to testify that fewer than one out of a million randomly chosen people would match this sample. Therefore, she argues, there is overwhelming probability that the defendant is guilty and less than 1 in a million chance they are innocent.</p>
+<p>Do you spot the problem with the argument?</p>
+<p>It’s the same fallacy as we saw in the medical testing scenario, or that is portrayed in the xkcd cartoon above. The prosecutor is conflating the probability of a match (positive result) given that the person is innocent, and the probability of the person being innocent, given the match. The probability of the former is one in a million, but we want to know the latter! And the latter depends on the prior probability of the person committing the crime, which should have been investigated by the detectives: did the defendant have a conflict with the victim or have they never met? did he have opportunity to commit the crime, or was he in a different city at the time? Without this information, it is impossible to decide whether it’s more likely that the DNA/fingerprint match is a false positive (in a country of 300 million, you can find 300 false matches if everyone is in the database!) or a true positive.</p>
+</section>
+<section id="reproducibility-in-science" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="reproducibility-in-science"><span class="header-section-number">6.2.4</span> reproducibility in science</h3>
+<p>In 2005 John Ioannidis published a paper entitled <a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124">“Why most published research findings are false”</a>. The paper, as you can see by its title, was intended to be provocative, but it is based solidly on the classic formula of Bayes. The motivation for the paper came from the observation that too often in modern science, big, splashy studies that were published could not be reproduced or verified by other researchers. What could be behind this epidemic of questionable scientific work?</p>
+<p>The problem as described by Ioannidis and many others, in a nutshell, is that unthinking use of traditional hypothesis testing leads to a high probability of false positive results being published. The paper outlines several ways in which this can occur.</p>
+<p>Too often, a hypothesis is tested and if the resultant p-value is less than some arbitrary threshold (very often 0.05, an absurdly high number), then the results are published. However, if one is testing a hypothesis with low prior probability, a positive hypothesis test result is very likely a false positive. Very often, modern biomedical research involves digging through a large amount of information, like an entire human genome, in search for associations between different genes and a phenotype, like a disease. It is a priori unlikely that any specific gene is linked to a given phenotype, because most genes have very specific functions, and are expressed quite selectively, only at specific times or in specific types of cells. However, publishing such studies results in splashy headlines (“Scientists find a gene linked to autism!”) and so a lot of false positive results are reported, only to be refuted later, in much less publicized studies.</p>
+<p>Ioannidis performed basic calculations of the probability that a published study is true (that is, that a positive reported result is a true positive), and how it is affected by pre-study (prior) probability, number of conducted studies on the same hypothesis, and the level of bias. His prediction is that for fairly typical scenario (e.g.&nbsp;pre-study probability of 10%, ten groups working simultaneously, and a reasonable amount of bias) the probability that a published result is correct is less than 50%. He then followed up with another paper [2] that investigated 49 top-cited medical research publications over a decade, and looked at whether follow-up studies could replicate the results, and found that a very significant fraction of their findings could not be replicated or were found to have weaker effects by subsequent investigations.</p>
+</section>
+</section>
+<section id="bayesian-inference" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="bayesian-inference"><span class="header-section-number">6.3</span> Bayesian inference</h2>
+<p>As an alternative to frequentist and maximum likelihood approaches to modeling biological data, Bayesian statistics has seen an impressive growth in recent years, due to the improved computational power.</p>
+<p>At the heart of Bayesian inference is an application of Bayes’ theorem: take a model with parameters <span class="math inline">\(\theta\)</span>, and some data <span class="math inline">\(D\)</span>. Bayes’ theorem gives us a disciplined way to “update” our belief in the distribution of <span class="math inline">\(\theta\)</span> once we’ve seen the data <span class="math inline">\(D\)</span>:</p>
+<p><span class="math display">\[
+P(\theta \ \vert \ D) = \frac{P(D \ \vert \ \theta) P(\theta)}{P(D)}
+\]</span> where:</p>
+<ul>
+<li><span class="math inline">\(P(\theta \ \vert \ D)\)</span> is the <strong>posterior distribution</strong> of <span class="math inline">\(\theta\)</span>, i.e., our updated belief in the values of <span class="math inline">\(\theta\)</span>.</li>
+<li><span class="math inline">\(P(D \ \vert \ \theta)\)</span> is the <strong>likelihood function</strong>: <span class="math inline">\(P(DX \ \vert \ \theta) = L(\theta \ \vert \ D)\)</span>.</li>
+<li><span class="math inline">\(P(\theta)\)</span> is the <strong>prior distribution</strong>, i.e.&nbsp;our belief on the distribution of <span class="math inline">\(\theta\)</span> before seeing the data.</li>
+<li><span class="math inline">\(P(D)\)</span> is called the <strong>evidence</strong>: <span class="math inline">\(P(D) = \int P(D \ \vert \ \theta) d \theta\)</span> (in practice, this need not to be calculated).</li>
+</ul>
+<section id="example-capture-recapture" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="example-capture-recapture"><span class="header-section-number">6.3.1</span> Example: capture-recapture</h3>
+<p>There is a well-established method in population ecology of estimating the size of a population by repeatedly capturing and tagging a number of individuals and later repeating the experiment to see how many are recaptured. Suppose that <span class="math inline">\(n\)</span> were captured initially and <span class="math inline">\(k\)</span> were recaptured later. We assume that the probability <span class="math inline">\(p\)</span> of recapturing an individual is the same for all individuals. Then our likelihood function is once again, based on the binomial distribution.</p>
+<p><span class="math display">\[
+L(p \ \vert \ k, n) = \binom{n}{k}p^k (1-p)^{n-k}
+\]</span> and our maximum likelihood estimate is <span class="math inline">\(\hat{p} = k /n\)</span>. This allows for estimation of the total population size to be <span class="math inline">\(P = n_2/\hat p\)</span>, where <span class="math inline">\(n_2\)</span> is the total number of individuals captured in the second experiment. There are more sophisticated estimators, but this one is reasonable for large enough populations.</p>
+<p>Let us plot the likelihood as a function of <span class="math inline">\(p\)</span> for the case in which <span class="math inline">\(n = 100\)</span> and <span class="math inline">\(k = 33\)</span></p>
 <div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Because it is very difficult to see the labels, let’s swap the axes:</p>
+<p>Now we choose a prior. For convenience, we choose a Beta distribution, <span class="math inline">\(P(p) = \text{Beta}(\alpha, \beta) = \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)}\)</span>, where <span class="math inline">\(B(\alpha, \beta)\)</span> is the Beta function, <span class="math inline">\(B(\alpha, \beta) = \int_0^1 t^{\alpha -1} (1-t)^{\beta - 1} dt\)</span>.</p>
+<p>Therefore:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
+&amp;= \left(\binom{n}{m} p^m (1-p)^{n-m} \right) \left( \frac{p^{\alpha - 1} (1-p)^{\beta - 1}}{B(\alpha, \beta)} \right)\\
+&amp; \propto p^{m+\alpha -1} (1-p)^{n-m + \beta -1} \\
+&amp; \propto \text{Beta}(m + \alpha, \beta + m - n)
+\end{aligned}
+\]</span></p>
+<p>We can explore the effect of choosing a prior on the posterior. Suppose that in the past we have seen probabilities close to 50%. Then we could choose a prior <span class="math inline">\(\text{Beta}(10,10)\)</span> (this is what is called a “strong” or “informative” prior). Let’s see what happens to the posterior:</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The graph shows that, naturally, the vast majority of cases was reported in Cook county. We have written a “well-formed sentence”, composed of <strong>data</strong> + <strong>mapping</strong> + <strong>geometry</strong>, and this is sufficient to produce a graph. We can add “adjectives” and “adverbs” to our graph, to make it clearer:</p>
+<p>You can see that the posterior “mediates” between the prior and the likelihood curve. When we use a weak prior, then our posterior will be closer to the likelihood function:</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The fact that the posterior depends on the prior is the most controversial aspect of Bayesian inference. Different schools of thought treat this feature differently (e.g., “Subjective Bayes” interprets priors as beliefs before seeing the data; “Empirical Bayes” relies on previous experiments or on the data themselves to derive the prior; “Objective Bayes” tries to derive the least-informative prior given the data). In practice, the larger the data, the cleaner the signal, the lesser the influence of the prior on the resulting posterior.</p>
 </section>
-<section id="scatterplots" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="scatterplots"><span class="header-section-number">1.5</span> Scatterplots</h2>
-<p>Using <code>ggplot2</code>, one can produce very many types of graphs. The package works very well for 2D graphs (or 3D rendered in two dimensions), while it lack capabilities to draw proper 3D graphs, or networks.</p>
-<p>The main feature of <code>ggplot2</code> is that you can tinker with your graph fairly easily, and with a common grammar. You don’t have to settle on a certain presentation of the data until you’re ready, and it is very easy to switch from one type of graph to another.</p>
-<p>For example, let’s plot the number of cases vs.&nbsp;number of deaths:</p>
-<div id="qwebr-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Showing that number of daily cases and number of daily deaths are highly correlated (but it would be a stronger correlation if we were to plot past cases vs.&nbsp;current deaths).</p>
+<section id="mcmc" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="mcmc"><span class="header-section-number">6.3.2</span> MCMC</h3>
+<p>The type of calculation performed above is feasible only for very simple models, and for appropriately chosen priors (called “conjugate priors”). For more complex models, we rely on simulations. In particular, one can use Markov-Chain Monte Carlo (MCMC) to sample from the posterior distribution of complex models. Very briefly, one builds a Markov-Chain in which the states represent sets of parameters; parameters are sampled from the prior, and the probability of moving to one state to another is proportional to the difference in their likelihood. When the MC converges, then one obtains the posterior distribution of the parameters.</p>
+<p>Bayesian inference is used for many complex problems, including phylogenetic tree building [5].</p>
 </section>
-<section id="histograms-density-and-boxplots" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="histograms-density-and-boxplots"><span class="header-section-number">1.6</span> Histograms, density and boxplots</h2>
-<p>It would be nice to see the distribution of the ratio deaths/cases. To do so, we can produce a histogram:</p>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can control the width of the bins by specifying:</p>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Let’s see whether the histograms differ between Illinois and Indiana:</p>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>To plot the histogram side by side, use</p>
-<div id="qwebr-insertion-location-12"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Similarly, we can approximate the histogram using a density plot, which interpolates the bin height to create a smooth distribution:</p>
-<div id="qwebr-insertion-location-13"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>To see the graph better, let’s make the coloring semi-transparent:</p>
-<div id="qwebr-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Showing a similar distribution for the death rate in the two states. For this type of comparison, the ideal graph to show is maybe a box-plot or a violin plot:</p>
-<div id="qwebr-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent “outliers”. To show the full distribution, you can use a violin plot:</p>
-<div id="qwebr-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Note that when we’re producing “similar” plots (e.g., histogram vs.&nbsp;density, box vs.&nbsp;violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!</p>
 </section>
-<section id="scales" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="scales"><span class="header-section-number">1.7</span> Scales</h2>
-<p>We can use scales to determine how the aesthetic mappings are displayed. For example, we could set the <em>x</em> axis to be in logarithmic scale, or we can choose how the colors, shapes and sizes are used. <code>ggplot2</code> uses two types of scales: <code>continuous</code> scales are used for continuos variables (e.g., real numbers); <code>discrete</code> scales for variables that can only take a certain number of values (e.g., colors, shapes, sizes).</p>
-<p>For example, let’s plot deaths vs.&nbsp;cases in our <code>dti</code> data set:</p>
-<div id="qwebr-insertion-location-17"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can change the scale of the <em>x</em> axis by calling:</p>
-<div id="qwebr-insertion-location-18"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Similarly, we can change the use of colors, points, etc.</p>
-</section>
-<section id="list-of-aesthetic-mappings" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="list-of-aesthetic-mappings"><span class="header-section-number">1.8</span> List of aesthetic mappings</h2>
-<p>We’ve seen some of the aesthetic mappings. Here’s a list of the main <code>aes</code>:</p>
-<ul>
-<li><code>x</code> what to use for <em>x</em> axis</li>
-<li><code>y</code> what to use for <em>y</em> axis</li>
-<li><code>color</code> the color of points and lines</li>
-<li><code>fill</code> the color of shapes (e.g., boxes, bars, etc.)</li>
-<li><code>size</code> the size of points, lines, etc.</li>
-<li><code>shape</code> the shape of points</li>
-<li><code>alpha</code> the level of transparency of the object</li>
-<li><code>linetype</code> the type of line (e.g., solid, dashed, etc.)</li>
-</ul>
-<div id="qwebr-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="list-of-geometries" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="list-of-geometries"><span class="header-section-number">1.9</span> List of geometries</h2>
-<p>There are very many geometries; here are a few of the most useful ones:</p>
-<ul>
-<li>Lines: <code>geom_abline</code> (line given slope and intercept); <code>geom_hline</code>, <code>geom_vline</code> (horizontal, vertical line); <code>geom_line</code> (connect observation in scatterplot).</li>
-<li>Bars: <code>geom_bar</code> (bar height is the count/sum); <code>geom_col</code> (bar heigts are provided by the data).</li>
-<li>Boxes: <code>geom_boxplot</code>.</li>
-<li>Distributions: <code>geom_violin</code> (like boxplots, but showing the density of the distribution); <code>geom_density</code> (density of 1D distribution), <code>geom_density2d</code> (density of bivariate distribution); <code>geom_histogram</code>, <code>geom_bin2d</code> (histograms).</li>
-<li>Text: <code>geom_text</code>.</li>
-<li>Smoothing function: <code>geom_smooth</code> (interpolates the points of a scatterplot).</li>
-<li>Error bars: <code>geom_errorbar</code>.</li>
-<li>Maps: <code>geom_map</code> (polygons from a reference map).</li>
-</ul>
-</section>
-<section id="list-of-scales" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="list-of-scales"><span class="header-section-number">1.10</span> List of scales</h2>
-<p>There are also very many scales. Here are a few:</p>
-<ul>
-<li><code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code> control labels and ranges of the axes.</li>
-<li><code>scale_alpha</code> transparency of the points/shapes.</li>
-<li><code>scale_color</code> (many options) colors of points and lines.</li>
-<li><code>scale_fill</code> (many options) colors of boxes, bars and shapes.</li>
-<li><code>scale_shape</code> shape of the points.</li>
-<li><code>scale_linetype</code> type of lines.</li>
-<li><code>scale_size</code> size of points and lines.</li>
-<li><code>scale_x</code>, <code>scale_y</code> (many options) transformations of the axes.</li>
-</ul>
-</section>
-<section id="themes" class="level2" data-number="1.11">
-<h2 data-number="1.11" class="anchored" data-anchor-id="themes"><span class="header-section-number">1.11</span> Themes</h2>
-<p>Themes allow you to manipulate the look and feel of a graph with just one command. The package <code>ggthemes</code> extends the themes collection of <code>ggplot2</code> considerably. For example:</p>
-<div id="qwebr-insertion-location-20"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="faceting" class="level2" data-number="1.12">
-<h2 data-number="1.12" class="anchored" data-anchor-id="faceting"><span class="header-section-number">1.12</span> Faceting</h2>
-<p>In many cases, we would like to produce a multi-panel graph, in which each panel shows the data for a certain combination of parameters. In <code>ggplot2</code> this is called <em>faceting</em>: the command <code>facet_grid</code> is used when you want to produce a grid of panels, in which all the panels in the same row (or column) have axes-ranges in common; <code>facet_wrap</code> is used when the different panels do not necessarily have axes-ranges in common.</p>
-<p>For example:</p>
-<div id="qwebr-insertion-location-21"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Let’s add a line separating showing the best-fit line:</p>
-<div id="qwebr-insertion-location-22"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Make ranges on <em>x</em> and <em>y</em> axes equal, and add the 1:1 line:</p>
-<div id="qwebr-insertion-location-23"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="setting-features" class="level2" data-number="1.13">
-<h2 data-number="1.13" class="anchored" data-anchor-id="setting-features"><span class="header-section-number">1.13</span> Setting features</h2>
-<p>Often, you want to simply set a feature (e.g., the color of the points, or their shape), rather than using it to display information (i.e., mapping some aestethic). In such cases, simply declare the feature outside the <code>aes</code>:</p>
-<div id="qwebr-insertion-location-24"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="saving-graphs" class="level2" data-number="1.14">
-<h2 data-number="1.14" class="anchored" data-anchor-id="saving-graphs"><span class="header-section-number">1.14</span> Saving graphs</h2>
-<p>You can either save graphs as done normally in <code>R</code>:</p>
-<div id="qwebr-insertion-location-25"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>or use the function <code>ggsave</code></p>
-<div id="qwebr-insertion-location-26"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="multiple-layers" class="level2" data-number="1.15">
-<h2 data-number="1.15" class="anchored" data-anchor-id="multiple-layers"><span class="header-section-number">1.15</span> Multiple layers</h2>
-<p>You can overlay different plots. To do so, however, they must share some of the aesthetic mappings. The simplest case is that in which you have only one dataset:</p>
-<div id="qwebr-insertion-location-27"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="try-on-your-own-data" class="level2" data-number="1.16">
-<h2 data-number="1.16" class="anchored" data-anchor-id="try-on-your-own-data"><span class="header-section-number">1.16</span> Try on your own data!</h2>
-<p>Now that you’re familiar with <code>ggplot2</code>, try producing some meaningful plots for your own data.</p>
-</section>
-<section id="resources" class="level2" data-number="1.17">
-<h2 data-number="1.17" class="anchored" data-anchor-id="resources"><span class="header-section-number">1.17</span> Resources</h2>
-<ul>
-<li><a href="https://hackr.io/tutorial/r-for-data-science">R for Data Science</a></li>
-<li><a href="https://www.tidyverse.org/">Tidyverse reference website</a></li>
-<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">Data Visualization Cheat Sheet</a></li>
-</ul>
+<section id="reading" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">6.4</span> Reading:</h2>
+<ol type="1">
+<li><p><a href="https://www.r-bloggers.com/maximum-likelihood-estimation-from-scratch/">Maximum likelihood estimation from scratch</a></p></li>
+<li><p><a href="https://academic.oup.com/mbe/article/24/8/1586/1103731">Phylogenetic Analysis by Maximum Likelihood</a></p></li>
+<li><p><a href="https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124">Why most published scientific studies are false</a></p></li>
+<li><p><a href="https://jamanetwork.com/journals/jama/fullarticle/201218">Contradicted and Initially Stronger Effects in Highly Cited Clinical Research</a></p></li>
+<li><p><a href="http://nbisweden.github.io/MrBayes/">MrBayes</a></p></li>
+<li><p><a href="https://www.molecularecologist.com/2016/02/quick-and-dirty-tree-building-in-r/">Quick and Dirty Tree Building in R</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Mark_and_recapture">Mark and Recapture</a></p></li>
+</ol>
 
 
 </section>
@@ -2770,13 +2768,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./00-refresher.html" class="pagination-link" aria-label="`R`efresher">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><code>R</code>efresher</span>
+      <a href="./05-hypothesis.html" class="pagination-link" aria-label="Hypothesis testing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Hypothesis testing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-probdist.html" class="pagination-link" aria-label="Fundamentals of probability">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fundamentals of probability</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./07-linalg.html" class="pagination-link" aria-label="Review of linear algebra">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Review of linear algebra</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
