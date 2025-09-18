@@ -4,10 +4,9 @@
 
 Introduce Principal Component Analysis (PCA), one of the most popular techniques to perform "dimensionality reduction" of complex data sets. If we see the data as points in a high-dimensional space, we can project the data onto a new set of coordinates such that the first coordinate captures the largest share of the variance in the data, the second coordinates captures the largest share of the remaining variance and so on. In this way, we can project large-dimensional data sets onto low-dimensional spaces and lose the least information about the data.
 
-```{r, warning=FALSE, message=FALSE}
-library(tidyverse)
-library(ggmap) # for ggimage
+```{webr-r}
 library(ggfortify) # for autoplot
+library(ggmap)
 ```
 
 ## Input
@@ -16,16 +15,16 @@ We have collected the $n \times m$ data matrix $X$ (typically, with $n \gg m$), 
 
 For example, take the iris data set:
 
-```{r}
+```{webr-r}
 data("iris")
-ir <- iris %>% dplyr::select(-Species)
-sp <- iris %>% dplyr::select(Species)
+ir <- iris  |>  dplyr::select(-Species)
+sp <- iris |> dplyr::select(Species)
 pairs(ir, col = sp$Species)
 ```
 
 We can separate the clusters better by finding the best projection in 2D:
 
-```{r}
+```{webr-r}
 autoplot(prcomp(ir, center = TRUE), 
          data = iris, 
          colour = "Species",
@@ -57,8 +56,8 @@ Where $U_i$ is the $i$th column of $U$. Most importantly, you can prove that at 
 
 Let's look at a concrete example. A monochromatic image can be represented as a matrix where the entries are pixels taking values in (for example, using 8 bits) $0, 1, \ldots, 255$:
 
-```{r}
-stefano <- as.matrix(read.csv("data/stefano.txt"))
+```{webr-r}
+stefano <- as.matrix(read.csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/stefano.txt"))
 # invert y axis and transpose for visualization
 stefano <- t(stefano[,ncol(stefano):1])
 # rescale values to suppress warning from ggimage
@@ -68,7 +67,7 @@ ggimage(stefano)
 
 Now let's perform SVD, and show that indeed we have factorized the image:
 
-```{r}
+```{webr-r}
 s_svd <- svd(stefano)
 U <- s_svd$u
 V <- s_svd$v
@@ -81,7 +80,7 @@ ggimage(round(stefano - stefano_2, 10))
 
 Now we can visualize the approximation we're making when we take only the first few singular values. We're going to plot $X_k$ (on the left), and $\sum_{i=1}^k X_i$ (on the right). Even with only a few iterations (7, out of 255) we obtain a recognizable image:
 
-```{r, warning=FALSE, message=FALSE}
+```{webr-r}
 r <- 7
 Xdec <- array(0, c(dim(stefano), r))
 Xsum <- array(0, c(dim(stefano), r))
@@ -109,8 +108,8 @@ Let's go back to our data matrix $X$, and its representation as $n$ points (the 
 
 For example, let's take the `Petal.Lenght` and `Petal.Width` in `iris`:
 
-```{r}
-X <- iris %>% dplyr::select(Petal.Length, Petal.Width) %>% as.matrix()
+```{webr-r}
+X <- iris |> dplyr::select(Petal.Length, Petal.Width) |> as.matrix()
 X <- scale(X, center = TRUE, scale = FALSE) # remove mean
 colors <- iris$Species
 plot(X, col = colors)
@@ -152,7 +151,7 @@ Therefore, the first column of $Y$ is given by the projection of the data on the
 
 Note that the first axis captures $\lambda_1 / \sum_{i = 1}^m \lambda_i$ of the total variance in $X$. This is typically reported in PCA as the "loadings" of the various components.
 
-```{r}
+```{webr-r}
 # build sample covariance matrix
 S <- (1 / (nrow(X) - 1)) * t(X) %*% X
 # compute eigenvalues and eigenvectors
@@ -164,7 +163,7 @@ Y <- X %*% W
 plot(Y, col = colors)
 ```
 
-```{r}
+```{webr-r}
 eS$values
 apply(Y, 2, var)
 ```
@@ -193,18 +192,18 @@ Therefore, we can perform PCA efficiently by decomposing $X$ using SVD.
 
 ### PCA in R---from scratch
 
-```{r}
-dt <- read_csv("data/handwritten_digits.csv") %>% 
+```{webr-r}
+dt <- read.csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/handwritten_digits.csv") |> 
   arrange(id, x, y)
 head(dt)
 ```
 
-```{r}
+```{webr-r}
 # make into a data matrix with pixels as cols
-dt_wide <- pivot_wider(dt %>% dplyr::select(-x, -y), 
+dt_wide <- pivot_wider(dt |> dplyr::select(-x, -y), 
                        names_from = pixel, 
                        values_from = value)
-X <- (as.matrix(dt_wide %>% dplyr::select(-id, -label)))
+X <- (as.matrix(dt_wide |> dplyr::select(-id, -label)))
 # make col means = 0
 Xs <- scale(X, center = TRUE, scale = FALSE)
 # compute SVD
@@ -213,10 +212,10 @@ X_svd <- svd(Xs)
 Y <- X_svd$u %*% diag(X_svd$d)
 ```
 
-```{r}
-PCA_1 <- dt_wide %>% 
-  dplyr::select(id, label) %>% 
-  mutate(label = as.character(label)) %>% 
+```{webr-r}
+PCA_1 <- dt_wide |> 
+  dplyr::select(id, label) |> 
+  mutate(label = as.character(label)) |> 
   add_column(PC1 = Y[,1], PC2 = Y[,2])
 ggplot(PCA_1) + 
   aes(x = PC1, y = PC2, label = id, group = label, colour = label) + 
@@ -225,7 +224,7 @@ ggplot(PCA_1) +
 
 Pretty good! Let's see some of the poorly classified points:
 
-```{r}
+```{webr-r}
 # This should be a 0
 ggimage(matrix(X[122,], 16, 16, byrow = FALSE), fullpage = FALSE)
 # This should be a 1
@@ -238,13 +237,13 @@ You can also scale the variables turning the sample covariance matrix $S$ into a
 
 ### PCA in R --- the easy way
 
-```{r}
+```{webr-r}
 library(ggfortify)
 # for prcomp, you need only numeric data
-X <- dt_wide %>% dplyr::select(-id, -label)
+X <- dt_wide |> dplyr::select(-id, -label)
 PCA_3 <- prcomp(X)
 autoplot(PCA_3, 
-         data = dt_wide %>% mutate(label = as.character(label)), 
+         data = dt_wide |> mutate(label = as.character(label)), 
          colour = "label",
          frame = TRUE, frame.type = 'norm')
 ```
@@ -343,12 +342,12 @@ $$ X = Q \Lambda^{\frac{1}{2}}$$
 
 For example, let's look at the driving distance in *km* between cities in the US:
 
-```{r}
+```{webr-r}
 # read distances US
-usa <- read_csv("data/dist_US.csv")
+usa <- read.csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/dist_US.csv")
 # make into a matrix of distances
-M <- usa %>% pivot_wider(names_from = to, values_from = `dist`) %>% 
-  dplyr::select(-from) %>% 
+M <- usa |> pivot_wider(names_from = to, values_from = `dist`) |> 
+  dplyr::select(-from) |> 
   as.matrix()
 M[is.na(M)] <- 0 
 rownames(M) <- colnames(M)
@@ -359,11 +358,11 @@ M[1:2, 1:2]
 
 And perform classic MDS using two dimensions:
 
-```{r}
+```{webr-r}
 mds_fit <- cmdscale(M, k = 2) # k is the dimension of the embedding
 mds_fit <- tibble(id = rownames(M), 
                   x = mds_fit[,1], y = mds_fit[,2])
-pl <- mds_fit %>% 
+pl <- mds_fit |> 
   ggplot() + 
   aes(x = x, y = y) + 
   geom_point() + 
@@ -373,7 +372,7 @@ show(pl)
 
 # highlight some major cities
 hh <- c(122, 175, 177, 373, 408, 445, 572, 596, 691)
-mds_highlight <- mds_fit %>% slice(hh)
+mds_highlight <- mds_fit |> slice(hh)
 show(pl + geom_point(data  = mds_highlight, aes(colour = rownames(M)[hh])))
 ```
 

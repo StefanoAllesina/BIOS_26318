@@ -6,7 +6,7 @@ No observation or measurement in our world is perfectly reproducible, no matter 
 
 In probability terminology, a *random experiment* produces *outcomes* and the collection of all outcomes of an experiment is called its *sample space*.
 
-**Example:** The specifics of the experiment can affect the degree of uncertainty in the outcome; the same measurement may be random or not, depending on context. For example, measuring the height of a person should be deterministic, if one measures the height of the same person within a short amount of time. So unless you're interested in studying the error in [stadiometer](https://www.quickmedical.com/measure/stadiometer.html) results, you probably won't consider this a random experiment. However, measuring the heights of different people is a random experiment, where the source of randomness is primarily due to the selection of people for your study, called *sampling error*, rather than due to the measurement noise of any one person.
+**Example:** The specifics of the experiment can affect the degree of uncertainty in the outcome; the same measurement may be random or not, depending on context. For example, measuring the height of a person should be deterministic, if one measures the height of the same person within a short amount of time. So unless you're interested in studying the error in stadiometer results, you probably won't consider this a random experiment. However, measuring the heights of different people is a random experiment, where the source of randomness is primarily due to the selection of people for your study, called *sampling error*, rather than due to the measurement noise of any one person.
 
 The measurement of interest from a random experiment is called a *random variable*. Sometimes the measurement is simply the outcome, but usually it reports some aspect of the outcome and so several outcomes can have the same value of the random variable. The random variable can then be seen as condensing the sample space into a smaller range of values. Random variables can be *numeric* or *categorical*, with the difference that categorical variables cannot be assigned meaningful numbers. For instance, one may report an individual by phenotype (e.g., white or purple flowers), or having a nucleotide A, T, G, C in a particular position, and although one could assign numbers to these categories (e.g., 1, 2, 3, 4) they could not be used in a sensible way---one can compare and do arithmetic with numbers, but A is not less than T and A + T does not equal G. Thus there are different tools for describing and working with numeric and categorical random variables.
 
@@ -14,10 +14,9 @@ The measurement of interest from a random experiment is called a *random variabl
 
 **Exercise:** The package `palmerpenguins` contains multiple variables measured in populations of three different species of penguins over three years on three different islands. Identify numeric and categorical variables, and specify whether numeric variables are discrete and continuous.
 
-```{r}
-library(tidyverse)
+```{webr-r}
 library(palmerpenguins)
-str(penguins)
+glimpse(penguins)
 ```
 
 ## Probability axioms
@@ -64,7 +63,7 @@ And for a density function it is defined using the integral: $$ E(Y) =  \int_R y
 
 **Example:** Let us examine the factors (categorical variables) in the penguins data set. They cannot be described using means and medians, but can be plotted by counts in each category as you learned in the introduction to `ggplot2`:
 
-```{r}
+```{webr-r}
 ggplot(data = penguins) +
   aes(x = species, fill = sex) + 
   geom_bar(position = "fill")
@@ -77,15 +76,15 @@ ggplot(data = penguins) +
 
 One can plot the distributions of numeric variables like body mass for different penguin species using box plots:
 
-```{r}
+```{webr-r}
 ggplot(data = penguins) + aes(x = as.factor(species), y=body_mass_g) + geom_boxplot()
 ```
 
 The following code chunk uses `dplyr` functions that we will learn in the next chapter to calculate the mean and median values of these variables aggregated by species:
 
-```{r}
-penguins %>% drop_na() %>% group_by(species) %>% summarise(mean = mean(body_mass_g))
-penguins %>% drop_na()  %>% group_by(species) %>% summarise(median = median(body_mass_g))
+```{webr-r}
+penguins |> drop_na() |> group_by(species) |> summarise(mean = mean(body_mass_g))
+penguins |> drop_na()  |> group_by(species) |> summarise(median = median(body_mass_g))
 ```
 
 Comment on how the descriptive statistics correspond to the box plots.
@@ -102,11 +101,11 @@ And for a density function it is defined using the integral: $$\text{Var}(Y) =  
 
 Variances have squared units so they are not directly comparable to the values of the random variable. Taking the square root of the variance converts it into the same units and is called the standard deviation of the distribution: $$ \sigma_X = \sqrt{\text{Var}(X)}$$ **Example:** Let's go back to the penguins data set and calculate the measures of spread for the variable body mass for different penguin species
 
-```{r}
+```{webr-r}
 ggplot(data = penguins) + aes(x = as.factor(species), y=body_mass_g) + geom_boxplot()
-penguins %>% drop_na() %>% group_by(species) %>% summarise(var = var(body_mass_g))
-penguins %>% drop_na() %>% group_by(species) %>% summarise(first_quart = quantile(body_mass_g,0.25))
-penguins %>% drop_na() %>% group_by(species) %>% summarise(third_quart = quantile(body_mass_g,0.75))
+penguins |> drop_na() |> group_by(species) |> summarise(var = var(body_mass_g))
+penguins |> drop_na() |> group_by(species) |> summarise(first_quart = quantile(body_mass_g,0.25))
+penguins |> drop_na() |> group_by(species) |> summarise(third_quart = quantile(body_mass_g,0.75))
 ```
 
 Which species has a wider spread in its body mass? How do the descriptive stats and the box plots correspond?
@@ -157,7 +156,7 @@ Second, there can be funny business with combining means of different *subsets* 
 
 This apparent contradiction is called Simpson's paradox. It can be illustrated in the data set of all the passengers and crew on the doomed ocean liner Titanic. The data set is found in the library `stablelearner` and is loaded by the chunk below:
 
-```{r}
+```{webr-r}
 library(stablelearner)
 data(titanic)
 str(titanic)
@@ -165,8 +164,8 @@ str(titanic)
 
 The chunk below calculated the survival probability of passengers of all classes compared to the crew (of all types:
 
-```{r}
-titanic %>% group_by(Passenger = class %in% c('1st', '2nd', '3rd'), survived) %>% summarise(num = n()) %>% mutate(fraction = num/sum(num)) 
+```{webr-r}
+titanic |> group_by(Passenger = class %in% c('1st', '2nd', '3rd'), survived) |> summarise(num = n()) |> mutate(fraction = num/sum(num)) 
 ```
 
 You can see that about 24% of the crew survived and almost 38% of the passengers survived. In this week's assignment you will calculate and explain what happens when you divide the people in each group by gender.

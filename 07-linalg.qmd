@@ -8,10 +8,7 @@
 -   Representation of vectors in multiple bases
 -   Eigenvalues and eigenvectors of matrices
 
-```{r,warning=FALSE, message=FALSE}
-library(tidyverse) # our friend the tidyverse
-library(ggfortify) 
-```
+
 
 ## Solving multivariate linear equations
 
@@ -60,7 +57,7 @@ $$
 
 *Example:* Take the linear $2 \times 2$ system of equations of above and solve it using matrix inversion.The `R` function `solve()` calculates the inverse and multiplies it by the constant vector `b`:
 
-```{r}
+```{webr-r}
 A <- matrix(c(4,-1,-3,2), nrow = 2)
 b <- c(5,10)
 solve(A,b)
@@ -81,7 +78,7 @@ $$
 
 These equations have a solution for the slope and intercept, which can be calculated in `R` using `solve()` and then plot the line with the parameters from the solution vector `beta`:
 
-```{r}
+```{webr-r}
 xs <- c(3, 6)
 ys <- c(5, 2)
 A <- matrix(c(xs[1], xs[2], 1, 1), nrow = 2)
@@ -136,7 +133,7 @@ $$
 \beta = (\mathbf{X}^{T} \mathbf{X})^{-1} \mathbf{X}^{T}\vec Y
 $$ *Example:* Let us see the best-fit line for the 3-point data set above:
 
-```{r}
+```{webr-r}
 xs <- c(3, 6, 9)
 ys <- c(5, 2, 1)
 A <- matrix(c(xs[1], xs[2], xs[3], 1, 1, 1), nrow = 3)
@@ -151,8 +148,8 @@ ggplot(data = data1) +
 
 Let us use the classic data set of Karl Pearson's from 1903 containing the height of fathers and sons, which we will return to next week when we tackle linear regression properly:
 
-```{r, message=FALSE}
-require(UsingR)
+```{webr-r}
+library(UsingR)
 data("father.son")
 pl <- ggplot(data = father.son) + 
   aes(x = fheight, y = sheight) + 
@@ -163,20 +160,20 @@ pl
 
 *Exercise:* Let's try to find the best fit line to this data set (the hard way) using the same process as above for the three - point data set:
 
-```{r}
+```{webr-r}
 
 ```
 
 Of course, `R` can do this calculation for you with just one command:
 
-```{r}
+```{webr-r}
 best_beta_easy <- lm(sheight ~ fheight, data = father.son)
 best_beta_easy
 ```
 
 But it feels good to know that this is not black magic! In fact, plotting it on top of the data does not even require computing the coefficients:
 
-```{r}
+```{webr-r}
 pl + geom_smooth(method = "lm") # lm stands for linear model
 ```
 
@@ -189,11 +186,11 @@ We have dealt with linear models in various guises, so now would be a good time 
 1.  *(scalar multiplication)* $L(c \vec v) = c L(\vec v)$; where $c$ is a scalar and $\vec v$ is a vector
 2.  *(additive)* $L(\vec v_1 + \vec v_2) = L(\vec v_1) + L(\vec v_2)$; where $\vec v_1$ and $\vec v_2$ are vectors
 
-Here we have two types of objects: vectors and transformations/operators that act on those vectors. The basic example of this are vectors and matrices, because a matrix multiplied by a vector (on the right) results another vector, provided the number of columns in the matrix is the same as the number of rows in the vector. This can be interpreted as the matrix transforming the vector $\vec v$ into another one: $A \times \vec v = \vec u$.
+Here we have two types of objects: vectors and transformations/operators that act on those vectors. The basic example of this are vectors and matrices, because a matrix multiplied by a column vector (on the right) results in another column vector, provided the number of columns in the matrix is the same as the number of rows in the vector. This can be interpreted as the matrix transforming the vector $\vec v$ into another one: $A \times \vec v = \vec u$.
 
 **Example:** Let us multiply the following matrix and vector (specially chosen to make a point):
 
-```{r}
+```{webr-r}
 A <- matrix(c(2, 2, 1, 3), nrow = 2)
 vec1 <- c(1, -1)
 vec2 <- A %*% vec1
@@ -203,7 +200,7 @@ print(vec2)
 
 We see that this particular vector $(1,-1)$ is unchanged when multiplied by this matrix, or we can say that the matrix multiplication is equivalent to multiplication by 1. Here is another such vector for the same matrix:
 
-```{r}
+```{webr-r}
 vec1 <- c(1, 2)
 vec2 <- A %*% vec1
 print(vec1)
@@ -220,7 +217,7 @@ Linear combinations arise naturally from the notion of linearity, combining the 
 
 **Definition.** A *vector space* is a collection of vectors such that a linear combination of any $n$ vectors is contained in the vector space.
 
-The most common examples are the spaces of all real-valued vectors of dimension $n$, which are denoted by $\mathbb{R}^n$. For instance, $\mathbb{R}^2$ (pronounced "r two") is the vector space of two dimensional real-valued vectors such as $(1,3)$ and $(\pi, -\sqrt{17})$; similarly, $\mathbb{R}^3$ is the vector space consisting of three dimensional real-valued vectors such as $(0.1,0,-5.6)$. You can convince yourself, by taking linear combinations of vectors, that these vector spaces contain all the points in the usual Euclidean plane and three-dimensional space. The real number line can also be thought of as the vector space $\mathbb{R}^1$.
+The most common examples are the spaces of all real-valued vectors of dimension $n$, which are denoted by $\mathbb{webr-r}^n$. For instance, $\mathbb{webr-r}^2$ (pronounced "r two") is the vector space of two dimensional real-valued vectors such as $(1,3)$ and $(\pi, -\sqrt{17})$; similarly, $\mathbb{webr-r}^3$ is the vector space consisting of three dimensional real-valued vectors such as $(0.1,0,-5.6)$. You can convince yourself, by taking linear combinations of vectors, that these vector spaces contain all the points in the usual Euclidean plane and three-dimensional space. The real number line can also be thought of as the vector space $\mathbb{webr-r}^1$.
 
 ### Linear independence and basis vectors
 
@@ -228,11 +225,11 @@ How can we describe a vector space without trying to list all of its elements? W
 
 **Definition:** A set of vectors $\{ \vec v_i \}$ is called *linearly independent* if the only linear combination involving them that equals the zero vector is if all the coefficients are zero. ( $a_1 \vec v_1 + a_2 \vec v_2 + ... + a_n \vec v_n = 0$ only if $a_i = 0$ for all $i$.)
 
-In the familiar Euclidean spaces, e.g. $\mathbb{R}^2$, linear independence has a geometric meaning: two vectors are linearly independent if the segments from the origin to the endpoint do not lie on the same line. But it can be shown that any set of three vectors in the plane is linearly dependent, because there are only two dimensions in the vector space. This brings us to the key definition of this section:
+In the familiar Euclidean spaces, e.g. $\mathbb{webr-r}^2$, linear independence has a geometric meaning: two vectors are linearly independent if the segments from the origin to the endpoint do not lie on the same line. But it can be shown that any set of three vectors in the plane is linearly dependent, because there are only two dimensions in the vector space. This brings us to the key definition of this section:
 
 **Definition:** A *basis* of a vector space is a linearly independent set of vectors that generate (or span) the vector space. The number of vectors (cardinality) in such a set is called the *dimension* of the vector space.
 
-A vector space generally has many possible bases, as illustrated in figure. In the case of $\mathbb{R}^2$, the usual (canonical) basis set is $\{(1,0); (0,1)\}$ which obviously generates any point on the plane and is linearly independent. But any two linearly independent vectors can generate any vector in the plane.
+A vector space generally has many possible bases, as illustrated in figure. In the case of $\mathbb{webr-r}^2$, the usual (canonical) basis set is $\{(1,0); (0,1)\}$ which obviously generates any point on the plane and is linearly independent. But any two linearly independent vectors can generate any vector in the plane.
 
 **Example:** The vector $\vec r = (2,1)$ can be represented as a linear combination of the two canonical vectors: $\vec r = 2\times (1,0)+1\times (0,1)$. Let us choose another basis set, say $\{(1,1); (-1,1)\}$ (this is the canonical basis vectors rotated by $\pi/2$.) The same vector can be represented by a linear combination of these two vectors, with coefficients $1.5$ and $-0.5$: $\vec r = 1.5\times (1,1) - 0.5 \times (-1,1)$. If we call the first basis $C$ for canonical and the second basis $D$ for different, we can write the same vector using different sets of coordinates for each basis:
 
@@ -254,7 +251,7 @@ This formula gives the projection of the vector $\vec r$ onto $\vec v$, the resu
 
 **Example:** Here is how one might calculate the projection of the point $(2,1)$ onto the basis set $\{(1,1); (-1,1)\}$:
 
-```{r}
+```{webr-r}
 v1 <- c(1, 1)
 v2 <- c(-1, 1)
 u <- c(2, 1)
@@ -266,7 +263,7 @@ ProjMat %*% u
 
 This is not quite right: the projection coefficients are off by a factor of two compared to the correct values in the example above. This is because we have neglected to *normalize* the basis vectors, so we should modify the script as follows:
 
-```{r}
+```{webr-r}
 v1 <- c(1, 1)
 v1 <- v1 / (sum(v1^2))
 v2 <- c(-1, 1)
@@ -368,7 +365,7 @@ $$
 
 These are the multiples we found in the example above, as expected. Of course `R` has functions to calculate this instead of doing this by hand:
 
-```{r}
+```{webr-r}
 A <- matrix(c(2, 2, 1, 3), nrow =2)
 eigs <- eigen(A)
 eigs$values

@@ -1,10 +1,14 @@
 project:
   type: book
   output-dir: docs
+filters:
+  - webr
+webr:
+  packages: ['ggplot2', 'dplyr', 'tidyr', 'readr', 'purrr', 'tibble']
 book:
   title: "Fundamentals of Biological Data Analysis"
   author: "Stefano Allesina and Dmitry Kondrashov"
-  date: "`r Sys.Date()`"
+  date: today
   twitter-card: true
   search: true
   repo-url: https://github.com/StefanoAllesina/BIOS_26318
@@ -34,14 +38,16 @@ book:
 bibliography: book.bib
 biblio-style: apalike
 link-citations: TRUE
-description: "Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2023"
+description: "Course material for Fundamentals of Biological Data Analysis, BIOS 26318, fall 2025"
 
 
 format:
   html:
-    theme: cosmo
+    theme: materia
   pdf:
     documentclass: scrreprt
 
 editor: visual
+
+
 

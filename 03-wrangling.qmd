@@ -2,7 +2,7 @@
 
 ## Goal
 
-Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of `dplyr`, `tidyr`, and the "pipe" operator `%>%`. Effortlessly produce statistics for grouped data. Massage data into "tidy" form.
+Learn how to manipulate large data sets by writing efficient, consistent, and compact code. Introduce the use of `dplyr`, `tidyr`, and the "pipe" operator `|>`. Effortlessly produce statistics for grouped data. Massage data into "tidy" form.
 
 ## What is data wrangling?
 
@@ -10,31 +10,25 @@ As biologists living in the XXI century, we are often faced with tons of data, p
 
 We're going to learn about the packages `dplyr` and `tidyr`, which are part of `tidyverse` and can be used to manipulate large data frames in a simple and straightforward way. These tools are also much faster than the corresponding base `R` commands, are very compact, and can be concatenated into "pipelines".
 
-To start, we need to import the libraries:
+We are going to use the data set `penguins` from the package `palmerpenguins`, which we have already seen last week.
 
-```{r, warning=FALSE, message=FALSE}
-library(tidyverse) # this loads both dplyr and tidyr, along with other packages
+```{webr-r}
 library(palmerpenguins) # a nice data set to play with
-```
-
-```{r, warning=FALSE, message=FALSE}
 # make sure function select is the right one...
 select <- dplyr::select
 ```
-
-We are going to use the data set `penguins` from the package `palmerpenguins`, which we have already seen last week.
 
 ## A new data type, `tibble`
 
 The data is stored in a "tibble":
 
-```{r}
+```{webr-r}
 class(penguins)
 ```
 
 In fact, `dplyr` ships with a new data type, called a `tibble`. To convert a `data.frame` into a tibble, use `as_tibble`:
 
-```{r, eval=FALSE}
+```{webr-r}
 # load a data frame
 data("trees")
 class(trees)
@@ -55,7 +49,7 @@ We can take a look at the data using one of several functions:
 
 There are many ways to subset the data, either by row (subsetting the *observations*), or by column (subsetting the *variables*). For example, let's select only the rows with observations from the island `Torgersen`:
 
-```{r}
+```{webr-r}
 filter(penguins, island == "Torgersen")
 ```
 
@@ -65,13 +59,13 @@ We have 52 observations. We have used the command `filter(tbl, conditions)` to s
 
 We can also select particular variables (columns) using the function `select(tbl, cols to select)`. For example, select `species` and `island`:
 
-```{r}
+```{webr-r}
 select(penguins, species, island)
 ```
 
 How many `species` are represented in the data set? We can use the function `distinct(tbl, cols to select)` to retain only the rows that differ from each other:
 
-```{r}
+```{webr-r}
 distinct(select(penguins, species))
 ```
 
@@ -88,38 +82,38 @@ More ways to select columns:
 -   `select(penguins, -year, -body_mass_g)` exclude the columns `year` and `body_mass_g`
 -   `select(penguins, matches("length|bill"))` select all columns whose names match a regular expression
 
-## Creating pipelines using `%>%`
+## Creating pipelines using `|>`
 
-We've been calling nested functions, such as `distinct(select(penguins, species))`. If you have to add another layer or two, the code would become unreadable. `dplyr` allows you to "un-nest" these functions and create a "pipeline" in which you concatenate commands separated by a special operator, `%>%`. For example:
+We've been calling nested functions, such as `distinct(select(penguins, species))`. If you have to add another layer or two, the code would become unreadable. `dplyr` allows you to "un-nest" these functions and create a "pipeline" in which you concatenate commands separated by a special operator, `|>`. For example:
 
-```{r}
-penguins %>% # take a data table
-  select(species) %>% # select a column
+```{webr-r}
+penguins |> # take a data table
+  select(species) |> # select a column
   distinct() # remove duplicates
 ```
 
 does exactly the same operations as the command above, but is much more readable. By concatenating many commands, you can create incredibly complex pipelines while retaining readability. It is also quite easy to add another piece of the pipeline in between commands, or to comment some of the pipeline out.
 
-Another advantage of pipelines is that they help with name completion. In fact, `RStudio` is running in the background your pipeline while you type it. Try typing `dt %>% filter(` and then start typing `bill` and press `Tab`: you will see the options to complete the column name; choose it with your arrows and hit `Return`. The back tick-marks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).
+Another advantage of pipelines is that they help with name completion. In fact, `RStudio` is running in the background your pipeline while you type it. Try typing `dt |> filter(` and then start typing `bill` and press `Tab`: you will see the options to complete the column name; choose it with your arrows and hit `Return`. The back tick-marks will be added automatically if needed (e.g., column names containing spaces, or starting with a digit).
 
 ## Producing summaries
 
 Sometimes we need to calculate statistics on certain columns. For example, calculate the average body mass of the penguins. We can do this using `summarise` (you can use British or American spelling):
 
-```{r}
-penguins %>% 
+```{webr-r}
+penguins |> 
   summarise(avg = mean(body_mass_g, na.rm = TRUE))
 # alternatively, drop_na(body_mass_g) removes all the observations for which
 # body_mass_g is NA
-penguins %>% 
-  drop_na(body_mass_g) %>% 
+penguins |> 
+  drop_na(body_mass_g) |> 
   summarise(avg = mean(body_mass_g, na.rm = TRUE))
 ```
 
 where we used `na.rm = TRUE` to ignore missing values. This command returns a `tbl` object with just the average body mass. You can combine multiple statistics (use `first`, `last`, `min`, `max`, `n` \[count the number of rows\], `n_distinct` \[count the number of distinct rows\], `mean`, `median`, `var`, `sd`, etc.):
 
-```{r}
-penguins %>% 
+```{webr-r}
+penguins |> 
   summarise(avg = mean(body_mass_g, na.rm = TRUE), 
             sd = sd(body_mass_g, na.rm = TRUE), 
             median = median(body_mass_g, na.rm = TRUE))
@@ -129,10 +123,10 @@ penguins %>%
 
 One of the most useful features of `dplyr` is the ability to produce statistics for the data once subsetted by *groups*. For example, we would like to compute the average body mass by species and sex:
 
-```{r}
-penguins %>% 
-  drop_na() %>% 
-  group_by(sex, species) %>% 
+```{webr-r}
+penguins |> 
+  drop_na() |> 
+  group_by(sex, species) |> 
   summarise(mean = mean(body_mass_g, na.rm = TRUE))
 ```
 
@@ -144,10 +138,10 @@ showing that male penguins are heavier for the three species considered.
 
 To order the data according to one or more variables, use `arrange()`:
 
-```{r}
-penguins %>% 
+```{webr-r}
+penguins |> 
   arrange(body_mass_g) # ascending
-penguins %>% 
+penguins |> 
   arrange(desc(body_mass_g)) # descending
 ```
 
@@ -155,8 +149,8 @@ penguins %>%
 
 To rename one or more columns, use `rename()`:
 
-```{r}
-penguins %>% 
+```{webr-r}
+penguins |> 
   rename(bm = body_mass_g)
 ```
 
@@ -164,18 +158,18 @@ penguins %>%
 
 If you want to add one or more new columns, with the content being a function of other columns, use the function `mutate`. For example, we are going to add a new column showing the z-score for the body mass of each individual:
 
-```{r}
-penguins %>% 
-  mutate(zscore_bm = scale(body_mass_g)) %>% 
+```{webr-r}
+penguins |> 
+  mutate(zscore_bm = scale(body_mass_g)) |> 
   select(species, sex, body_mass_g, zscore_bm)
 ```
 
 We can pipe the results to `ggplot` for plotting!
 
-```{r}
-penguins %>% 
-  mutate(zscore_bm = scale(body_mass_g)) %>% 
-  select(species, sex, body_mass_g, zscore_bm) %>% 
+```{webr-r}
+penguins |> 
+  mutate(zscore_bm = scale(body_mass_g)) |> 
+  select(species, sex, body_mass_g, zscore_bm) |> 
   ggplot() + aes(x = species, y = zscore_bm, colour = sex) + 
     geom_jitter()
 ```
@@ -184,12 +178,12 @@ You can use the function `transmute()` to create a new column and drop the origi
 
 Most importantly, you can use `mutate` and `transmute` on grouped data. For example, let's recompute the z-score of the `body_mass_g` once the data is grouped by species and sex:
 
-```{r}
-penguins %>% 
-  drop_na() %>% 
-  select(species, sex, body_mass_g) %>% 
-  group_by(species, sex) %>% 
-  mutate(zscore_bm = scale(body_mass_g)) %>% 
+```{webr-r}
+penguins |> 
+  drop_na() |> 
+  select(species, sex, body_mass_g) |> 
+  group_by(species, sex) |> 
+  mutate(zscore_bm = scale(body_mass_g)) |> 
   arrange(body_mass_g)
 ```
 
@@ -203,10 +197,10 @@ Data is rarely in a format that is good for computing, and much effort goes into
 
 This is often called *narrow table* format. Any other form of data (e.g., *wide table* format) is considered *messy*. However, often data are not organized in tidy form, or we want to produce tables for human consumption rather than computer consumption. The package `tidyr` allows to accomplish just that. It contains only a few, very powerful functions. To explore this issue, we build a data set containing the average body mass by species and sex:
 
-```{r}
-penguin_bm <- penguins %>% 
-  drop_na() %>% 
-  group_by(sex, species) %>% 
+```{webr-r}
+penguin_bm <- penguins |> 
+  drop_na() |> 
+  group_by(sex, species) |> 
   summarise(body_mass = mean(body_mass_g), .groups = "drop") # remove groups after calculation
 
 penguin_bm
@@ -216,15 +210,15 @@ penguin_bm
 
 Our data is in tidy form. For a paper, we want to show the difference between males and females in a table:
 
-```{r}
-penguin_bm %>% 
+```{webr-r}
+penguin_bm |> 
   pivot_wider(names_from = sex, values_from = body_mass)
 ```
 
 where we have created new column names using the values found in `sex` (hence, `names_from`), and filled each cell with the corresponding value found in `body_mass` (hence, `values_from`). Similarly, if we want to show the data with species as column names, and sex as rows, we can use:
 
-```{r}
-penguin_bm %>% 
+```{webr-r}
+penguin_bm |> 
   pivot_wider(names_from = species, values_from = body_mass)
 ```
 
@@ -236,29 +230,29 @@ For a real-world example, we will make data from:
 
 You can read a tab-separated file from:
 
-```{r, warning=FALSE}
-dt <- read_tsv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/master/data/annual_increment.txt") %>% 
+```{webr-r}
+dt <- read_tsv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/master/data/annual_increment.txt") |> 
   select(Age, contains("CAT"))
 # selecting only age and samples
 ```
 
 Each column besides `YEAR` represents a single tree, and each cell contains the diameter (in cm) of the tree when it was at a given age. To make this in tidy form, we first create the columns `tree` and `diameter`:
 
-```{r}
-dt <- dt %>% 
+```{webr-r}
+dt <- dt |> 
   pivot_longer(-Age, names_to = "tree", values_to = "diameter")
 ```
 
 and then remove the NAs:
 
-```{r}
-dt <- dt %>% filter(!is.na(diameter))
+```{webr-r}
+dt <- dt |> filter(!is.na(diameter))
 ```
 
 Now it is easy to plot the growth trajectory of each tree (as in Fig. 3 of the original paper):
 
-```{r}
-dt %>% 
+```{webr-r}
+dt |> 
   ggplot() + 
   aes(x = Age, y = diameter) + 
   geom_line(aes(group = tree)) + # note---this makes a line for each tree
@@ -267,28 +261,28 @@ dt %>%
 
 ## Separate: split a column into two or more
 
-```{r}
+```{webr-r}
 test <- tibble(name = c("Allesina, Stefano", "Kondrashov, Dmitry", "Mir, Amatullah"))
 test
 ```
 
-```{r}
-test %>% separate(name, into = c("last_name", "first_name"), sep = ", ")
+```{webr-r}
+test |> separate(name, into = c("last_name", "first_name"), sep = ", ")
 ```
 
 The complement of `separate` is called `unite`.
 
 ## Separate rows: from one row to many
 
-```{r}
+```{webr-r}
 test <- tibble(id = c(1, 2, 3, 4), records = c("a;b;c", "c;d", "a;e", "f"))
 test
 ```
 
 To make it into tidy form, only one record per row:
 
-```{r}
-test %>% separate_rows(records, sep = ";")
+```{webr-r}
+test |> separate_rows(records, sep = ";")
 ```
 
 ## Example: brown bear, brown bear, what do you see?
@@ -303,22 +297,22 @@ This exercise uses a dataset from [GBIF](https://www.gbif.org/en/), the Global B
 
 If you don't want to go through all this, you can load this previously downloaded file called `Ursus_GBIF.csv` from our GitHub repository. The code in the following chunk loads and displays the contents of the tibble:
 
-```{r warning=F, message=F}
+```{webr-r}
 # you will need ggmap!
-library(ggmap)
+require(ggmap)
 Ursus_data <- read_tsv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/master/data/Ursus_GBIF.csv")
 glimpse(Ursus_data)
 ```
 
 You see there are 50 variables in the data set, so it may be useful to remove the ones we don't need. For this exercise, our objective is to plot the occurrences of this species on the world map, so we need two variables for certain: `decimalLatitude` and `decimalLongitude`, as well as the `BasisofRecord` for additional information. Use your `tidyverse` skills to create a new tibble with only those variables. In addition, remove duplicate records from the tibble.
 
-```{r}
+```{webr-r}
 # your code goes here!
 ```
 
 Now we can plot this data set on the world map, using the useful package maps. To plot, use the `ggplot()` syntax with the following addition:
 
-```{r}
+```{webr-r}
 mapWorld <- borders("world", colour="gray50", fill="gray50") # create a layer of borders
 # now you can call 
 # ggplot() + mapWorld + ...
@@ -326,7 +320,7 @@ mapWorld <- borders("world", colour="gray50", fill="gray50") # create a layer of
 
 Note the warning message generated by `ggplot`. Then consider the map with the locations of the brown bear specimens. Do any of them seem strange to you? What may be the explanation behind these strange data point? Now filter out the points that you identified as suspicious and print out their BasisofRecord. Does this suggest an explanation for the strangeness?
 
-```{r}
+```{webr-r}
 # your code goes here!
 ```
 

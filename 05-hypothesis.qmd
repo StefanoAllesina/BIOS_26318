@@ -8,7 +8,7 @@ A statistical test begins by stating the **null hypothesis**, usually one that i
 
 After the hypothesis is stated, the data are collected and are used to test the hypothesis. By default, the null hypothesis is assumed to be true, and the test assesses whether the data provide sufficient evidence against the null hypothesis---in which case the **null hypothesis is rejected**. There is an adversarial relationship: either the data knock off the hypothesis, or else they fail to do so. Standard terminology reflects this somewhat counter-intuitive setup: rejecting the null hypothesis is called a **positive test result**, while not rejecting it is called a **negative result**.
 
-```{r, echo=FALSE}
+```{webr-r}
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/null_hypothesis.png"
 ```
@@ -50,7 +50,7 @@ The p-value is the most used, misused, and even abused quantity in statistics, s
 
 Typically, one sets a critical threshold bounding the probability of making a Type I error in a test to a "small" number (often, $\alpha = 0.05$ or $0.01$), and calls the result of a test "significant" if the p-value is less than $\alpha$.
 
-```{r, echo=FALSE}
+```{webr-r}
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/p_values.png"
 ```
@@ -59,7 +59,7 @@ url <- "https://imgs.xkcd.com/comics/p_values.png"
 
 For example, consider samples of size $n$ taken from two normal distributions (with unobserved means $\mu_1$, $\mu_2$). We can generate the data:
 
-```{r}
+```{webr-r}
 generate_samples <- function(n, mu1, mu2){
   return(data.frame(sample1 = rnorm(n = n, mean = mu1, sd = 1),
                sample2 = rnorm(n = n, mean = mu2, sd = 1)))
@@ -70,7 +70,7 @@ my_sample <- generate_samples(1000, 1, 1.01)
 
 and use a Student's t-test to probe whether the means differ:
 
-```{r}
+```{webr-r}
 # two-tailed (diff in means = 0)
 # Student's (assumes equal variances)
 # (for Welch's t-test, var.equal = FALSE)
@@ -87,7 +87,7 @@ What if we were to produce several samples? E.g., measure difference between mal
 
 First, let's write a little function that returns the p-values for the t-test
 
-```{r}
+```{webr-r}
 get_p_value_t_test <- function(my_sample){
   test_results <- t.test(my_sample$sample1, 
                          my_sample$sample2, 
@@ -98,26 +98,26 @@ get_p_value_t_test <- function(my_sample){
 
 and now simulate the data:
 
-```{r}
+```{webr-r}
 pvalues <- replicate(n = 2500, 
                      expr = get_p_value_t_test(generate_samples(10, 1, 1)))
 ```
 
 How many times do we detect a "significant difference in reflectance" when setting $\alpha = 0.05$ (even though we know that males and females are sampled from the same distribution)?
 
-```{r}
+```{webr-r}
 sum(pvalues < 0.05)
 ```
 
 You should get a number of "significant" tests that is about $2500 \cdot 0.05 = 125$. In fact, the distribution of p-values when the data are sampled from the null hypothesis is approximately uniform:
 
-```{r}
+```{webr-r}
 hist(pvalues)
 ```
 
 This means that when you are performing multiple tests, some will turn out to find "significant" differences even when there are none. Again, this is better summarized by xkcd:
 
-```{r, echo=FALSE}
+```{webr-r}
 # Define variable containing URL
 url <- "https://imgs.xkcd.com/comics/significant.png"
 ```
@@ -142,7 +142,7 @@ The widespread use of GWAS and other techniques that are trying to find a needle
 
 Adjusting p-values in `R`:
 
-```{r}
+```{webr-r}
 original_pvalues <- c(0.01, 0.07, 0.1, 0.44)
 p.adjust(original_pvalues, method = "bonferroni")
 ```
@@ -176,47 +176,46 @@ We are going to try our hand at p-hacking, to show how easy it is to get fooled 
 
 Let's read the data, and take a peak:
 
-```{r}
-library(tidyverse)
-dt <- read_csv("data/medals.csv")
+```{webr-r}
+dt <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/medals.csv")
 dt
 ```
 
 First, let's see whether our hypothesis works for the whole data:
 
-```{r}
+```{webr-r}
 cor(dt$F, dt$M)
 ```
 
 The correlation is positive: more medals for the men tend to correspond to more medals for the women. This correlation is not very strong, but is it "significant"? We can run a correlation test:
 
-```{r}
+```{webr-r}
 cor.test(dt$F, dt$M)
 ```
 
 Indeed! The confidence intervals are far from 0: the correlation is definitely positive. Should we give up? Of course not! Just as for the jelly beans, we can p-hack our way to glory by subsetting the data. We are going to test each discipline independently, and see whether we can get a robustly negative correlation for any discipline. Because we are serious scientists, we are going to consider only disciplines for which we have at least 50 data points, to avoid results that are due to small sample sizes. Let's write a code:
 
-```{r, warning=FALSE, message=FALSE}
-dt <- dt %>% group_by(Sport) %>% mutate(sample_size = n()) %>% ungroup()
-correlations <- dt %>% 
-  filter(sample_size >= 50) %>% 
-  group_by(Sport) %>% 
+```{webr-r}
+dt <- dt |> group_by(Sport) |> mutate(sample_size = n()) |> ungroup()
+correlations <- dt |> 
+  filter(sample_size >= 50) |> 
+  group_by(Sport) |> 
   summarise(cor = cor(`M`, `F`), 
-            pvalue = cor.test(`M`, `F`)$p.value) %>% 
+            pvalue = cor.test(`M`, `F`)$p.value) |> 
   ungroup() 
 ```
 
 Now let's see whether there are highly significant negative correlations:
 
-```{r, warning=FALSE, message=FALSE}
-my_results <- correlations %>% filter(pvalue < 0.05, cor < 0)
+```{webr-r}
+my_results <- correlations |> filter(pvalue < 0.05, cor < 0)
 my_results
 ```
 
 Let's plot our results to convince ourselves that they are strong:
 
-```{r, warning=FALSE, message=FALSE}
-ggplot(dt %>% inner_join(my_results)) + 
+```{webr-r}
+ggplot(dt |> inner_join(my_results)) + 
   aes(x = `M`, y = `F`) + 
   geom_point() + 
   geom_smooth(method = "lm") + 
@@ -225,9 +224,9 @@ ggplot(dt %>% inner_join(my_results)) +
 
 That's it! Should we rush to publish our results? Not quite: we have p-hacked our way to some highly significant results, but we did not correct for the number of tests we've made, and what we would do is to selectively reporting our strong results. In fact, we can do something very simple to convince ourselves that our results do not make much sense: just run the code again, but reporting significant positive correlations...
 
-```{r, warning=FALSE, message=FALSE}
-my_results <- correlations %>% filter(pvalue < 0.05, cor > 0)
-ggplot(dt %>% inner_join(my_results)) + 
+```{webr-r}
+my_results <- correlations |> filter(pvalue < 0.05, cor > 0)
+ggplot(dt |> inner_join(my_results)) + 
   aes(x = `M`, y = `F`) + 
   geom_point() + 
   geom_smooth(method = "lm") + 
