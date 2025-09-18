@@ -34,7 +34,7 @@
     "href": "index.html#materials",
     "title": "Fundamentals of Biological Data Analysis",
     "section": "Materials",
-    "text": "Materials\n\nWeek 0\n\nR refresher @ref(refresher)\n\n\n\nWeek 1\n\nUsing ggplot2 to produce publication-ready figures\nReview of probability\n\n\n\nWeek 2\n\nData wrangling in tidyverse\nProbability distributions\n\n\n\nWeek 3\n\nHypothesis testing\nLikelihood\n\n\n\nWeek 4\n\nLinear algebra primer\nLinear models\n\n\n\nWeek 5\n\nAnalysis of variance\nModel selection\n\n\n\nWeek 6\n\nPrincipal Component Analysis and SVD\nMultidimensional scaling and Clustering\n\n\n\nWeek 7\n\nGeneralized Linear Models\nMachine Learning and cross validation\n\n\n\nWeek 8\n\nMonte Carlo and boostrap\nModeling time-series data\n\n\n\nWeek 9\nThanksgiving break\n\n\nWeek 10\n\nStudent presentations 1\nStudent presentations 2",
+    "text": "Materials\n\nWeek 0\n\nR refresher\n\n\n\nWeek 1\n\nUsing ggplot2 to produce publication-ready figures\nReview of probability\n\n\n\nWeek 2\n\nData wrangling in tidyverse\nProbability distributions\n\n\n\nWeek 3\n\nHypothesis testing\nLikelihood\n\n\n\nWeek 4\n\nLinear algebra primer\nLinear models\n\n\n\nWeek 5\n\nAnalysis of variance\nModel selection\n\n\n\nWeek 6\n\nPrincipal Component Analysis and SVD\nMultidimensional scaling and Clustering\n\n\n\nWeek 7\n\nGeneralized Linear Models\nMachine Learning and cross validation\n\n\n\nWeek 8\n\nMonte Carlo and boostrap\nModeling time-series data\n\n\n\nWeek 9\nThanksgiving break\n\n\nWeek 10\n\nStudent presentations 1\nStudent presentations 2",
     "crumbs": [
       "Organization of the class"
     ]
