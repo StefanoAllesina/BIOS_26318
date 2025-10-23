@@ -210,7 +210,7 @@ The authors set out to demonstrate that sharing data accompanying papers tends t
 ```{webr-r}
 # original URL 
 # https://datadryad.org/stash/dataset/doi:10.5061/dryad.j2c4g
-dat <- read_csv("data/Piwowar_2011.csv") 
+dat <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/Piwowar_2011.csv") 
 # rename variables for easier handling
 dat <- dat %>% rename(IF = `Impact factor of journal`, 
                       NCIT = `Number of Citations in first 24 months after publication`, 
@@ -239,7 +239,7 @@ We find that sharing data is associated with a larger number of citations.
 Even when the fit is good, and assumptions are met, one can still end up with a fantastic blunder. To show this, we are going to repeat a study published in *Nature* (no less!) by Tatem *et al*. You can find the study [here](https://www.nature.com/articles/431525a). Briefly, the Authors gathered data on the 100m sprint at the Olympics from 1900 to 2004, for both men and women. We can do the same:
 
 ```{webr-r}
-olympics <- read_csv("data/100m_dash.csv")
+olympics <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/100m_dash.csv")
 ```
 
 Then, they fitted a linear regression through the points, for both men and women. So far, so good:
