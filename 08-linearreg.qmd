@@ -347,7 +347,7 @@ which in `R` can be coded as `lm(BMI ~ height + calories + gender:diet)`. Finall
 Now that we know the mechanics of linear regression, we turn to diagnostics: how can we make sure that the model fits the data "well"? We start by analyzing a data set assembled by Anscombe (*The American Statistician*, 1973)
 
 ```{webr-r}
-dat <- read_csv("data/Anscombe_1973.csv")
+dat <- read_csv("https://raw.githubusercontent.com/StefanoAllesina/BIOS_26318/refs/heads/master/data/Anscombe_1973.csv")
 ```
 
 The file comprised four data sets. We perform a linear regression using each data set separately:
