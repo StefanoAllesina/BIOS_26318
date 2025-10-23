@@ -8,8 +8,6 @@
 -   Representation of vectors in multiple bases
 -   Eigenvalues and eigenvectors of matrices
 
-
-
 ## Solving multivariate linear equations
 
 Linear algebra is intimately tied to linear equations, that is, to equations where all variables are multiplied by constant terms and added together. Linear equations with one variable are easily solved by division, for example:
