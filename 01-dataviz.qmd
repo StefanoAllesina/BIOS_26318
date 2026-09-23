@@ -2,7 +2,7 @@
 
 ## Goal
 
-Introduce the package `ggplot2`, which is part of the `tidyverse` bundle. Learn how to use `ggplot2` to produce publication-quality figures. Discuss the philosophical underpinnings of the "Grammar of Graphics", showcase the `ggplot2` syntax, produce examples of the different types of graphs. Learn how to change colors, legends, scales. Visualize histograms, barplots, scatterplots, etc.
+Introduce the package `ggplot2`, which is part of the `tidyverse` bundle. Learn how to use `ggplot2` to produce publication-quality figures. Discuss the philosophical underpinnings of the "Grammar of Graphics", showcase the `ggplot2` syntax, produce examples of the different types of graphs. Learn how to change colors, legends, scales. Visualize histograms, barplots, scatterplots, etc. Given that today coding is easier than ever, the emphasis will be on the logic of the code, interpretation of the code, and troubleshooting.
 
 ## Introduction to the Grammar of Graphics
 
@@ -34,68 +34,89 @@ Exactly like in the grammar of a natural language, we can easily change the mean
 
 `ggplot2` ships with a simplified graphing function, called `qplot`. In this introduction we are not going to use it, and we concentrate instead on the function `ggplot`, which gives you complete control over your plotting. We will need to use the package `tidyverse`, which is already loaded if you are using the Web version of the book. If you want to copy this code into an R script to execute on your local machine, start with this line:
 
-```{r, message=FALSE, warning=FALSE}
+```{webr-r}
 library(tidyverse)
 ```
 
-To explore the features of `ggplot2`, we are going to use a data set detailing the total number of COVID cases and deaths in US counties. The data are provided by the [New York Times](https://github.com/nytimes/covid-19-data/blob/master/live/us-counties.csv).
+To explore the features of `ggplot2`, we are going to use a data set detailing the reporting the life expectancy, population and per-capita GDP of several countries per year.
 
 ```{webr-r}
 # read the data
-dt <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv")
+dt <- read_tsv("https://raw.githubusercontent.com/jennybc/gapminder/main/inst/extdata/gapminder.tsv")
 head(dt)
 ```
 
-we are going to work with `date`, `county`, `state`, `cases` and `deaths`.
-
-Let's select Illnois, and take only the counties with more than 10k cases (to have a less crowded graph):
+Let's select Italy (or your favorite country) to have a small table:
 
 ```{webr-r}
-dti <- dt[(dt$state == "Illinois") & (dt$cases > 10^4), ]
+dti <- dt[dt$country == "Italy", ]
+```
+
+Let's also prepare a table with the data for all countries in Europe for the year 1997:
+
+```{webr-r}
+dte <- dt[(dt$continent == "Europe") & (dt$year == 1997), ]
 ```
 
 A particularity of `ggplot2` is that it accepts exclusively data organized in tables (a `data.frame` or a `tibble` object---more on tibbles later). Thus, all of your data needs to be converted into a data frame format for plotting.
 
 ## Building a well-formed graph
 
-For our first plot, we're going to produce a barplot detailing how many cases have been reported in each County:
+For our first plot, we're going to produce a basic scatterplot showing the evolution of life expectancy in time:
 
 ```{webr-r}
 ggplot(data = dti)
 ```
 
-As you can see, nothing is drawn: we need to specify what we would like to associate to the *x* axis, and what to the *y* axis, etc. (i.e., we want to set as the *aesthetic mappings*). A barplot typically has classes on the *x* axis, while the *y* axis reports the counts in each class.
+As you can see, nothing is drawn: we need to specify what we would like to associate to the *x* axis, and what to the *y* axis, etc. (i.e., we want to set as the *aesthetic mappings*). A scatterplot needs a variable for the *x* axis, and one for the *y* axis:
 
 ```{webr-r}
-ggplot(data = dti) + aes(x = county, y = cases)
+ggplot(data = dti) + aes(x = year, y = lifeExp)
 ```
 
-Note that we concatenate pieces of our "sentence" using the `+` sign! We've got the aestethic mappings figured out, but still no graph... we need to specify a geometry, i.e., the type of graph we want to produce. In this case, a barplot where the height of the bars is specified by the `y` value:
+Note that we concatenate pieces of our "sentence" using the `+` sign! We've got the aestethic mappings figured out, but still no graph... we need to specify a geometry, i.e., the type of graph we want to produce. In this case, a scatterplot we could use points:
 
 ```{webr-r}
-ggplot(data = dti) + aes(x = county, y = cases) + geom_col()
+ggplot(data = dti) + aes(x = year, y = lifeExp) + geom_point()
+```
+
+We can easily connect the points with segments:
+
+```{webr-r}
+ggplot(data = dti) + 
+    aes(x = year, y = lifeExp) + 
+    geom_point() + 
+    geom_line()
+```
+
+Now let's try to visualize the life expectancy in european countries for 1997: we need the three parts of a well-formed graph: **data** + **mapping** + **geometry**.
+
+```{webr-r}
+ggplot(data = dte) + 
+    aes(x = country, y = lifeExp) + 
+    geom_col()
 ```
 
 Because it is very difficult to see the labels, let's swap the axes:
 
 ```{webr-r}
-ggplot(data = dti) + 
-  aes(x = county, y = cases) + 
-  geom_col() + 
-  coord_flip()
+ggplot(data = dte) + 
+    aes(x = country, y = lifeExp) + 
+    geom_col() + 
+    coord_flip()
 ```
 
-The graph shows that, naturally, the vast majority of cases was reported in Cook county. We have written a "well-formed sentence", composed of **data** + **mapping** + **geometry**, and this is sufficient to produce a graph. We can add "adjectives" and "adverbs" to our graph, to make it clearer:
+We can add "adjectives" and "adverbs" to our graph, to make it clearer; for example, we can order the countries by life expectancy:
+
 
 ```{webr-r}
-ggplot(data = dti) + 
-  aes(x = reorder(county, cases), y = cases) + # order labels according to cases
+ggplot(data = dte) + 
+  aes(x = reorder(country, lifeExp), y = lifeExp) + # order labels according to life expectancy
   geom_col() +
-  ylab("Number of COVID cases reported") + # x label
-  xlab("Illinois County") + # y label
-  scale_y_log10() + # transform the counts to logs
+  ylab("Life Expectancy") + # y label
+  xlab("European Country") + # x label
   coord_flip()+
-  ggtitle(dti$date[1]) # main title (use current date)
+  ggtitle("Life Expectancy in Europe, 1997") # main title
 ```
 
 ## Scatterplots
@@ -104,83 +125,94 @@ Using `ggplot2`, one can produce very many types of graphs. The package works ve
 
 The main feature of `ggplot2` is that you can tinker with your graph fairly easily, and with a common grammar. You don't have to settle on a certain presentation of the data until you're ready, and it is very easy to switch from one type of graph to another.
 
-For example, let's plot the number of cases vs. number of deaths:
+For example, let's plot the per capita GDP vs. life expectancy: 
 
 ```{webr-r}
 # you can store the graph in a variable
 pl <- ggplot(data = dti)
-pl <- pl + aes(x = cases, y = deaths) # for a scatter plot, we need two aes mappings!
+pl <- pl + aes(x = gdpPercap, y = lifeExp) # for a scatter plot, we need two aes mappings!
 pl <- pl + geom_point() # draw points in a scatterplot
 pl <- pl + scale_x_sqrt() + scale_y_sqrt() # transform axes
 pl # or show(pl)
 ```
 
-Showing that number of daily cases and number of daily deaths are highly correlated (but it would be a stronger correlation if we were to plot past cases vs. current deaths).
+Showing that there is a relationship between per capita GDP and life expectancy, with higher GDP generally associated with higher life expectancy.
+
+Let's see whether this is true for the whole data set:
+
+```{webr-r}
+ggplot(data = dt) + 
+    aes(x = gdpPercap, y = lifeExp) + 
+    geom_point() + 
+    scale_x_sqrt() + scale_y_sqrt()
+```
+
+While the positive relationship between GDP and life expectancy is evident, there is an obvious saturation such that increases in GDP beyond a certain point result in diminishing gains in life expectancy.
 
 ## Histograms, density and boxplots
 
-It would be nice to see the distribution of the ratio deaths/cases. To do so, we can produce a histogram:
+It would be nice to see the distribution of the per capita GDP across the world, still for year 1997:
 
 ```{webr-r}
-pl <- ggplot(data = dti)
-pl <- pl + aes(x = deaths / cases)  
-pl + geom_histogram(binwidth = 0.0025) 
+pl <- ggplot(data = dt[dt$year == 1997,])
+pl <- pl + aes(x = gdpPercap)  
+pl + geom_histogram() 
 ```
 
 We can control the width of the bins by specifying:
 
 ```{webr-r}
 pl + geom_histogram(bins = 30) # specify the number of bins
-pl + geom_histogram(binwidth = 0.001) # specify the bin width
+pl + geom_histogram(binwidth = 2500) # specify the bin width
 ```
 
-Let's see whether the histograms differ between Illinois and Indiana:
+Let's see whether the histograms differ between continents:
 
 ```{webr-r}
-ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
-  aes(x = deaths / cases, fill = state) + # fill the bar colors by state
+ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
+  aes(x = gdpPercap, fill = continent) + # fill the bar colors by continent
   geom_histogram(bins = 30)
 ```
 
 To plot the histogram side by side, use
 
 ```{webr-r}
-ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
-  aes(x = deaths / cases, fill = state) + # fill the bar colors by state
+ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
+  aes(x = gdpPercap, fill = continent) + # fill the bar colors by continent
   geom_histogram(position = "dodge", bins = 30)+ 
-  xlim(c(0,0.03))
+  xlim(c(0,50000))
 ```
 
 Similarly, we can approximate the histogram using a density plot, which interpolates the bin height to create a smooth distribution:
 
 ```{webr-r}
-ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
-  aes(x = deaths / cases, fill = state) + # fill by state
-  geom_density() + xlim(c(0,0.03))
+ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
+  aes(x = gdpPercap, fill = continent) + # fill by continent
+  geom_density() + xlim(c(0,50000))
 ```
 
 To see the graph better, let's make the coloring semi-transparent:
 
 ```{webr-r}
-ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
-  aes(x = deaths / cases, fill = state) + # fill by state
-  geom_density(alpha = 0.5) + xlim(c(0, 0.03))
+ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
+  aes(x = gdpPercap, fill = continent) + # fill by continent
+  geom_density(alpha = 0.5) + xlim(c(0, 50000))
 ```
 
-Showing a similar distribution for the death rate in the two states. For this type of comparison, the ideal graph to show is maybe a box-plot or a violin plot:
+Showing similar tails but an excess of middle-income countries in Europe compared to Asia.
 
 ```{webr-r}
-ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
-  aes(x = state, y = deaths / cases, fill = state) + # we need both x and y
-  geom_boxplot() + ylim(c(0, 0.03))
+ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
+  aes(x = continent, y = gdpPercap, fill = continent) + # we need both x and y
+  geom_boxplot() 
 ```
 
 A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent "outliers". To show the full distribution, you can use a violin plot:
 
 ```{webr-r}
-ggplot(data = dt[dt$state %in% c("Illinois", "Indiana"),]) + 
-  aes(x = state, y = deaths / cases, fill = state) + # we need both x and y
-  geom_violin(draw_quantiles = 0.5) + ylim(c(0, 0.03))
+ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
+  aes(x = continent, y = gdpPercap, fill = continent) + # we need both x and y
+  geom_violin(draw_quantiles = 0.5) 
 ```
 
 Note that when we're producing "similar" plots (e.g., histogram vs. density, box vs. violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!
