@@ -12,7 +12,7 @@ Many scientific publications contain very poor graphics: labels are missing, sca
 
 Given the effort that you put into your science, you want to ensure that it is well presented and accessible. The investment to master some plotting software will be rewarded by pleasing graphics that convey a clear message.
 
-In this section, we introduce `ggplot2`, a plotting package for `R` This package was developed by Hadley Wickham who contributed many important packages to `R` (all included in the `tidyverse` bundle we're going to use for the reminder of the class). Unlike many other plotting systems, `ggplot2` is deeply rooted in a "philosophical" vision. The goal is to conceive a grammar for all graphical representation of data. Leland Wilkinson and collaborators proposed The Grammar of Graphics. It follows the idea of a well-formed sentence that is composed of a subject, a predicate, and an object. The Grammar of Graphics likewise aims at describing a well-formed graph by a grammar that captures a very wide range of statistical and scientific graphics. This might be more clear with an example -- Take a simple two-dimensional scatterplot. How can we describe it? We have:
+In this section, we introduce `ggplot2`, a plotting package for `R`. This package was developed by Hadley Wickham who contributed many important packages to `R` (all included in the `tidyverse` bundle we're going to use for the remainder of the class). Unlike many other plotting systems, `ggplot2` is deeply rooted in a "philosophical" vision. The goal is to conceive a grammar for all graphical representation of data. Leland Wilkinson and collaborators proposed *The Grammar of Graphics*. It follows the idea of a well-formed sentence that is composed of a subject, a predicate, and an object. *The Grammar of Graphics* likewise aims at describing a well-formed graph by a grammar that captures a very wide range of statistical and scientific graphics. This might be clearer with an example -- take a simple two-dimensional scatterplot. How can we describe it? We have:
 
 -   **Data** The data we want to plot.
 
@@ -38,11 +38,12 @@ Exactly like in the grammar of a natural language, we can easily change the mean
 library(tidyverse)
 ```
 
-To explore the features of `ggplot2`, we are going to use a data set detailing the reporting the life expectancy, population and per-capita GDP of several countries per year.
+To explore the features of `ggplot2`, we are going to use a data set detailing the life expectancy, population, and per-capita GDP of several countries per year.
 
 ```{webr-r}
-# read the data
-dt <- read_tsv("https://raw.githubusercontent.com/jennybc/gapminder/main/inst/extdata/gapminder.tsv")
+# to install, type install.packages("gapminder") in the console
+library(gapminder)
+dt <- gapminder
 head(dt)
 ```
 
@@ -68,13 +69,13 @@ For our first plot, we're going to produce a basic scatterplot showing the evolu
 ggplot(data = dti)
 ```
 
-As you can see, nothing is drawn: we need to specify what we would like to associate to the *x* axis, and what to the *y* axis, etc. (i.e., we want to set as the *aesthetic mappings*). A scatterplot needs a variable for the *x* axis, and one for the *y* axis:
+As you can see, nothing is drawn: we need to specify what we would like to associate with the *x* axis, and what with the *y* axis, etc. (i.e., we want to set the *aesthetic mappings*). A scatterplot needs a variable for the *x* axis, and one for the *y* axis:
 
 ```{webr-r}
 ggplot(data = dti) + aes(x = year, y = lifeExp)
 ```
 
-Note that we concatenate pieces of our "sentence" using the `+` sign! We've got the aestethic mappings figured out, but still no graph... We need to specify a geometry, i.e., the type of graph we want to produce. In this case, for a scatterplot we could use points:
+Note that we concatenate pieces of our "sentence" using the `+` sign! We've got the aesthetic mappings figured out, but still no graph... We need to specify a geometry, i.e., the type of graph we want to produce. In this case, for a scatterplot we could use points:
 
 ```{webr-r}
 ggplot(data = dti) + aes(x = year, y = lifeExp) + geom_point()
@@ -89,7 +90,7 @@ ggplot(data = dti) +
     geom_line()
 ```
 
-Now let's try to visualize the life expectancy in european countries for 1997: we need the three parts of a well-formed graph: **data** + **mapping** + **geometry**.
+Now let's try to visualize the life expectancy in European countries for 1997: we need the three parts of a well-formed graph: **data** + **mapping** + **geometry**.
 
 ```{webr-r}
 ggplot(data = dte) + 
@@ -206,7 +207,7 @@ ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) 
   geom_boxplot() 
 ```
 
-A boxplot shows the median (horizontal bar) as well as the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent "outliers". To show the full distribution, you can use a violin plot:
+A boxplot shows the median (horizontal bar), the inter-quartile range (box size goes from 25th to 75th percentile), as well as the typical range of the data (whiskers). The dots represent "outliers". To show the full distribution, you can use a violin plot:
 
 ```{webr-r}
 ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) + 
@@ -214,11 +215,11 @@ ggplot(data = dt[(dt$continent %in% c("Europe", "Asia")) & (dt$year == 1997),]) 
   geom_violin(draw_quantiles = 0.5) 
 ```
 
-Note that when we're producing "similar" plots (e.g., histogram vs. density, box vs. violin, or any other plot sharing the same aesthetic mappings) changing a single word, we have changed the structure of the graph considerably!
+Note that when producing "similar" plots (e.g., histogram vs. density, box vs. violin, or any other plot sharing the same aesthetic mappings), changing a single word can change the structure of the graph considerably!
 
 ## Scales
 
-We can use scales to determine how the aesthetic mappings are displayed. For example, we could set the *x* axis to be in logarithmic scale, or we can choose how the colors, shapes and sizes are used. `ggplot2` uses two types of scales: `continuous` scales are used for continuos variables (e.g., real numbers); `discrete` scales for variables that can only take a certain number of values (e.g., colors, shapes, sizes).
+We can use scales to determine how the aesthetic mappings are displayed. For example, we could set the *x* axis to be in logarithmic scale, or we can choose how the colors, shapes and sizes are used. `ggplot2` uses two types of scales: `continuous` scales are used for continuous variables (e.g., real numbers); `discrete` scales are used for variables that can only take a certain number of values (e.g., colors, shapes, sizes).
 
 For example, let's highlight the United States in the plot showing GDP vs life expectancy:
 
@@ -328,7 +329,7 @@ pl <- pl + facet_wrap(~continent)
 pl
 ```
 
-Let's add a line separating showing the best-fit line:
+Let's add a line showing the best-fit line:
 
 ```{webr-r}
 pl <- pl + geom_smooth()
@@ -337,7 +338,7 @@ pl
 
 ## Setting features
 
-Often, you want to simply set a feature (e.g., the color of the points, or their shape), rather than using it to display information (i.e., mapping some aestethic). In such cases, simply declare the feature outside the `aes`:
+Often, you want to simply set a feature (e.g., the color of the points, or their shape), rather than using it to display information (i.e., mapping some aesthetic). In such cases, simply declare the feature outside the `aes`:
 
 ```{webr-r}
 pl <- ggplot(data = dti) + 
