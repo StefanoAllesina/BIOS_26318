@@ -364,7 +364,7 @@
     "href": "01-dataviz.html#discuss-with-your-peers",
     "title": "1  Visualizing data using ggplot2",
     "section": "1.16 Discuss with your peers",
-    "text": "1.16 Discuss with your peers\nHow would you display the data to highlight: - Differences in the growth of life expectancy across continents - Include population size in a display of the relationship between life expectancy and per capita GDP - Highlight the multimodality of life expectancy (for a given year) within each continent\nDiscuss these visualizations with your peers, and try your hand at producing the graphs yourself.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
+    "text": "1.16 Discuss with your peers\nHow would you display the data to highlight:\n\nDifferences in the growth of life expectancy across continents\nInclude population size in a display of the relationship between life expectancy and per capita GDP\nHighlight the multimodality of life expectancy (for a given year) within each continent\n\nDiscuss these visualizations with your peers, and try your hand at producing the graphs yourself.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Visualizing data using `ggplot2`</span>"
     ]

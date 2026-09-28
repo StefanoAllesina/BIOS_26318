@@ -248,7 +248,7 @@ We can change the scale of the *x* axis by calling:
 
 ```{webr-r}
 pl + scale_x_log10() + scale_y_log10() # log-log plot
-pl + scale_x_sqrt() # sqrt of number of cases
+pl + scale_x_sqrt()
 pl + scale_x_reverse() # from large to small
 ```
 
@@ -388,6 +388,7 @@ ggplot(data = dti) +
 ## Discuss with your peers
 
 How would you display the data to highlight:
+
 - Differences in the growth of life expectancy across continents
 - Include population size in a display of the relationship between life expectancy and per capita GDP
 - Highlight the multimodality of life expectancy (for a given year) within each continent
