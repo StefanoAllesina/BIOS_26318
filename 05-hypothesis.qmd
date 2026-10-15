@@ -8,7 +8,7 @@ A statistical test begins by stating the **null hypothesis**, usually one that i
 
 After the hypothesis is stated, the data are collected and are used to test the hypothesis. By default, the null hypothesis is assumed to be true, and the test assesses whether the data provide sufficient evidence against the null hypothesis---in which case the **null hypothesis is rejected**. There is an adversarial relationship: either the data knock off the hypothesis, or else they fail to do so. Standard terminology reflects this somewhat counter-intuitive setup: rejecting the null hypothesis is called a **positive test result**, while not rejecting it is called a **negative result**.
 
-![H0](https://imgs.xkcd.com/comics/null_hypothesis.png){width=50% fig-align="center"}
+![H0](https://imgs.xkcd.com/comics/null_hypothesis.png){width="50%" fig-align="center"}
 
 **The fundamental assumption of this process is that the truth value of the hypothesis is set prior to the collection of data.** For example, if one could observe all of the genomes, the frequency of the allele would be known exactly, so this truth exists prior to the hypothesis testing. Because we typically can only observe a sample (and not the entire universe of data), we might end up erroneously rejecting the null hypothesis when it is in fact true, or not rejecting it when it is in fact false. The possible outcomes of a test can be organized in the table:
 
@@ -45,8 +45,7 @@ The p-value is the most used, misused, and even abused quantity in statistics, s
 
 Typically, one sets a critical threshold bounding the probability of making a Type I error in a test to a "small" number (often, $\alpha = 0.05$ or $0.01$), and calls the result of a test "significant" if the p-value is less than $\alpha$.
 
-
-![Pvalues](https://imgs.xkcd.com/comics/p_values.png){width=50% fig-align="center"}
+![Pvalues](https://imgs.xkcd.com/comics/p_values.png){width="50%" fig-align="center"}
 
 For example, consider samples of size $n$ taken from two normal distributions (with unobserved means $\mu_1$, $\mu_2$). We can generate the data:
 
@@ -108,7 +107,7 @@ hist(pvalues)
 
 This means that when you are performing multiple tests, some will turn out to find "significant" differences even when there are none. Again, this is better summarized by xkcd:
 
-![Significance](https://imgs.xkcd.com/comics/significant.png){width=50% fig-align="center"}
+![Significance](https://imgs.xkcd.com/comics/significant.png){width="50%" fig-align="center"}
 
 **Exercise**: what happens to the distribution of p-values if the means are quite different (e.g., $\mu_1 = 1$, $\mu_2 = 0.9$)?
 
@@ -220,3 +219,309 @@ ggplot(dt |> inner_join(my_results)) +
 ```
 
 You can see that we've got about the same number of sports testing significant for positive correlation! **Bonus question** what about figure skating?
+
+## Multiple hypothesis testing and p-value corrections
+
+Many times in science, one has to perform hypothesis tests on separate, independent questions; e.g. test 20 patients for a disease. This can lead to higher probability of errors in the aggregate: if we test 20 healthy patients using a test with a false positive rate of 0.05 (like using a significance level of 0.05), then the **probability of at least one of the tests being a false positive** is much higher than 0.05, as can be calculated from the binomial distribution:
+
+$$P(k>0; p=0.05, n=20) = 1 - P(k=0; p=0.05, n=20) = 1-0.95^{20} \approx 0.64$$
+
+This is a particular problem in several situations, for example when multiple groups perform similar studies, but only the ones that return a positive result are published (see our discussion about publication bias in the last chapter). It is also a problem when there are multiple associations between different variables tested in the same study. If one applies a significance level of 0.05 or 0.01, one may end reporting a lot of false positive results (depending on the number of different hypotheses tested). What can be done about it?
+
+### Bonferroni correction
+
+The simplest approach is called the Bonferroni correction. The method is straightforward: if you perform $n$ independent test and want to control the probability of making at least one false positive error, then you need to reduce the significance level by the factor of $n$; $\alpha_B = \alpha /n$. The result of this adjustment is to make sure the probability of making at least one error out of $n$ tests (what is known as the "Family-wise error rate") is equal to the significance level $\alpha$. If you want to be pedantic, it's only approximately true: for example, in the case of the scenario described above, the probability of at least one error with the Bonferroni correction will be
+
+$$P(k>0)=1−P(k=0;p=0.05/20,n=20)=1−(1-0.05/20)^{20} ≈ 0.0488$$
+
+The Bonferroni correction is a blunt instrument: it dramatically reduced the number of false positives, but it also makes real effect difficult to detect. For that reason it is considered a *conservative* method for multiple hypothesis testing, and more sophisticated methods are often preferred.
+
+### FDR correction
+
+A more effective approach aims to control the *False Discovery Rate* (FDR) instead of the Family-wise error rate. The FDR is defined as the complement of the PPV, that is the fraction of false positives out of all positive results. Essentially, instead of trying to avoid even a single false positive, let's control the fraction of false positive results.
+
+One of the best methods is called the Benjamini-Hochberg method, which is far more complicated than Bonferroni. The procedure follows the following steps, given n p-values and a chosen FDR level q (e.g. 0.05):
+
+1.  Sort the p-values in ascending order: $p_1 ≤ p_2 ≤ … ≤ p_n$ keeping track of which hypothesis each belongs to.
+
+2.  For each rank i, compute the BH critical value (i/n)·q.
+
+3.  Find the **largest** rank k for which $p_k ≤ (k/n)·q$.
+
+4.  Reject (declare significant) all hypotheses with rank 1 through k — even any whose own p-value exceeded its individual critical value.
+
+## GWAS simulator
+
+The following simulates the results of a Genome-wide association study, which tests multiple alleles (SNPs) for association with a trait (e.g. height), and this trait is numeric and is normally distributed. This simulator assumes that a certain number of SNPs (which you can control with a slider) are associated with the trait, that is the height of the people with this SNP are different than for those without it. The mean difference in the height distributions for a SNP with an effect is set by another slider, measured in terms of standard deviations of the trait. You can also control the sample size, that is the number of people in the study.
+
+The result of a GWAS is a number of independent hypothesis tests (one for each SNP) which all return a p-value. Then a researcher has to decide on the appropriate significance threshold (e.g. 0.01 or 0.05), below which the hypothesis is rejected. The simulator allows you to choose between three significance levels, as well as to apply one of two kinds of p-value adjustment: the Bonferroni correction or the FDR (Benjamini-Hochberg) correction.
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(ggplot2)
+
+# =============================================================================
+# Simulated genome-wide association study (GWAS)
+#
+# Sliders set the number of SNPs, how many are truly associated (causal), the
+# per-allele effect size, and the sample size. Each SNP's association test
+# statistic is simulated directly from its non-centrality rather than by fitting
+# a regression, which keeps it fast for tens of thousands of SNPs:
+#
+#   * null SNP:    z ~ N(0, 1)
+#   * causal SNP:  z ~ N(mu, 1),   mu = beta * sqrt(N * 2*MAF*(1-MAF))
+#
+# so power grows with effect size, sample size and allele frequency exactly as
+# in a real study. p = P(chi^2_1 > z^2). A multiple-testing correction
+# (none / Bonferroni / Benjamini-Hochberg FDR) is applied and the corresponding
+# significance threshold is drawn on the Manhattan plot. Causal SNPs are
+# coloured so true positives, missed causal SNPs and false positives are all
+# visible.
+#
+# To run:
+#   install.packages(c("shiny", "ggplot2"))
+#   shiny::runApp("gwas_sim_app.R")
+# =============================================================================
+
+
+M_MAX <- 50000L
+# Approximate human autosome sizes (Mb), chromosomes 1..22, for laying out x.
+CHR_SIZES <- c(249, 243, 198, 191, 181, 171, 159, 145, 138, 134, 135,
+               133, 114, 107, 102, 90, 83, 80, 59, 64, 47, 51)
+
+# ---- A fixed "genome": stable random pieces generated once -------------------
+make_genome <- function(M_max = M_MAX, seed = 42) {
+  set.seed(seed)
+  list(
+    z0  = rnorm(M_max),                       # null noise, per SNP
+    maf = runif(M_max, 0.05, 0.50),           # minor allele frequency
+    sgn = sample(c(-1, 1), M_max, TRUE)       # direction of effect
+  )
+}
+
+# Deterministic genomic layout for the first M SNPs (no randomness, so stable).
+layout_snps <- function(M) {
+  total <- sum(CHR_SIZES)
+  u     <- ((seq_len(M) - 0.5) / M)           # evenly spread across the genome
+  gpos  <- u * total                          # cumulative position (Mb)
+  chr   <- findInterval(gpos, cumsum(CHR_SIZES)) + 1L
+  chr   <- pmin(chr, length(CHR_SIZES))
+  list(gpos = gpos, chr = chr)
+}
+
+# ---- Run one simulation ----------------------------------------------------
+simulate_gwas <- function(genome, M, m_causal, beta, N, alpha, method) {
+  idx <- seq_len(M)
+  z0  <- genome$z0[idx]; maf <- genome$maf[idx]; sgn <- genome$sgn[idx]
+  lay <- layout_snps(M)
+
+  causal <- logical(M)
+  if (m_causal > 0) {
+    ci <- unique(round(seq(1, M, length.out = m_causal)))
+    causal[ci] <- TRUE
+  }
+
+  # Non-centrality shift for causal SNPs; observed z = noise + shift
+  ncp <- beta * sqrt(N * 2 * maf * (1 - maf))
+  z   <- z0
+  z[causal] <- z0[causal] + sgn[causal] * ncp[causal]
+
+  p    <- pchisq(z^2, df = 1, lower.tail = FALSE)
+  padj <- p.adjust(p, method = method)
+  sig  <- padj < alpha
+
+  # Every method reduces to a single raw-p threshold on the Manhattan plot
+  thr_p <- switch(method,
+    none       = alpha,
+    bonferroni = alpha / M,
+    BH         = if (any(sig)) max(p[sig]) else NA_real_
+  )
+
+  df <- data.frame(
+    gpos = lay$gpos, chr = lay$chr,
+    p = p, logp = pmin(-log10(p), 40),   # cap for display
+    causal = causal, sig = sig
+  )
+
+  attr(df, "summary") <- list(
+    M = M, m_causal = sum(causal), n_sig = sum(sig),
+    TP = sum(sig & causal), FP = sum(sig & !causal),
+    FN = sum(!sig & causal),
+    power = if (sum(causal) > 0) sum(sig & causal) / sum(causal) else NA_real_,
+    fdr   = if (sum(sig) > 0) sum(sig & !causal) / sum(sig) else NA_real_,
+    thr_p = thr_p, method = method, alpha = alpha
+  )
+  df
+}
+
+# ---- Manhattan plot --------------------------------------------------------
+COLS <- c(null_odd = "#c3c7cc", null_even = "#9aa0a6",
+          FP = "#d62728", FN = "#ff7f0e", TP = "#2ca02c")
+
+manhattan_plot <- function(df) {
+  s <- attr(df, "summary")
+
+  cat <- ifelse(df$chr %% 2 == 1, "null_odd", "null_even")
+  cat[df$causal & df$sig]   <- "TP"
+  cat[df$causal & !df$sig]  <- "FN"
+  cat[!df$causal & df$sig]  <- "FP"
+  df$cat <- factor(cat, levels = names(COLS))
+
+  bounds <- c(0, cumsum(CHR_SIZES))
+  mids   <- (head(bounds, -1) + tail(bounds, -1)) / 2
+
+  is_null <- df$cat %in% c("null_odd", "null_even")
+  gw_line <- -log10(5e-8)                       # conventional GWAS threshold
+  thr_line <- if (is.finite(s$thr_p)) -log10(s$thr_p) else NA
+
+  p <- ggplot() +
+    geom_point(data = df[is_null, ],
+               aes(gpos, logp, colour = cat), size = 0.55, alpha = 0.75) +
+    geom_point(data = df[df$cat == "FP", ],
+               aes(gpos, logp, colour = cat), size = 1.7) +
+    geom_point(data = df[df$cat == "FN", ],
+               aes(gpos, logp, colour = cat), size = 1.9) +
+    geom_point(data = df[df$cat == "TP", ],
+               aes(gpos, logp, colour = cat), size = 2.1) +
+    geom_hline(yintercept = gw_line, linetype = "dotted", colour = "grey55") +
+    annotate("text", x = 0, y = gw_line, vjust = -0.5, hjust = 0,
+             size = 3, colour = "grey45", label = "genome-wide 5e-8") +
+    scale_colour_manual(
+      values = COLS, drop = FALSE, name = NULL,
+      breaks = c("TP", "FN", "FP"),
+      labels = c("True positive (causal, detected)",
+                 "False negative (causal, missed)",
+                 "False positive (null, detected)")) +
+    scale_x_continuous(breaks = mids, labels = seq_along(CHR_SIZES),
+                       expand = expansion(mult = 0.01)) +
+    labs(x = "Chromosome", y = expression(-log[10](italic(p)))) +
+    guides(colour = guide_legend(override.aes = list(size = 3))) +
+    theme_bw(base_size = 13) +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank(),
+          legend.position = "bottom")
+
+  if (is.finite(thr_line)) {
+    lab <- paste0(switch(s$method, none = "uncorrected",
+                         bonferroni = "Bonferroni", BH = "BH-FDR"),
+                  " threshold")
+    p <- p +
+      geom_hline(yintercept = thr_line, linetype = "solid",
+                 colour = "#1a1a1a", linewidth = 0.6) +
+      annotate("text", x = max(df$gpos), y = thr_line, vjust = -0.5,
+               hjust = 1, size = 3.2, colour = "#1a1a1a", label = lab)
+  }
+  p
+}
+
+# ---- UI --------------------------------------------------------------------
+ui <- fluidPage(
+  tags$head(tags$style(HTML("
+    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .metric-card { border:1px solid #e3e3e3; border-radius:10px;
+      padding:10px 14px; margin-bottom:10px; background:#fafafa; }
+    .metric-label { font-size:12px; color:#666; text-transform:uppercase;
+      letter-spacing:.03em; }
+    .metric-value { font-size:22px; font-weight:600; color:#1a1a1a; }
+    .metric-sub { font-size:12px; color:#555; }
+  "))),
+
+  titlePanel("Simulated GWAS: power, false positives, and multiple-testing correction"),
+
+  sidebarLayout(
+    sidebarPanel(
+      width = 3,
+      sliderInput("M", "Number of SNPs tested",
+                  min = 5000, max = M_MAX, value = 20000, step = 5000),
+      sliderInput("mc", "Number of truly associated (causal) SNPs",
+                  min = 0, max = 300, value = 25, step = 1),
+      sliderInput("beta", "Per-allele effect size (SD units)",
+                  min = 0, max = 0.20, value = 0.10, step = 0.005),
+      sliderInput("N", "Sample size",
+                  min = 500, max = 50000, value = 8000, step = 500),
+      tags$hr(),
+      radioButtons("method", "Multiple-testing correction",
+                   choices = c("None (raw p)" = "none",
+                               "Bonferroni" = "bonferroni",
+                               "Benjamini-Hochberg (FDR)" = "BH"),
+                   selected = "bonferroni"),
+      selectInput("alpha", "Significance level (alpha)",
+                  choices = c("0.01" = 0.01, "0.05" = 0.05, "0.10" = 0.10),
+                  selected = 0.05),
+      helpText("Coloured points are causal SNPs (green = detected, orange = ",
+               "missed). Red points are null SNPs that reached significance ",
+               "(false positives). The solid line is the chosen threshold; ",
+               "the dotted line is the conventional 5e-8.")
+    ),
+
+    mainPanel(
+      width = 9,
+      fluidRow(
+        column(3, uiOutput("powerCard")),
+        column(3, uiOutput("fdrCard")),
+        column(3, uiOutput("countsCard")),
+        column(3, uiOutput("thrCard"))
+      ),
+      plotOutput("manhattan", height = "460px")
+    )
+  )
+)
+
+# ---- Server ----------------------------------------------------------------
+server <- function(input, output, session) {
+
+  genome <- reactive(make_genome())          # generated once, cached
+
+  sim <- reactive({
+    simulate_gwas(genome(), input$M, input$mc, input$beta, input$N,
+                  as.numeric(input$alpha), input$method)
+  })
+
+  card <- function(label, value, sub) {
+    div(class = "metric-card",
+        div(class = "metric-label", label),
+        div(class = "metric-value", value),
+        div(class = "metric-sub", sub))
+  }
+  pct <- function(x) if (is.na(x)) "n/a" else sprintf("%.0f%%", 100 * x)
+
+  output$powerCard <- renderUI({
+    s <- attr(sim(), "summary")
+    card("Power (sensitivity)", pct(s$power),
+         sprintf("%d of %d causal detected", s$TP, s$m_causal))
+  })
+  output$fdrCard <- renderUI({
+    s <- attr(sim(), "summary")
+    card("Observed false-discovery", pct(s$fdr),
+         sprintf("%d of %d hits are false", s$FP, s$n_sig))
+  })
+  output$countsCard <- renderUI({
+    s <- attr(sim(), "summary")
+    card("Discoveries", format(s$n_sig, big.mark = ","),
+         sprintf("TP %d | FP %d | FN %d", s$TP, s$FP, s$FN))
+  })
+  output$thrCard <- renderUI({
+    s <- attr(sim(), "summary")
+    val <- if (is.finite(s$thr_p)) formatC(s$thr_p, format = "e", digits = 1) else "none"
+    card("Significance threshold (p)", val,
+         sprintf("alpha = %s, %s SNPs", s$alpha, format(s$M, big.mark = ",")))
+  })
+
+  output$manhattan <- renderPlot(manhattan_plot(sim()))
+}
+
+shinyApp(ui, server)
+
+```
+
+## Questions
+
+1.  Set the number of SNPs to 20,000 and the number of truly associated SNPs to 100, with effect size of 0.06 and the sample size of 8000. Report the power of the test and the FDR for the unadjusted, Bonferroni, and FDR methods.
+2.  Keep the same settings, except reduce the effect size to 0.04. Report the power of the test and the FDR for the unadjusted, Bonferroni, and FDR methods.
+3.  Keep the same settings, except increase the effect size to 0.08. Report the power of the test and the FDR for the unadjusted, Bonferroni, and FDR methods.
+4.  Across different scenarios, what difference do you see between the unadjusted and the Bonferroni corrected results?
+5.  Across different scenarios, what difference do you see between the Bonferroni and the FDR-corrected results?

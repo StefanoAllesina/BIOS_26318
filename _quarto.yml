@@ -1,8 +1,11 @@
 project:
   type: book
   output-dir: docs
+  
 filters:
   - webr
+  - shinylive
+  
 webr:
   packages: ['ggplot2', 'dplyr', 'tidyr', 'readr', 'purrr', 'tibble']
 book:
