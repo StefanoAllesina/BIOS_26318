@@ -44,6 +44,11 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-a5c418be5fa7530ae462b44eabe87f61.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content=".">
+<script src="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/shinylive.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1854,7 +1859,9 @@ window.Quarto = {
   <li><a href="#example-capture-recapture" id="toc-example-capture-recapture" class="nav-link" data-scroll-target="#example-capture-recapture"><span class="header-section-number">6.3.1</span> Example: capture-recapture</a></li>
   <li><a href="#mcmc" id="toc-mcmc" class="nav-link" data-scroll-target="#mcmc"><span class="header-section-number">6.3.2</span> MCMC</a></li>
   </ul></li>
-  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">6.4</span> Reading:</a></li>
+  <li><a href="#bayesian-testing-simulator" id="toc-bayesian-testing-simulator" class="nav-link" data-scroll-target="#bayesian-testing-simulator"><span class="header-section-number">6.4</span> Bayesian testing simulator</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions"><span class="header-section-number">6.5</span> Questions</a></li>
+  <li><a href="#reading" id="toc-reading" class="nav-link" data-scroll-target="#reading"><span class="header-section-number">6.6</span> Reading:</a></li>
   </ul>
 </nav>
     </div>
@@ -2347,11 +2354,231 @@ P(p \ \ \vert \ \ m,n) &amp; \propto L(p \ \ \vert \ \ m,n) P(p) \\
 <section id="mcmc" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="mcmc"><span class="header-section-number">6.3.2</span> MCMC</h3>
 <p>The type of calculation performed above is feasible only for very simple models, and for appropriately chosen priors (called “conjugate priors”). For more complex models, we rely on simulations. In particular, one can use Markov-Chain Monte Carlo (MCMC) to sample from the posterior distribution of complex models. Very briefly, one builds a Markov-Chain in which the states represent sets of parameters; parameters are sampled from the prior, and the probability of moving to one state to another is proportional to the difference in their likelihood. When the MC converges, then one obtains the posterior distribution of the parameters.</p>
-<p>Bayesian inference is used for many complex problems, including phylogenetic tree building [5].</p>
+<p>Bayesian inference is used for many complex problems, including phylogenetic tree building [5].<br>
+<br>
+</p>
 </section>
 </section>
-<section id="reading" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="reading"><span class="header-section-number">6.4</span> Reading:</h2>
+<section id="bayesian-testing-simulator" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="bayesian-testing-simulator"><span class="header-section-number">6.4</span> Bayesian testing simulator</h2>
+<p>The following simulator demonstrates the impact of prevalence/prior probability on the reliability of a positive test result. Control the sensitivity and the specificity, and most importantly the prior probability (prevalence) of the disease.</p>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(ggplot2)
+
+
+# ---- Core calculations -----------------------------------------------------
+
+disease_counts &lt;- function(N, prev, sens, spec) {
+  n_dis  &lt;- round(N * prev)
+  n_well &lt;- N - n_dis
+  TP &lt;- round(n_dis  * sens);        FN &lt;- n_dis  - TP
+  FP &lt;- round(n_well * (1 - spec));  TN &lt;- n_well - FP
+  list(N = N, n_dis = n_dis, n_well = n_well,
+       TP = TP, FN = FN, FP = FP, TN = TN,
+       pos = TP + FP, neg = TN + FN,
+       ppv = if (TP + FP &gt; 0) TP / (TP + FP) else NA_real_,
+       npv = if (TN + FN &gt; 0) TN / (TN + FN) else NA_real_)
+}
+
+grid_ncol &lt;- function(N) max(10, ceiling(sqrt(N * 1.6)))
+
+# Lay figures out as two stacked blocks (disease, then a gap row, then healthy)
+layout_df &lt;- function(cnt, ncol) {
+  place &lt;- function(cats, start_row) {
+    n &lt;- length(cats)
+    if (n == 0) return(NULL)
+    idx &lt;- seq_len(n) - 1
+    data.frame(cat = cats,
+               col = idx %% ncol,
+               row = start_row + (idx %/% ncol))
+  }
+  dis  &lt;- place(c(rep("TP", cnt$TP), rep("FN", cnt$FN)), 0)
+  drow &lt;- if (is.null(dis)) -1 else max(dis$row)      # last disease row (-1 if none)
+  well_start &lt;- drow + 3                              # two rows of vertical gap
+  well &lt;- place(c(rep("FP", cnt$FP), rep("TN", cnt$TN)), well_start)
+  list(df = rbind(dis, well),
+       dis_min = if (is.null(dis)) NA else 0,
+       well_min = if (is.null(well)) NA else well_start,
+       total_rows = max(c(0, dis$row, well$row)) + 1)
+}
+
+total_rows &lt;- function(N, prev, sens, spec) {
+  layout_df(disease_counts(N, prev, sens, spec), grid_ncol(N))$total_rows
+}
+
+pal &lt;- c(TP = "#c0392b", FN = "#f0a202", FP = "#3a76c2", TN = "#d3d8dd")
+leg &lt;- c(TP = "Disease, test +  (true positive)",
+         FN = "Disease, test -  (false negative)",
+         FP = "No disease, test +  (false positive)",
+         TN = "No disease, test -  (true negative)")
+
+disease_plot &lt;- function(N, prev, sens, spec) {
+  cnt  &lt;- disease_counts(N, prev, sens, spec)
+  ncol &lt;- grid_ncol(N)
+  bl   &lt;- layout_df(cnt, ncol)
+  d    &lt;- bl$df
+  d$cat &lt;- factor(d$cat, levels = names(pal))
+  
+  labels &lt;- data.frame(
+    row = c(bl$dis_min, bl$well_min) - 0.6,
+    txt = c(sprintf("People WITH the disease  (n = %d)", cnt$n_dis),
+            sprintf("People WITHOUT the disease  (n = %d)", cnt$n_well))
+  )
+  labels &lt;- labels[!is.na(labels$row), ]
+  
+  ggplot(d) +
+    # figure = triangle body + circle head, coloured by category
+    geom_point(aes(col, row + 0.15, colour = cat), shape = 17, size = 3.2) +
+    geom_point(aes(col, row - 0.28, colour = cat), shape = 16, size = 1.9) +
+    geom_text(data = labels, aes(x = 0, y = row, label = txt),
+              hjust = 0, vjust = 0, fontface = "bold",
+              size = 4.4, colour = "#333333") +
+    scale_colour_manual(values = pal, labels = leg, drop = FALSE, name = NULL) +
+    scale_y_reverse(expand = expansion(mult = c(0.02, 0.04), add = c(0, 1))) +
+    coord_fixed(clip = "off") +
+    guides(colour = guide_legend(override.aes = list(size = 4.5), ncol = 2)) +
+    theme_void(base_size = 13) +
+    theme(legend.position = "bottom",
+          legend.text = element_text(size = 12),
+          plot.margin = margin(14, 10, 6, 10))
+}
+
+# ---- UI --------------------------------------------------------------------
+
+ui &lt;- fluidPage(
+  tags$head(tags$style(HTML("
+    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .metric-card { border:1px solid #e3e3e3; border-radius:10px;
+      padding:12px 16px; margin-bottom:12px; background:#fafafa; }
+    .metric-label { font-size:12px; color:#666; text-transform:uppercase;
+      letter-spacing:.04em; }
+    .metric-value { font-size:26px; font-weight:600; color:#1a1a1a; }
+    .metric-sub { font-size:13px; color:#555; }
+    .note { background:#eef4fb; border-left:4px solid #3a76c2;
+      padding:12px 16px; border-radius:6px; font-size:15px; }
+  "))),
+  
+  titlePanel("Testing for a rare disease: why a positive result can still mean low risk"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      width = 3,
+      sliderInput("N",    "Sample size (people)",
+                  min = 100, max = 2000, value = 1000, step = 50),
+      sliderInput("prev", "Prevalence (prior probability of disease, %)",
+                  min = 0.1, max = 40, value = 1, step = 0.1),
+      sliderInput("sens", "Sensitivity (% of diseased who test +)",
+                  min = 50, max = 100, value = 99, step = 0.5),
+      sliderInput("spec", "Specificity (% of healthy who test -)",
+                  min = 50, max = 100, value = 95, step = 0.5),
+      helpText("Each figure is one person. Colour shows the test result within ",
+               "each group. Watch the false positives (blue) pile up when the ",
+               "disease is rare.")
+    ),
+    
+    mainPanel(
+      width = 9,
+      fluidRow(
+        column(4, uiOutput("ppvCard")),
+        column(4, uiOutput("npvCard")),
+        column(4, uiOutput("priorPostCard"))
+      ),
+      uiOutput("note"),
+      tags$br(),
+      plotOutput("array", height = "auto")
+    )
+  )
+)
+
+# ---- Server ----------------------------------------------------------------
+
+server &lt;- function(input, output, session) {
+  
+  cnt &lt;- reactive(
+    disease_counts(input$N, input$prev / 100, input$sens / 100, input$spec / 100)
+  )
+  
+  pct &lt;- function(x) if (is.na(x)) "n/a" else sprintf("%.1f%%", 100 * x)
+  
+  card &lt;- function(label, value, sub) {
+    div(class = "metric-card",
+        div(class = "metric-label", label),
+        div(class = "metric-value", value),
+        div(class = "metric-sub", sub))
+  }
+  
+  output$ppvCard &lt;- renderUI({
+    c &lt;- cnt()
+    card("PPV  =  P(disease | test +)", pct(c$ppv),
+         sprintf("%d of %d positives truly have it", c$TP, c$pos))
+  })
+  
+  output$npvCard &lt;- renderUI({
+    c &lt;- cnt()
+    card("NPV  =  P(healthy | test -)", pct(c$npv),
+         sprintf("%d of %d negatives are truly healthy", c$TN, c$neg))
+  })
+  
+  output$priorPostCard &lt;- renderUI({
+    c &lt;- cnt()
+    card("Prior -&gt; posterior",
+         paste0(pct(input$prev / 100), "  -&gt;  ", pct(c$ppv)),
+         "prevalence vs. risk after a positive test")
+  })
+  
+  output$note &lt;- renderUI({
+    c &lt;- cnt()
+    if (c$pos == 0) {
+      div(class = "note", "No one tests positive with these settings.")
+    } else {
+      fdr &lt;- 1 - c$ppv
+      div(class = "note",
+          HTML(sprintf(
+            "Of the &lt;b&gt;%d&lt;/b&gt; people who test positive, only &lt;b&gt;%d&lt;/b&gt; (%s) ",
+            c$pos, c$TP, pct(c$ppv)),
+            sprintf("actually have the disease &amp;mdash; the other &lt;b&gt;%d&lt;/b&gt; (%s) ",
+                    c$FP, pct(fdr)),
+            "are false positives. Meanwhile ",
+            sprintf("&lt;b&gt;%d&lt;/b&gt; genuine case(s) are missed (false negatives).",
+                    c$FN)))
+    }
+  })
+  
+  plot_height &lt;- reactive({
+    rows &lt;- total_rows(input$N, input$prev / 100,
+                       input$sens / 100, input$spec / 100)
+    max(380, round(rows * 15) + 150)   # 15 px/row + room for labels &amp; legend
+  })
+  
+  output$array &lt;- renderPlot(
+    disease_plot(input$N, input$prev / 100, input$sens / 100, input$spec / 100),
+    height = function() plot_height()
+  )
+}
+
+shinyApp(ui, server)
+
+</code></pre>
+</section>
+<section id="questions" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="questions"><span class="header-section-number">6.5</span> Questions</h2>
+<ol type="1">
+<li>For a rare disease (prevalence of 1%), what has a larger effect on the PPV, sensitivity or specificity?</li>
+<li>For a common disease (prevalence of 20%), what has a larger effect on the PPV, sensitivity or specificity?</li>
+<li>If you set both sensitivity and specificity at 50%, how does PPV relate to the prevalence of disease?</li>
+<li>If you set both sensitivity and specificity at 90%, what is the PPV relative to the prevalence of disease?</li>
+<li>What is the most surprising results you observed in your experimentation?</li>
+</ol>
+</section>
+<section id="reading" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="reading"><span class="header-section-number">6.6</span> Reading:</h2>
 <ol type="1">
 <li><p><a href="https://www.r-bloggers.com/maximum-likelihood-estimation-from-scratch/">Maximum likelihood estimation from scratch</a></p></li>
 <li><p><a href="https://academic.oup.com/mbe/article/24/8/1586/1103731">Phylogenetic Analysis by Maximum Likelihood</a></p></li>

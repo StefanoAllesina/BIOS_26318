@@ -1,9 +1,9 @@
 # Likelihood and Bayes
 
--   understand the difference between likelihood and probability
--   maximum likelihood estimation
--   calculate positive predictive value of a hypothesis test
--   interpret the results of Bayesian inference
+- understand the difference between likelihood and probability
+- maximum likelihood estimation
+- calculate positive predictive value of a hypothesis test
+- interpret the results of Bayesian inference
 
 ## Likelihood and estimation
 
@@ -47,10 +47,10 @@ Second, and more quantitatively relevant, is that likelihoods do not satisfy the
 
 One of the most common applications of likelihood is to find the model or model parameters that give the highest likelihood based on the data, and call those the best statistical estimate. Here are the symbols we will use in this discussion:
 
--   $D$: the observed data
--   $\theta$: the free parameter(s) of the statistical model
--   $L(\theta \ \vert \ D)$: the likelihood function, read "the likelihood of $\theta$ given the data"
--   $\hat{\theta}$: the maximum-likelihood estimates (m.l.e.) of the parameters
+- $D$: the observed data
+- $\theta$: the free parameter(s) of the statistical model
+- $L(\theta \ \vert \ D)$: the likelihood function, read "the likelihood of $\theta$ given the data"
+- $\hat{\theta}$: the maximum-likelihood estimates (m.l.e.) of the parameters
 
 ### discrete probability distributions
 
@@ -200,10 +200,10 @@ $$
 P(\theta \ \vert \ D) = \frac{P(D \ \vert \ \theta) P(\theta)}{P(D)}
 $$ where:
 
--   $P(\theta \ \vert \ D)$ is the **posterior distribution** of $\theta$, i.e., our updated belief in the values of $\theta$.
--   $P(D \ \vert \ \theta)$ is the **likelihood function**: $P(DX \ \vert \ \theta) = L(\theta \ \vert \ D)$.
--   $P(\theta)$ is the **prior distribution**, i.e. our belief on the distribution of $\theta$ before seeing the data.
--   $P(D)$ is called the **evidence**: $P(D) = \int P(D \ \vert \ \theta) d \theta$ (in practice, this need not to be calculated).
+- $P(\theta \ \vert \ D)$ is the **posterior distribution** of $\theta$, i.e., our updated belief in the values of $\theta$.
+- $P(D \ \vert \ \theta)$ is the **likelihood function**: $P(DX \ \vert \ \theta) = L(\theta \ \vert \ D)$.
+- $P(\theta)$ is the **prior distribution**, i.e. our belief on the distribution of $\theta$ before seeing the data.
+- $P(D)$ is called the **evidence**: $P(D) = \int P(D \ \vert \ \theta) d \theta$ (in practice, this need not to be calculated).
 
 ### Example: capture-recapture
 
@@ -269,7 +269,226 @@ The fact that the posterior depends on the prior is the most controversial aspec
 
 The type of calculation performed above is feasible only for very simple models, and for appropriately chosen priors (called "conjugate priors"). For more complex models, we rely on simulations. In particular, one can use Markov-Chain Monte Carlo (MCMC) to sample from the posterior distribution of complex models. Very briefly, one builds a Markov-Chain in which the states represent sets of parameters; parameters are sampled from the prior, and the probability of moving to one state to another is proportional to the difference in their likelihood. When the MC converges, then one obtains the posterior distribution of the parameters.
 
-Bayesian inference is used for many complex problems, including phylogenetic tree building \[5\].
+Bayesian inference is used for many complex problems, including phylogenetic tree building \[5\].\
+\
+
+## Bayesian testing simulator
+
+The following simulator demonstrates the impact of prevalence/prior probability on the reliability of a positive test result. Control the sensitivity and the specificity, and most importantly the prior probability (prevalence) of the disease.
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(ggplot2)
+
+
+# ---- Core calculations -----------------------------------------------------
+
+disease_counts <- function(N, prev, sens, spec) {
+  n_dis  <- round(N * prev)
+  n_well <- N - n_dis
+  TP <- round(n_dis  * sens);        FN <- n_dis  - TP
+  FP <- round(n_well * (1 - spec));  TN <- n_well - FP
+  list(N = N, n_dis = n_dis, n_well = n_well,
+       TP = TP, FN = FN, FP = FP, TN = TN,
+       pos = TP + FP, neg = TN + FN,
+       ppv = if (TP + FP > 0) TP / (TP + FP) else NA_real_,
+       npv = if (TN + FN > 0) TN / (TN + FN) else NA_real_)
+}
+
+grid_ncol <- function(N) max(10, ceiling(sqrt(N * 1.6)))
+
+# Lay figures out as two stacked blocks (disease, then a gap row, then healthy)
+layout_df <- function(cnt, ncol) {
+  place <- function(cats, start_row) {
+    n <- length(cats)
+    if (n == 0) return(NULL)
+    idx <- seq_len(n) - 1
+    data.frame(cat = cats,
+               col = idx %% ncol,
+               row = start_row + (idx %/% ncol))
+  }
+  dis  <- place(c(rep("TP", cnt$TP), rep("FN", cnt$FN)), 0)
+  drow <- if (is.null(dis)) -1 else max(dis$row)      # last disease row (-1 if none)
+  well_start <- drow + 3                              # two rows of vertical gap
+  well <- place(c(rep("FP", cnt$FP), rep("TN", cnt$TN)), well_start)
+  list(df = rbind(dis, well),
+       dis_min = if (is.null(dis)) NA else 0,
+       well_min = if (is.null(well)) NA else well_start,
+       total_rows = max(c(0, dis$row, well$row)) + 1)
+}
+
+total_rows <- function(N, prev, sens, spec) {
+  layout_df(disease_counts(N, prev, sens, spec), grid_ncol(N))$total_rows
+}
+
+pal <- c(TP = "#c0392b", FN = "#f0a202", FP = "#3a76c2", TN = "#d3d8dd")
+leg <- c(TP = "Disease, test +  (true positive)",
+         FN = "Disease, test -  (false negative)",
+         FP = "No disease, test +  (false positive)",
+         TN = "No disease, test -  (true negative)")
+
+disease_plot <- function(N, prev, sens, spec) {
+  cnt  <- disease_counts(N, prev, sens, spec)
+  ncol <- grid_ncol(N)
+  bl   <- layout_df(cnt, ncol)
+  d    <- bl$df
+  d$cat <- factor(d$cat, levels = names(pal))
+  
+  labels <- data.frame(
+    row = c(bl$dis_min, bl$well_min) - 0.6,
+    txt = c(sprintf("People WITH the disease  (n = %d)", cnt$n_dis),
+            sprintf("People WITHOUT the disease  (n = %d)", cnt$n_well))
+  )
+  labels <- labels[!is.na(labels$row), ]
+  
+  ggplot(d) +
+    # figure = triangle body + circle head, coloured by category
+    geom_point(aes(col, row + 0.15, colour = cat), shape = 17, size = 3.2) +
+    geom_point(aes(col, row - 0.28, colour = cat), shape = 16, size = 1.9) +
+    geom_text(data = labels, aes(x = 0, y = row, label = txt),
+              hjust = 0, vjust = 0, fontface = "bold",
+              size = 4.4, colour = "#333333") +
+    scale_colour_manual(values = pal, labels = leg, drop = FALSE, name = NULL) +
+    scale_y_reverse(expand = expansion(mult = c(0.02, 0.04), add = c(0, 1))) +
+    coord_fixed(clip = "off") +
+    guides(colour = guide_legend(override.aes = list(size = 4.5), ncol = 2)) +
+    theme_void(base_size = 13) +
+    theme(legend.position = "bottom",
+          legend.text = element_text(size = 12),
+          plot.margin = margin(14, 10, 6, 10))
+}
+
+# ---- UI --------------------------------------------------------------------
+
+ui <- fluidPage(
+  tags$head(tags$style(HTML("
+    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .metric-card { border:1px solid #e3e3e3; border-radius:10px;
+      padding:12px 16px; margin-bottom:12px; background:#fafafa; }
+    .metric-label { font-size:12px; color:#666; text-transform:uppercase;
+      letter-spacing:.04em; }
+    .metric-value { font-size:26px; font-weight:600; color:#1a1a1a; }
+    .metric-sub { font-size:13px; color:#555; }
+    .note { background:#eef4fb; border-left:4px solid #3a76c2;
+      padding:12px 16px; border-radius:6px; font-size:15px; }
+  "))),
+  
+  titlePanel("Testing for a rare disease: why a positive result can still mean low risk"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      width = 3,
+      sliderInput("N",    "Sample size (people)",
+                  min = 100, max = 2000, value = 1000, step = 50),
+      sliderInput("prev", "Prevalence (prior probability of disease, %)",
+                  min = 0.1, max = 40, value = 1, step = 0.1),
+      sliderInput("sens", "Sensitivity (% of diseased who test +)",
+                  min = 50, max = 100, value = 99, step = 0.5),
+      sliderInput("spec", "Specificity (% of healthy who test -)",
+                  min = 50, max = 100, value = 95, step = 0.5),
+      helpText("Each figure is one person. Colour shows the test result within ",
+               "each group. Watch the false positives (blue) pile up when the ",
+               "disease is rare.")
+    ),
+    
+    mainPanel(
+      width = 9,
+      fluidRow(
+        column(4, uiOutput("ppvCard")),
+        column(4, uiOutput("npvCard")),
+        column(4, uiOutput("priorPostCard"))
+      ),
+      uiOutput("note"),
+      tags$br(),
+      plotOutput("array", height = "auto")
+    )
+  )
+)
+
+# ---- Server ----------------------------------------------------------------
+
+server <- function(input, output, session) {
+  
+  cnt <- reactive(
+    disease_counts(input$N, input$prev / 100, input$sens / 100, input$spec / 100)
+  )
+  
+  pct <- function(x) if (is.na(x)) "n/a" else sprintf("%.1f%%", 100 * x)
+  
+  card <- function(label, value, sub) {
+    div(class = "metric-card",
+        div(class = "metric-label", label),
+        div(class = "metric-value", value),
+        div(class = "metric-sub", sub))
+  }
+  
+  output$ppvCard <- renderUI({
+    c <- cnt()
+    card("PPV  =  P(disease | test +)", pct(c$ppv),
+         sprintf("%d of %d positives truly have it", c$TP, c$pos))
+  })
+  
+  output$npvCard <- renderUI({
+    c <- cnt()
+    card("NPV  =  P(healthy | test -)", pct(c$npv),
+         sprintf("%d of %d negatives are truly healthy", c$TN, c$neg))
+  })
+  
+  output$priorPostCard <- renderUI({
+    c <- cnt()
+    card("Prior -> posterior",
+         paste0(pct(input$prev / 100), "  ->  ", pct(c$ppv)),
+         "prevalence vs. risk after a positive test")
+  })
+  
+  output$note <- renderUI({
+    c <- cnt()
+    if (c$pos == 0) {
+      div(class = "note", "No one tests positive with these settings.")
+    } else {
+      fdr <- 1 - c$ppv
+      div(class = "note",
+          HTML(sprintf(
+            "Of the <b>%d</b> people who test positive, only <b>%d</b> (%s) ",
+            c$pos, c$TP, pct(c$ppv)),
+            sprintf("actually have the disease &mdash; the other <b>%d</b> (%s) ",
+                    c$FP, pct(fdr)),
+            "are false positives. Meanwhile ",
+            sprintf("<b>%d</b> genuine case(s) are missed (false negatives).",
+                    c$FN)))
+    }
+  })
+  
+  plot_height <- reactive({
+    rows <- total_rows(input$N, input$prev / 100,
+                       input$sens / 100, input$spec / 100)
+    max(380, round(rows * 15) + 150)   # 15 px/row + room for labels & legend
+  })
+  
+  output$array <- renderPlot(
+    disease_plot(input$N, input$prev / 100, input$sens / 100, input$spec / 100),
+    height = function() plot_height()
+  )
+}
+
+shinyApp(ui, server)
+
+
+```
+
+## Questions
+
+1.  For a rare disease (prevalence of 1%), what has a larger effect on the PPV, sensitivity or specificity?
+2.  For a common disease (prevalence of 20%), what has a larger effect on the PPV, sensitivity or specificity?
+3.  If you set both sensitivity and specificity at 50%, how does PPV relate to the prevalence of disease?
+4.  If you set both sensitivity and specificity at 90%, what is the PPV relative to the prevalence of disease?
+5.  What is the most surprising results you observed in your experimentation?
+
+
 
 ## Reading:
 
