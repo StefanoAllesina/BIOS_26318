@@ -484,3 +484,288 @@ gg_diagnose(lm(log2(pay) ~ title + loc, data = dt))
 ```
 
 Much better! Remember to inspect your explanatory and response variables. Ideally, you want the response to be normally distributed. Sometimes one or many covariates can have a nonlinear relationship with the response variable, and you should transform them prior to analysis.
+
+## Berkson's paradox
+
+There is a type of *data selection bias* that can produce a negative correlation from two uncorrelated (or even positively correlated) variables. It was first discovered in a clinical setting that two diseases (Diabetes and Cholecystitis) seemed to be negatively correlated: that is, patients with diabetes had lower rates of cholecystitis, and vice versa. However, this was not clinically feasible: diabetes is not known to have any protective effect against gallbladder inflammation. So what could be the reason?
+
+A less serious example: there is a popular belief (particularly when it comes to romantic relationships) that "pretty people are jerks", or in more statistical terms, attractiveness has a negative correlation with personality. While we might theorize that have attractive looks can impact someone's personality development, let's consider an alternative explanation.
+
+Consider a population of possible dating partners, and assume that the personality and attractiveness are independent, normally distributed random variables. When you run into a possible partner, how likely are you to date someone who is both unattractive and has a terrible personality? So let's suppose that there is a minimal combined attractiveness level below which you would not go out a with a person. The simulator below allows you to select your pickiness level (initially set to 0), and eliminates all candidates who are below that minimum. Note, as you increase this threshold, the correlation between variables goes from being essentially zero to negative!
+
+Now let's be real: some people are out of our league. Someone who has an amazing personality and knockout looks may not consider you! So let's exclude some people who have very high combined attractiveness and personality score out of your dating pool. You should now observe a data set with a strong negative correlation between variables, because of a filtering process that occurred in the data collection. The same scenario likely occurred in Berkson's clinical data, and in other [examples of this phenomenon](https://www.hungyichen.com/en/insights/berksons-paradox).
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(tidyverse)
+library(ggpubr)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Sumulation of Berkson's paradox"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("your_cut",
+                        "Combined score (your pickiness):",
+                        min = 0,
+                        max = 20,
+                        value = 0),
+            sliderInput("other_cut",
+                        "Combined score (out of your league):",
+                        min = 0,
+                        max = 20,
+                        value = 20)
+        ),
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("LinReg")
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+    output$LinReg <- renderPlot({
+        att <- rnorm(200, mean = 5, sd = 2)
+        char <- rnorm(200, mean = 5, sd = 2)
+        romantic <- as_tibble(cbind(att, char))
+        romantic_rest <- romantic |>  
+          filter(att + char > input$your_cut, att + char < input$other_cut)
+        # draw the histogram with the specified number of bins
+        romantic_rest |>  ggplot() + aes(x=att, y=char) + 
+          geom_jitter() + 
+          geom_smooth(method = "lm", se=FALSE) +
+            stat_regline_equation(label.y = 4, aes(label = ..eq.label..)) +
+            stat_regline_equation(label.y = 3, aes(label = ..rr.label..)) +
+          labs(title = 'Relationship between personality and attractiveness', x = 'attractiveness', y = 'personality')
+        })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+
+## Spurious correlations from data dredging
+
+What if you search through a lot of data and try to find correlations, what will you find? Inspired by [Tyler Vigen's website](https://tylervigen.com/spurious-correlations), here is a simple simulation of how you can find correlations in nothing but noise.
+
+The simulation generates a number of normally distributed random sets of data. Then it searches through all pairs of variables, calculating the correlation coefficients between them. On average they are zero, but sometimes, by chance, they show some relationship. But you can further, and search through smaller time windows, trying to find parts of the data that go up and down in a similar pattern. When you choose smaller window size, you will miraculously discover strong correlations appear out of pure noise!
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(tidyverse)
+library(ggpubr)
+
+# =============================================================================
+# Hunting for correlations among random variables (a spurious-correlation demo)
+#
+# Generates k independent random variables (each a vector of normal draws over a
+# time index), lets you slide a time window, and reports the four variable pairs
+# with the strongest correlation (positive or negative) inside that window.
+#
+# Because the variables are independent by construction, ANY strong correlation
+# is spurious. It appears purely because we searched C(k,2) pairs and were free
+# to pick the time window -- a live illustration of multiple comparisons and
+# data dredging.
+#
+# To run:
+#   install.packages(c("shiny", "ggplot2"))
+#   shiny::runApp("correlation_hunt_app.R")
+# =============================================================================
+
+# Readable variable names: V_A, V_B, ... V_Z, V_AA, V_AB, ...
+var_names <- function(k) {
+  base <- c(LETTERS, as.vector(t(outer(LETTERS, LETTERS, paste0))))
+  paste0("V_", base[seq_len(k)])
+}
+
+gen_data <- function(k, n, type, seed) {
+  set.seed(seed)
+  M <- matrix(rnorm(n * k), nrow = n, ncol = k)
+  if (type == "walk") M <- apply(M, 2, cumsum)   # random walk (cumulative sum)
+  colnames(M) <- var_names(k)
+  M
+}
+
+# Top-N pairs by absolute correlation within rows r1:r2
+top_correlations <- function(M, r1, r2, topn = 4) {
+  sub <- M[r1:r2, , drop = FALSE]
+  if (nrow(sub) < 5) return(NULL)
+  C  <- cor(sub)
+  ut <- upper.tri(C)
+  idx <- which(ut, arr.ind = TRUE)     # column-major, matches C[ut]
+  r   <- C[ut]
+  o   <- order(-abs(r))
+  idx <- idx[o, , drop = FALSE]; r <- r[o]
+  n   <- min(topn, length(r))
+  nm  <- colnames(M)
+  data.frame(rank = seq_len(n),
+             i = idx[1:n, 1], j = idx[1:n, 2],
+             v1 = nm[idx[1:n, 1]], v2 = nm[idx[1:n, 2]],
+             r = r[1:n], stringsAsFactors = FALSE)
+}
+
+# 2x2 scatterplots of the top pairs over the window
+scatter_facets <- function(M, r1, r2, tp) {
+  sub <- M[r1:r2, , drop = FALSE]
+  lev <- sprintf("%d. %s vs %s  (r = %+.2f)", tp$rank, tp$v1, tp$v2, tp$r)
+  dfl <- do.call(rbind, lapply(seq_len(nrow(tp)), function(t) {
+    data.frame(pair = factor(lev[t], levels = lev),
+               x = sub[, tp$i[t]], y = sub[, tp$j[t]],
+               sign = ifelse(tp$r[t] > 0, "positive", "negative"))
+  }))
+  ggplot(dfl, aes(x, y, colour = sign)) +
+    geom_point(alpha = 0.6, size = 1.4) +
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.9) +
+    facet_wrap(~pair, scales = "free", ncol = 2) +
+    scale_colour_manual(values = c(positive = "#2c7fb8", negative = "#d62728"),
+                        guide = "none") +
+    labs(x = NULL, y = NULL) +
+    theme_bw(base_size = 12) +
+    theme(strip.text = element_text(face = "bold"),
+          panel.grid.minor = element_blank())
+}
+
+# Full-length view of the single strongest pair with the window shaded
+top_pair_time <- function(M, r1, r2, tp) {
+  i <- tp$i[1]; j <- tp$j[1]; n <- nrow(M)
+  z <- function(v) (v - mean(v)) / sd(v)
+  d <- data.frame(t = rep(seq_len(n), 2),
+                  val = c(z(M[, i]), z(M[, j])),
+                  var = factor(rep(c(tp$v1[1], tp$v2[1]), each = n),
+                               levels = c(tp$v1[1], tp$v2[1])))
+  ggplot(d, aes(t, val, colour = var)) +
+    annotate("rect", xmin = r1, xmax = r2, ymin = -Inf, ymax = Inf,
+             fill = "#f2c200", alpha = 0.18) +
+    geom_line(linewidth = 0.6) +
+    scale_colour_manual(values = c("#2c7fb8", "#d62728"), name = NULL) +
+    labs(x = "Time index", y = "Standardized value",
+         subtitle = sprintf(
+           "Strongest pair in window [%d, %d]:  %s & %s,  r = %+.2f   (shaded = window)",
+           r1, r2, tp$v1[1], tp$v2[1], tp$r[1])) +
+    theme_bw(base_size = 12) +
+    theme(legend.position = "top", panel.grid.minor = element_blank())
+}
+
+# ---- UI --------------------------------------------------------------------
+ui <- fluidPage(
+  tags$head(tags$style(HTML("
+    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .note { background:#fff7e6; border-left:4px solid #e0a106;
+      padding:10px 14px; border-radius:6px; font-size:14px; margin-bottom:10px; }
+  "))),
+
+  titlePanel("Correlation hunting: finding patterns in pure noise"),
+
+  sidebarLayout(
+    sidebarPanel(
+      width = 3,
+      sliderInput("nvars", "Number of variables (k)",
+                  min = 3, max = 60, value = 20, step = 1),
+      sliderInput("ntime", "Length of each series (time points)",
+                  min = 20, max = 500, value = 200, step = 10),
+      sliderInput("range", "Time range to search",
+                  min = 1, max = 200, value = c(1, 200), step = 1),
+      radioButtons("type", "Series type",
+                   choices = c("Independent normal" = "iid",
+                               "Random walk (cumulative)" = "walk"),
+                   selected = "iid"),
+      actionButton("regen", "Regenerate data", class = "btn-sm"),
+      helpText("All variables are generated independently, so every ",
+               "correlation you find is spurious. Widen k or narrow the ",
+               "window to watch the strongest correlation climb.")
+    ),
+
+    mainPanel(
+      width = 9,
+      uiOutput("headline"),
+      h4("Top 4 correlated pairs in the selected window"),
+      tableOutput("topTable"),
+      plotOutput("timePlot", height = "260px"),
+      tags$br(),
+      h4("The four pairs, plotted over the window"),
+      plotOutput("facetPlot", height = "420px")
+    )
+  )
+)
+
+# ---- Server ----------------------------------------------------------------
+server <- function(input, output, session) {
+
+  seed <- reactiveVal(1001)
+  observeEvent(input$regen, seed(seed() + 1))
+
+  # Keep the time-range slider in sync with series length
+  observeEvent(input$ntime, {
+    updateSliderInput(session, "range", max = input$ntime,
+                      value = c(1, input$ntime))
+  })
+
+  dat <- reactive({
+    gen_data(input$nvars, input$ntime, input$type, seed())
+  })
+
+  tp <- reactive({
+    r <- input$range
+    top_correlations(dat(), r[1], min(r[2], nrow(dat())), topn = 4)
+  })
+
+  output$headline <- renderUI({
+    k <- input$nvars
+    npairs <- choose(k, 2)
+    r <- input$range
+    len <- min(r[2], input$ntime) - r[1] + 1
+    div(class = "note",
+        HTML(sprintf(
+          "Searching <b>%s</b> variable pairs (from k = %d variables) over a ",
+          format(npairs, big.mark = ","), k),
+          sprintf("window of <b>%d</b> time points. With independent data, the ",
+                  len),
+          "largest correlations shown below are entirely due to chance and the ",
+          "freedom to pick pairs and a window."))
+  })
+
+  output$topTable <- renderTable({
+    t <- tp()
+    if (is.null(t)) return(data.frame(Message = "Select a window of at least 5 time points."))
+    data.frame(
+      Rank        = t$rank,
+      `Variable 1` = t$v1,
+      `Variable 2` = t$v2,
+      Correlation = sprintf("%+.3f", t$r),
+      Direction   = ifelse(t$r > 0, "positive", "negative"),
+      check.names = FALSE
+    )
+  }, striped = TRUE, spacing = "s", width = "100%")
+
+  output$timePlot <- renderPlot({
+    t <- tp(); req(t)
+    r <- input$range
+    top_pair_time(dat(), r[1], min(r[2], nrow(dat())), t)
+  })
+
+  output$facetPlot <- renderPlot({
+    t <- tp(); req(t)
+    r <- input$range
+    scatter_facets(dat(), r[1], min(r[2], nrow(dat())), t)
+  })
+}
+
+shinyApp(ui, server)
+
+```
+

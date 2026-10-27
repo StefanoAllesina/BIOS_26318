@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,6 +10,9 @@
 
 <title>8&nbsp; Linear models – Fundamentals of Biological Data Analysis</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -35,15 +38,19 @@ ul.task-list li input[type="checkbox"] {
 <link href="./07-linalg.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a5c418be5fa7530ae462b44eabe87f61.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-8f18a2f8f038451416f40703f95ffd9e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content=".">
+<script src="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.10.12/shinylive/shinylive.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1626,7 +1633,7 @@ globalThis.qwebrExecuteCode = async function (
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -1682,9 +1689,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Fundamentals of Biological Data Analysis</a> 
         <div class="sidebar-tools-main">
@@ -1855,6 +1860,8 @@ window.Quarto = {
   <li><a href="#running-all-diagnostics" id="toc-running-all-diagnostics" class="nav-link" data-scroll-target="#running-all-diagnostics"><span class="header-section-number">8.5.8</span> Running all diagnostics</a></li>
   </ul></li>
   <li><a href="#transforming-the-data" id="toc-transforming-the-data" class="nav-link" data-scroll-target="#transforming-the-data"><span class="header-section-number">8.6</span> Transforming the data</a></li>
+  <li><a href="#berksons-paradox" id="toc-berksons-paradox" class="nav-link" data-scroll-target="#berksons-paradox"><span class="header-section-number">8.7</span> Berkson’s paradox</a></li>
+  <li><a href="#spurious-correlations-from-data-dredging" id="toc-spurious-correlations-from-data-dredging" class="nav-link" data-scroll-target="#spurious-correlations-from-data-dredging"><span class="header-section-number">8.8</span> Spurious correlations from data dredging</a></li>
   </ul>
 </nav>
     </div>
@@ -2438,6 +2445,286 @@ R^2 = \frac{\sum_i (\hat{y}_i - \bar{y})^2}{\sum_i ({y}_i - \bar{y})^2}
 <div id="qwebr-insertion-location-35"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Much better! Remember to inspect your explanatory and response variables. Ideally, you want the response to be normally distributed. Sometimes one or many covariates can have a nonlinear relationship with the response variable, and you should transform them prior to analysis.</p>
+</section>
+<section id="berksons-paradox" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="berksons-paradox"><span class="header-section-number">8.7</span> Berkson’s paradox</h2>
+<p>There is a type of <em>data selection bias</em> that can produce a negative correlation from two uncorrelated (or even positively correlated) variables. It was first discovered in a clinical setting that two diseases (Diabetes and Cholecystitis) seemed to be negatively correlated: that is, patients with diabetes had lower rates of cholecystitis, and vice versa. However, this was not clinically feasible: diabetes is not known to have any protective effect against gallbladder inflammation. So what could be the reason?</p>
+<p>A less serious example: there is a popular belief (particularly when it comes to romantic relationships) that “pretty people are jerks”, or in more statistical terms, attractiveness has a negative correlation with personality. While we might theorize that have attractive looks can impact someone’s personality development, let’s consider an alternative explanation.</p>
+<p>Consider a population of possible dating partners, and assume that the personality and attractiveness are independent, normally distributed random variables. When you run into a possible partner, how likely are you to date someone who is both unattractive and has a terrible personality? So let’s suppose that there is a minimal combined attractiveness level below which you would not go out a with a person. The simulator below allows you to select your pickiness level (initially set to 0), and eliminates all candidates who are below that minimum. Note, as you increase this threshold, the correlation between variables goes from being essentially zero to negative!</p>
+<p>Now let’s be real: some people are out of our league. Someone who has an amazing personality and knockout looks may not consider you! So let’s exclude some people who have very high combined attractiveness and personality score out of your dating pool. You should now observe a data set with a strong negative correlation between variables, because of a filtering process that occurred in the data collection. The same scenario likely occurred in Berkson’s clinical data, and in other <a href="https://www.hungyichen.com/en/insights/berksons-paradox">examples of this phenomenon</a>.</p>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(tidyverse)
+library(ggpubr)
+
+# Define UI for application that draws a histogram
+ui &lt;- fluidPage(
+
+    # Application title
+    titlePanel("Sumulation of Berkson's paradox"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("your_cut",
+                        "Combined score (your pickiness):",
+                        min = 0,
+                        max = 20,
+                        value = 0),
+            sliderInput("other_cut",
+                        "Combined score (out of your league):",
+                        min = 0,
+                        max = 20,
+                        value = 20)
+        ),
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("LinReg")
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server &lt;- function(input, output) {
+
+    output$LinReg &lt;- renderPlot({
+        att &lt;- rnorm(200, mean = 5, sd = 2)
+        char &lt;- rnorm(200, mean = 5, sd = 2)
+        romantic &lt;- as_tibble(cbind(att, char))
+        romantic_rest &lt;- romantic |&gt;  
+          filter(att + char &gt; input$your_cut, att + char &lt; input$other_cut)
+        # draw the histogram with the specified number of bins
+        romantic_rest |&gt;  ggplot() + aes(x=att, y=char) + 
+          geom_jitter() + 
+          geom_smooth(method = "lm", se=FALSE) +
+            stat_regline_equation(label.y = 4, aes(label = ..eq.label..)) +
+            stat_regline_equation(label.y = 3, aes(label = ..rr.label..)) +
+          labs(title = 'Relationship between personality and attractiveness', x = 'attractiveness', y = 'personality')
+        })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+</code></pre>
+</section>
+<section id="spurious-correlations-from-data-dredging" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="spurious-correlations-from-data-dredging"><span class="header-section-number">8.8</span> Spurious correlations from data dredging</h2>
+<p>What if you search through a lot of data and try to find correlations, what will you find? Inspired by <a href="https://tylervigen.com/spurious-correlations">Tyler Vigen’s website</a>, here is a simple simulation of how you can find correlations in nothing but noise.</p>
+<p>The simulation generates a number of normally distributed random sets of data. Then it searches through all pairs of variables, calculating the correlation coefficients between them. On average they are zero, but sometimes, by chance, they show some relationship. But you can further, and search through smaller time windows, trying to find parts of the data that go up and down in a similar pattern. When you choose smaller window size, you will miraculously discover strong correlations appear out of pure noise!</p>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+library(tidyverse)
+library(ggpubr)
+
+# =============================================================================
+# Hunting for correlations among random variables (a spurious-correlation demo)
+#
+# Generates k independent random variables (each a vector of normal draws over a
+# time index), lets you slide a time window, and reports the four variable pairs
+# with the strongest correlation (positive or negative) inside that window.
+#
+# Because the variables are independent by construction, ANY strong correlation
+# is spurious. It appears purely because we searched C(k,2) pairs and were free
+# to pick the time window -- a live illustration of multiple comparisons and
+# data dredging.
+#
+# To run:
+#   install.packages(c("shiny", "ggplot2"))
+#   shiny::runApp("correlation_hunt_app.R")
+# =============================================================================
+
+# Readable variable names: V_A, V_B, ... V_Z, V_AA, V_AB, ...
+var_names &lt;- function(k) {
+  base &lt;- c(LETTERS, as.vector(t(outer(LETTERS, LETTERS, paste0))))
+  paste0("V_", base[seq_len(k)])
+}
+
+gen_data &lt;- function(k, n, type, seed) {
+  set.seed(seed)
+  M &lt;- matrix(rnorm(n * k), nrow = n, ncol = k)
+  if (type == "walk") M &lt;- apply(M, 2, cumsum)   # random walk (cumulative sum)
+  colnames(M) &lt;- var_names(k)
+  M
+}
+
+# Top-N pairs by absolute correlation within rows r1:r2
+top_correlations &lt;- function(M, r1, r2, topn = 4) {
+  sub &lt;- M[r1:r2, , drop = FALSE]
+  if (nrow(sub) &lt; 5) return(NULL)
+  C  &lt;- cor(sub)
+  ut &lt;- upper.tri(C)
+  idx &lt;- which(ut, arr.ind = TRUE)     # column-major, matches C[ut]
+  r   &lt;- C[ut]
+  o   &lt;- order(-abs(r))
+  idx &lt;- idx[o, , drop = FALSE]; r &lt;- r[o]
+  n   &lt;- min(topn, length(r))
+  nm  &lt;- colnames(M)
+  data.frame(rank = seq_len(n),
+             i = idx[1:n, 1], j = idx[1:n, 2],
+             v1 = nm[idx[1:n, 1]], v2 = nm[idx[1:n, 2]],
+             r = r[1:n], stringsAsFactors = FALSE)
+}
+
+# 2x2 scatterplots of the top pairs over the window
+scatter_facets &lt;- function(M, r1, r2, tp) {
+  sub &lt;- M[r1:r2, , drop = FALSE]
+  lev &lt;- sprintf("%d. %s vs %s  (r = %+.2f)", tp$rank, tp$v1, tp$v2, tp$r)
+  dfl &lt;- do.call(rbind, lapply(seq_len(nrow(tp)), function(t) {
+    data.frame(pair = factor(lev[t], levels = lev),
+               x = sub[, tp$i[t]], y = sub[, tp$j[t]],
+               sign = ifelse(tp$r[t] &gt; 0, "positive", "negative"))
+  }))
+  ggplot(dfl, aes(x, y, colour = sign)) +
+    geom_point(alpha = 0.6, size = 1.4) +
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE, linewidth = 0.9) +
+    facet_wrap(~pair, scales = "free", ncol = 2) +
+    scale_colour_manual(values = c(positive = "#2c7fb8", negative = "#d62728"),
+                        guide = "none") +
+    labs(x = NULL, y = NULL) +
+    theme_bw(base_size = 12) +
+    theme(strip.text = element_text(face = "bold"),
+          panel.grid.minor = element_blank())
+}
+
+# Full-length view of the single strongest pair with the window shaded
+top_pair_time &lt;- function(M, r1, r2, tp) {
+  i &lt;- tp$i[1]; j &lt;- tp$j[1]; n &lt;- nrow(M)
+  z &lt;- function(v) (v - mean(v)) / sd(v)
+  d &lt;- data.frame(t = rep(seq_len(n), 2),
+                  val = c(z(M[, i]), z(M[, j])),
+                  var = factor(rep(c(tp$v1[1], tp$v2[1]), each = n),
+                               levels = c(tp$v1[1], tp$v2[1])))
+  ggplot(d, aes(t, val, colour = var)) +
+    annotate("rect", xmin = r1, xmax = r2, ymin = -Inf, ymax = Inf,
+             fill = "#f2c200", alpha = 0.18) +
+    geom_line(linewidth = 0.6) +
+    scale_colour_manual(values = c("#2c7fb8", "#d62728"), name = NULL) +
+    labs(x = "Time index", y = "Standardized value",
+         subtitle = sprintf(
+           "Strongest pair in window [%d, %d]:  %s &amp; %s,  r = %+.2f   (shaded = window)",
+           r1, r2, tp$v1[1], tp$v2[1], tp$r[1])) +
+    theme_bw(base_size = 12) +
+    theme(legend.position = "top", panel.grid.minor = element_blank())
+}
+
+# ---- UI --------------------------------------------------------------------
+ui &lt;- fluidPage(
+  tags$head(tags$style(HTML("
+    body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .note { background:#fff7e6; border-left:4px solid #e0a106;
+      padding:10px 14px; border-radius:6px; font-size:14px; margin-bottom:10px; }
+  "))),
+
+  titlePanel("Correlation hunting: finding patterns in pure noise"),
+
+  sidebarLayout(
+    sidebarPanel(
+      width = 3,
+      sliderInput("nvars", "Number of variables (k)",
+                  min = 3, max = 60, value = 20, step = 1),
+      sliderInput("ntime", "Length of each series (time points)",
+                  min = 20, max = 500, value = 200, step = 10),
+      sliderInput("range", "Time range to search",
+                  min = 1, max = 200, value = c(1, 200), step = 1),
+      radioButtons("type", "Series type",
+                   choices = c("Independent normal" = "iid",
+                               "Random walk (cumulative)" = "walk"),
+                   selected = "iid"),
+      actionButton("regen", "Regenerate data", class = "btn-sm"),
+      helpText("All variables are generated independently, so every ",
+               "correlation you find is spurious. Widen k or narrow the ",
+               "window to watch the strongest correlation climb.")
+    ),
+
+    mainPanel(
+      width = 9,
+      uiOutput("headline"),
+      h4("Top 4 correlated pairs in the selected window"),
+      tableOutput("topTable"),
+      plotOutput("timePlot", height = "260px"),
+      tags$br(),
+      h4("The four pairs, plotted over the window"),
+      plotOutput("facetPlot", height = "420px")
+    )
+  )
+)
+
+# ---- Server ----------------------------------------------------------------
+server &lt;- function(input, output, session) {
+
+  seed &lt;- reactiveVal(1001)
+  observeEvent(input$regen, seed(seed() + 1))
+
+  # Keep the time-range slider in sync with series length
+  observeEvent(input$ntime, {
+    updateSliderInput(session, "range", max = input$ntime,
+                      value = c(1, input$ntime))
+  })
+
+  dat &lt;- reactive({
+    gen_data(input$nvars, input$ntime, input$type, seed())
+  })
+
+  tp &lt;- reactive({
+    r &lt;- input$range
+    top_correlations(dat(), r[1], min(r[2], nrow(dat())), topn = 4)
+  })
+
+  output$headline &lt;- renderUI({
+    k &lt;- input$nvars
+    npairs &lt;- choose(k, 2)
+    r &lt;- input$range
+    len &lt;- min(r[2], input$ntime) - r[1] + 1
+    div(class = "note",
+        HTML(sprintf(
+          "Searching &lt;b&gt;%s&lt;/b&gt; variable pairs (from k = %d variables) over a ",
+          format(npairs, big.mark = ","), k),
+          sprintf("window of &lt;b&gt;%d&lt;/b&gt; time points. With independent data, the ",
+                  len),
+          "largest correlations shown below are entirely due to chance and the ",
+          "freedom to pick pairs and a window."))
+  })
+
+  output$topTable &lt;- renderTable({
+    t &lt;- tp()
+    if (is.null(t)) return(data.frame(Message = "Select a window of at least 5 time points."))
+    data.frame(
+      Rank        = t$rank,
+      `Variable 1` = t$v1,
+      `Variable 2` = t$v2,
+      Correlation = sprintf("%+.3f", t$r),
+      Direction   = ifelse(t$r &gt; 0, "positive", "negative"),
+      check.names = FALSE
+    )
+  }, striped = TRUE, spacing = "s", width = "100%")
+
+  output$timePlot &lt;- renderPlot({
+    t &lt;- tp(); req(t)
+    r &lt;- input$range
+    top_pair_time(dat(), r[1], min(r[2], nrow(dat())), t)
+  })
+
+  output$facetPlot &lt;- renderPlot({
+    t &lt;- tp(); req(t)
+    r &lt;- input$range
+    scatter_facets(dat(), r[1], min(r[2], nrow(dat())), t)
+  })
+}
+
+shinyApp(ui, server)
+</code></pre>
 
 
 </section>

@@ -267,3 +267,262 @@ glimpse(dt)
 ### A word of caution about unbalanced designs
 
 When we have a different number of samples in each category, we might encounter some problems, as the order in which we enter the terms might matter: for example, run `aov(pay ~ title + loc)` vs. `aov(pay ~ loc + title)`, and see that the sum of squares for the two models differ. In some cases, this might lead to the puzzling results---depending on how we enter the model, we might determine that a treatment has an effect or not. Turns out, there are three different ways to account for the sum-of-squares in ANOVA, all testing slightly different hypotheses. For balanced designs, they all return the same answer, but if you have different sizes, please read [here](https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/).
+
+## Simpson's paradox simulation
+
+# Simpson's paradox simulator {.unnumbered}
+
+The idea for this simulation was taken from this [blog post](https://covidactuaries.org/2021/11/22/simpsons-paradox-and-vaccines/) on the differences in death rates between vaccinated and unvaccinated groups in the UK in 2021 during the COVID-19 pandemic. The simulation produces values that represent longevity of individuals rather than death rates.
+
+You can control the death rates of each group of individuals, as well as the age composition of the vaccinated and unvaccinated groups.
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 650
+
+library(shiny)
+library(bslib)
+
+## ---------------------------------------------------------------
+## Simpson's Paradox Illustration: Vaccinated vs. Unvaccinated
+## Survival, Confounded by Age
+##
+## Simulates survival times from Exponential distributions for four
+## groups defined by age (Young/Old) and vaccination status
+## (Vaccinated/Unvaccinated), each with its own death rate:
+##
+##   Young + Vaccinated    -> smallest death rate  (best survival)
+##   Young + Unvaccinated  -> second-smallest death rate
+##   Old   + Vaccinated    -> second-largest death rate
+##   Old   + Unvaccinated  -> largest death rate    (worst survival)
+##
+## Age also has different representation within the vaccinated and
+## unvaccinated groups (set via the "proportion old" sliders below).
+## When old and young are combined disproportionately across the two
+## vaccination groups, the pooled ("Combined") comparison of survival
+## can mask, exaggerate, or even reverse the direction of the effect
+## seen within each age stratum -- the classic setup for Simpson's
+## paradox.
+## ---------------------------------------------------------------
+
+
+## ---------------------------- UI --------------------------------
+
+ui <- fluidPage(
+
+  titlePanel("Simpson's Paradox: Vaccinated vs. Unvaccinated Survival, Confounded by Age"),
+
+  sidebarLayout(
+
+    sidebarPanel(
+
+      h4("Death rates (Exponential rate parameter)"),
+      helpText(
+        "Higher rate = shorter survival time on average ",
+        "(mean survival = 1 / rate)."
+      ),
+
+      sliderInput(
+        inputId = "rate_young_vax",
+        label   = "Young & Vaccinated (smallest rate)",
+        min     = 0.1, max = 1, value = 0.05, step = 0.01
+      ),
+      sliderInput(
+        inputId = "rate_young_unvax",
+        label   = "Young & Unvaccinated (2nd smallest rate)",
+        min     = 0.1, max = 1, value = 0.1, step = 0.01
+      ),
+      sliderInput(
+        inputId = "rate_old_vax",
+        label   = "Old & Vaccinated (2nd largest rate)",
+        min     = 0.1, max = 1, value = 0.3, step = 0.01
+      ),
+      sliderInput(
+        inputId = "rate_old_unvax",
+        label   = "Old & Unvaccinated (largest rate)",
+        min     = 0.1, max = 1, value = 0.5, step = 0.01
+      ),
+
+      hr(),
+
+      h4("Age composition"),
+      helpText(
+        "Simpson's paradox arises when age is unevenly distributed ",
+        "across the vaccinated and unvaccinated groups. Try making ",
+        "these two proportions very different from each other."
+      ),
+
+      sliderInput(
+        inputId = "prop_old_vax",
+        label   = "Proportion Old among Vaccinated",
+        min     = 0, max = 1, value = 0.8, step = 0.01
+      ),
+      sliderInput(
+        inputId = "prop_old_unvax",
+        label   = "Proportion Old among Unvaccinated",
+        min     = 0, max = 1, value = 0.2, step = 0.01
+      ),
+
+      hr(),
+
+      sliderInput(
+        inputId = "n",
+        label   = "Total sample size per vaccination group (Vaccinated total, Unvaccinated total):",
+        min     = 10, max = 2000, value = 200, step = 10
+      ),
+
+      hr(),
+
+      radioButtons(
+        inputId = "view",
+        label   = "Display:",
+        choices = c(
+          "Combined (Vaccinated vs. Unvaccinated, age ignored)" = "combined",
+          "Faceted by age (Young panel / Old panel)"            = "faceted"
+        ),
+        selected = "combined"
+      ),
+
+      hr(),
+      actionButton("resample", "Draw new samples", icon = icon("dice"))
+    ),
+
+    mainPanel(
+      plotOutput("boxPlot", height = "460px"),
+      br(),
+      wellPanel(
+        h4("Group means (simulated survival time)"),
+        tableOutput("meansTable")
+      ),
+      helpText(
+        "Try setting the four rates so that, within each age group, ",
+        "vaccination clearly improves survival (lower rate = longer survival), ",
+        "and set the two 'Proportion Old' sliders far apart (e.g. mostly old ",
+        "people vaccinated, mostly young people unvaccinated). Then compare the ",
+        "'Combined' view to the 'Faceted by age' view: because age is both a ",
+        "strong driver of survival AND unevenly distributed between the ",
+        "vaccinated and unvaccinated groups, pooling across age can mask, ",
+        "exaggerate, or even reverse the apparent vaccine effect in the ",
+        "combined comparison -- this is Simpson's paradox."
+      )
+    )
+  )
+)
+
+## -------------------------- SERVER -------------------------------
+
+server <- function(input, output, session) {
+
+  # Simulate the four groups. The Vaccinated group has total size `n`,
+  # split into Old/Young according to prop_old_vax; likewise for the
+  # Unvaccinated group via prop_old_unvax. This lets age be unevenly
+  # represented across the two vaccination groups -- the key
+  # ingredient for Simpson's paradox. Regenerated when any rate, any
+  # proportion, the sample size changes, or when the resample button
+  # is clicked.
+  simData <- reactive({
+
+    input$resample  # dependency: re-draw on button click
+
+    n <- input$n
+
+    n_old_vax     <- round(n * input$prop_old_vax)
+    n_young_vax   <- n - n_old_vax
+
+    n_old_unvax   <- round(n * input$prop_old_unvax)
+    n_young_unvax <- n - n_old_unvax
+
+    young_vax   <- rexp(n_young_vax,   rate = input$rate_young_vax)
+    old_vax     <- rexp(n_old_vax,     rate = input$rate_old_vax)
+    young_unvax <- rexp(n_young_unvax, rate = input$rate_young_unvax)
+    old_unvax   <- rexp(n_old_unvax,   rate = input$rate_old_unvax)
+
+    data.frame(
+      survival   = c(young_vax, old_vax, young_unvax, old_unvax),
+      age_group  = c(
+        rep("Young", n_young_vax), rep("Old", n_old_vax),
+        rep("Young", n_young_unvax), rep("Old", n_old_unvax)
+      ),
+      vaccinated = c(
+        rep("Vaccinated", n_young_vax + n_old_vax),
+        rep("Unvaccinated", n_young_unvax + n_old_unvax)
+      ),
+      stringsAsFactors = FALSE
+    )
+  })
+
+  output$boxPlot <- renderPlot({
+
+    df <- simData()
+
+    vax_colors <- c("Vaccinated" = "steelblue", "Unvaccinated" = "darkorange")
+
+    if (input$view == "combined") {
+
+      df$vaccinated <- factor(df$vaccinated, levels = c("Vaccinated", "Unvaccinated"))
+
+      boxplot(
+        survival ~ vaccinated,
+        data   = df,
+        col    = vax_colors[levels(df$vaccinated)],
+        main   = "Combined: Vaccinated vs. Unvaccinated (age ignored)",
+        xlab   = "Vaccination status",
+        ylab   = "Simulated survival time"
+      )
+
+      means <- tapply(df$survival, df$vaccinated, mean)
+      points(seq_along(means), means, pch = 18, cex = 1.8, col = "firebrick")
+      legend("topright", legend = "Group mean", pch = 18, col = "firebrick", bty = "n")
+
+    } else {
+
+      old_par <- par(mfrow = c(1, 2))
+      on.exit(par(old_par))
+
+      for (grp in c("Young", "Old")) {
+
+        sub <- df[df$age_group == grp, ]
+        sub$vaccinated <- factor(sub$vaccinated, levels = c("Vaccinated", "Unvaccinated"))
+
+        boxplot(
+          survival ~ vaccinated,
+          data   = sub,
+          col    = vax_colors[levels(sub$vaccinated)],
+          main   = paste0(grp, " group:\nVaccinated vs. Unvaccinated"),
+          xlab   = "Vaccination status",
+          ylab   = "Simulated survival time"
+        )
+
+        means <- tapply(sub$survival, sub$vaccinated, mean)
+        points(seq_along(means), means, pch = 18, cex = 1.8, col = "firebrick")
+      }
+    }
+  })
+
+  output$meansTable <- renderTable({
+
+    df <- simData()
+
+    agg <- aggregate(survival ~ age_group + vaccinated, data = df, FUN = mean)
+    names(agg) <- c("Age group", "Vaccination status", "Mean survival time")
+
+    combined <- aggregate(survival ~ vaccinated, data = df, FUN = mean)
+    combined <- data.frame(
+      "Age group" = "Combined (both ages)",
+      "Vaccination status" = combined$vaccinated,
+      "Mean survival time" = combined$survival,
+      check.names = FALSE
+    )
+
+    out <- rbind(agg, combined)
+    out[order(out[["Age group"]]), ]
+
+  }, digits = 3)
+}
+
+## --------------------------- RUN ---------------------------------
+
+shinyApp(ui = ui, server = server)
+
+```
+
